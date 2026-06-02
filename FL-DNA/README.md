@@ -388,20 +388,10 @@ flowchart TD
     K --> L["Privacy Metrics: PSNR / SSIM / MSE"]
 ```
 
-## Important Files
+## Maintainer Notes
 
-### `AGENTS.md`
-
-Instructions for AI agents working in this repository, including implementation
-priority, dataset safety rules, and cross-platform coding constraints.
-
-### `project.md`
-
-Project memory and progress tracking. It records completed tasks, commands,
-artifacts, important decisions, known issues, and next steps.
-
-> **Important:** Every AI agent must read `AGENTS.md` and `project.md` before
-> making changes.
+Local maintainer notes and AI-agent progress files are intentionally excluded
+from the public repository.
 
 ## Current Limitations
 
