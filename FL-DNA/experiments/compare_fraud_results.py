@@ -1,4 +1,4 @@
-"""Compare final-round PaySim metrics for centralized, FL, and FL+DNA."""
+"""Compare final-round PaySim metrics across FL-DNA-DP configurations."""
 
 from __future__ import annotations
 
@@ -10,12 +10,15 @@ RESULTS_DIR = PROJECT_ROOT / "results" / "fraud"
 CENTRALIZED_PATH = RESULTS_DIR / "centralized_metrics.json"
 BASELINE_PATH = RESULTS_DIR / "baseline_metrics.json"
 DNA_PATH = RESULTS_DIR / "dna_metrics.json"
+DP_PATH = RESULTS_DIR / "dp_metrics.json"
+DNA_DP_PATH = RESULTS_DIR / "dna_dp_metrics.json"
 SUMMARY_PATH = RESULTS_DIR / "comparison_summary.json"
 COMMENTARY = (
     "Centralized is the pooled-data upper bound. FL Baseline uses 3 clients, "
-    "15 communication rounds, one local epoch, and FedAvg. FL+DNA keeps the same "
-    "training configuration and only adds DNA encode/decode for local model updates "
-    "in the communication path. DP is intentionally excluded from this main comparison."
+    "15 communication rounds, one local epoch, and FedAvg. FL+DNA only adds "
+    "DNA encode/decode for local model updates. FL+DP only adds client-update "
+    "clipping and Gaussian noise. FL+DNA+DP applies DP first, then DNA transports "
+    "the DP-protected update."
 )
 
 
@@ -55,6 +58,10 @@ def main() -> None:
         "FL_Baseline": baseline,
         "FL_DNA": dna,
     }
+    if DP_PATH.is_file():
+        final_metrics["FL_DP"] = load_final_metrics(DP_PATH)
+    if DNA_DP_PATH.is_file():
+        final_metrics["FL_DNA_DP"] = load_final_metrics(DNA_DP_PATH)
     summary = {
         "final_metrics": final_metrics,
         "commentary": COMMENTARY,
