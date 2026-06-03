@@ -1,405 +1,166 @@
-# FL-DNA
+# FL-DNA PaySim Prototype
 
-## Federated Learning + DNA Encoding for Privacy-Preserving AI Training
+Prototype Federated Learning + DNA Encoder cho fraud detection trên PaySim. File
+dataset đang đặt tại `datasets/creditcard.csv`, nhưng schema được xử lý theo
+PaySim:
 
-FL-DNA is a research prototype for evaluating privacy-preserving techniques in
-distributed AI training. The project combines simulated Federated Learning,
-DNA-based gradient encoding, AES-256-GCM encryption, Differential Privacy, and
-Gradient Inversion Attack evaluation.
+```text
+step, type, amount, oldbalanceOrg, newbalanceOrig,
+oldbalanceDest, newbalanceDest, isFraud
+```
 
-The current experiments use Credit Card Fraud Detection to measure model
-utility and MNIST to measure reconstruction risk. The main research goal is:
-
-> Evaluate whether DNA-based encoding can protect federated model updates while
-> preserving model utility compared to Differential Privacy.
-
-The current Federated Learning workflow is simulated in a single process. A
-real Flower-based distributed implementation is planned as a later phase.
-
-## Table of Contents
-
-- [Research Objectives](#research-objectives)
-- [Architecture](#architecture)
-- [Project Structure](#project-structure)
-- [Datasets](#datasets)
-- [Implemented Components](#implemented-components)
-- [Experiment Results](#experiment-results)
-- [Setup](#setup)
-- [Running Individual Experiments](#running-individual-experiments)
-- [Run the Complete Pipeline](#run-the-complete-pipeline)
-- [Output Artifacts](#output-artifacts)
-- [Project Workflow](#project-workflow)
-- [Important Files](#important-files)
-- [Current Limitations](#current-limitations)
-
-## Research Objectives
-
-### RQ1: Gradient Privacy
-
-Can DNA encoding protect gradients against Gradient Inversion Attacks?
-
-### RQ2: Model Utility
-
-What is the impact of DNA protection and Differential Privacy on model utility?
-
-### RQ3: Runtime and Bandwidth
-
-What is the computational and bandwidth overhead introduced by DNA encoding
-and AES-256-GCM encryption?
+Các cột `nameOrig`, `nameDest` bị bỏ vì là ID định danh có cardinality rất cao
+và không phù hợp với prototype MLP đơn giản. `isFlaggedFraud` cũng không dùng để
+tránh phụ thuộc vào rule có sẵn của simulator.
 
 ## Architecture
 
-FL-DNA evaluates two complementary experiment tracks:
-
-1. **Credit Card Fraud Detection:** compare Baseline simulated FL, FL with DNA
-   protection, and FL with a preliminary Differential Privacy baseline.
-2. **MNIST Gradient Reconstruction:** extract one image gradient, create RAW,
-   DNA-protected, and DP-protected variants, reconstruct images with a
-   lightweight iDLG-style attack, and compare reconstruction quality.
-
-The DNA transformation pipeline is:
-
 ```text
-float32 tensor
-    -> IEEE 754 binary string
-    -> DNA symbols (00=A, 01=T, 10=G, 11=C)
-    -> AES-256-GCM encrypted payload
-    -> authenticated decryption
-    -> DNA decoding
-    -> bit-exact float32 tensor
+PaySim CSV
+  -> feature engineering
+  -> RobustScaler numeric features
+  -> one-hot encode type
+  -> stratified train/validation/test split
+  -> mild non-IID client partition
+  -> local MLP training
+  -> FedAvg
 ```
 
-## Project Structure
+DNA communication path:
+
+```text
+local model update
+  -> float32
+  -> binary
+  -> DNA nucleotide mapping
+  -> AES-256-GCM encrypted payload
+  -> decrypt
+  -> DNA decode
+  -> float32 restored update
+  -> FedAvg aggregation
+```
+
+DNA Encoder chỉ được áp dụng cho model updates sau local training. Raw input
+features không bị encode.
+
+## Structure
 
 ```text
 FL-DNA/
-├── AGENTS.md
-├── project.md
-├── README.md
-├── requirements.txt
-├── datasets/
-│   ├── MNIST/
-│   └── creditcard.csv
 ├── data/
-│   ├── load_creditcard.py
-│   └── load_mnist.py
+│   └── load_creditcard.py
 ├── models/
-│   ├── fraud_mlp.py
-│   └── mnist_cnn.py
+│   └── fraud_mlp.py
 ├── dna_encoder/
+│   ├── aes_crypto.py
 │   ├── binary_mapper.py
 │   ├── dna_mapper.py
-│   ├── aes_crypto.py
-│   ├── encoder.py
-│   └── test_encoder.py
-├── attacks/
-│   ├── gradient_extraction.py
-│   ├── dna_gradient.py
-│   ├── dp_gradient.py
-│   ├── gradient_inversion.py
-│   └── evaluate_reconstruction.py
+│   └── encoder.py
 ├── experiments/
+│   ├── fraud_fl_common.py
+│   ├── run_fraud_centralized.py
 │   ├── run_fraud_fl_baseline.py
 │   ├── run_fraud_fl_dna.py
-│   ├── run_fraud_fl_dp.py
 │   ├── compare_fraud_results.py
-│   ├── train_mnist_model.py
-│   ├── compare_privacy_results.py
-│   ├── benchmark_dna_encoder.py
 │   └── run_all_quick.py
-├── results/
-│   ├── fraud/
-│   └── mnist/
-└── logs/
+└── results/fraud/
 ```
 
-| Path | Purpose |
-| --- | --- |
-| `datasets/` | Immutable local datasets. Experiment scripts must not modify these files. |
-| `data/` | Cross-platform dataset loaders for Credit Card Fraud Detection and MNIST. |
-| `models/` | PyTorch models used by the fraud and MNIST experiments. |
-| `dna_encoder/` | DNA encoding, decoding, IEEE 754 conversion, and AES encryption modules. |
-| `attacks/` | Gradient extraction, protected gradient generation, reconstruction attack, and metrics. |
-| `experiments/` | Training, simulated FL, comparison, benchmark, and end-to-end runner scripts. |
-| `results/` | Generated metrics, model checkpoints, gradients, and reconstruction images. |
-| `logs/` | Timestamped realtime logs produced by the complete pipeline runner. |
+## Model
 
-## Datasets
-
-### MNIST
-
-Handwritten digit recognition dataset used to train the CNN and evaluate
-Gradient Inversion Attack reconstruction quality.
-
-Expected location:
+MLP tabular classifier:
 
 ```text
-datasets/MNIST
+input
+-> Linear 128 + BatchNorm + ReLU + Dropout
+-> Linear 64  + BatchNorm + ReLU + Dropout
+-> Linear 32  + BatchNorm + ReLU + Dropout
+-> Linear 1 logits
 ```
 
-The MNIST loader uses the existing local files with `download=False`.
+Training mặc định dùng binary focal loss (`alpha=0.95`, `gamma=2.0`) để xử lý
+imbalance. Có thể đổi về weighted BCE bằng `LOSS_TYPE=weighted_bce`. Evaluation
+dùng `sigmoid(logits)` và threshold được tune trên validation split để tối ưu F1.
 
-### Credit Card Fraud Detection
+## Run
 
-Kaggle fraud detection dataset used for preliminary simulated FL utility
-experiments.
+Use the project venv:
 
-Expected location:
+```bash
+cd /Users/manhquang/Documents/UNIVERSITY/Capstone/FL-DNA
+../venv/bin/python experiments/run_all_quick.py --quick
+```
+
+Quick mode tự set:
 
 ```text
-datasets/creditcard.csv
+QUICK=1
+MAX_ROWS=500000
+NUM_ROUNDS=3
+LOCAL_EPOCHS=1
 ```
 
-The target column is `Class`. The loader standardizes `Amount` and `Time`
-using training-split statistics only.
-
-## Implemented Components
-
-### DNA Encoder
-
-- IEEE 754 bit-exact NumPy `float32` conversion.
-- Binary string serialization and deserialization.
-- DNA mapping: `00 -> A`, `01 -> T`, `10 -> G`, `11 -> C`.
-- AES-256-GCM authenticated encryption with nonce, tag, and ciphertext.
-- Base64 payload encoding for JSON-friendly storage and inspection.
-- Unit test and runtime/bandwidth benchmark.
-
-### Simulated Federated Learning
-
-- Three local clients trained in one Python process.
-- Sample-count weighted FedAvg aggregation.
-- Baseline model update aggregation.
-- DNA-protected state dictionary round trip before aggregation.
-- Preliminary Differential Privacy baseline with update L2 clipping and
-  Gaussian noise.
-- F1-score, AUC-ROC, accuracy, precision, and recall evaluation.
-
-### Gradient Inversion Attack
-
-- MNIST CNN with `97.72%` test accuracy in the current checkpoint.
-- Batch-size-one gradient extraction from a deterministic MNIST sample.
-- RAW, DNA-protected, and DP-protected gradient artifacts.
-- Lightweight iDLG-style reconstruction with true-label baseline matching.
-- MSE, PSNR, and SSIM evaluation.
-- Original, reconstructed, and comparison-grid image artifacts.
-
-## Experiment Results
-
-The tables below reflect the latest saved JSON artifacts. They were refreshed
-by **quick mode**, which uses three fraud FL rounds and `500` inversion
-iterations. Run the full pipeline to regenerate the full configuration with
-five fraud FL rounds and `2,000` inversion iterations.
-
-### Fraud Detection Results
-
-| Method | F1-score | AUC-ROC |
-| --- | ---: | ---: |
-| Baseline | 0.130882 | 0.981085 |
-| DNA | 0.130882 | 0.981085 |
-| DP | 0.108108 | 0.976029 |
-
-### Privacy Results
-
-| Method | PSNR | SSIM |
-| --- | ---: | ---: |
-| RAW | 6.026153 | 0.106586 |
-| DNA | 6.026153 | 0.106586 |
-| DP | 5.877423 | 0.081636 |
-
-RAW and DNA results match because DNA encode/decode is bit-exact. DP changes
-the gradient through clipping and Gaussian noise, which reduces reconstruction
-quality in the current preliminary evaluation.
-
-## Setup
-
-### Create a Virtual Environment
-
-#### Windows
+Run fraud experiments individually:
 
 ```bash
-python -m venv venv
-venv\Scripts\activate
+NUM_ROUNDS=15 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal ../venv/bin/python experiments/run_fraud_centralized.py
+NUM_ROUNDS=15 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal ../venv/bin/python experiments/run_fraud_fl_baseline.py
+NUM_ROUNDS=15 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal ../venv/bin/python experiments/run_fraud_fl_dna.py
+../venv/bin/python experiments/compare_fraud_results.py
 ```
 
-#### macOS / Linux
+For stronger preliminary results, use more rows and full rounds:
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+NUM_ROUNDS=20 LOCAL_EPOCHS=1 MAX_ROWS=1000000 LOSS_TYPE=focal ../venv/bin/python experiments/run_fraud_centralized.py
+NUM_ROUNDS=20 LOCAL_EPOCHS=1 MAX_ROWS=1000000 LOSS_TYPE=focal ../venv/bin/python experiments/run_fraud_fl_baseline.py
+NUM_ROUNDS=20 LOCAL_EPOCHS=1 MAX_ROWS=1000000 LOSS_TYPE=focal ../venv/bin/python experiments/run_fraud_fl_dna.py
+../venv/bin/python experiments/compare_fraud_results.py
 ```
 
-### Install Dependencies
+Omit `MAX_ROWS` to use the full CSV.
 
-```bash
-pip install -r requirements.txt
-```
+## Current 500k / 15-Round Focal-Loss Results
 
-## Running Individual Experiments
-
-Run commands from the `FL-DNA/` project root.
-
-### DNA Encoder Test
-
-```bash
-python dna_encoder/test_encoder.py
-```
-
-### DNA Encoder Benchmark
-
-```bash
-python experiments/benchmark_dna_encoder.py
-```
-
-### Fraud Baseline
-
-```bash
-python experiments/run_fraud_fl_baseline.py
-```
-
-### Fraud DNA
-
-```bash
-python experiments/run_fraud_fl_dna.py
-```
-
-### Fraud DP
-
-```bash
-python experiments/run_fraud_fl_dp.py
-```
-
-### Fraud Result Comparison
-
-```bash
-python experiments/compare_fraud_results.py
-```
-
-### MNIST Training
-
-```bash
-python experiments/train_mnist_model.py
-```
-
-### Gradient Extraction
-
-```bash
-python attacks/gradient_extraction.py
-python attacks/dna_gradient.py
-python attacks/dp_gradient.py
-```
-
-### Gradient Inversion
-
-```bash
-python attacks/gradient_inversion.py
-python attacks/evaluate_reconstruction.py
-python experiments/compare_privacy_results.py
-```
-
-## Run the Complete Pipeline
-
-The complete runner executes all preliminary experiments in order, prints each
-subprocess output in realtime, and saves the same output to a timestamped log.
-
-### Quick Mode
-
-```bash
-python experiments/run_all_quick.py --quick
-```
-
-Quick mode uses reduced rounds and iterations for faster testing:
-
-- Fraud simulated FL: `3` rounds.
-- Gradient inversion: `500` iterations.
-
-### Full Mode
-
-```bash
-python experiments/run_all_quick.py
-```
-
-Full mode uses the complete experiment configuration:
-
-- Fraud simulated FL: `5` rounds.
-- Gradient inversion: `2,000` iterations.
-
-## Output Artifacts
-
-### Fraud Results
-
-Generated under `results/fraud/`:
+Final round from `results/fraud/comparison_summary.json`:
 
 ```text
-baseline_metrics.json
-dna_metrics.json
-dp_metrics.json
-comparison_summary.json
+Method       Loss       F1       ROC-AUC    PR-AUC    Precision  Recall
+Centralized  0.000372  0.704348  0.990417  0.702266  0.801980   0.627907
+FL_Baseline  0.000450  0.642857  0.987949  0.653688  0.658537   0.627907
+FL_DNA       0.000453  0.627273  0.987272  0.648983  0.758242   0.534884
 ```
 
-### MNIST Results
+Confusion matrix values are saved as `tn`, `fp`, `fn`, `tp` per round.
 
-Generated under `results/mnist/`:
+Final confusion values:
 
 ```text
-base_model.pt
-train_metrics.json
-raw_gradient.pt
-dna_gradient.pt
-dp_gradient.pt
-reconstruction_metrics.json
-privacy_summary.json
-reconstructions/
-├── original.png
-├── reconstructed_raw.png
-├── reconstructed_dna.png
-├── reconstructed_dp.png
-└── comparison_grid.png
+Centralized: tn=99852, fp=20, fn=48, tp=81
+FL_Baseline: tn=99830, fp=42, fn=48, tp=81
+FL_DNA:      tn=99850, fp=22, fn=60, tp=69
 ```
 
-### Pipeline Logs
-
-Generated under `logs/`:
+Current non-IID diagnostics:
 
 ```text
-run_<timestamp>.log
+client_sample_counts = [132143, 118991, 73866]
+client_fraud_rates   = [0.001059, 0.001177, 0.001882]
 ```
 
-Each log includes step headers, realtime subprocess output, runtime per step,
-failure details if applicable, and the final result summary.
+The split is intentionally type-skewed but not label-collapsed: every client has
+fraud samples, and fraud rates stay near the global fraud rate.
 
-## Project Workflow
+## Practical Notes
 
-```mermaid
-flowchart TD
-    A["Credit Card Fraud Detection"] --> B["Simulated FL Baseline"]
-    A --> C["Simulated FL + DNA Encoder"]
-    A --> D["Simulated FL + DP"]
-    B --> E["Utility Metrics: F1 / AUC"]
-    C --> E
-    D --> E
-
-    F["MNIST"] --> G["Gradient Extraction"]
-    G --> H["RAW Gradient"]
-    G --> I["DNA-Protected Gradient"]
-    G --> J["DP-Protected Gradient"]
-    H --> K["Gradient Inversion"]
-    I --> K
-    J --> K
-    K --> L["Privacy Metrics: PSNR / SSIM / MSE"]
-```
-
-## Maintainer Notes
-
-Local maintainer notes and AI-agent progress files are intentionally excluded
-from the public repository.
-
-## Current Limitations
-
-- Federated Learning is currently simulated in one process. Flower integration
-  is planned as a later phase.
-- The DP implementation is a controlled baseline based on clipping and
-  Gaussian noise, not a complete privacy-accounting implementation.
-- The lightweight iDLG-style reconstruction is a reproducible baseline, not a
-  state-of-the-art attack.
-- Quick mode intentionally produces lower-quality reconstruction artifacts than
-  full mode because it reduces optimization iterations.
+- PaySim is highly imbalanced, so raw accuracy is not useful.
+- Always tune threshold on validation; default `0.5` often gives poor recall/F1.
+- Use focal loss for the main prototype, then compare against
+  `LOSS_TYPE=weighted_bce` as an ablation.
+- Use at least `MAX_ROWS=500000`; tiny samples may contain too few fraud cases in
+  validation/test and produce unstable F1.
+- DNA and Baseline should be nearly identical. If not, check update
+  encode/decode bit-exactness.
+- DP and MNIST privacy scripts were removed from this cleaned prototype. The
+  repository now focuses on the main PaySim centralized vs FL vs FL+DNA
+  comparison.

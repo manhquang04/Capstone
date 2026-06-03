@@ -31,7 +31,7 @@ OUTPUT_PATH = PROJECT_ROOT / "results" / "fraud" / "baseline_metrics.json"
 
 def main() -> None:
     set_random_seed()
-    client_loaders, test_loader, input_dim, pos_weight = load_creditcard_data(
+    client_loaders, validation_loader, test_loader, input_dim, pos_weight, metadata = load_creditcard_data(
         batch_size=BATCH_SIZE,
         num_clients=NUM_CLIENTS,
     )
@@ -43,17 +43,43 @@ def main() -> None:
     print_round_header()
     for round_number in range(1, NUM_ROUNDS + 1):
         local_states = []
+        local_losses = []
         for loader in client_loaders:
             local_model = copy.deepcopy(global_model)
-            train_local_model(local_model, loader, pos_weight, LOCAL_EPOCHS)
+            local_losses.append(train_local_model(local_model, loader, pos_weight, LOCAL_EPOCHS))
             local_states.append(local_model.state_dict())
 
         global_model.load_state_dict(fed_avg(local_states, sample_counts))
-        metrics = {"round": round_number, **evaluate_model(global_model, test_loader)}
+        validation_metrics = evaluate_model(global_model, validation_loader)
+        metrics = {
+            "round": round_number,
+            "train_loss": sum(local_losses) / len(local_losses),
+            **evaluate_model(
+                global_model,
+                test_loader,
+                threshold=float(validation_metrics["optimal_threshold"]),
+            ),
+        }
         round_metrics.append(metrics)
         print_round_metrics(metrics)
 
-    save_metrics(OUTPUT_PATH, "Baseline", round_metrics)
+    save_metrics(
+        OUTPUT_PATH,
+        "Baseline",
+        round_metrics,
+        extra_config={
+            "dataset": "PaySim",
+            "target": "isFraud",
+            "features": metadata.feature_names,
+            "train_fraud_rate": metadata.train_fraud_rate,
+            "validation_fraud_rate": metadata.validation_fraud_rate,
+            "test_fraud_rate": metadata.test_fraud_rate,
+            "client_sample_counts": metadata.client_sample_counts,
+            "client_fraud_rates": metadata.client_fraud_rates,
+            "client_type_distributions": metadata.client_type_distributions,
+            "threshold_tuning": "F1 on validation split",
+        },
+    )
     print(f"Saved metrics: {OUTPUT_PATH.relative_to(PROJECT_ROOT)}")
 
 
