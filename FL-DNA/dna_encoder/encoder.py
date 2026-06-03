@@ -12,7 +12,7 @@ from .dna_mapper import binary_to_dna, dna_to_binary
 
 
 class DNAEncoder:
-    """Encode float32 arrays as encrypted DNA strings and decode them."""
+    """Encode float32 arrays as encrypted DNA symbols and decode them losslessly."""
 
     def __init__(self, key: bytes | None = None) -> None:
         self.key = generate_key() if key is None else key
@@ -28,7 +28,7 @@ class DNAEncoder:
         payload: Mapping[str, str],
         shape: Sequence[int],
     ) -> np.ndarray:
-        """Decrypt an array payload and restore the requested shape."""
+        """Decrypt an array payload and restore shape."""
         dna_string = decrypt_dna(payload, self.key)
         binary_string = dna_to_binary(dna_string)
         array = binary_to_float32_array(binary_string)

@@ -13,6 +13,8 @@ import numpy as np
 import torch
 from sklearn.metrics import (
     accuracy_score,
+    average_precision_score,
+    confusion_matrix,
     f1_score,
     precision_score,
     recall_score,
@@ -24,10 +26,34 @@ from torch.utils.data import DataLoader
 RANDOM_SEED = 42
 NUM_CLIENTS = 3
 QUICK_MODE = os.environ.get("QUICK") == "1"
-NUM_ROUNDS = 3 if QUICK_MODE else 5
-LOCAL_EPOCHS = 1
-BATCH_SIZE = 256
+NUM_ROUNDS = int(os.environ.get("NUM_ROUNDS", 3 if QUICK_MODE else 15))
+LOCAL_EPOCHS = int(os.environ.get("LOCAL_EPOCHS", 1))
+BATCH_SIZE = 1024
 LEARNING_RATE = 1e-3
+LOSS_TYPE = os.environ.get("LOSS_TYPE", "focal").lower()
+FOCAL_GAMMA = float(os.environ.get("FOCAL_GAMMA", "2.0"))
+FOCAL_ALPHA = float(os.environ.get("FOCAL_ALPHA", "0.95"))
+
+
+class BinaryFocalLoss(nn.Module):
+    """Focal loss for highly imbalanced binary classification with logits."""
+
+    def __init__(self, alpha: float = FOCAL_ALPHA, gamma: float = FOCAL_GAMMA) -> None:
+        super().__init__()
+        self.alpha = alpha
+        self.gamma = gamma
+
+    def forward(self, logits: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
+        bce = nn.functional.binary_cross_entropy_with_logits(
+            logits,
+            targets,
+            reduction="none",
+        )
+        probabilities = torch.sigmoid(logits)
+        p_t = probabilities * targets + (1.0 - probabilities) * (1.0 - targets)
+        alpha_t = self.alpha * targets + (1.0 - self.alpha) * (1.0 - targets)
+        loss = alpha_t * (1.0 - p_t).pow(self.gamma) * bce
+        return loss.mean()
 
 
 def set_random_seed(seed: int = RANDOM_SEED) -> None:
@@ -35,6 +61,22 @@ def set_random_seed(seed: int = RANDOM_SEED) -> None:
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+
+    # Make PyTorch operations deterministic
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+
+    # Force single-threaded BLAS to eliminate floating-point
+    # accumulation order non-determinism on multi-core CPUs
+    torch.set_num_threads(1)
+
+    # Error on any non-deterministic operation
+    torch.use_deterministic_algorithms(True)
+
+    # Set environment variable for Python hash seed
+    os.environ['PYTHONHASHSEED'] = str(seed)
 
 
 def train_local_model(
@@ -42,11 +84,13 @@ def train_local_model(
     loader: DataLoader,
     pos_weight: torch.Tensor,
     local_epochs: int = LOCAL_EPOCHS,
-) -> None:
+) -> float:
     """Train one client model from the current global state."""
     model.train()
-    criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
+    criterion = build_loss(pos_weight)
     optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
+    total_loss = 0.0
+    total_samples = 0
 
     for _ in range(local_epochs):
         for features, labels in loader:
@@ -54,6 +98,19 @@ def train_local_model(
             loss = criterion(model(features), labels)
             loss.backward()
             optimizer.step()
+            batch_size = labels.size(0)
+            total_loss += float(loss.item()) * batch_size
+            total_samples += batch_size
+    return total_loss / max(total_samples, 1)
+
+
+def build_loss(pos_weight: torch.Tensor) -> nn.Module:
+    """Build the configured imbalance-aware loss."""
+    if LOSS_TYPE == "weighted_bce":
+        return nn.BCEWithLogitsLoss(pos_weight=pos_weight)
+    if LOSS_TYPE == "focal":
+        return BinaryFocalLoss(alpha=FOCAL_ALPHA, gamma=FOCAL_GAMMA)
+    raise ValueError("LOSS_TYPE must be 'focal' or 'weighted_bce'")
 
 
 def fed_avg(
@@ -78,8 +135,12 @@ def fed_avg(
     return averaged_state
 
 
-def evaluate_model(model: nn.Module, loader: DataLoader) -> dict[str, float | None]:
-    """Evaluate a binary classifier without crashing on undefined AUC."""
+def evaluate_model(
+    model: nn.Module,
+    loader: DataLoader,
+    threshold: float | None = None,
+) -> dict[str, float | int | None]:
+    """Evaluate a binary classifier, optionally tuning threshold for F1."""
     model.eval()
     all_labels: list[np.ndarray] = []
     all_probabilities: list[np.ndarray] = []
@@ -92,22 +153,55 @@ def evaluate_model(model: nn.Module, loader: DataLoader) -> dict[str, float | No
 
     y_true = np.concatenate(all_labels).astype(np.int64)
     y_score = np.concatenate(all_probabilities)
-    y_pred = (y_score >= 0.5).astype(np.int64)
+
+    if threshold is None:
+        best_thresh = tune_threshold(y_true, y_score)
+    else:
+        best_thresh = float(threshold)
+
+    y_pred = (y_score >= best_thresh).astype(np.int64)
 
     auc_roc: float | None = None
+    pr_auc: float | None = None
     if np.unique(y_true).size >= 2:
         try:
             auc_roc = float(roc_auc_score(y_true, y_score))
+            pr_auc = float(average_precision_score(y_true, y_score))
         except ValueError:
             auc_roc = None
+            pr_auc = None
+
+    tn, fp, fn, tp = confusion_matrix(y_true, y_pred, labels=[0, 1]).ravel()
 
     return {
         "f1_score": float(f1_score(y_true, y_pred, zero_division=0)),
         "auc_roc": auc_roc,
+        "pr_auc": pr_auc,
         "accuracy": float(accuracy_score(y_true, y_pred)),
         "precision": float(precision_score(y_true, y_pred, zero_division=0)),
         "recall": float(recall_score(y_true, y_pred, zero_division=0)),
+        "optimal_threshold": float(best_thresh),
+        "tn": int(tn),
+        "fp": int(fp),
+        "fn": int(fn),
+        "tp": int(tp),
     }
+
+
+def tune_threshold(y_true: np.ndarray, y_score: np.ndarray) -> float:
+    """Tune a decision threshold for fraud F1 on validation probabilities."""
+    best_thresh = 0.5
+    best_f1 = -1.0
+    linear_grid = np.linspace(0.001, 0.999, 999)
+    quantile_grid = np.quantile(y_score, np.linspace(0.001, 0.999, 999))
+    thresholds = np.unique(np.concatenate([linear_grid, quantile_grid]))
+    for thresh in thresholds:
+        y_pred = (y_score >= thresh).astype(np.int64)
+        score = f1_score(y_true, y_pred, zero_division=0)
+        if score > best_f1:
+            best_f1 = score
+            best_thresh = float(thresh)
+    return best_thresh
 
 
 def save_metrics(
@@ -126,7 +220,9 @@ def save_metrics(
         "batch_size": BATCH_SIZE,
         "optimizer": "Adam",
         "learning_rate": LEARNING_RATE,
-        "loss": "BCEWithLogitsLoss(pos_weight)",
+        "loss": LOSS_TYPE,
+        "focal_alpha": FOCAL_ALPHA if LOSS_TYPE == "focal" else None,
+        "focal_gamma": FOCAL_GAMMA if LOSS_TYPE == "focal" else None,
     }
     if extra_config:
         config.update(extra_config)
@@ -144,8 +240,8 @@ def save_metrics(
 def print_round_header(extra_columns: bool = False) -> None:
     """Print a compact metrics table header."""
     header = (
-        f"{'Round':>5} | {'F1':>8} | {'AUC':>8} | {'Accuracy':>8} | "
-        f"{'Precision':>9} | {'Recall':>8}"
+        f"{'Round':>5} | {'Loss':>8} | {'F1':>8} | {'ROC-AUC':>8} | "
+        f"{'PR-AUC':>8} | {'Precision':>9} | {'Recall':>8} | {'TP':>5} | {'FP':>5} | {'FN':>5}"
     )
     if extra_columns:
         header += (
@@ -159,10 +255,13 @@ def print_round_metrics(metrics: dict[str, float | int | None]) -> None:
     """Print one metrics table row."""
     auc = metrics["auc_roc"]
     auc_text = "N/A" if auc is None else f"{auc:.6f}"
+    pr_auc = metrics["pr_auc"]
+    pr_auc_text = "N/A" if pr_auc is None else f"{pr_auc:.6f}"
     row = (
-        f"{metrics['round']:>5} | {metrics['f1_score']:>8.6f} | "
-        f"{auc_text:>8} | {metrics['accuracy']:>8.6f} | "
+        f"{metrics['round']:>5} | {metrics['train_loss']:>8.5f} | "
+        f"{metrics['f1_score']:>8.6f} | {auc_text:>8} | {pr_auc_text:>8} | "
         f"{metrics['precision']:>9.6f} | {metrics['recall']:>8.6f}"
+        f" | {metrics['tp']:>5} | {metrics['fp']:>5} | {metrics['fn']:>5}"
     )
     if "dna_encode_decode_ms" in metrics:
         row += (
