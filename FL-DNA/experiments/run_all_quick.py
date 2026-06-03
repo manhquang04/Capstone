@@ -19,6 +19,8 @@ STEPS = (
     ("Centralized PaySim MLP", "experiments/run_fraud_centralized.py"),
     ("Fraud FL Baseline", "experiments/run_fraud_fl_baseline.py"),
     ("Fraud FL + DNA Encoder", "experiments/run_fraud_fl_dna.py"),
+    ("Fraud FL + Differential Privacy", "experiments/run_fraud_fl_dp.py"),
+    ("Fraud FL + DNA + DP", "experiments/run_fraud_fl_dna_dp.py"),
     ("Compare Fraud Results", "experiments/compare_fraud_results.py"),
 )
 
@@ -121,7 +123,7 @@ def print_final_summary(total_runtime: float, log_path: Path, logger: TeeLogger)
             f"{'PR-AUC':>10} {'Precision':>10} {'Recall':>10}"
         )
         final_metrics = fraud_summary.get("final_metrics", {})
-        methods_to_print = ["Centralized", "FL_Baseline", "FL_DNA"]
+        methods_to_print = ["Centralized", "FL_Baseline", "FL_DNA", "FL_DP", "FL_DNA_DP"]
 
         for method in methods_to_print:
             metrics = final_metrics.get(method)

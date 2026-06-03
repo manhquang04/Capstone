@@ -47,7 +47,50 @@
       "dna_encode_decode_ms": 222.62337594293058,
       "encoded_tensors": 60,
       "encoded_elements": 39171
+    },
+    "FL_DP": {
+      "round": 15,
+      "train_loss": 0.0006426918375941514,
+      "f1_score": 0.5473684210526316,
+      "auc_roc": 0.9791318158560787,
+      "pr_auc": 0.548452169580503,
+      "accuracy": 0.999140008599914,
+      "precision": 0.8524590163934426,
+      "recall": 0.40310077519379844,
+      "optimal_threshold": 0.636,
+      "tn": 99863,
+      "fp": 9,
+      "fn": 77,
+      "tp": 52,
+      "dp_clip_norm": 100.0,
+      "dp_noise_multiplier": 0.0005,
+      "dp_noise_std": 0.05,
+      "avg_update_norm_before_clip": 214.50877888997397,
+      "avg_update_norm_after_clip": 100.0
+    },
+    "FL_DNA_DP": {
+      "round": 15,
+      "train_loss": 0.0006361143281643195,
+      "f1_score": 0.5490196078431373,
+      "auc_roc": 0.978941029013261,
+      "pr_auc": 0.5507669622455397,
+      "accuracy": 0.999080009199908,
+      "precision": 0.7466666666666667,
+      "recall": 0.43410852713178294,
+      "optimal_threshold": 0.5760000000000001,
+      "tn": 99853,
+      "fp": 19,
+      "fn": 73,
+      "tp": 56,
+      "dna_encode_decode_ms": 228.8492500083521,
+      "encoded_tensors": 60,
+      "encoded_elements": 39171,
+      "dp_clip_norm": 100.0,
+      "dp_noise_multiplier": 0.0005,
+      "dp_noise_std": 0.05,
+      "avg_update_norm_before_clip": 215.6933339436849,
+      "avg_update_norm_after_clip": 100.0
     }
   },
-  "commentary": "Centralized is the pooled-data upper bound. FL Baseline uses 3 clients, 15 communication rounds, one local epoch, and FedAvg. FL+DNA keeps the same training configuration and only adds DNA encode/decode for local model updates in the communication path. DP is intentionally excluded from this main comparison."
+  "commentary": "Centralized is the pooled-data upper bound. FL Baseline uses 3 clients, 15 communication rounds, one local epoch, and FedAvg. FL+DNA only adds DNA encode/decode for local model updates. FL+DP only adds client-update clipping and Gaussian noise. FL+DNA+DP applies DP first, then DNA transports the DP-protected update."
 }
