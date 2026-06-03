@@ -1,4 +1,4 @@
-"""Run the complete preliminary FL-DNA research pipeline with realtime logs."""
+"""Run the main PaySim FL-DNA comparison pipeline with realtime logs."""
 
 from __future__ import annotations
 
@@ -14,20 +14,12 @@ from time import perf_counter
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 LOGS_DIR = PROJECT_ROOT / "logs"
 FRAUD_SUMMARY_PATH = PROJECT_ROOT / "results" / "fraud" / "comparison_summary.json"
-PRIVACY_SUMMARY_PATH = PROJECT_ROOT / "results" / "mnist" / "privacy_summary.json"
 SEPARATOR = "=" * 60
 STEPS = (
+    ("Centralized PaySim MLP", "experiments/run_fraud_centralized.py"),
     ("Fraud FL Baseline", "experiments/run_fraud_fl_baseline.py"),
     ("Fraud FL + DNA Encoder", "experiments/run_fraud_fl_dna.py"),
-    ("Fraud FL + Differential Privacy", "experiments/run_fraud_fl_dp.py"),
     ("Compare Fraud Results", "experiments/compare_fraud_results.py"),
-    ("Train MNIST Model", "experiments/train_mnist_model.py"),
-    ("Extract Raw MNIST Gradient", "attacks/gradient_extraction.py"),
-    ("Encode and Decode DNA Gradient", "attacks/dna_gradient.py"),
-    ("Create DP Gradient", "attacks/dp_gradient.py"),
-    ("Run Gradient Inversion Attack", "attacks/gradient_inversion.py"),
-    ("Evaluate Reconstruction", "attacks/evaluate_reconstruction.py"),
-    ("Compare Privacy Results", "experiments/compare_privacy_results.py"),
 )
 
 
@@ -125,11 +117,13 @@ def print_final_summary(total_runtime: float, log_path: Path, logger: TeeLogger)
     fraud_summary = read_json(FRAUD_SUMMARY_PATH, logger)
     if fraud_summary:
         logger.write(
-            f"{'Method':<12} {'F1':>10} {'AUC':>10} {'Accuracy':>10} "
-            f"{'Precision':>10} {'Recall':>10}"
+            f"{'Method':<12} {'Loss':>10} {'F1':>10} {'ROC-AUC':>10} "
+            f"{'PR-AUC':>10} {'Precision':>10} {'Recall':>10}"
         )
         final_metrics = fraud_summary.get("final_metrics", {})
-        for method in ("Baseline", "DNA", "DP"):
+        methods_to_print = ["Centralized", "FL_Baseline", "FL_DNA"]
+
+        for method in methods_to_print:
             metrics = final_metrics.get(method)
             if not metrics:
                 logger.write(f"{method:<12} Missing metrics")
@@ -137,27 +131,11 @@ def print_final_summary(total_runtime: float, log_path: Path, logger: TeeLogger)
             f1 = metrics.get("f1_score", metrics.get("f1"))
             auc = metrics.get("auc_roc", metrics.get("auc"))
             logger.write(
-                f"{method:<12} {metric_text(f1):>10} {metric_text(auc):>10} "
-                f"{metric_text(metrics.get('accuracy')):>10} "
+                f"{method:<12} {metric_text(metrics.get('train_loss')):>10} "
+                f"{metric_text(f1):>10} {metric_text(auc):>10} "
+                f"{metric_text(metrics.get('pr_auc')):>10} "
                 f"{metric_text(metrics.get('precision')):>10} "
                 f"{metric_text(metrics.get('recall')):>10}"
-            )
-
-    logger.write()
-    logger.write("Privacy Results")
-    privacy_summary = read_json(PRIVACY_SUMMARY_PATH, logger)
-    if privacy_summary:
-        logger.write(f"{'Method':<8} {'PSNR':>12} {'SSIM':>12} {'MSE':>12}")
-        metrics_by_method = privacy_summary.get("metrics", {})
-        for method in ("RAW", "DNA", "DP"):
-            metrics = metrics_by_method.get(method)
-            if not metrics:
-                logger.write(f"{method:<8} Missing metrics")
-                continue
-            logger.write(
-                f"{method:<8} {metric_text(metrics.get('psnr')):>12} "
-                f"{metric_text(metrics.get('ssim')):>12} "
-                f"{metric_text(metrics.get('mse')):>12}"
             )
 
     logger.write()
@@ -170,7 +148,7 @@ def main() -> int:
     parser.add_argument(
         "--quick",
         action="store_true",
-        help="Use three fraud FL rounds and 500 inversion iterations.",
+        help="Use three rounds and a 500k-row PaySim sample.",
     )
     args = parser.parse_args()
 
@@ -182,10 +160,16 @@ def main() -> int:
 
     environment = os.environ.copy()
     environment["PYTHONUNBUFFERED"] = "1"
+    # Force single-threaded BLAS for deterministic floating-point results
+    environment["OMP_NUM_THREADS"] = "1"
+    environment["MKL_NUM_THREADS"] = "1"
     if args.quick:
         environment["QUICK"] = "1"
+        environment.setdefault("MAX_ROWS", "500000")
     else:
         environment.pop("QUICK", None)
+        environment.pop("MAX_ROWS", None)
+    environment.setdefault("LOSS_TYPE", "focal")
 
     try:
         logger.write(f"FL-DNA preliminary pipeline mode: {'QUICK' if args.quick else 'FULL'}")

@@ -1,4 +1,4 @@
-"""Compare final-round Credit Card Fraud FL metrics."""
+"""Compare final-round PaySim metrics for centralized, FL, and FL+DNA."""
 
 from __future__ import annotations
 
@@ -7,13 +7,15 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 RESULTS_DIR = PROJECT_ROOT / "results" / "fraud"
+CENTRALIZED_PATH = RESULTS_DIR / "centralized_metrics.json"
 BASELINE_PATH = RESULTS_DIR / "baseline_metrics.json"
 DNA_PATH = RESULTS_DIR / "dna_metrics.json"
-DP_PATH = RESULTS_DIR / "dp_metrics.json"
 SUMMARY_PATH = RESULTS_DIR / "comparison_summary.json"
 COMMENTARY = (
-    "DNA preserves baseline performance because encode/decode is bit-exact. "
-    "DP may reduce or change performance due to clipping and Gaussian noise."
+    "Centralized is the pooled-data upper bound. FL Baseline uses 3 clients, "
+    "15 communication rounds, one local epoch, and FedAvg. FL+DNA keeps the same "
+    "training configuration and only adds DNA encode/decode for local model updates "
+    "in the communication path. DP is intentionally excluded from this main comparison."
 )
 
 
@@ -44,13 +46,14 @@ def comparison_metric(metrics: dict[str, float | int | None], name: str):
 
 
 def main() -> None:
+    centralized = load_final_metrics(CENTRALIZED_PATH)
     baseline = load_final_metrics(BASELINE_PATH)
     dna = load_final_metrics(DNA_PATH)
-    dp = load_final_metrics(DP_PATH)
+
     final_metrics = {
-        "Baseline": baseline,
-        "DNA": dna,
-        "DP": dp,
+        "Centralized": centralized,
+        "FL_Baseline": baseline,
+        "FL_DNA": dna,
     }
     summary = {
         "final_metrics": final_metrics,
@@ -60,18 +63,20 @@ def main() -> None:
     SUMMARY_PATH.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
 
     header = (
-        f"{'Method':<12} {'F1':>10} {'AUC':>10} {'Accuracy':>10} "
-        f"{'Precision':>10} {'Recall':>10}"
+        f"{'Method':<12} {'Loss':>10} {'F1':>10} {'ROC-AUC':>10} "
+        f"{'PR-AUC':>10} {'Precision':>10} {'Recall':>10} {'TP':>8} {'FP':>8} {'FN':>8}"
     )
     print(header)
     print("-" * len(header))
     for method, metrics in final_metrics.items():
         print(
-            f"{method:<12} {metric_text(comparison_metric(metrics, 'f1_score')):>10} "
+            f"{method:<12} {metric_text(metrics.get('train_loss')):>10} "
+            f"{metric_text(comparison_metric(metrics, 'f1_score')):>10} "
             f"{metric_text(comparison_metric(metrics, 'auc_roc')):>10} "
-            f"{metric_text(metrics['accuracy']):>10} "
+            f"{metric_text(metrics.get('pr_auc')):>10} "
             f"{metric_text(metrics['precision']):>10} "
-            f"{metric_text(metrics['recall']):>10}"
+            f"{metric_text(metrics['recall']):>10} "
+            f"{metrics.get('tp', 'N/A'):>8} {metrics.get('fp', 'N/A'):>8} {metrics.get('fn', 'N/A'):>8}"
         )
     print(f"\nCommentary: {COMMENTARY}")
     print(f"Saved comparison: {SUMMARY_PATH.relative_to(PROJECT_ROOT)}")

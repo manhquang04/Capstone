@@ -37,9 +37,10 @@ OUTPUT_PATH = PROJECT_ROOT / "results" / "fraud" / "dna_metrics.json"
 
 def dna_round_trip_state(
     state_dict: OrderedDict[str, torch.Tensor],
+    global_state: OrderedDict[str, torch.Tensor],
     encoder: DNAEncoder,
 ) -> tuple[OrderedDict[str, torch.Tensor], int, int]:
-    """Encode and decode every floating tensor before server aggregation."""
+    """Encode/decode each floating model update before server aggregation."""
     decoded_state: OrderedDict[str, torch.Tensor] = OrderedDict()
     encoded_tensors = 0
     encoded_elements = 0
@@ -49,10 +50,12 @@ def dna_round_trip_state(
             decoded_state[name] = tensor.clone()
             continue
 
-        float32_array = tensor.detach().cpu().numpy().astype(np.float32, copy=False)
+        update = tensor - global_state[name]
+        float32_array = update.detach().cpu().numpy().astype(np.float32, copy=False)
         payload = encoder.encode_array(float32_array)
         decoded_array = encoder.decode_array(payload, tensor.shape)
-        decoded_tensor = torch.from_numpy(decoded_array.copy()).to(dtype=tensor.dtype)
+        decoded_update = torch.from_numpy(decoded_array.copy()).to(dtype=tensor.dtype)
+        decoded_tensor = global_state[name] + decoded_update
         if decoded_tensor.shape != tensor.shape:
             raise ValueError(f"DNA round trip changed tensor shape for '{name}'")
 
@@ -65,7 +68,7 @@ def dna_round_trip_state(
 
 def main() -> None:
     set_random_seed()
-    client_loaders, test_loader, input_dim, pos_weight = load_creditcard_data(
+    client_loaders, validation_loader, test_loader, input_dim, pos_weight, metadata = load_creditcard_data(
         batch_size=BATCH_SIZE,
         num_clients=NUM_CLIENTS,
     )
@@ -77,18 +80,21 @@ def main() -> None:
     print("Simulated FL + DNA Encoder")
     print_round_header(extra_columns=True)
     for round_number in range(1, NUM_ROUNDS + 1):
+        global_state = global_model.state_dict()
         local_states = []
+        local_losses = []
         dna_seconds = 0.0
         encoded_tensors = 0
         encoded_elements = 0
 
         for loader in client_loaders:
             local_model = copy.deepcopy(global_model)
-            train_local_model(local_model, loader, pos_weight, LOCAL_EPOCHS)
+            local_losses.append(train_local_model(local_model, loader, pos_weight, LOCAL_EPOCHS))
 
             started = perf_counter()
             decoded_state, tensor_count, element_count = dna_round_trip_state(
                 local_model.state_dict(),
+                global_state,
                 encoder,
             )
             dna_seconds += perf_counter() - started
@@ -97,9 +103,15 @@ def main() -> None:
             local_states.append(decoded_state)
 
         global_model.load_state_dict(fed_avg(local_states, sample_counts))
+        validation_metrics = evaluate_model(global_model, validation_loader)
         metrics = {
             "round": round_number,
-            **evaluate_model(global_model, test_loader),
+            "train_loss": sum(local_losses) / len(local_losses),
+            **evaluate_model(
+                global_model,
+                test_loader,
+                threshold=float(validation_metrics["optimal_threshold"]),
+            ),
             "dna_encode_decode_ms": dna_seconds * 1_000,
             "encoded_tensors": encoded_tensors,
             "encoded_elements": encoded_elements,
@@ -111,7 +123,19 @@ def main() -> None:
         OUTPUT_PATH,
         "DNA",
         round_metrics,
-        extra_config={"dna_protection": "DNA encoding + AES-256-GCM round trip"},
+        extra_config={
+            "dataset": "PaySim",
+            "target": "isFraud",
+            "features": metadata.feature_names,
+            "train_fraud_rate": metadata.train_fraud_rate,
+            "validation_fraud_rate": metadata.validation_fraud_rate,
+            "test_fraud_rate": metadata.test_fraud_rate,
+            "client_sample_counts": metadata.client_sample_counts,
+            "client_fraud_rates": metadata.client_fraud_rates,
+            "client_type_distributions": metadata.client_type_distributions,
+            "threshold_tuning": "F1 on validation split",
+            "dna_protection": "DNA encode/decode of local model updates + AES-256-GCM",
+        },
     )
     print(f"Saved metrics: {OUTPUT_PATH.relative_to(PROJECT_ROOT)}")
 
