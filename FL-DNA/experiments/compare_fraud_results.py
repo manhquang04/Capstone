@@ -12,13 +12,20 @@ BASELINE_PATH = RESULTS_DIR / "baseline_metrics.json"
 DNA_PATH = RESULTS_DIR / "dna_metrics.json"
 DP_PATH = RESULTS_DIR / "dp_metrics.json"
 DNA_DP_PATH = RESULTS_DIR / "dna_dp_metrics.json"
+SECUREAGG_PATH = RESULTS_DIR / "secureagg_metrics.json"
+DNA_SECUREAGG_PATH = RESULTS_DIR / "dna_secureagg_metrics.json"
+DNA_TRANSFORM_PATH = RESULTS_DIR / "dna_transform_metrics.json"
+DNA_TRANSFORM_SECUREAGG_PATH = RESULTS_DIR / "dna_transform_secureagg_metrics.json"
 SUMMARY_PATH = RESULTS_DIR / "comparison_summary.json"
 COMMENTARY = (
     "Centralized is the pooled-data upper bound. FL Baseline uses 3 clients, "
     "15 communication rounds, one local epoch, and FedAvg. FL+DNA only adds "
     "DNA encode/decode for local model updates. FL+DP only adds client-update "
     "clipping and Gaussian noise. FL+DNA+DP applies DP first, then DNA transports "
-    "the DP-protected update."
+    "the DP-protected update. Secure Aggregation uses pairwise masks so the server "
+    "only observes the aggregate update, not individual client updates. DNA Transform "
+    "Defense makes DNA the core update transformation via sequence-seeded block "
+    "mixing and selective attenuation."
 )
 
 
@@ -62,6 +69,14 @@ def main() -> None:
         final_metrics["FL_DP"] = load_final_metrics(DP_PATH)
     if DNA_DP_PATH.is_file():
         final_metrics["FL_DNA_DP"] = load_final_metrics(DNA_DP_PATH)
+    if SECUREAGG_PATH.is_file():
+        final_metrics["FL_SecureAgg"] = load_final_metrics(SECUREAGG_PATH)
+    if DNA_SECUREAGG_PATH.is_file():
+        final_metrics["FL_DNA_SecureAgg"] = load_final_metrics(DNA_SECUREAGG_PATH)
+    if DNA_TRANSFORM_PATH.is_file():
+        final_metrics["FL_DNA_TransformDefense"] = load_final_metrics(DNA_TRANSFORM_PATH)
+    if DNA_TRANSFORM_SECUREAGG_PATH.is_file():
+        final_metrics["FL_DNA_TransformDefense_SecureAgg"] = load_final_metrics(DNA_TRANSFORM_SECUREAGG_PATH)
     summary = {
         "final_metrics": final_metrics,
         "commentary": COMMENTARY,
@@ -69,15 +84,16 @@ def main() -> None:
     SUMMARY_PATH.parent.mkdir(parents=True, exist_ok=True)
     SUMMARY_PATH.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
 
+    method_width = max(12, max(len(method) for method in final_metrics))
     header = (
-        f"{'Method':<12} {'Loss':>10} {'F1':>10} {'ROC-AUC':>10} "
+        f"{'Method':<{method_width}} {'Loss':>10} {'F1':>10} {'ROC-AUC':>10} "
         f"{'PR-AUC':>10} {'Precision':>10} {'Recall':>10} {'TP':>8} {'FP':>8} {'FN':>8}"
     )
     print(header)
     print("-" * len(header))
     for method, metrics in final_metrics.items():
         print(
-            f"{method:<12} {metric_text(metrics.get('train_loss')):>10} "
+            f"{method:<{method_width}} {metric_text(metrics.get('train_loss')):>10} "
             f"{metric_text(comparison_metric(metrics, 'f1_score')):>10} "
             f"{metric_text(comparison_metric(metrics, 'auc_roc')):>10} "
             f"{metric_text(metrics.get('pr_auc')):>10} "
