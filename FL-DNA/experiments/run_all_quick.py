@@ -21,6 +21,10 @@ STEPS = (
     ("Fraud FL + DNA Encoder", "experiments/run_fraud_fl_dna.py"),
     ("Fraud FL + Differential Privacy", "experiments/run_fraud_fl_dp.py"),
     ("Fraud FL + DNA + DP", "experiments/run_fraud_fl_dna_dp.py"),
+    ("Fraud FL + Secure Aggregation", "experiments/run_fraud_fl_secureagg.py"),
+    ("Fraud FL + DNA + Secure Aggregation", "experiments/run_fraud_fl_dna_secureagg.py"),
+    ("Fraud FL + DNA Transform Defense", "experiments/run_fraud_fl_dna_transform.py"),
+    ("Fraud FL + DNA Transform Defense + Secure Aggregation", "experiments/run_fraud_fl_dna_transform_secureagg.py"),
     ("Compare Fraud Results", "experiments/compare_fraud_results.py"),
 )
 
@@ -118,22 +122,33 @@ def print_final_summary(total_runtime: float, log_path: Path, logger: TeeLogger)
     logger.write("Fraud Results")
     fraud_summary = read_json(FRAUD_SUMMARY_PATH, logger)
     if fraud_summary:
+        final_metrics = fraud_summary.get("final_metrics", {})
+        method_width = max(12, max((len(method) for method in final_metrics), default=12))
         logger.write(
-            f"{'Method':<12} {'Loss':>10} {'F1':>10} {'ROC-AUC':>10} "
+            f"{'Method':<{method_width}} {'Loss':>10} {'F1':>10} {'ROC-AUC':>10} "
             f"{'PR-AUC':>10} {'Precision':>10} {'Recall':>10}"
         )
-        final_metrics = fraud_summary.get("final_metrics", {})
-        methods_to_print = ["Centralized", "FL_Baseline", "FL_DNA", "FL_DP", "FL_DNA_DP"]
+        methods_to_print = [
+            "Centralized",
+            "FL_Baseline",
+            "FL_DNA",
+            "FL_DP",
+            "FL_DNA_DP",
+            "FL_SecureAgg",
+            "FL_DNA_SecureAgg",
+            "FL_DNA_TransformDefense",
+            "FL_DNA_TransformDefense_SecureAgg",
+        ]
 
         for method in methods_to_print:
             metrics = final_metrics.get(method)
             if not metrics:
-                logger.write(f"{method:<12} Missing metrics")
+                logger.write(f"{method:<{method_width}} Missing metrics")
                 continue
             f1 = metrics.get("f1_score", metrics.get("f1"))
             auc = metrics.get("auc_roc", metrics.get("auc"))
             logger.write(
-                f"{method:<12} {metric_text(metrics.get('train_loss')):>10} "
+                f"{method:<{method_width}} {metric_text(metrics.get('train_loss')):>10} "
                 f"{metric_text(f1):>10} {metric_text(auc):>10} "
                 f"{metric_text(metrics.get('pr_auc')):>10} "
                 f"{metric_text(metrics.get('precision')):>10} "
