@@ -39,7 +39,7 @@ OUTPUT_PATH = Path(
         "DNA_TRANSFORM_OUTPUT_PATH",
         str(PROJECT_ROOT / "results" / "fraud" / "dna_transform_metrics.json"),
     )
-)
+).resolve()
 TRANSFORM_CONFIG = DNATransformConfig(
     block_size=int(os.environ.get("DNA_TRANSFORM_BLOCK_SIZE", "256")),
     mix_ratio=float(os.environ.get("DNA_TRANSFORM_MIX", "0.05")),
