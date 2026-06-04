@@ -38,6 +38,11 @@ from experiments.fraud_fl_common import (
     train_local_model,
 )
 from models.fraud_mlp import FraudMLP
+from privacy.dp_config import (
+    dp_accounting_note,
+    dp_clip_norm_from_env,
+    dp_noise_multiplier_from_env,
+)
 
 OUTPUT_DIR = Path(
     os.environ.get(
@@ -50,12 +55,12 @@ SUMMARY_CSV_PATH = OUTPUT_DIR / "metrics_summary.csv"
 SUMMARY_JSON_PATH = OUTPUT_DIR / "metrics_summary.json"
 
 ATTACK_ITERATIONS = int(os.environ.get("ATTACK_ITERATIONS", "300"))
-ATTACK_NUM_SAMPLES = int(os.environ.get("ATTACK_NUM_SAMPLES", "3"))
+ATTACK_NUM_SAMPLES = int(os.environ.get("ATTACK_NUM_SAMPLES", "10"))
 ATTACK_WARMUP_ROUNDS = int(os.environ.get("ATTACK_WARMUP_ROUNDS", "3"))
 ATTACK_LR = float(os.environ.get("ATTACK_LR", "0.05"))
 ATTACK_L2 = float(os.environ.get("ATTACK_L2", "0.0001"))
-DP_CLIP_NORM = float(os.environ.get("DP_CLIP_NORM", "100.0"))
-DP_NOISE_MULTIPLIER = float(os.environ.get("DP_NOISE_MULTIPLIER", "0.0005"))
+DP_CLIP_NORM = dp_clip_norm_from_env()
+DP_NOISE_MULTIPLIER, DP_NOISE_PRESET = dp_noise_multiplier_from_env()
 
 DNA_TRANSFORM_CONFIG = DNATransformConfig(
     block_size=int(os.environ.get("DNA_TRANSFORM_BLOCK_SIZE", "256")),
@@ -101,7 +106,11 @@ def main() -> None:
 
     print("Gradient Inversion Attack Evaluation")
     print(f"Samples: {len(features)} | iterations: {ATTACK_ITERATIONS} | warmup rounds: {ATTACK_WARMUP_ROUNDS}")
-    print(f"DP config: clip_norm={DP_CLIP_NORM}, noise_multiplier={DP_NOISE_MULTIPLIER}")
+    print(
+        f"DP config: clip_norm={DP_CLIP_NORM}, noise_multiplier={DP_NOISE_MULTIPLIER}, "
+        f"preset={DP_NOISE_PRESET}"
+    )
+    print(dp_accounting_note())
     print(f"DNA transform config: {DNA_TRANSFORM_CONFIG}")
 
     for sample_number, (feature, label) in enumerate(zip(features, labels), start=1):
@@ -289,6 +298,7 @@ def _apply_dp_to_gradients(
         "server_sees_individual_raw_updates": True,
         "dp_clip_norm": DP_CLIP_NORM,
         "dp_noise_multiplier": DP_NOISE_MULTIPLIER,
+        "dp_noise_preset": DP_NOISE_PRESET,
         "dp_noise_std": noise_std,
         "gradient_norm_before_clip": float(norm.item()),
         "gradient_norm_after_clip": float(norm.item()) * clip_factor,
@@ -346,6 +356,7 @@ def _print_detail(detail: dict[str, object]) -> None:
 def _summarize(details: list[dict[str, object]]) -> list[dict[str, object]]:
     metric_names = [
         "mse",
+        "feature_mse",
         "psnr",
         "ssim",
         "cosine_similarity",
@@ -402,6 +413,10 @@ def _save_outputs(
             "iterations": ATTACK_ITERATIONS,
             "num_samples": ATTACK_NUM_SAMPLES,
             "warmup_rounds": ATTACK_WARMUP_ROUNDS,
+            "dp_clip_norm": DP_CLIP_NORM,
+            "dp_noise_multiplier": DP_NOISE_MULTIPLIER,
+            "dp_noise_preset": DP_NOISE_PRESET,
+            "dp_accounting": dp_accounting_note(),
             "optimizer": os.environ.get("ATTACK_OPTIMIZER", "adam"),
             "tabular_psnr_ssim_note": (
                 "PSNR and SSIM are computed on deterministic pseudo-images made by "
@@ -413,6 +428,15 @@ def _save_outputs(
                 "true server-side threat model: individual client updates are hidden. "
                 "PreAggregationLeakage rows are analysis-only upper bounds."
             ),
+            "metric_definitions": {
+                "mse": "Feature-vector mean squared error on normalized tabular features.",
+                "feature_mse": "Alias of mse for explicit tabular reporting.",
+                "psnr": "PSNR on deterministic pseudo-images derived from tabular vectors.",
+                "ssim": "Global SSIM on deterministic pseudo-images derived from tabular vectors.",
+                "cosine_similarity": "Cosine similarity between original and reconstructed feature vectors.",
+                "pearson_correlation": "Pearson correlation between original and reconstructed feature vectors.",
+                "sign_match_ratio": "Fraction of feature signs matching between original and reconstruction.",
+            },
         },
         "summary": summary,
         "details": details,
@@ -422,7 +446,7 @@ def _save_outputs(
 
     fieldnames = sorted({key for row in summary for key in row})
     with SUMMARY_CSV_PATH.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(summary)
 
