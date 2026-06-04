@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import os
 import sys
 from pathlib import Path
 from time import perf_counter
@@ -33,7 +34,12 @@ from experiments.run_fraud_fl_dna_transform import (
 from models.fraud_mlp import FraudMLP
 from privacy.secure_agg import secure_aggregate_states
 
-OUTPUT_PATH = PROJECT_ROOT / "results" / "fraud" / "dna_transform_secureagg_metrics.json"
+OUTPUT_PATH = Path(
+    os.environ.get(
+        "DNA_TRANSFORM_SECUREAGG_OUTPUT_PATH",
+        str(PROJECT_ROOT / "results" / "fraud" / "dna_transform_secureagg_metrics.json"),
+    )
+).resolve()
 
 
 def main() -> None:

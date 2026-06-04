@@ -27,13 +27,20 @@ ROUND_GROUPS = {
     "late": [13, 14, 15],
 }
 SAMPLE_COUNTS = [10, 20, 30]
+DP_NOISE_PRESETS = {
+    "utility": "0.0001",
+    "weak": "0.0005",
+    "mild": "0.001",
+    "medium": "0.005",
+    "strong": "0.01",
+}
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--mode",
-        choices=["all", "strength", "sample", "round"],
+        choices=["all", "strength", "sample", "round", "dp"],
         default="all",
     )
     parser.add_argument("--iterations", type=int, default=int(os.environ.get("ATTACK_ITERATIONS", "300")))
@@ -55,8 +62,12 @@ def main() -> int:
         round_rows = run_round_sweep(args)
         summaries.extend(round_rows)
         write_combined_summary("round_sweep", round_rows)
+    if args.mode in {"all", "dp"}:
+        dp_rows = run_dp_noise_sweep(args)
+        summaries.extend(dp_rows)
+        write_combined_summary("dp_noise_sweep", dp_rows)
 
-    write_combined_summary("combined_sweeps", summaries)
+    write_combined_summary("combined_sweeps", collect_available_summaries())
     print(f"Total sweep runtime: {perf_counter() - started:.2f} seconds")
     return 0
 
@@ -148,6 +159,40 @@ def run_round_sweep(args: argparse.Namespace) -> list[dict[str, object]]:
     return rows
 
 
+def run_dp_noise_sweep(args: argparse.Namespace) -> list[dict[str, object]]:
+    rows = []
+    config = DNA_STRENGTHS["current"]
+    for preset, noise_multiplier in DP_NOISE_PRESETS.items():
+        output_dir = SWEEP_ROOT / "dp_noise_sweep" / preset
+        run_attack(
+            output_dir=output_dir,
+            iterations=args.iterations,
+            num_samples=args.strength_samples,
+            warmup_rounds=3,
+            max_rows=args.max_rows,
+            dna_config=config,
+            extra_env={
+                "DP_NOISE_PRESET": preset,
+            },
+        )
+        rows.extend(
+            load_summary_rows(
+                output_dir,
+                {
+                    "sweep": "dp_noise",
+                    "dp_noise_preset": preset,
+                    "dp_noise_multiplier": noise_multiplier,
+                    "strength": "current",
+                    "sample_count": args.strength_samples,
+                    "round_group": "warmup_3",
+                    "warmup_round": 3,
+                    **{f"dna_{key}": value for key, value in config.items()},
+                },
+            )
+        )
+    return rows
+
+
 def run_attack(
     output_dir: Path,
     iterations: int,
@@ -155,6 +200,7 @@ def run_attack(
     warmup_rounds: int,
     max_rows: int,
     dna_config: dict[str, str],
+    extra_env: dict[str, str] | None = None,
 ) -> None:
     env = os.environ.copy()
     env.update(
@@ -171,6 +217,8 @@ def run_attack(
             "MPLCONFIGDIR": str(SWEEP_ROOT / ".mplconfig"),
         }
     )
+    if extra_env:
+        env.update(extra_env)
     print(
         "RUN",
         f"output={output_dir.relative_to(PROJECT_ROOT)}",
@@ -205,10 +253,19 @@ def write_combined_summary(name: str, rows: list[dict[str, object]]) -> None:
     json_path.write_text(json.dumps(rows, indent=2) + "\n", encoding="utf-8")
     fieldnames = sorted({key for row in rows for key in row})
     with csv_path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
     print(f"Saved {csv_path.relative_to(PROJECT_ROOT)}", flush=True)
+
+
+def collect_available_summaries() -> list[dict[str, object]]:
+    rows: list[dict[str, object]] = []
+    for name in ("strength_sweep", "sample_sweep", "round_sweep", "dp_noise_sweep"):
+        path = SWEEP_ROOT / name / "summary.json"
+        if path.is_file():
+            rows.extend(json.loads(path.read_text(encoding="utf-8")))
+    return rows
 
 
 if __name__ == "__main__":

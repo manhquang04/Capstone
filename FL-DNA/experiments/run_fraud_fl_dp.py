@@ -26,11 +26,21 @@ from experiments.fraud_fl_common import (
     train_local_model,
 )
 from models.fraud_mlp import FraudMLP
+from privacy.dp_config import (
+    dp_accounting_note,
+    dp_clip_norm_from_env,
+    dp_noise_multiplier_from_env,
+)
 from privacy.dp_engine import apply_dp_to_local_state
 
-OUTPUT_PATH = PROJECT_ROOT / "results" / "fraud" / "dp_metrics.json"
-CLIP_NORM = float(os.environ.get("DP_CLIP_NORM", "100.0"))
-NOISE_MULTIPLIER = float(os.environ.get("DP_NOISE_MULTIPLIER", "0.0005"))
+OUTPUT_PATH = Path(
+    os.environ.get(
+        "DP_OUTPUT_PATH",
+        str(PROJECT_ROOT / "results" / "fraud" / "dp_metrics.json"),
+    )
+).resolve()
+CLIP_NORM = dp_clip_norm_from_env()
+NOISE_MULTIPLIER, NOISE_PRESET = dp_noise_multiplier_from_env()
 
 
 def main() -> None:
@@ -44,7 +54,11 @@ def main() -> None:
     round_metrics = []
 
     print("Simulated FL + Differential Privacy")
-    print(f"DP config: clip_norm={CLIP_NORM}, noise_multiplier={NOISE_MULTIPLIER}")
+    print(
+        f"DP config: clip_norm={CLIP_NORM}, noise_multiplier={NOISE_MULTIPLIER}, "
+        f"preset={NOISE_PRESET}"
+    )
+    print(dp_accounting_note())
     print_round_header()
     for round_number in range(1, NUM_ROUNDS + 1):
         global_state = global_model.state_dict()
@@ -79,6 +93,7 @@ def main() -> None:
             ),
             "dp_clip_norm": CLIP_NORM,
             "dp_noise_multiplier": NOISE_MULTIPLIER,
+            "dp_noise_preset": NOISE_PRESET,
             "dp_noise_std": noise_std,
             "avg_update_norm_before_clip": sum(norms_before_clip) / len(norms_before_clip),
             "avg_update_norm_after_clip": sum(norms_after_clip) / len(norms_after_clip),
@@ -102,8 +117,10 @@ def main() -> None:
             "client_type_distributions": metadata.client_type_distributions,
             "threshold_tuning": "F1 on validation split",
             "dp_protection": "Client update L2 clipping + Gaussian noise",
+            "dp_accounting": dp_accounting_note(),
             "dp_clip_norm": CLIP_NORM,
             "dp_noise_multiplier": NOISE_MULTIPLIER,
+            "dp_noise_preset": NOISE_PRESET,
         },
     )
     print(f"Saved metrics: {OUTPUT_PATH.relative_to(PROJECT_ROOT)}")
