@@ -1,135 +1,141 @@
-# FL-DNA PaySim Prototype
+# FL-DNA: Federated Fraud Detection with DNA-Based Update Protection
 
-Prototype Federated Learning + DNA Encoder cho fraud detection trên PaySim. File
-code chính nằm trong `FL-DNA/`. Các lệnh chạy bên dưới giả định bạn đang đứng
-trong thư mục `FL-DNA/`. File dataset đang đặt tại
-`FL-DNA/datasets/creditcard.csv`, nhưng schema được xử lý theo
-PaySim:
+This repository contains a research prototype for fraud detection on a PaySim-style tabular dataset using Federated Learning (FL), DNA-based model-update encoding, Differential Privacy-style noise defenses, Secure Aggregation simulation, and gradient inversion attack evaluation.
+
+The goal is not to build a production privacy system. The goal is to provide a clean, reproducible experiment package that can support a research comparison between:
+
+- Centralized MLP as the upper bound.
+- FL Baseline as the federated learning reference.
+- FL + DNA as lossless communication/update encoding.
+- FL + DP-style clipping/noise as a traditional privacy baseline.
+- FL + Secure Aggregation as a communication-layer privacy mechanism.
+- FL + DNA Transform Defense as a DNA-centered update transformation.
+- FL + DNA Transform + Secure Aggregation as the strongest current privacy story in this prototype.
+
+The main code lives in [`FL-DNA/`](FL-DNA/). The dataset file is expected at:
+
+```text
+FL-DNA/datasets/creditcard.csv
+```
+
+The loader treats this file as a PaySim-style fraud dataset with the following schema:
 
 ```text
 step, type, amount, oldbalanceOrg, newbalanceOrig,
 oldbalanceDest, newbalanceDest, isFraud
 ```
 
-Các cột `nameOrig`, `nameDest` bị bỏ vì là ID định danh có cardinality rất cao
-và không phù hợp với prototype MLP đơn giản. `isFlaggedFraud` cũng không dùng để
-tránh phụ thuộc vào rule có sẵn của simulator.
+High-cardinality identity columns such as `nameOrig` and `nameDest` are excluded. `isFlaggedFraud` is also excluded because it is a simulator rule flag and can leak rule-based information into the model.
 
-## Architecture
-
-```text
-PaySim CSV
-  -> feature engineering
-  -> RobustScaler numeric features
-  -> one-hot encode type
-  -> stratified train/validation/test split
-  -> mild non-IID client partition
-  -> local MLP training
-  -> FedAvg
-```
-
-DNA communication path:
-
-```text
-local model update
-  -> float32
-  -> binary
-  -> DNA nucleotide mapping
-  -> AES-256-GCM encrypted payload
-  -> decrypt
-  -> DNA decode
-  -> float32 restored update
-  -> FedAvg aggregation
-```
-
-DNA Encoder chỉ được áp dụng cho model updates sau local training. Raw input
-features không bị encode.
-
-DP update path:
-
-```text
-local model update
-  -> full-update L2 clipping
-  -> Gaussian noise
-  -> FedAvg aggregation
-```
-
-Hybrid path:
-
-```text
-local model update
-  -> DP clipping + Gaussian noise
-  -> DNA encode/decode protected update
-  -> FedAvg aggregation
-```
-
-Secure Aggregation path:
-
-```text
-local model update
-  -> pairwise random masks across clients
-  -> server sums masked weighted updates
-  -> masks cancel in aggregate
-  -> server applies only aggregate update
-```
-
-DNA Transform Defense path:
-
-```text
-local model update
-  -> flatten into fixed-size blocks
-  -> map each block to binary and DNA sequence
-  -> derive DNA-sequence seed per block
-  -> sequence-seeded permutation + selective low-energy attenuation
-  -> residual mixing back into numeric update
-  -> FedAvg aggregation
-```
-
-## Structure
+## Project Structure
 
 ```text
 FL-DNA/
-├── data/
-│   └── load_creditcard.py
-├── models/
-│   └── fraud_mlp.py
-├── dna_encoder/
-│   ├── aes_crypto.py
-│   ├── binary_mapper.py
-│   ├── dna_mapper.py
-│   ├── transform_defense.py
-│   └── encoder.py
-├── privacy/
-│   ├── dp_config.py
-│   ├── dp_engine.py
-│   └── secure_agg.py
-├── attacks/
-│   ├── gradient_inversion.py
-│   ├── inversion_metrics.py
-│   ├── pseudo_image.py
-│   └── attack_runner.py
-├── experiments/
-│   ├── fraud_fl_common.py
-│   ├── run_fraud_centralized.py
-│   ├── run_fraud_fl_baseline.py
-│   ├── run_fraud_fl_dna.py
-│   ├── run_fraud_fl_dp.py
-│   ├── run_fraud_fl_dna_dp.py
-│   ├── run_fraud_fl_secureagg.py
-│   ├── run_fraud_fl_dna_secureagg.py
-│   ├── run_fraud_fl_dna_transform.py
-│   ├── run_fraud_fl_dna_transform_secureagg.py
-│   ├── compare_fraud_results.py
-│   ├── run_attack_sweep.py
-│   ├── compare_attack_sweeps.py
-│   └── run_all_quick.py
-└── results/fraud/
-└── artifacts/gradient_inversion/
+|-- data/
+|   `-- load_creditcard.py
+|-- models/
+|   `-- fraud_mlp.py
+|-- dna_encoder/
+|   |-- aes_crypto.py
+|   |-- binary_mapper.py
+|   |-- dna_mapper.py
+|   |-- encoder.py
+|   `-- transform_defense.py
+|-- privacy/
+|   |-- dp_config.py
+|   |-- dp_engine.py
+|   `-- secure_agg.py
+|-- attacks/
+|   |-- attack_runner.py
+|   |-- gradient_inversion.py
+|   |-- inversion_metrics.py
+|   `-- pseudo_image.py
+|-- experiments/
+|   |-- fraud_fl_common.py
+|   |-- run_fraud_centralized.py
+|   |-- run_fraud_fl_baseline.py
+|   |-- run_fraud_fl_dna.py
+|   |-- run_fraud_fl_dp.py
+|   |-- run_fraud_fl_dna_dp.py
+|   |-- run_fraud_fl_secureagg.py
+|   |-- run_fraud_fl_dna_secureagg.py
+|   |-- run_fraud_fl_dna_transform.py
+|   |-- run_fraud_fl_dna_transform_secureagg.py
+|   |-- compare_fraud_results.py
+|   |-- run_attack_sweep.py
+|   |-- compare_attack_sweeps.py
+|   `-- run_all_quick.py
+|-- results/
+|   `-- fraud/
+`-- artifacts/
+    `-- gradient_inversion/
 ```
 
-## Model
+## High-Level Architecture
 
-MLP tabular classifier:
+The shared fraud detection pipeline is:
+
+```text
+PaySim-style CSV
+  -> feature selection
+  -> feature engineering
+  -> RobustScaler for numeric features
+  -> one-hot encoding for transaction type
+  -> stratified train / validation / test split
+  -> mild non-IID client partition
+  -> local MLP training
+  -> FedAvg aggregation
+  -> validation threshold tuning
+  -> test-set evaluation
+```
+
+The same preprocessing, model backbone, loss, threshold tuning, random seed, and FL configuration are used across comparable FL variants. This is important because the paper comparison should isolate only the update-protection mechanism.
+
+## Dataset and Preprocessing
+
+The selected input columns are:
+
+```text
+step
+type
+amount
+oldbalanceOrg
+newbalanceOrig
+oldbalanceDest
+newbalanceDest
+```
+
+The target column is:
+
+```text
+isFraud
+```
+
+Additional engineered features:
+
+```text
+balance_diff_orig = oldbalanceOrg - newbalanceOrig
+balance_diff_dest = newbalanceDest - oldbalanceDest
+```
+
+Preprocessing decisions:
+
+- `type` is one-hot encoded.
+- Numeric features are scaled using `RobustScaler`.
+- Missing values are handled by the data loading pipeline.
+- Train, validation, and test splits are stratified to preserve the fraud ratio.
+- FL clients use a mild non-IID split without label collapse. Every client keeps fraud samples.
+
+Current non-IID diagnostics:
+
+```text
+client_sample_counts = [132143, 118991, 73866]
+client_fraud_rates   = [0.001059, 0.001177, 0.001882]
+```
+
+## Model Backbone
+
+All experiments use the same tabular MLP:
 
 ```text
 input
@@ -139,20 +145,231 @@ input
 -> Linear 1 logits
 ```
 
-Training mặc định dùng binary focal loss (`alpha=0.95`, `gamma=2.0`) để xử lý
-imbalance. Có thể đổi về weighted BCE bằng `LOSS_TYPE=weighted_bce`. Evaluation
-dùng `sigmoid(logits)` và threshold được tune trên validation split để tối ưu F1.
+The default loss is binary focal loss:
 
-## Run
+```text
+alpha = 0.95
+gamma = 2.0
+```
 
-Use the project venv:
+This is used because PaySim fraud detection is highly imbalanced. The code also supports `LOSS_TYPE=weighted_bce` for ablation, but the accepted main results use focal loss.
+
+The model outputs logits. Evaluation applies sigmoid and then uses validation-based threshold tuning. The final threshold is not fixed at `0.5`; it is selected to maximize validation F1.
+
+## Federated Learning Setup
+
+The official FL comparison uses:
+
+```text
+num_clients = 3
+num_rounds = 50
+local_epochs = 1
+aggregation = FedAvg
+optimizer = Adam
+loss = focal loss
+max_rows = 500000
+```
+
+All main FL variants in the official comparison use the same `NUM_ROUNDS=50`. Artifacts with mismatched round counts are kept only as diagnostic or appendix evidence and are not mixed into the official table.
+
+## Methods
+
+### 1. Centralized MLP
+
+The centralized model trains on the pooled training data. It is used as the upper-bound reference for utility. It does not use FL, DNA, DP, or Secure Aggregation.
+
+### 2. FL Baseline
+
+The FL baseline trains the same MLP across 3 clients and aggregates client models using FedAvg. It measures the cost of moving from centralized training to federated training.
+
+Flow:
+
+```text
+global model
+  -> send to clients
+  -> local training
+  -> client model updates
+  -> FedAvg
+  -> updated global model
+```
+
+### 3. FL + DNA Encode/Decode
+
+This variant applies DNA encoding only to model updates after local training. Raw input features are not encoded.
+
+Flow:
+
+```text
+local model update
+  -> float32 bytes
+  -> binary representation
+  -> DNA nucleotide mapping
+  -> AES-256-GCM encrypted payload
+  -> decrypt
+  -> DNA decode
+  -> restored float32 update
+  -> FedAvg
+```
+
+This path is designed to be lossless or near bit-exact. Therefore, it should preserve utility, but it should not be presented as a strong privacy defense against gradient inversion by itself.
+
+### 4. FL + DP-Style Clipping and Noise
+
+This variant applies client-update clipping and Gaussian noise before aggregation.
+
+Flow:
+
+```text
+local model update
+  -> full-update L2 clipping
+  -> Gaussian noise
+  -> FedAvg
+```
+
+Available DP noise presets:
+
+```text
+utility = 0.0001
+weak    = 0.0005
+mild    = 0.001
+medium  = 0.005
+strong  = 0.01
+```
+
+Important limitation: this repository does not implement a privacy accountant. Therefore, these runs must be reported as clipping/noise defenses, not as formal `(epsilon, delta)` Differential Privacy.
+
+### 5. FL + DNA + DP
+
+This hybrid applies clipping/noise first, then uses DNA encode/decode to transport the protected update.
+
+Flow:
+
+```text
+local model update
+  -> DP-style clipping and Gaussian noise
+  -> DNA encode/decode communication path
+  -> FedAvg
+```
+
+The interpretation is:
+
+- DP-style noise provides the privacy perturbation.
+- DNA provides update transport/representation protection.
+
+### 6. FL + Secure Aggregation
+
+Secure Aggregation is implemented as a research simulation, not production MPC.
+
+Flow:
+
+```text
+local model update
+  -> pairwise random masks across clients
+  -> server receives masked weighted updates
+  -> masks cancel in aggregate
+  -> server applies only the aggregate update
+```
+
+The server does not directly observe individual client updates under this threat model. Secure Aggregation does not add noise, so it usually preserves utility better than strong DP-style noise.
+
+### 7. FL + DNA + Secure Aggregation
+
+This combines DNA lossless update transport with Secure Aggregation. In the current accepted results, `FL_DNA_SecureAgg` is numerically identical to `FL_SecureAgg` on core utility metrics.
+
+Interpretation: this should be treated as lossless DNA transport or overhead analysis after Secure Aggregation, not as a separate stronger privacy defense.
+
+### 8. FL + DNA Transform Defense
+
+This is the main DNA-centered defense prototype. Unlike DNA encode/decode, it changes the numeric update before aggregation.
+
+Flow:
+
+```text
+local model update
+  -> flatten into fixed-size blocks
+  -> map block content to binary and DNA sequence
+  -> derive DNA-sequence-based block seed
+  -> sequence-seeded permutation
+  -> selective low-energy attenuation
+  -> residual mixing into numeric update
+  -> FedAvg
+```
+
+The purpose is to weaken the direct relationship between the raw local update and the update observed by an attacker, while keeping the transformed update usable for model training.
+
+Main transform configurations:
+
+```text
+current:      mix=0.05, keep=0.90, shrink=0.50
+conservative: mix=0.08, keep=0.88, shrink=0.45
+medium:       mix=0.10, keep=0.85, shrink=0.40
+stronger:     mix=0.12, keep=0.82, shrink=0.35
+```
+
+The current recommendation is the `conservative` variant because it provides the best utility/privacy balance among the accepted 50-round artifacts.
+
+### 9. FL + DNA Transform + Secure Aggregation
+
+This combines the DNA-centered update transformation with Secure Aggregation.
+
+Interpretation:
+
+- DNA Transform changes the update representation before communication.
+- Secure Aggregation hides individual client updates from a server-side observer.
+- This is the strongest current research story in the prototype, but it is still not a formal DP guarantee.
+
+## Gradient Inversion Attack Evaluation
+
+The attack module evaluates reconstruction risk using a known-label gradient matching attack.
+
+Attack protocol:
+
+```text
+same PaySim preprocessing
+same FraudMLP backbone
+same selected validation fraud samples
+known-label gradient matching
+300 Adam iterations
+batch size = 1
+```
+
+PaySim is tabular, not image data. To compute PSNR and SSIM, the code converts normalized feature vectors into deterministic pseudo-images. These visual metrics are useful for secondary comparison only.
+
+For tabular privacy interpretation, prioritize:
+
+- Feature MSE
+- Cosine similarity
+- Pearson correlation
+- Sign-match ratio
+
+PSNR and SSIM are reported as secondary pseudo-image reconstruction metrics.
+
+Secure Aggregation rows are handled separately:
+
+- Under the true server-side threat model, individual raw updates are not visible, so sample-level individual-update inversion is not directly applicable.
+- Pre-aggregation leakage rows are analysis-only upper bounds for the case where individual updates leak before aggregation.
+
+## Installation
+
+Create or use the project virtual environment, then install requirements:
+
+```bash
+cd /Users/manhquang/Documents/UNIVERSITY/Capstone/FL-DNA
+../venv/bin/python -m pip install -r requirements.txt
+```
+
+If you use another Python environment, replace `../venv/bin/python` with your Python executable.
+
+## Quick Run
+
+Use quick mode for a smoke test:
 
 ```bash
 cd /Users/manhquang/Documents/UNIVERSITY/Capstone/FL-DNA
 ../venv/bin/python experiments/run_all_quick.py --quick
 ```
 
-Quick mode tự set:
+Quick mode sets:
 
 ```text
 QUICK=1
@@ -161,197 +378,57 @@ NUM_ROUNDS=3
 LOCAL_EPOCHS=1
 ```
 
-Run fraud experiments individually:
+Quick mode is for checking that the pipeline runs. It is not the official paper setting.
 
-```bash
-NUM_ROUNDS=15 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal ../venv/bin/python experiments/run_fraud_centralized.py
-NUM_ROUNDS=15 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal ../venv/bin/python experiments/run_fraud_fl_baseline.py
-NUM_ROUNDS=15 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal ../venv/bin/python experiments/run_fraud_fl_dna.py
-NUM_ROUNDS=15 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal DP_CLIP_NORM=100 DP_NOISE_PRESET=utility DP_OUTPUT_PATH=results/fraud/dp_utility_metrics.json ../venv/bin/python experiments/run_fraud_fl_dp.py
-NUM_ROUNDS=15 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal DP_CLIP_NORM=100 DP_NOISE_PRESET=medium DP_OUTPUT_PATH=results/fraud/dp_metrics.json ../venv/bin/python experiments/run_fraud_fl_dp.py
-NUM_ROUNDS=15 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal DP_CLIP_NORM=100 DP_NOISE_PRESET=medium ../venv/bin/python experiments/run_fraud_fl_dna_dp.py
-NUM_ROUNDS=15 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal ../venv/bin/python experiments/run_fraud_fl_secureagg.py
-NUM_ROUNDS=15 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal ../venv/bin/python experiments/run_fraud_fl_dna_secureagg.py
-NUM_ROUNDS=15 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal DNA_TRANSFORM_MIX=0.05 DNA_TRANSFORM_KEEP=0.90 DNA_TRANSFORM_SHRINK=0.50 ../venv/bin/python experiments/run_fraud_fl_dna_transform.py
-NUM_ROUNDS=15 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal DNA_TRANSFORM_MIX=0.05 DNA_TRANSFORM_KEEP=0.90 DNA_TRANSFORM_SHRINK=0.50 ../venv/bin/python experiments/run_fraud_fl_dna_transform_secureagg.py
-../venv/bin/python experiments/compare_fraud_results.py
-```
+## Official 50-Round Run Commands
 
-For publication-style results, use the official round count and keep
-`NUM_ROUNDS` identical across every FL variant before using the result in the
-main comparison table:
+Run these commands from `FL-DNA/`.
 
 ```bash
 NUM_ROUNDS=50 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal ../venv/bin/python experiments/run_fraud_centralized.py
 NUM_ROUNDS=50 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal ../venv/bin/python experiments/run_fraud_fl_baseline.py
 NUM_ROUNDS=50 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal ../venv/bin/python experiments/run_fraud_fl_dna.py
+
 NUM_ROUNDS=50 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal DP_CLIP_NORM=100 DP_NOISE_PRESET=utility DP_OUTPUT_PATH=results/fraud/dp_utility_metrics.json ../venv/bin/python experiments/run_fraud_fl_dp.py
 NUM_ROUNDS=50 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal DP_CLIP_NORM=100 DP_NOISE_PRESET=mild DP_OUTPUT_PATH=results/fraud/dp_mild_metrics.json ../venv/bin/python experiments/run_fraud_fl_dp.py
 NUM_ROUNDS=50 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal DP_CLIP_NORM=100 DP_NOISE_PRESET=medium DP_OUTPUT_PATH=results/fraud/dp_metrics.json ../venv/bin/python experiments/run_fraud_fl_dp.py
+
 NUM_ROUNDS=50 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal ../venv/bin/python experiments/run_fraud_fl_secureagg.py
 NUM_ROUNDS=50 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal ../venv/bin/python experiments/run_fraud_fl_dna_secureagg.py
+
 NUM_ROUNDS=50 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal DNA_TRANSFORM_MIX=0.05 DNA_TRANSFORM_KEEP=0.90 DNA_TRANSFORM_SHRINK=0.50 DNA_TRANSFORM_OUTPUT_PATH=results/fraud/dna_transform_metrics.json ../venv/bin/python experiments/run_fraud_fl_dna_transform.py
 NUM_ROUNDS=50 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal DNA_TRANSFORM_MIX=0.08 DNA_TRANSFORM_KEEP=0.88 DNA_TRANSFORM_SHRINK=0.45 DNA_TRANSFORM_OUTPUT_PATH=results/fraud/dna_transform_conservative_metrics.json ../venv/bin/python experiments/run_fraud_fl_dna_transform.py
 NUM_ROUNDS=50 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal DNA_TRANSFORM_MIX=0.10 DNA_TRANSFORM_KEEP=0.85 DNA_TRANSFORM_SHRINK=0.40 DNA_TRANSFORM_OUTPUT_PATH=results/fraud/dna_transform_medium_metrics.json ../venv/bin/python experiments/run_fraud_fl_dna_transform.py
 NUM_ROUNDS=50 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal DNA_TRANSFORM_MIX=0.12 DNA_TRANSFORM_KEEP=0.82 DNA_TRANSFORM_SHRINK=0.35 DNA_TRANSFORM_OUTPUT_PATH=results/fraud/dna_transform_stronger_metrics.json ../venv/bin/python experiments/run_fraud_fl_dna_transform.py
+
 NUM_ROUNDS=50 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal DNA_TRANSFORM_MIX=0.05 DNA_TRANSFORM_KEEP=0.90 DNA_TRANSFORM_SHRINK=0.50 DNA_TRANSFORM_SECUREAGG_OUTPUT_PATH=results/fraud/dna_transform_secureagg_metrics.json ../venv/bin/python experiments/run_fraud_fl_dna_transform_secureagg.py
+
 ../venv/bin/python experiments/compare_fraud_results.py
 ```
 
-Omit `MAX_ROWS` to use the full CSV.
+Omit `MAX_ROWS` if you want to run on the full CSV.
 
-Run gradient inversion privacy evaluation:
+## Attack Evaluation Commands
+
+Run the main gradient inversion evaluation:
 
 ```bash
 ATTACK_NUM_SAMPLES=10 ATTACK_ITERATIONS=300 ATTACK_WARMUP_ROUNDS=3 MAX_ROWS=500000 ../venv/bin/python attacks/attack_runner.py
 ```
 
-Outputs:
-
-```text
-artifacts/gradient_inversion/metrics_summary.csv
-artifacts/gradient_inversion/metrics_summary.json
-artifacts/gradient_inversion/metrics_details.json
-artifacts/gradient_inversion/*_original.png
-artifacts/gradient_inversion/*_reconstructed.png
-artifacts/gradient_inversion/*_loss_curve.png
-```
-
-## Current 500k / 50-Round Focal-Loss Results
-
-Final round from `results/fraud/comparison_summary.json`:
-
-```text
-Method                         Loss       F1       ROC-AUC    PR-AUC    Precision  Recall
-Centralized                    0.000314  0.730159  0.994363  0.773102  0.747967   0.713178
-FL_Baseline                    0.000389  0.728889  0.991189  0.714399  0.854167   0.635659
-FL_DNA                         0.000405  0.718367  0.990692  0.717207  0.758621   0.682171
-FL_DP_utility                  0.000417  0.692308  0.989669  0.692074  0.771429   0.627907
-FL_DP_mild                     0.001628  0.275556  0.920598  0.209120  0.322917   0.240310
-FL_DP_medium                   0.033034  0.008321  0.789137  0.003731  0.004183   0.775194
-FL_SecureAgg                   0.000394  0.711864  0.990631  0.711759  0.785047   0.651163
-FL_DNA_SecureAgg_lossless      0.000394  0.711864  0.990631  0.711759  0.785047   0.651163
-FL_DNA_TD_current              0.000394  0.705882  0.991183  0.713083  0.770642   0.651163
-FL_DNA_TD_conservative         0.000395  0.708861  0.990047  0.716046  0.777778   0.651163
-FL_DNA_TD_medium               0.000426  0.685484  0.991031  0.706114  0.714286   0.658915
-FL_DNA_TD_stronger             0.000412  0.696721  0.990390  0.711561  0.739130   0.658915
-FL_DNA_TD_SecureAgg            0.000407  0.712446  0.990742  0.711959  0.798077   0.643411
-```
-
-Confusion matrix values are saved as `tn`, `fp`, `fn`, `tp` per round.
-
-Final confusion values:
-
-```text
-Centralized:       tn=99841, fp=31,    fn=37, tp=92
-FL_Baseline:       tn=99858, fp=14,    fn=47, tp=82
-FL_DNA:            tn=99844, fp=28,    fn=41, tp=88
-FL_DP_utility:     tn=99848, fp=24,    fn=48, tp=81
-FL_DP_mild:        tn=99807, fp=65,    fn=98, tp=31
-FL_DP_medium:      tn=76066, fp=23806, fn=29, tp=100
-FL_SecureAgg:      tn=99849, fp=23,    fn=45, tp=84
-FL_DNA_SecureAgg:  tn=99849, fp=23,    fn=45, tp=84
-FL_DNA_TD_cons.:   tn=99848, fp=24,    fn=45, tp=84
-```
-
-The current comparison artifact uses `target_rounds=50`. All rows in the main
-table above are 50-round runs. Older mismatched artifacts are kept only as
-diagnostic/appendix evidence and are listed under
-`excluded_due_round_mismatch` in `comparison_summary.json`.
-
-DP uses full client-update clipping plus Gaussian noise. The current official
-comparison includes a utility-friendly point (`utility`, noise multiplier
-`0.0001`), a middle stress point (`mild`, `0.001`), and a high-noise stress
-point (`medium`, `0.005`). There is no privacy accountant in this prototype, so
-report these as clipping/noise defenses, not as formal `(epsilon, delta)` DP.
-
-DNA Transform diagnostics from the 50-round artifacts:
-
-```text
-FL_DNA_TransformDefense current:
-  relative_l2_delta = 0.065085
-  cosine_similarity = 0.998725
-
-FL_DNA_TransformDefense_SecureAgg current:
-  relative_l2_delta = 0.064462
-  cosine_similarity = 0.998737
-  server_sees_individual_raw_updates = false
-```
-
-`FL_DNA_SecureAgg` is numerically identical to `FL_SecureAgg` on the core
-utility metrics in the saved results. Treat it as lossless DNA transport /
-overhead analysis after SecureAgg, not as a separate privacy defense.
-
-## Gradient Inversion Attack Results
-
-Attack protocol:
-
-```text
-same PaySim preprocessing
-same FraudMLP backbone
-same selected validation fraud samples
-known-label gradient matching attack
-300 Adam iterations
-batch size = 1
-```
-
-PaySim is tabular, so PSNR and SSIM are computed on deterministic pseudo-images
-created by reshaping the normalized feature vector. These metrics are useful for
-visual comparison only. For tabular privacy, prefer feature MSE, cosine
-similarity, Pearson correlation, and sign-match ratio.
-
-Current attack summary from `artifacts/gradient_inversion/metrics_summary.csv`:
-
-The CSV/JSON summaries report mean and standard deviation for `mse`,
-`feature_mse`, `psnr`, `ssim`, `cosine_similarity`, `pearson_correlation`, and
-`sign_match_ratio`. `feature_mse` is an explicit tabular alias of vector MSE so
-the report does not rely only on pseudo-image metrics.
-
-```text
-Method                         Threat model                         MSE mean   Cosine mean  Pearson mean  Sign match  PSNR mean  SSIM mean
-FL_Baseline                    raw_visible_update                   6305.8605      0.5791        0.6417      0.5692    15.3504     0.3474
-FL_DNA                         raw_visible_update                   6305.8605      0.5791        0.6417      0.5692    15.3504     0.3474
-FL_DP                          raw_visible_update                   6299.2578      0.3878        0.4373      0.4769    11.8857     0.1930
-FL_DNA_TransformDefense        raw_visible_update                   6305.8838      0.5646        0.6301      0.5462    14.9589     0.3353
-FL_SecureAgg                   secure_aggregation_server_side       not directly applicable
-FL_DNA_SecureAgg               secure_aggregation_server_side       not directly applicable
-FL_DNA_TD_SecureAgg            secure_aggregation_server_side       not directly applicable
-FL_PreAggregationLeakage       analysis_only_pre_aggregation        6323.5538      0.5942        0.6635      0.5231    15.8328     0.3702
-FL_DNA_PreAggregationLeakage   analysis_only_pre_aggregation        6323.5538      0.5942        0.6635      0.5231    15.8328     0.3702
-FL_DNA_TD_PreAggregationLeak   analysis_only_pre_aggregation        6323.5911      0.5715        0.6397      0.5154    15.3553     0.3434
-```
-
-Interpretation:
-
-- DNA encode/decode thuần không làm giảm inversion trong raw-visible setting;
-  kết quả trùng baseline vì update được restore gần bit-exact.
-- DNA Transform làm reconstruction khó hơn một chút trong run này: cosine,
-  Pearson, sign-match, PSNR và SSIM đều thấp hơn baseline, nhưng mức giảm còn
-  nhỏ.
-- DP utility keeps utility reasonably close to FL Baseline in the 50-round run
-  (`F1=0.692308` vs baseline `0.728889`) but offers little attack degradation.
-  DP medium reduces reconstruction similarity much more, but utility collapses
-  (`F1=0.008321`). This is the intended privacy-utility tradeoff evidence.
-- Secure Aggregation thay đổi threat model: server-side attacker không thấy
-  individual raw update, nên sample-level individual-update inversion không áp
-  dụng trực tiếp. Các dòng `PreAggregationLeakage` chỉ là upper-bound analysis
-  nếu update cá nhân bị lộ trước aggregation.
-- Story mạnh nhất hiện tại là `DNA Transform + SecureAgg`: DNA biến đổi update
-  trước khi gửi, SecureAgg che individual update khỏi server. Đây vẫn chưa phải
-  formal DP guarantee.
-
-## Attack Sweeps
-
-Run the full attack sweep:
+Run all attack sweeps and generate compact comparison reports:
 
 ```bash
 ../venv/bin/python experiments/run_attack_sweep.py --mode all --iterations 300 --max-rows 500000
 ../venv/bin/python experiments/compare_attack_sweeps.py
 ```
 
-Saved sweep outputs:
+Important attack outputs:
 
 ```text
+artifacts/gradient_inversion/metrics_summary.csv
+artifacts/gradient_inversion/metrics_summary.json
+artifacts/gradient_inversion/metrics_details.json
 artifacts/gradient_inversion/metrics_by_strength.csv
 artifacts/gradient_inversion/metrics_by_sample_count.csv
 artifacts/gradient_inversion/metrics_by_round.csv
@@ -361,117 +438,151 @@ artifacts/gradient_inversion/privacy_utility_tradeoff.csv
 artifacts/gradient_inversion/sweep_report.json
 ```
 
-DNA Transform strength variants:
+## Accepted 50-Round Utility Results
+
+The official accepted comparison is saved in:
 
 ```text
-current:      mix=0.05 keep=0.90 shrink=0.50
-conservative: mix=0.08 keep=0.88 shrink=0.45
-medium:       mix=0.10 keep=0.85 shrink=0.40
-stronger:     mix=0.12 keep=0.82 shrink=0.35
+FL-DNA/results/fraud/comparison_summary.json
 ```
 
-Direct server-side attack, 10 samples, warmup round 3:
+It uses:
 
 ```text
-Variant       Mean MSE    Mean PSNR  Mean SSIM  Mean cosine
-current       6305.8838    14.9589     0.3353      0.5646
-conservative  6305.9086    14.7204     0.3251      0.5543
-medium        6305.9141    14.6456     0.3185      0.5503
-stronger      6305.9195    14.5939     0.3152      0.5484
+target_rounds = 50
+max_rows = 500000
+loss = focal
+local_epochs = 1
+num_clients = 3
 ```
 
-Sample-count stability for current DNA Transform:
+Final-round utility metrics:
+
+| Method | F1 | ROC-AUC | PR-AUC | Precision | Recall |
+|---|---:|---:|---:|---:|---:|
+| Centralized | 0.7302 | 0.9944 | 0.7731 | 0.7480 | 0.7132 |
+| FL Baseline | 0.7289 | 0.9912 | 0.7144 | 0.8542 | 0.6357 |
+| FL DNA | 0.7184 | 0.9907 | 0.7172 | 0.7586 | 0.6822 |
+| FL DP utility | 0.6923 | 0.9897 | 0.6921 | 0.7714 | 0.6279 |
+| FL DP mild | 0.2756 | 0.9206 | 0.2091 | 0.3229 | 0.2403 |
+| FL DP medium | 0.0083 | 0.7891 | 0.0037 | 0.0042 | 0.7752 |
+| FL SecureAgg | 0.7119 | 0.9906 | 0.7118 | 0.7850 | 0.6512 |
+| FL DNA SecureAgg | 0.7119 | 0.9906 | 0.7118 | 0.7850 | 0.6512 |
+| DNA Transform current | 0.7059 | 0.9912 | 0.7131 | 0.7706 | 0.6512 |
+| DNA Transform conservative | 0.7089 | 0.9900 | 0.7160 | 0.7778 | 0.6512 |
+| DNA Transform medium | 0.6855 | 0.9910 | 0.7061 | 0.7143 | 0.6589 |
+| DNA Transform stronger | 0.6967 | 0.9904 | 0.7116 | 0.7391 | 0.6589 |
+| DNA Transform + SecureAgg | 0.7124 | 0.9907 | 0.7120 | 0.7981 | 0.6434 |
+
+Final confusion matrix values:
+
+| Method | TN | FP | FN | TP |
+|---|---:|---:|---:|---:|
+| Centralized | 99841 | 31 | 37 | 92 |
+| FL Baseline | 99858 | 14 | 47 | 82 |
+| FL DNA | 99844 | 28 | 41 | 88 |
+| FL DP utility | 99848 | 24 | 48 | 81 |
+| FL DP mild | 99807 | 65 | 98 | 31 |
+| FL DP medium | 76066 | 23806 | 29 | 100 |
+| FL SecureAgg | 99849 | 23 | 45 | 84 |
+| FL DNA SecureAgg | 99849 | 23 | 45 | 84 |
+| DNA Transform conservative | 99848 | 24 | 45 | 84 |
+
+Utility interpretation:
+
+- Centralized MLP is the expected upper bound.
+- FL Baseline is close to Centralized, showing that the FL setup is viable.
+- FL DNA preserves utility well because the update transport is lossless.
+- FL SecureAgg also preserves utility because it hides individual updates without adding noise.
+- FL DNA SecureAgg is numerically identical to FL SecureAgg in the accepted artifacts, so it should be treated as lossless transport or overhead analysis.
+- DP utility keeps acceptable utility, but stronger DP-style noise quickly degrades the classifier.
+- DNA Transform conservative is the best current DNA Transform utility/privacy trade-off.
+
+## Accepted Gradient Inversion Results
+
+Main attack summary:
 
 ```text
-Samples  Baseline SSIM  DNA-TD SSIM  Baseline cosine  DNA-TD cosine
-10          0.3474        0.3353         0.5791          0.5646
-20          0.2683        0.2600         0.5758          0.5673
-30          0.2579        0.2457         0.5671          0.5545
+FL-DNA/artifacts/gradient_inversion/metrics_summary.csv
 ```
 
-Round-group stability for current DNA Transform:
+The current accepted attack evaluation uses 10 samples.
+
+| Method | Applicability | n | Feature MSE mean | Cosine | Pearson | Sign-match | PSNR | SSIM |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| FL Baseline | direct server-side | 10 | 6305.86 | 0.5791 | 0.6417 | 0.5692 | 15.3504 | 0.3474 |
+| FL DNA | direct server-side | 10 | 6305.86 | 0.5791 | 0.6417 | 0.5692 | 15.3504 | 0.3474 |
+| FL DP | direct server-side | 10 | 6299.26 | 0.3878 | 0.4373 | 0.4769 | 11.8857 | 0.1930 |
+| DNA Transform | direct server-side | 10 | 6305.88 | 0.5646 | 0.6301 | 0.5462 | 14.9589 | 0.3353 |
+| FL SecureAgg | not directly applicable | 10 | - | - | - | - | - | - |
+| FL DNA SecureAgg | not directly applicable | 10 | - | - | - | - | - | - |
+| DNA Transform + SecureAgg | not directly applicable | 10 | - | - | - | - | - | - |
+| FL PreAggregationLeakage | analysis only | 10 | 6323.55 | 0.5942 | 0.6635 | 0.5231 | 15.8328 | 0.3702 |
+| DNA PreAggregationLeakage | analysis only | 10 | 6323.55 | 0.5942 | 0.6635 | 0.5231 | 15.8328 | 0.3702 |
+| DNA Transform PreAggregationLeakage | analysis only | 10 | 6323.59 | 0.5715 | 0.6397 | 0.5154 | 15.3553 | 0.3434 |
+
+Attack interpretation:
+
+- DNA encode/decode alone does not reduce reconstruction risk in the raw-visible setting because it restores the update almost exactly.
+- DNA Transform slightly lowers cosine, Pearson, sign-match, PSNR, and SSIM compared with FL Baseline.
+- DP medium reduces reconstruction similarity much more strongly, but its utility collapses.
+- Secure Aggregation changes the threat model: the server does not see individual client updates, so direct individual-update inversion is not applicable.
+
+## Privacy-Utility Trade-Off Summary
+
+The accepted trade-off report is saved in:
 
 ```text
-Round group      Baseline SSIM  DNA-TD SSIM  Baseline cosine  DNA-TD cosine
-early 1,2,3         0.3176        0.3008         0.5305          0.5094
-mid 7,8             0.3412        0.3348         0.5660          0.5639
-late 13,14,15       0.2770        0.2617         0.5211          0.5077
+FL-DNA/artifacts/gradient_inversion/privacy_utility_tradeoff.csv
 ```
 
-Utility sweep for 50-round FL DNA Transform on 500k rows:
+| Family | Variant | Utility rounds | F1 | PR-AUC | Feature MSE | Cosine | Pearson | Sign-match | SSIM | Limitation |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| DNA Transform | current | 50 | 0.7059 | 0.7131 | 6305.88 | 0.5646 | 0.6301 | 0.5462 | 0.3353 | |
+| DNA Transform | conservative | 50 | 0.7089 | 0.7160 | 6305.91 | 0.5543 | 0.6209 | 0.5462 | 0.3251 | |
+| DNA Transform | medium | 50 | 0.6855 | 0.7061 | 6305.91 | 0.5503 | 0.6172 | 0.5462 | 0.3185 | |
+| DNA Transform | stronger | 50 | 0.6967 | 0.7116 | 6305.92 | 0.5484 | 0.6151 | 0.5385 | 0.3152 | |
+| DP noise | utility | 50 | 0.6923 | 0.6921 | 6305.53 | 0.6036 | 0.6655 | 0.5846 | 0.3676 | |
+| DP noise | weak | - | - | - | 6304.40 | 0.5770 | 0.6349 | 0.5154 | 0.3472 | Missing matching utility artifact |
+| DP noise | mild | 50 | 0.2756 | 0.2091 | 6302.90 | 0.5743 | 0.6250 | 0.4923 | 0.3506 | |
+| DP noise | medium | 50 | 0.0083 | 0.0037 | 6299.26 | 0.3878 | 0.4373 | 0.4769 | 0.1930 | |
+| DP noise | strong | - | - | - | 6296.87 | 0.2468 | 0.2922 | 0.5000 | 0.1061 | Missing matching utility artifact |
+
+Trade-off interpretation:
+
+- DNA Transform conservative is the recommended current setting.
+- Stronger DNA Transform lowers reconstruction metrics slightly more, but does not improve utility.
+- DP medium and strong reduce reconstruction metrics more clearly, but the accepted utility results show severe model degradation.
+- Secure Aggregation provides a different kind of protection: it hides individual updates from the server without perturbing the aggregate.
+
+## Reporting Guidance
+
+For a paper or report, use the following framing:
 
 ```text
-Variant       Final F1  ROC-AUC  PR-AUC   Peak F1
-current        0.7059   0.9912   0.7131   0.7124
-conservative   0.7089   0.9900   0.7160   0.7155
-medium         0.6855   0.9910   0.7061   0.6975
-stronger       0.6967   0.9904   0.7116   0.7039
+Centralized MLP = upper-bound utility
+FL Baseline = cost of federated learning
+FL DNA = effect of lossless DNA update transport
+FL DP = traditional clipping/noise privacy baseline
+FL SecureAgg = communication-layer hiding of individual updates
+FL DNA Transform = DNA-centered update transformation defense
+FL DNA Transform + SecureAgg = strongest current hybrid story
 ```
 
-Current recommendation: `conservative` is the best utility/privacy trade-off in
-these runs. `stronger` reduces reconstruction metrics slightly more in the
-attack sweep, but its utility is lower than conservative and it has more
-zero-F1 diagnostic rounds, so it is likely over-perturbing the update path for
-PaySim.
+Do not overclaim:
 
-DP noise attack sweep, direct server-side `FL_DP`, 10 samples, warmup round 3:
-
-```text
-Preset  Noise   Mean cosine  Mean Pearson  Sign match  Mean PSNR  Mean SSIM
-utility 0.0001     0.6036        0.6655       0.5846      15.6484    0.3676
-weak    0.0005     0.5770        0.6349       0.5154      15.4314    0.3472
-mild    0.0010     0.5743        0.6250       0.4923      15.3902    0.3506
-medium  0.0050     0.3878        0.4373       0.4769      11.8857    0.1930
-strong  0.0100     0.2468        0.2922       0.5000      11.0453    0.1061
-```
-
-`privacy_utility_tradeoff.csv` joins attack metrics with utility artifacts when
-matching files exist. The current tradeoff report has matching 50-round utility
-artifacts for `utility`, `mild`, and `medium`; `weak` and `strong` remain
-attack-only unless their FL utility runs are generated separately. This exposes
-missing evidence instead of inventing a privacy-utility conclusion.
-
-Current non-IID diagnostics:
-
-```text
-client_sample_counts = [132143, 118991, 73866]
-client_fraud_rates   = [0.001059, 0.001177, 0.001882]
-```
-
-The split is intentionally type-skewed but not label-collapsed: every client has
-fraud samples, and fraud rates stay near the global fraud rate.
+- The DP implementation is a noise-based defense without formal privacy accounting.
+- Secure Aggregation is a simulation, not production-grade MPC.
+- PSNR and SSIM are computed on pseudo-images derived from tabular vectors.
+- DNA encode/decode alone preserves utility but does not meaningfully reduce raw-visible gradient inversion risk.
+- DNA Transform has a measurable but modest attack-reduction signal in the current prototype.
 
 ## Practical Notes
 
-- PaySim is highly imbalanced, so raw accuracy is not useful.
-- Always tune threshold on validation; default `0.5` often gives poor recall/F1.
-- Use focal loss for the main prototype, then compare against
-  `LOSS_TYPE=weighted_bce` as an ablation.
-- Use at least `MAX_ROWS=500000`; tiny samples may contain too few fraud cases in
-  validation/test and produce unstable F1.
-- Keep `NUM_ROUNDS`, `LOCAL_EPOCHS`, split seed, preprocessing, model, loss, and
-  threshold tuning fixed across FL variants before making a paper comparison.
-  `compare_fraud_results.py` excludes saved variants whose round count differs
-  from the target comparison round.
-- DNA and Baseline should be nearly identical. If not, check update
-  encode/decode bit-exactness.
-- DP uses full client-update clipping plus Gaussian noise. Presets are
-  `utility=0.0001`, `weak=0.0005`, `mild=0.001`, `medium=0.005`,
-  `strong=0.01`; default is `medium`. There is no privacy accountant, so do not claim formal
-  `(epsilon, delta)` DP. Lower clip norms or larger noise multipliers can
-  collapse learning on PaySim.
-- `FL_DNA_DP` applies DP first, then DNA encode/decode transports the protected
-  update. This keeps the hybrid path interpretable: DP is privacy, DNA is
-  communication protection.
-- Secure Aggregation is a simulation, not production MPC. It models the privacy
-  surface that the server sees only the aggregate masked sum, not individual
-  client updates. It does not add noise, so utility should stay close to FL
-  Baseline while hiding per-client updates from the server.
-- In the current 50-round run, Secure Aggregation keeps much more utility than
-  medium-noise DP (`F1=0.711864` vs `0.008321`) because it hides individual
-  updates without perturbing the aggregate. This is communication/update-path
-  privacy, not a formal record-level DP guarantee.
-- DNA Transform Defense is the current DNA-as-core-defense prototype. Unlike
-  DNA encode/decode, it changes the numeric update before aggregation using
-  DNA-seeded block rules. The official comparison now uses 50 rounds for
-  baseline, DNA, DP, SecureAgg, and TransformDefense.
+- Use F1, ROC-AUC, PR-AUC, precision, recall, and confusion matrix for utility.
+- Do not use accuracy as the main metric because the dataset is highly imbalanced.
+- Always use validation threshold tuning; do not fix the threshold at `0.5`.
+- Keep preprocessing, model backbone, loss, seed, local epochs, and communication rounds fixed across compared FL variants.
+- Use `compare_fraud_results.py` to avoid mixing mismatched round counts in the official table.
+- Use `privacy_utility_tradeoff.csv` for paper-ready privacy-utility discussion.
+- Use `metrics_summary.csv` and `metrics_details.json` for attack details and metric definitions.
