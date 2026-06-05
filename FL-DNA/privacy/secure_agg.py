@@ -65,6 +65,7 @@ def secure_aggregate_states(
 
     metadata = {
         "secure_agg_enabled": True,
+        "secure_agg_round_seed": seed,
         "server_sees_individual_raw_updates": False,
         "pairwise_masking": True,
         "num_clients_masked": len(local_states),

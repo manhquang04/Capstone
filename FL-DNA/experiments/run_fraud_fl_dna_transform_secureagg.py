@@ -5,6 +5,7 @@ from __future__ import annotations
 import copy
 import os
 import sys
+from dataclasses import replace
 from pathlib import Path
 from time import perf_counter
 
@@ -18,7 +19,6 @@ from experiments.fraud_fl_common import (
     LOCAL_EPOCHS,
     NUM_CLIENTS,
     NUM_ROUNDS,
-    RANDOM_SEED,
     evaluate_model,
     print_round_header,
     print_round_metrics,
@@ -27,11 +27,13 @@ from experiments.fraud_fl_common import (
     train_local_model,
 )
 from experiments.run_fraud_fl_dna_transform import (
+    DNA_TRANSFORM_RUN_SEED,
     TRANSFORM_CONFIG,
     _average_transform_stats,
     dna_transform_state,
 )
 from models.fraud_mlp import FraudMLP
+from privacy.seed_manager import derive_seed, generate_run_seed
 from privacy.secure_agg import secure_aggregate_states
 
 OUTPUT_PATH = Path(
@@ -40,6 +42,7 @@ OUTPUT_PATH = Path(
         str(PROJECT_ROOT / "results" / "fraud" / "dna_transform_secureagg_metrics.json"),
     )
 ).resolve()
+SECURE_AGG_RUN_SEED = int(os.environ.get("SECURE_AGG_RUN_SEED", generate_run_seed()))
 
 
 def main() -> None:
@@ -62,15 +65,23 @@ def main() -> None:
         transform_seconds = 0.0
         transform_stats: list[dict[str, float | int]] = []
 
-        for loader in client_loaders:
+        client_round_seeds: list[int] = []
+        for client_index, loader in enumerate(client_loaders):
             local_model = copy.deepcopy(global_model)
             local_losses.append(train_local_model(local_model, loader, pos_weight, LOCAL_EPOCHS))
 
+            client_seed = derive_seed(
+                DNA_TRANSFORM_RUN_SEED,
+                "dna_transform_secureagg",
+                round_number,
+                client_index,
+            )
+            client_round_seeds.append(client_seed)
             started = perf_counter()
             transformed_state, stats = dna_transform_state(
                 local_model.state_dict(),
                 global_state,
-                TRANSFORM_CONFIG,
+                replace(TRANSFORM_CONFIG, seed=client_seed),
             )
             transform_seconds += perf_counter() - started
             transform_stats.append(stats)
@@ -80,7 +91,7 @@ def main() -> None:
             local_states,
             global_state,
             sample_counts,
-            seed=RANDOM_SEED + round_number,
+            seed=derive_seed(SECURE_AGG_RUN_SEED, "secureagg", round_number),
         )
         global_model.load_state_dict(aggregated_state)
         validation_metrics = evaluate_model(global_model, validation_loader)
@@ -95,6 +106,7 @@ def main() -> None:
             "dna_encode_decode_ms": transform_seconds * 1_000,
             "encoded_tensors": int(sum(s["dna_transform_tensors"] for s in transform_stats)),
             "encoded_elements": int(sum(s["dna_transform_elements"] for s in transform_stats)),
+            "dna_transform_client_seeds": client_round_seeds,
             **_average_transform_stats(transform_stats),
             **secureagg_metadata,
         }
@@ -118,11 +130,24 @@ def main() -> None:
             "threshold_tuning": "F1 on validation split",
             "dna_transform_defense": "DNA-seeded block permutation, selective attenuation, and residual update mixing",
             "dna_transform_config": TRANSFORM_CONFIG.__dict__,
+            "dna_transform_seed_strategy": "fresh run seed from secure randomness; deterministic client-round seeds derived with BLAKE2b",
+            "dna_transform_seed_scope": "client_round",
+            "dna_transform_run_seed": DNA_TRANSFORM_RUN_SEED,
             "secure_aggregation": "Pairwise mask simulation over transformed weighted local model updates",
+            "secure_agg_seed_strategy": "fresh run seed from secure randomness; deterministic round seeds derived with BLAKE2b",
+            "secure_agg_seed_scope": "round",
+            "secure_agg_run_seed": SECURE_AGG_RUN_SEED,
             "server_sees_individual_raw_updates": False,
         },
     )
-    print(f"Saved metrics: {OUTPUT_PATH.relative_to(PROJECT_ROOT)}")
+    print(f"Saved metrics: {_display_path(OUTPUT_PATH)}")
+
+
+def _display_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(PROJECT_ROOT))
+    except ValueError:
+        return str(path)
 
 
 if __name__ == "__main__":

@@ -18,7 +18,7 @@ class DNATransformConfig:
     mix_ratio: float = 0.05
     keep_ratio: float = 0.90
     shrink_factor: float = 0.50
-    seed: int = 42
+    seed: int | None = None
 
 
 @dataclass(frozen=True)
@@ -47,6 +47,8 @@ def transform_update_array(
     numeric update that FedAvg can aggregate.
     """
     original = np.asarray(array, dtype=np.float32)
+    if config.seed is None:
+        raise ValueError("DNATransformConfig.seed must be provided by the caller")
     flat = original.reshape(-1).astype(np.float32, copy=True)
     transformed = flat.copy()
     block_size = max(1, int(config.block_size))

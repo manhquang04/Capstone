@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import os
 import sys
 from pathlib import Path
 from time import perf_counter
@@ -18,7 +19,6 @@ from experiments.fraud_fl_common import (
     LOCAL_EPOCHS,
     NUM_CLIENTS,
     NUM_ROUNDS,
-    RANDOM_SEED,
     evaluate_model,
     print_round_header,
     print_round_metrics,
@@ -28,9 +28,11 @@ from experiments.fraud_fl_common import (
 )
 from experiments.run_fraud_fl_dna import dna_round_trip_state
 from models.fraud_mlp import FraudMLP
+from privacy.seed_manager import derive_seed, generate_run_seed
 from privacy.secure_agg import secure_aggregate_states
 
 OUTPUT_PATH = PROJECT_ROOT / "results" / "fraud" / "dna_secureagg_metrics.json"
+SECURE_AGG_RUN_SEED = int(os.environ.get("SECURE_AGG_RUN_SEED", generate_run_seed()))
 
 
 def main() -> None:
@@ -73,7 +75,7 @@ def main() -> None:
             local_states,
             global_state,
             sample_counts,
-            seed=RANDOM_SEED + round_number,
+            seed=derive_seed(SECURE_AGG_RUN_SEED, "secureagg_dna", round_number),
         )
         global_model.load_state_dict(aggregated_state)
         validation_metrics = evaluate_model(global_model, validation_loader)
@@ -110,6 +112,9 @@ def main() -> None:
             "threshold_tuning": "F1 on validation split",
             "dna_protection": "DNA encode/decode of local model updates + AES-256-GCM",
             "secure_aggregation": "Pairwise mask simulation over weighted local model updates",
+            "secure_agg_seed_strategy": "fresh run seed from secure randomness; deterministic round seeds derived with BLAKE2b",
+            "secure_agg_seed_scope": "round",
+            "secure_agg_run_seed": SECURE_AGG_RUN_SEED,
             "server_sees_individual_raw_updates": False,
         },
     )

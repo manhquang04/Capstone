@@ -272,6 +272,8 @@ local model update
 
 The server does not directly observe individual client updates under this threat model. Secure Aggregation does not add noise, so it usually preserves utility better than strong DP-style noise.
 
+Secure Aggregation mask seeds are generated dynamically. Each run records `secure_agg_run_seed`, and each round logs `secure_agg_round_seed` in the output JSON. This keeps the mask simulation reproducible without using a hardcoded source seed in the defense path.
+
 ### 7. FL + DNA + Secure Aggregation
 
 This combines DNA lossless update transport with Secure Aggregation. In the current accepted results, `FL_DNA_SecureAgg` is numerically identical to `FL_SecureAgg` on core utility metrics.
@@ -288,6 +290,7 @@ Flow:
 local model update
   -> flatten into fixed-size blocks
   -> map block content to binary and DNA sequence
+  -> generate dynamic client-round transform seed
   -> derive DNA-sequence-based block seed
   -> sequence-seeded permutation
   -> selective low-energy attenuation
@@ -296,6 +299,8 @@ local model update
 ```
 
 The purpose is to weaken the direct relationship between the raw local update and the update observed by an attacker, while keeping the transformed update usable for model training.
+
+The Transform Defense no longer relies on a fixed hardcoded base seed. Each run generates a fresh `dna_transform_run_seed` from secure randomness unless `DNA_TRANSFORM_RUN_SEED` is explicitly provided. The experiment then derives deterministic client-round seeds from that recorded run seed. Metrics artifacts log the run seed and per-round `dna_transform_client_seeds` so a run can be reproduced later.
 
 Main transform configurations:
 
@@ -408,6 +413,12 @@ NUM_ROUNDS=50 LOCAL_EPOCHS=1 MAX_ROWS=500000 LOSS_TYPE=focal DNA_TRANSFORM_MIX=0
 
 Omit `MAX_ROWS` if you want to run on the full CSV.
 
+For exact reproducibility of a new dynamic-seed defense run, copy the logged `dna_transform_run_seed` and/or `secure_agg_run_seed` from the generated JSON and pass them back as environment variables:
+
+```bash
+DNA_TRANSFORM_RUN_SEED=<logged_seed> SECURE_AGG_RUN_SEED=<logged_seed> ...
+```
+
 ## Attack Evaluation Commands
 
 Run the main gradient inversion evaluation:
@@ -455,6 +466,8 @@ loss = focal
 local_epochs = 1
 num_clients = 3
 ```
+
+These are saved accepted artifacts. After the dynamic seed update, new TransformDefense or SecureAgg reruns will not silently reuse the old fixed defense seed; they will generate and log fresh defense seeds. Reproduce a specific new run by reusing the logged seed values.
 
 Final-round utility metrics:
 
@@ -554,6 +567,38 @@ Trade-off interpretation:
 - Stronger DNA Transform lowers reconstruction metrics slightly more, but does not improve utility.
 - DP medium and strong reduce reconstruction metrics more clearly, but the accepted utility results show severe model degradation.
 - Secure Aggregation provides a different kind of protection: it hides individual updates from the server without perturbing the aggregate.
+
+## Dynamic Seed Verification
+
+The TransformDefense and SecureAgg defense paths were updated to avoid hardcoded defense seeds. The model training seed remains fixed for fair experiment comparison, but defense randomness now uses fresh run seeds and logs all derived seeds needed for reproducibility.
+
+Before/after summary:
+
+| Item | Before | After |
+|---|---|---|
+| DNA Transform base seed | Fixed from the global experiment seed | Fresh `dna_transform_run_seed` per run |
+| DNA Transform seed scope | Static/global | Deterministic client-round seeds derived from the run seed |
+| SecureAgg mask seed | Fixed pattern from global seed plus round | Fresh `secure_agg_run_seed` with derived round seeds |
+| Reproducibility | Implicit through fixed code seed | Explicit through logged run and derived seeds |
+| Artifact logging | No detailed defense seed log | Logs `dna_transform_run_seed`, `dna_transform_client_seeds`, `secure_agg_run_seed`, and `secure_agg_round_seed` |
+
+Smoke verification used `NUM_ROUNDS=1`, `LOCAL_EPOCHS=1`, and `MAX_ROWS=50000`, writing temporary outputs outside the official result directory.
+
+DNA Transform smoke verification:
+
+| Run | `dna_transform_run_seed` | `dna_transform_client_seeds` | Client seeds unique | Completed |
+|---|---:|---|---|---|
+| Run 1 | 1049184667 | `[1928690768, 581367496, 448611018]` | Yes | Yes |
+| Run 2 | 788024088 | `[1724498079, 1300698883, 1510515278]` | Yes | Yes |
+
+DNA Transform + SecureAgg smoke verification:
+
+| Run | `dna_transform_run_seed` | `dna_transform_client_seeds` | `secure_agg_run_seed` | `secure_agg_round_seed` | Completed |
+|---|---:|---|---:|---:|---|
+| Run 1 | 556025034 | `[136510854, 732960518, 1489807945]` | 1001008659 | 1046164744 | Yes |
+| Run 2 | 604226996 | `[1051614718, 588481785, 294766305]` | 1626279041 | 2095018370 | Yes |
+
+Verification result: dynamic defense seeds changed across independent runs, client seeds were unique within each run, SecureAgg round seeds were logged, and both smoke tests completed successfully. These smoke tests did not overwrite the accepted 50-round artifacts.
 
 ## Reporting Guidance
 

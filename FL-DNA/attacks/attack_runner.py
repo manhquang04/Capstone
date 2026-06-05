@@ -43,6 +43,7 @@ from privacy.dp_config import (
     dp_clip_norm_from_env,
     dp_noise_multiplier_from_env,
 )
+from privacy.seed_manager import derive_seed, generate_run_seed
 
 OUTPUT_DIR = Path(
     os.environ.get(
@@ -67,8 +68,8 @@ DNA_TRANSFORM_CONFIG = DNATransformConfig(
     mix_ratio=float(os.environ.get("DNA_TRANSFORM_MIX", "0.05")),
     keep_ratio=float(os.environ.get("DNA_TRANSFORM_KEEP", "0.90")),
     shrink_factor=float(os.environ.get("DNA_TRANSFORM_SHRINK", "0.50")),
-    seed=RANDOM_SEED,
 )
+DNA_TRANSFORM_RUN_SEED = int(os.environ.get("DNA_TRANSFORM_RUN_SEED", generate_run_seed()))
 
 RAW_VISIBLE_METHODS = (
     "FL_Baseline",
@@ -112,6 +113,7 @@ def main() -> None:
     )
     print(dp_accounting_note())
     print(f"DNA transform config: {DNA_TRANSFORM_CONFIG}")
+    print(f"DNA transform run seed: {DNA_TRANSFORM_RUN_SEED}")
 
     for sample_number, (feature, label) in enumerate(zip(features, labels), start=1):
         feature = feature.reshape(1, -1).clone()
@@ -261,11 +263,19 @@ def _apply_observed_gradient_defense(
     if method in {"FL_DNA_TransformDefense", "FL_DNA_TransformDefense_SecureAgg"}:
         transformed = []
         stats = []
+        transform_seed = derive_seed(DNA_TRANSFORM_RUN_SEED, "attack", method, sample_number)
+        transform_config = DNATransformConfig(
+            block_size=DNA_TRANSFORM_CONFIG.block_size,
+            mix_ratio=DNA_TRANSFORM_CONFIG.mix_ratio,
+            keep_ratio=DNA_TRANSFORM_CONFIG.keep_ratio,
+            shrink_factor=DNA_TRANSFORM_CONFIG.shrink_factor,
+            seed=transform_seed,
+        )
         for tensor_index, gradient in enumerate(gradients):
             array = gradient.detach().numpy().astype(np.float32, copy=False)
             transformed_array, stat = transform_update_array(
                 array,
-                DNA_TRANSFORM_CONFIG,
+                transform_config,
                 tensor_index=tensor_index,
             )
             transformed.append(torch.from_numpy(transformed_array.copy()).to(dtype=gradient.dtype))
@@ -273,6 +283,7 @@ def _apply_observed_gradient_defense(
         return transformed, {
             "defense": "dna_transform_defense",
             "server_sees_individual_raw_updates": method == "FL_DNA_TransformDefense",
+            "dna_transform_seed": transform_seed,
             "dna_transform_relative_l2_delta": float(np.mean([s.relative_l2_delta for s in stats])),
             "dna_transform_cosine_similarity": float(np.mean([s.cosine_similarity for s in stats])),
         }
@@ -417,6 +428,11 @@ def _save_outputs(
             "dp_noise_multiplier": DP_NOISE_MULTIPLIER,
             "dp_noise_preset": DP_NOISE_PRESET,
             "dp_accounting": dp_accounting_note(),
+            "dna_transform_run_seed": DNA_TRANSFORM_RUN_SEED,
+            "dna_transform_seed_strategy": (
+                "fresh run seed from secure randomness; deterministic sample-method "
+                "seeds derived with BLAKE2b"
+            ),
             "optimizer": os.environ.get("ATTACK_OPTIMIZER", "adam"),
             "tabular_psnr_ssim_note": (
                 "PSNR and SSIM are computed on deterministic pseudo-images made by "
