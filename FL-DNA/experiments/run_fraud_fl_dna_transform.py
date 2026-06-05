@@ -6,6 +6,7 @@ import copy
 import os
 import sys
 from collections import OrderedDict
+from dataclasses import replace
 from pathlib import Path
 from time import perf_counter
 
@@ -23,7 +24,6 @@ from experiments.fraud_fl_common import (
     LOCAL_EPOCHS,
     NUM_CLIENTS,
     NUM_ROUNDS,
-    RANDOM_SEED,
     evaluate_model,
     fed_avg,
     print_round_header,
@@ -33,6 +33,7 @@ from experiments.fraud_fl_common import (
     train_local_model,
 )
 from models.fraud_mlp import FraudMLP
+from privacy.seed_manager import derive_seed, generate_run_seed
 
 OUTPUT_PATH = Path(
     os.environ.get(
@@ -45,8 +46,8 @@ TRANSFORM_CONFIG = DNATransformConfig(
     mix_ratio=float(os.environ.get("DNA_TRANSFORM_MIX", "0.05")),
     keep_ratio=float(os.environ.get("DNA_TRANSFORM_KEEP", "0.90")),
     shrink_factor=float(os.environ.get("DNA_TRANSFORM_SHRINK", "0.50")),
-    seed=RANDOM_SEED,
 )
+DNA_TRANSFORM_RUN_SEED = int(os.environ.get("DNA_TRANSFORM_RUN_SEED", generate_run_seed()))
 
 
 def dna_transform_state(
@@ -116,15 +117,23 @@ def main() -> None:
         transform_seconds = 0.0
         transform_stats: list[dict[str, float | int]] = []
 
-        for loader in client_loaders:
+        client_round_seeds: list[int] = []
+        for client_index, loader in enumerate(client_loaders):
             local_model = copy.deepcopy(global_model)
             local_losses.append(train_local_model(local_model, loader, pos_weight, LOCAL_EPOCHS))
 
+            client_seed = derive_seed(
+                DNA_TRANSFORM_RUN_SEED,
+                "dna_transform",
+                round_number,
+                client_index,
+            )
+            client_round_seeds.append(client_seed)
             started = perf_counter()
             transformed_state, stats = dna_transform_state(
                 local_model.state_dict(),
                 global_state,
-                TRANSFORM_CONFIG,
+                replace(TRANSFORM_CONFIG, seed=client_seed),
             )
             transform_seconds += perf_counter() - started
             transform_stats.append(stats)
@@ -143,6 +152,7 @@ def main() -> None:
             "dna_encode_decode_ms": transform_seconds * 1_000,
             "encoded_tensors": int(sum(s["dna_transform_tensors"] for s in transform_stats)),
             "encoded_elements": int(sum(s["dna_transform_elements"] for s in transform_stats)),
+            "dna_transform_client_seeds": client_round_seeds,
             **_average_transform_stats(transform_stats),
         }
         round_metrics.append(metrics)
@@ -165,9 +175,12 @@ def main() -> None:
             "threshold_tuning": "F1 on validation split",
             "dna_transform_defense": "DNA-seeded block permutation, selective attenuation, and residual update mixing",
             "dna_transform_config": TRANSFORM_CONFIG.__dict__,
+            "dna_transform_seed_strategy": "fresh run seed from secure randomness; deterministic client-round seeds derived with BLAKE2b",
+            "dna_transform_seed_scope": "client_round",
+            "dna_transform_run_seed": DNA_TRANSFORM_RUN_SEED,
         },
     )
-    print(f"Saved metrics: {OUTPUT_PATH.relative_to(PROJECT_ROOT)}")
+    print(f"Saved metrics: {_display_path(OUTPUT_PATH)}")
 
 
 def _average_transform_stats(stats: list[dict[str, float | int]]) -> dict[str, float]:
@@ -183,6 +196,13 @@ def _average_transform_stats(stats: list[dict[str, float | int]]) -> dict[str, f
         key: float(sum(float(item[key]) for item in stats) / len(stats))
         for key in keys
     }
+
+
+def _display_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(PROJECT_ROOT))
+    except ValueError:
+        return str(path)
 
 
 if __name__ == "__main__":
