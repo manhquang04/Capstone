@@ -1,4 +1,4 @@
-# FL-DNA: Federated Fraud Detection with DNA-Based Update Protection
+# FL-DNA: A DNA-Based Update Transformation Defense Against Gradient Inversion Attacks in Federated Fraud Detection
 
 This repository contains a research prototype for fraud detection on a PaySim-style tabular dataset using Federated Learning (FL), DNA-based model-update encoding, Differential Privacy-style noise defenses, Secure Aggregation simulation, and gradient inversion attack evaluation.
 
