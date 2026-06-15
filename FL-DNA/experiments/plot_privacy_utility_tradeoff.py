@@ -158,6 +158,7 @@ def write_points_csv(points: list[Point]) -> None:
         writer = csv.DictWriter(
             handle,
             fieldnames=["method", "family", "variant", "f1", "privacy_mse", "roc_auc", "pr_auc", "source"],
+            lineterminator="\n",
         )
         writer.writeheader()
         for point in points:
@@ -190,83 +191,157 @@ def plot(points: list[Point]) -> None:
         "baseline": "D",
         "dna_lossless": "^",
     }
-
-    fig, ax = plt.subplots(figsize=(10, 6.2))
-    for point in points:
-        ax.scatter(
-            point.privacy_mse,
-            point.f1,
-            s=115,
-            c=colors.get(point.family, "#9467bd"),
-            marker=markers.get(point.family, "o"),
-            edgecolors="black",
-            linewidths=0.8,
-            alpha=0.92,
-            label=point.family,
-        )
-        offset_y = 8 if point.family != "dp_noise" else -14
-        ax.annotate(
-            point.method,
-            (point.privacy_mse, point.f1),
-            textcoords="offset points",
-            xytext=(8, offset_y),
-            fontsize=8.5,
-        )
-
-    conservative = next((point for point in points if point.method == "DNA Transform conservative"), None)
-    if conservative is not None:
-        ax.scatter(
-            conservative.privacy_mse,
-            conservative.f1,
-            s=260,
-            facecolors="none",
-            edgecolors="#ffbf00",
-            linewidths=2.4,
-            marker="o",
-            zorder=4,
-        )
-        ax.annotate(
-            "recommended trade-off",
-            (conservative.privacy_mse, conservative.f1),
-            textcoords="offset points",
-            xytext=(14, 18),
-            arrowprops={"arrowstyle": "->", "color": "#7a5c00", "lw": 1.4},
-            fontsize=9.5,
-            color="#7a5c00",
-            weight="bold",
-        )
-
-    # Deduplicate legend labels.
-    handles, labels = ax.get_legend_handles_labels()
-    seen = set()
-    deduped = [(h, l) for h, l in zip(handles, labels) if not (l in seen or seen.add(l))]
     label_map = {
         "dna_transform": "DNA Transform variants",
         "dp_noise": "Differential Privacy",
         "baseline": "FL Baseline",
         "dna_lossless": "FL + DNA lossless",
     }
-    ax.legend(
-        [item[0] for item in deduped],
-        [label_map.get(item[1], item[1]) for item in deduped],
-        loc="lower right",
-        frameon=True,
+    short_labels = {
+        "FL Baseline": "Baseline",
+        "FL + DNA": "FL + DNA",
+        "DNA Transform": "DNA current",
+        "DNA Transform conservative": "DNA conservative",
+        "DNA Transform medium": "DNA medium",
+        "DNA Transform stronger": "DNA stronger",
+        "DP utility": "DP utility",
+        "DP mild": "DP mild",
+        "DP medium": "DP medium",
+    }
+    zoom_offsets = {
+        "Baseline": (-58, 22),
+        "FL + DNA": (-56, -20),
+        "DNA current": (10, -18),
+        "DNA conservative": (12, 12),
+        "DNA medium": (12, -34),
+        "DNA stronger": (12, 30),
+        "DP utility": (-74, -28),
+    }
+
+    fig, (ax, ax_zoom) = plt.subplots(
+        1,
+        2,
+        figsize=(14.6, 6.2),
+        gridspec_kw={"width_ratios": [1.05, 1.2]},
     )
 
-    ax.set_title("Privacy-Utility Pareto Front from Gradient Inversion Evaluation", fontsize=13, weight="bold")
-    ax.set_xlabel("Privacy proxy: reconstruction MSE (higher = harder inversion)")
-    ax.set_ylabel("Utility: final F1-score (higher = better fraud detection)")
-    ax.grid(True, linestyle="--", alpha=0.28)
-    ax.text(
-        0.01,
-        0.02,
-        "Top-right is preferred: higher reconstruction error and higher F1.",
-        transform=ax.transAxes,
+    def scatter_points(axis: Any) -> None:
+        for point in points:
+            axis.scatter(
+                point.privacy_mse,
+                point.f1,
+                s=115,
+                c=colors.get(point.family, "#9467bd"),
+                marker=markers.get(point.family, "o"),
+                edgecolors="black",
+                linewidths=0.8,
+                alpha=0.92,
+                label=point.family,
+                zorder=3,
+            )
+
+    scatter_points(ax)
+    scatter_points(ax_zoom)
+
+    # Keep the full-range panel readable by labeling only the low-utility DP
+    # points and directing readers to the zoomed high-utility cluster.
+    for point in points:
+        short = short_labels.get(point.method, point.method)
+        if point.method in {"DP medium", "DP mild"}:
+            ax.annotate(
+                short,
+                (point.privacy_mse, point.f1),
+                textcoords="offset points",
+                xytext=(8, -14 if point.method == "DP medium" else -18),
+                fontsize=8.6,
+            )
+    ax.annotate(
+        "High-utility methods\nshown in detail on right",
+        xy=(6305.8, 0.71),
+        xytext=(6303.15, 0.57),
+        arrowprops={"arrowstyle": "->", "lw": 1.2, "color": "#555555"},
         fontsize=9,
         color="#333333",
     )
-    fig.tight_layout()
-    fig.savefig(OUTPUT_PNG, dpi=220)
+
+    cluster_points = [point for point in points if point.f1 >= 0.65 and point.privacy_mse >= 6305.45]
+    for point in cluster_points:
+        short = short_labels.get(point.method, point.method)
+        ax_zoom.annotate(
+            short,
+            (point.privacy_mse, point.f1),
+            textcoords="offset points",
+            xytext=zoom_offsets.get(short, (8, 8)),
+            fontsize=8.8,
+            arrowprops={"arrowstyle": "-", "lw": 0.7, "color": "#777777"},
+        )
+
+    conservative = next((point for point in points if point.method == "DNA Transform conservative"), None)
+    if conservative is not None:
+        for axis in (ax, ax_zoom):
+            axis.scatter(
+                conservative.privacy_mse,
+                conservative.f1,
+                s=280,
+                facecolors="none",
+                edgecolors="#ffbf00",
+                linewidths=2.5,
+                marker="o",
+                zorder=5,
+            )
+        ax_zoom.annotate(
+            "recommended\ntrade-off",
+            (conservative.privacy_mse, conservative.f1),
+            xytext=(6305.70, 0.733),
+            textcoords="data",
+            arrowprops={"arrowstyle": "->", "color": "#7a5c00", "lw": 1.4},
+            fontsize=9.5,
+            color="#7a5c00",
+            weight="bold",
+            ha="center",
+        )
+
+    # Deduplicate legend labels.
+    handles, labels = ax.get_legend_handles_labels()
+    seen = set()
+    deduped = [(h, l) for h, l in zip(handles, labels) if not (l in seen or seen.add(l))]
+    fig.legend(
+        [item[0] for item in deduped],
+        [label_map.get(item[1], item[1]) for item in deduped],
+        loc="lower center",
+        ncol=4,
+        frameon=True,
+        bbox_to_anchor=(0.5, -0.01),
+    )
+
+    fig.suptitle("Privacy-Utility Pareto Front from Gradient Inversion Evaluation", fontsize=14, weight="bold")
+    ax.set_title("Full comparison", fontsize=11, weight="bold")
+    ax_zoom.set_title("Zoom: high-utility / high-privacy region", fontsize=11, weight="bold")
+    ax.set_xlabel("Privacy proxy: reconstruction MSE\n(higher = harder inversion)")
+    ax_zoom.set_xlabel("Privacy proxy: reconstruction MSE\n(higher = harder inversion)")
+    ax.set_ylabel("Utility: final F1-score (higher = better fraud detection)")
+
+    for axis in (ax, ax_zoom):
+        axis.grid(True, linestyle="--", alpha=0.28)
+        axis.text(
+            0.02,
+            0.03,
+            "Top-right is preferred",
+            transform=axis.transAxes,
+            fontsize=8.8,
+            color="#444444",
+            bbox={"boxstyle": "round,pad=0.25", "fc": "white", "ec": "#cccccc", "alpha": 0.9},
+        )
+
+    ax.set_ylim(-0.025, 0.765)
+    ax_zoom.set_xlim(6305.43, 6305.99)
+    ax_zoom.set_ylim(0.675, 0.742)
+    ax_zoom.set_ylabel("")
+    ax_zoom.ticklabel_format(axis="x", style="plain", useOffset=False)
+    ax_zoom.tick_params(axis="x", labelrotation=25)
+
+    fig.subplots_adjust(bottom=0.18, top=0.86, wspace=0.24)
+    fig.savefig(OUTPUT_PNG, dpi=240, bbox_inches="tight")
     fig.savefig(OUTPUT_PDF)
     plt.close(fig)
 
