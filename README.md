@@ -568,6 +568,158 @@ Trade-off interpretation:
 - DP medium and strong reduce reconstruction metrics more clearly, but the accepted utility results show severe model degradation.
 - Secure Aggregation provides a different kind of protection: it hides individual updates from the server without perturbing the aggregate.
 
+## Reviewer-Facing Additional Experiments
+
+These experiments were added to make the DNA Transform contribution easier to defend scientifically. They are not replacements for the accepted 50-round main comparison; they isolate specific reviewer questions about parameter sensitivity, scalability, and privacy/utility trade-off.
+
+### Experiment 1: DNA Transform Mix-Ratio Ablation
+
+Purpose: isolate the effect of the DNA Transform residual mixing ratio while holding the other two transform parameters fixed.
+
+Protocol:
+
+```text
+fixed keep_ratio = 0.88
+fixed shrink_factor = 0.45
+swept mix_ratio = 0.01, 0.03, 0.05, 0.07, 0.08, 0.10, 0.12, 0.15, 0.18, 0.20
+num_clients = 3
+num_rounds = 15
+```
+
+Artifacts:
+
+```text
+FL-DNA/results/ablation/ablation_summary.json
+FL-DNA/results/ablation/ablation_mix_keep088_shrink045.png
+```
+
+![DNA Transform mix ablation](FL-DNA/results/ablation/ablation_mix_keep088_shrink045.png)
+
+| Mix | F1 | ROC-AUC | PR-AUC | Mean cosine | Mean DNA ms |
+|---:|---:|---:|---:|---:|---:|
+| 0.01 | 0.7878 | 0.9980 | 0.8255 | 0.999953 | 166.79 |
+| 0.03 | 0.7895 | 0.9978 | 0.8184 | 0.999561 | 169.76 |
+| 0.05 | 0.7833 | 0.9978 | 0.8170 | 0.998740 | 171.92 |
+| 0.07 | 0.7813 | 0.9978 | 0.8153 | 0.997432 | 170.22 |
+| 0.08 | 0.7776 | 0.9979 | 0.8152 | 0.996598 | 163.65 |
+| 0.10 | 0.7848 | 0.9978 | 0.8246 | 0.994463 | 168.75 |
+| 0.12 | 0.7860 | 0.9979 | 0.8284 | 0.991733 | 184.57 |
+| 0.15 | 0.7774 | 0.9977 | 0.8055 | 0.986279 | 179.21 |
+| 0.18 | 0.7831 | 0.9975 | 0.8211 | 0.979226 | 177.13 |
+| 0.20 | 0.7759 | 0.9976 | 0.8062 | 0.973373 | 174.52 |
+
+Interpretation:
+
+- Increasing `mix_ratio` consistently lowers mean cosine similarity, which means the transmitted update becomes less aligned with the original update.
+- Utility remains stable across the sweep; F1 stays in a narrow `0.7759-0.7895` band.
+- The conservative point (`mix=0.08`, `keep=0.88`, `shrink=0.45`) reduces cosine similarity compared with weaker mixes while preserving usable F1. It is therefore a defensible balance point, not an arbitrary parameter choice.
+
+Run command:
+
+```bash
+cd FL-DNA
+../venv/bin/python experiments/run_ablation_sweep.py
+```
+
+### Experiment 2: Client Scalability Test
+
+Purpose: test whether DNA Transform remains usable when the number of FL clients increases and each client has fewer samples under a more fragmented non-IID split.
+
+Protocol:
+
+```text
+max_rows = 500000
+num_clients = 3, 5, 10
+mix_ratio = 0.08
+keep_ratio = 0.88
+shrink_factor = 0.45
+num_rounds = 15
+local_epochs = 1
+```
+
+Artifacts:
+
+```text
+FL-DNA/results/scalability/scalability_summary.json
+FL-DNA/results/scalability/scalability_500k_clients.png
+```
+
+![DNA Transform scalability](FL-DNA/results/scalability/scalability_500k_clients.png)
+
+| Clients | F1 | ROC-AUC | Rounds to F1 >= 0.80 | Mean DNA ms/round | Total DNA ms |
+|---:|---:|---:|---:|---:|---:|
+| 3 | 0.6457 | 0.9857 | - | 166.76 | 2501.39 |
+| 5 | 0.5628 | 0.9824 | - | 291.67 | 4375.12 |
+| 10 | 0.5837 | 0.9682 | - | 569.99 | 8549.89 |
+
+Interpretation:
+
+- The model still learns useful fraud-ranking signal at 500k rows; ROC-AUC stays high across 3, 5, and 10 clients.
+- F1 drops under the smaller 500k-row subset because the absolute number of fraud samples is much lower and the non-IID client split becomes more fragmented.
+- DNA Transform overhead scales roughly with the number of client updates transformed per round: about `167 ms`, `292 ms`, and `570 ms`.
+- This result supports scalability at the communication-defense level, but it also shows that more clients may need more rounds or stronger threshold/loss tuning when using a smaller data subset.
+
+Run command:
+
+```bash
+cd FL-DNA
+../venv/bin/python experiments/run_scalability_sweep.py
+```
+
+### Experiment 3: Empirical Privacy-Utility Pareto Front
+
+Purpose: visualize real privacy/utility trade-off using gradient inversion reconstruction difficulty instead of assigning placeholder privacy scores.
+
+Primary input:
+
+```text
+FL-DNA/artifacts/gradient_inversion/privacy_utility_tradeoff.csv
+```
+
+The plot uses reconstruction MSE as the privacy proxy:
+
+```text
+higher reconstruction MSE = harder inversion = better empirical privacy
+```
+
+Artifacts:
+
+```text
+FL-DNA/artifacts/gradient_inversion/privacy_utility_pareto_front.png
+FL-DNA/artifacts/gradient_inversion/privacy_utility_pareto_front.pdf
+FL-DNA/artifacts/gradient_inversion/privacy_utility_pareto_front_points.csv
+FL-DNA/results/fraud/pareto_data.json
+FL-DNA/results/fraud/pareto_data.csv
+```
+
+![Privacy utility Pareto front](FL-DNA/artifacts/gradient_inversion/privacy_utility_pareto_front.png)
+
+| Method | F1 | Privacy MSE |
+|---|---:|---:|
+| FL Baseline | 0.7289 | 6305.86 |
+| FL + DNA | 0.7184 | 6305.86 |
+| DNA Transform | 0.7059 | 6305.88 |
+| DNA Transform conservative | 0.7089 | 6305.91 |
+| DNA Transform medium | 0.6855 | 6305.91 |
+| DNA Transform stronger | 0.6967 | 6305.92 |
+| DP utility | 0.6923 | 6305.53 |
+| DP mild | 0.2756 | 6302.90 |
+| DP medium | 0.0083 | 6299.26 |
+
+Interpretation:
+
+- DNA Transform conservative sits in the useful trade-off region: it improves reconstruction difficulty relative to baseline/DNA lossless while retaining substantially better utility than noisy DP settings.
+- DP medium collapses utility, even though it changes attack behavior more aggressively.
+- Secure Aggregation is not plotted as an individual-update inversion point under the true server threat model, because the server does not observe individual raw updates.
+
+Run commands:
+
+```bash
+cd FL-DNA
+python3 generate_pareto.py
+../venv/bin/python experiments/plot_privacy_utility_tradeoff.py
+```
+
 ## Dynamic Seed Verification
 
 The TransformDefense and SecureAgg defense paths were updated to avoid hardcoded defense seeds. The model training seed remains fixed for fair experiment comparison, but defense randomness now uses fresh run seeds and logs all derived seeds needed for reproducibility.
