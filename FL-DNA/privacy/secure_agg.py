@@ -45,15 +45,15 @@ def secure_aggregate_states(
 
         for i in range(len(masked_updates)):
             for j in range(i + 1, len(masked_updates)):
-                generator = torch.Generator(device=masked_updates[i].device).manual_seed(
+                generator = torch.Generator(device="cpu").manual_seed(
                     _pair_seed(seed, name, i, j)
                 )
                 mask = torch.randn(
                     masked_updates[i].shape,
                     generator=generator,
                     dtype=masked_updates[i].dtype,
-                    device=masked_updates[i].device,
-                )
+                    device="cpu",
+                ).to(masked_updates[i].device)
                 masked_updates[i] = masked_updates[i] + mask
                 masked_updates[j] = masked_updates[j] - mask
                 max_mask_abs = max(max_mask_abs, float(mask.abs().max().item()))

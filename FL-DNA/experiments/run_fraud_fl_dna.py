@@ -19,6 +19,7 @@ from data.load_creditcard import load_creditcard_data
 from dna_encoder.encoder import DNAEncoder
 from experiments.fraud_fl_common import (
     BATCH_SIZE,
+    DEVICE,
     LOCAL_EPOCHS,
     NUM_CLIENTS,
     NUM_ROUNDS,
@@ -54,7 +55,7 @@ def dna_round_trip_state(
         float32_array = update.detach().cpu().numpy().astype(np.float32, copy=False)
         payload = encoder.encode_array(float32_array)
         decoded_array = encoder.decode_array(payload, tensor.shape)
-        decoded_update = torch.from_numpy(decoded_array.copy()).to(dtype=tensor.dtype)
+        decoded_update = torch.from_numpy(decoded_array.copy()).to(dtype=tensor.dtype, device=tensor.device)
         decoded_tensor = global_state[name] + decoded_update
         if decoded_tensor.shape != tensor.shape:
             raise ValueError(f"DNA round trip changed tensor shape for '{name}'")
@@ -72,7 +73,7 @@ def main() -> None:
         batch_size=BATCH_SIZE,
         num_clients=NUM_CLIENTS,
     )
-    global_model = FraudMLP(input_dim)
+    global_model = FraudMLP(input_dim).to(DEVICE)
     encoder = DNAEncoder()
     sample_counts = [len(loader.dataset) for loader in client_loaders]
     round_metrics = []

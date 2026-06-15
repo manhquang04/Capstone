@@ -1,0 +1,39 @@
+{
+  "experiment": "scalability_num_clients",
+  "fixed_params": {
+    "mix_ratio": 0.08,
+    "keep_ratio": 0.88,
+    "shrink_factor": 0.45,
+    "num_rounds": 15,
+    "max_rows": 500000
+  },
+  "results": [
+    {
+      "num_clients": 3,
+      "final_f1": 0.6457399103139013,
+      "final_auc_roc": 0.9857102362341627,
+      "rounds_to_f1_08": null,
+      "mean_encode_ms_per_round": 166.7594334188228,
+      "total_encode_ms": 2501.391501282342,
+      "source_file": "results/scalability/clients_3.json"
+    },
+    {
+      "num_clients": 5,
+      "final_f1": 0.5628140703517588,
+      "final_auc_roc": 0.9823671198358706,
+      "rounds_to_f1_08": null,
+      "mean_encode_ms_per_round": 291.67444171228755,
+      "total_encode_ms": 4375.1166256843135,
+      "source_file": "results/scalability/clients_5.json"
+    },
+    {
+      "num_clients": 10,
+      "final_f1": 0.583732057416268,
+      "final_auc_roc": 0.9682423734938861,
+      "rounds_to_f1_08": null,
+      "mean_encode_ms_per_round": 569.9927252484486,
+      "total_encode_ms": 8549.890878726728,
+      "source_file": "results/scalability/clients_10.json"
+    }
+  ]
+}

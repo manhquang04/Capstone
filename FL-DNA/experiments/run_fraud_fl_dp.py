@@ -14,6 +14,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from data.load_creditcard import load_creditcard_data
 from experiments.fraud_fl_common import (
     BATCH_SIZE,
+    DEVICE,
     LOCAL_EPOCHS,
     NUM_CLIENTS,
     NUM_ROUNDS,
@@ -49,7 +50,7 @@ def main() -> None:
         batch_size=BATCH_SIZE,
         num_clients=NUM_CLIENTS,
     )
-    global_model = FraudMLP(input_dim)
+    global_model = FraudMLP(input_dim).to(DEVICE)
     sample_counts = [len(loader.dataset) for loader in client_loaders]
     round_metrics = []
 

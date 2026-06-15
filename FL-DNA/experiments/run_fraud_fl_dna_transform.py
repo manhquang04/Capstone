@@ -21,6 +21,7 @@ from data.load_creditcard import load_creditcard_data
 from dna_encoder.transform_defense import DNATransformConfig, transform_update_array
 from experiments.fraud_fl_common import (
     BATCH_SIZE,
+    DEVICE,
     LOCAL_EPOCHS,
     NUM_CLIENTS,
     NUM_ROUNDS,
@@ -76,7 +77,7 @@ def dna_transform_state(
             config,
             tensor_index=tensor_index,
         )
-        transformed_update = torch.from_numpy(transformed_array.copy()).to(dtype=tensor.dtype)
+        transformed_update = torch.from_numpy(transformed_array.copy()).to(dtype=tensor.dtype, device=tensor.device)
         transformed_state[name] = global_state[name] + transformed_update
 
         tensor_count += 1
@@ -103,7 +104,7 @@ def main() -> None:
         batch_size=BATCH_SIZE,
         num_clients=NUM_CLIENTS,
     )
-    global_model = FraudMLP(input_dim)
+    global_model = FraudMLP(input_dim).to(DEVICE)
     sample_counts = [len(loader.dataset) for loader in client_loaders]
     round_metrics = []
 

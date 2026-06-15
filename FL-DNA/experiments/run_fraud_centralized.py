@@ -12,6 +12,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from data.load_creditcard import load_paysim_splits
 from experiments.fraud_fl_common import (
     BATCH_SIZE,
+    DEVICE,
     LOCAL_EPOCHS,
     NUM_ROUNDS,
     evaluate_model,
@@ -31,7 +32,7 @@ def main() -> None:
     train_loader, validation_loader, test_loader, input_dim, pos_weight, metadata = (
         load_paysim_splits(batch_size=BATCH_SIZE)
     )
-    model = FraudMLP(input_dim)
+    model = FraudMLP(input_dim).to(DEVICE)
     round_metrics = []
 
     print("Centralized PaySim MLP")
