@@ -17,6 +17,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DATASET_PATH = PROJECT_ROOT / "datasets" / "creditcard.csv"
 RANDOM_SEED = 42
 TARGET_COLUMN = "isFraud"
+DEFAULT_NUM_WORKERS = int(os.environ.get("DATALOADER_NUM_WORKERS", "4"))
 BASE_FEATURE_COLUMNS = [
     "step",
     "type",
@@ -350,4 +351,14 @@ def _create_loader(
         torch.from_numpy(np.array(labels, dtype=np.float32, copy=True, order="C")).reshape(-1, 1),
     )
     generator = torch.Generator().manual_seed(seed)
-    return DataLoader(dataset, batch_size=batch_size, shuffle=shuffle, generator=generator)
+    num_workers = max(DEFAULT_NUM_WORKERS, 0)
+    kwargs = {
+        "batch_size": batch_size,
+        "shuffle": shuffle,
+        "generator": generator,
+        "num_workers": num_workers,
+        "pin_memory": False,
+    }
+    if num_workers > 0:
+        kwargs["persistent_workers"] = True
+    return DataLoader(dataset, **kwargs)

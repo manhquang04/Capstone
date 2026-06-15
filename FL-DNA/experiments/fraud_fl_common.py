@@ -24,7 +24,7 @@ from torch import nn
 from torch.utils.data import DataLoader
 
 RANDOM_SEED = 42
-NUM_CLIENTS = 3
+NUM_CLIENTS = int(os.environ.get("FL_NUM_CLIENTS", "3"))
 QUICK_MODE = os.environ.get("QUICK") == "1"
 NUM_ROUNDS = int(os.environ.get("NUM_ROUNDS", 3 if QUICK_MODE else 15))
 LOCAL_EPOCHS = int(os.environ.get("LOCAL_EPOCHS", 1))
@@ -33,6 +33,16 @@ LEARNING_RATE = 1e-3
 LOSS_TYPE = os.environ.get("LOSS_TYPE", "focal").lower()
 FOCAL_GAMMA = float(os.environ.get("FOCAL_GAMMA", "2.0"))
 FOCAL_ALPHA = float(os.environ.get("FOCAL_ALPHA", "0.95"))
+
+
+def _get_device() -> torch.device:
+    """Prefer Apple Metal acceleration when available, otherwise use CPU."""
+    if torch.backends.mps.is_available():
+        return torch.device("mps")
+    return torch.device("cpu")
+
+
+DEVICE = _get_device()
 
 
 class BinaryFocalLoss(nn.Module):
@@ -57,25 +67,12 @@ class BinaryFocalLoss(nn.Module):
 
 
 def set_random_seed(seed: int = RANDOM_SEED) -> None:
-    """Configure deterministic random seeds for repeatable experiments."""
+    """Configure repeatable seeds without disabling Apple Silicon acceleration."""
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
-    if torch.cuda.is_available():
-        torch.cuda.manual_seed_all(seed)
-
-    # Make PyTorch operations deterministic
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
-
-    # Force single-threaded BLAS to eliminate floating-point
-    # accumulation order non-determinism on multi-core CPUs
-    torch.set_num_threads(1)
-
-    # Error on any non-deterministic operation
-    torch.use_deterministic_algorithms(True)
-
-    # Set environment variable for Python hash seed
+    if torch.backends.mps.is_available():
+        torch.mps.manual_seed(seed)
     os.environ['PYTHONHASHSEED'] = str(seed)
 
 
@@ -86,6 +83,7 @@ def train_local_model(
     local_epochs: int = LOCAL_EPOCHS,
 ) -> float:
     """Train one client model from the current global state."""
+    model.to(DEVICE)
     model.train()
     criterion = build_loss(pos_weight)
     optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE)
@@ -94,6 +92,8 @@ def train_local_model(
 
     for _ in range(local_epochs):
         for features, labels in loader:
+            features = features.to(DEVICE)
+            labels = labels.to(DEVICE)
             optimizer.zero_grad()
             loss = criterion(model(features), labels)
             loss.backward()
@@ -107,7 +107,7 @@ def train_local_model(
 def build_loss(pos_weight: torch.Tensor) -> nn.Module:
     """Build the configured imbalance-aware loss."""
     if LOSS_TYPE == "weighted_bce":
-        return nn.BCEWithLogitsLoss(pos_weight=pos_weight)
+        return nn.BCEWithLogitsLoss(pos_weight=pos_weight.to(DEVICE))
     if LOSS_TYPE == "focal":
         return BinaryFocalLoss(alpha=FOCAL_ALPHA, gamma=FOCAL_GAMMA)
     raise ValueError("LOSS_TYPE must be 'focal' or 'weighted_bce'")
@@ -141,15 +141,18 @@ def evaluate_model(
     threshold: float | None = None,
 ) -> dict[str, float | int | None]:
     """Evaluate a binary classifier, optionally tuning threshold for F1."""
+    model.to(DEVICE)
     model.eval()
     all_labels: list[np.ndarray] = []
     all_probabilities: list[np.ndarray] = []
 
     with torch.no_grad():
         for features, labels in loader:
+            features = features.to(DEVICE)
+            labels = labels.to(DEVICE)
             probabilities = torch.sigmoid(model(features))
-            all_labels.append(labels.numpy().reshape(-1))
-            all_probabilities.append(probabilities.numpy().reshape(-1))
+            all_labels.append(labels.detach().cpu().numpy().reshape(-1))
+            all_probabilities.append(probabilities.detach().cpu().numpy().reshape(-1))
 
     y_true = np.concatenate(all_labels).astype(np.int64)
     y_score = np.concatenate(all_probabilities)
@@ -190,18 +193,31 @@ def evaluate_model(
 
 def tune_threshold(y_true: np.ndarray, y_score: np.ndarray) -> float:
     """Tune a decision threshold for fraud F1 on validation probabilities."""
-    best_thresh = 0.5
-    best_f1 = -1.0
     linear_grid = np.linspace(0.001, 0.999, 999)
     quantile_grid = np.quantile(y_score, np.linspace(0.001, 0.999, 999))
     thresholds = np.unique(np.concatenate([linear_grid, quantile_grid]))
-    for thresh in thresholds:
-        y_pred = (y_score >= thresh).astype(np.int64)
-        score = f1_score(y_true, y_pred, zero_division=0)
-        if score > best_f1:
-            best_f1 = score
-            best_thresh = float(thresh)
-    return best_thresh
+
+    y_true = y_true.astype(np.int64, copy=False)
+    order = np.argsort(y_score)
+    sorted_scores = y_score[order]
+    sorted_true = y_true[order]
+    positive_prefix = np.concatenate([[0], np.cumsum(sorted_true)])
+
+    first_predicted_index = np.searchsorted(sorted_scores, thresholds, side="left")
+    predicted_positive = y_true.size - first_predicted_index
+    total_positive = int(sorted_true.sum())
+    true_positive = total_positive - positive_prefix[first_predicted_index]
+    false_positive = predicted_positive - true_positive
+    false_negative = total_positive - true_positive
+
+    denominator = (2 * true_positive) + false_positive + false_negative
+    f1_scores = np.divide(
+        2 * true_positive,
+        denominator,
+        out=np.zeros_like(denominator, dtype=np.float64),
+        where=denominator > 0,
+    )
+    return float(thresholds[int(np.argmax(f1_scores))])
 
 
 def save_metrics(

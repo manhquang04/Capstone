@@ -1,0 +1,10 @@
+method,family,variant,f1,privacy_mse,roc_auc,pr_auc,source
+DP medium,dp_noise,medium,0.008321198252548368,6299.257754278183,0.7891366452935726,0.0037307293545422197,artifacts/gradient_inversion/privacy_utility_tradeoff.csv
+DP mild,dp_noise,mild,0.27555555555555555,6302.900800473243,0.9205976673397762,0.2091202419896086,artifacts/gradient_inversion/privacy_utility_tradeoff.csv
+DP utility,dp_noise,utility,0.6923076923076923,6305.530071206391,0.9896687139383372,0.6920738177910514,artifacts/gradient_inversion/privacy_utility_tradeoff.csv
+FL + DNA,dna_lossless,reference,0.7183673469387755,6305.860457368195,0.9906915735862835,0.7172072278578835,artifacts/gradient_inversion/combined_sweeps/summary.json + results/fraud/dna_metrics.json
+FL Baseline,baseline,reference,0.7288888888888889,6305.860457368195,0.9911892648947241,0.7143993297437666,artifacts/gradient_inversion/combined_sweeps/summary.json + results/fraud/baseline_metrics.json
+DNA Transform,dna_transform,current,0.7058823529411765,6305.88378367722,0.9911830553961785,0.7130828682479524,artifacts/gradient_inversion/privacy_utility_tradeoff.csv
+DNA Transform conservative,dna_transform,conservative,0.7088607594936709,6305.908588424325,0.9900472993027976,0.7160455608359148,artifacts/gradient_inversion/privacy_utility_tradeoff.csv
+DNA Transform medium,dna_transform,medium,0.6854838709677419,6305.914092412591,0.991030845063076,0.7061140435716562,artifacts/gradient_inversion/privacy_utility_tradeoff.csv
+DNA Transform stronger,dna_transform,stronger,0.6967213114754098,6305.919510570168,0.9903895591007653,0.7115610738371267,artifacts/gradient_inversion/privacy_utility_tradeoff.csv

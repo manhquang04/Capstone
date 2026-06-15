@@ -1,0 +1,124 @@
+{
+  "generated_at": "2026-06-11T09:59:25.928367+00:00",
+  "privacy_metric": "gradient_inversion_final_loss_normalized",
+  "note": "privacy_proxy = mean_final_loss / max_mean_final_loss; higher = more private",
+  "methods": [
+    {
+      "method": "FL + DNA Transform (stronger)",
+      "f1": 0.6967213114754098,
+      "roc_auc": 0.9903895591007653,
+      "pr_auc": 0.7115610738371267,
+      "privacy_proxy": 0.005504312331307897,
+      "grad_inv_final_loss_mean": 0.0013052443973720074,
+      "grad_inv_n_samples": 10
+    },
+    {
+      "method": "FL + DNA Transform (medium)",
+      "f1": 0.6854838709677419,
+      "roc_auc": 0.991030845063076,
+      "pr_auc": 0.7061140435716562,
+      "privacy_proxy": 0.00538204758517443,
+      "grad_inv_final_loss_mean": 0.0012762516067596152,
+      "grad_inv_n_samples": 10
+    },
+    {
+      "method": "FL + DNA Transform (conservative)",
+      "f1": 0.7088607594936709,
+      "roc_auc": 0.9900472993027976,
+      "pr_auc": 0.7160455608359148,
+      "privacy_proxy": 0.005098581794351727,
+      "grad_inv_final_loss_mean": 0.001209033012855798,
+      "grad_inv_n_samples": 10
+    },
+    {
+      "method": "FL + DNA Transform+SecureAgg",
+      "f1": 0.7124463519313304,
+      "roc_auc": 0.9907415600495766,
+      "pr_auc": 0.711958751769989,
+      "privacy_proxy": null,
+      "grad_inv_final_loss_mean": null,
+      "grad_inv_n_samples": 0
+    },
+    {
+      "method": "FL + DNA Transform",
+      "f1": 0.7058823529411765,
+      "roc_auc": 0.9911830553961785,
+      "pr_auc": 0.7130828682479524,
+      "privacy_proxy": 0.006054369803150549,
+      "grad_inv_final_loss_mean": 0.0014356802066322416,
+      "grad_inv_n_samples": 200
+    },
+    {
+      "method": "FL Baseline",
+      "f1": 0.7288888888888889,
+      "roc_auc": 0.9911892648947241,
+      "pr_auc": 0.7143993297437666,
+      "privacy_proxy": 0.0058095983793620696,
+      "grad_inv_final_loss_mean": 0.0013776372558862457,
+      "grad_inv_n_samples": 230
+    },
+    {
+      "method": "FL + DNA",
+      "f1": 0.7183673469387755,
+      "roc_auc": 0.9906915735862835,
+      "pr_auc": 0.7172072278578835,
+      "privacy_proxy": 0.00606382758035829,
+      "grad_inv_final_loss_mean": 0.0014379229410500874,
+      "grad_inv_n_samples": 230
+    },
+    {
+      "method": "FL + DP (mild)",
+      "f1": 0.27555555555555555,
+      "roc_auc": 0.9205976673397762,
+      "pr_auc": 0.2091202419896086,
+      "privacy_proxy": 0.04425921670308832,
+      "grad_inv_final_loss_mean": 0.010495242848992347,
+      "grad_inv_n_samples": 10
+    },
+    {
+      "method": "FL + DP",
+      "f1": 0.008321198252548368,
+      "roc_auc": 0.7891366452935726,
+      "pr_auc": 0.0037307293545422197,
+      "privacy_proxy": 1.0,
+      "grad_inv_final_loss_mean": 0.2371312379837036,
+      "grad_inv_n_samples": 10
+    },
+    {
+      "method": "FL + DP (utility)",
+      "f1": 0.6923076923076923,
+      "roc_auc": 0.9896687139383372,
+      "pr_auc": 0.6920738177910514,
+      "privacy_proxy": 0.005056079070916068,
+      "grad_inv_final_loss_mean": 0.0011989542894298212,
+      "grad_inv_n_samples": 10
+    },
+    {
+      "method": "FL + DNA+DP",
+      "f1": 0.002593219137146851,
+      "roc_auc": 0.5059461381886644,
+      "pr_auc": 0.001305667579671924,
+      "privacy_proxy": null,
+      "grad_inv_final_loss_mean": null,
+      "grad_inv_n_samples": 0
+    },
+    {
+      "method": "FL + SecureAgg",
+      "f1": 0.711864406779661,
+      "roc_auc": 0.9906308757379989,
+      "pr_auc": 0.711759095231994,
+      "privacy_proxy": null,
+      "grad_inv_final_loss_mean": null,
+      "grad_inv_n_samples": 0
+    },
+    {
+      "method": "FL + DNA+SecureAgg",
+      "f1": 0.711864406779661,
+      "roc_auc": 0.9906308757379989,
+      "pr_auc": 0.711759095231994,
+      "privacy_proxy": null,
+      "grad_inv_final_loss_mean": null,
+      "grad_inv_n_samples": 0
+    }
+  ]
+}
