@@ -1,0 +1,177 @@
+{
+  "protocol": {
+    "run_seed": 508535908,
+    "tiers": {
+      "one_batch": {
+        "records": 4,
+        "fraud": 1,
+        "batch_size": 4
+      },
+      "four_batches": {
+        "records": 16,
+        "fraud": 4,
+        "batch_size": 4
+      }
+    },
+    "development_groups": 4,
+    "confirmation_groups": 10,
+    "iterations": 300,
+    "restarts": 3,
+    "learning_rates": [
+      0.01,
+      0.05,
+      0.1
+    ],
+    "optimizer": "local Adam lr=.001; attack Adam",
+    "loss": "focal alpha=.95 gamma=2",
+    "observation": "full floating model state delta including differentiable BatchNorm buffers",
+    "gate": "negative mean/median versus prior and zero plus one-sided tie-excluding sign p<.05",
+    "scope": "development ladder; confirm one_batch only if development improves prior",
+    "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b",
+    "checkpoint_sha256": "5bb8cb368c0c3883f6cac946d57427ad7b77d56cf4c423fd3c82243a3859c710"
+  },
+  "frozen": {
+    "lr": 0.1,
+    "iterations": 300,
+    "restarts": 3,
+    "protocol_sha256": "13baf20ab9982104e8c4725c87db7bafbb649a077526e0dd5a31c9e7cc14378f",
+    "proceed": true
+  },
+  "development": {
+    "one_batch": [
+      {
+        "lr": 0.01,
+        "mean_delta": -1.03721992062326
+      },
+      {
+        "lr": 0.05,
+        "mean_delta": -1.4719772719641773
+      },
+      {
+        "lr": 0.1,
+        "mean_delta": -1.6181907735113992
+      }
+    ],
+    "four_batches": [
+      {
+        "lr": 0.01,
+        "mean_delta": -24.75476674762581
+      },
+      {
+        "lr": 0.05,
+        "mean_delta": -10.316175963529773
+      },
+      {
+        "lr": 0.1,
+        "mean_delta": -42.25790017871579
+      }
+    ]
+  },
+  "confirmation": {
+    "prior": {
+      "wins": 7,
+      "n": 10,
+      "mean": 74.35664563415314,
+      "median": -10.676704026334383,
+      "p": 0.171875
+    },
+    "zero": {
+      "wins": 7,
+      "n": 10,
+      "mean": 49.65438612340323,
+      "median": -79.53457250607744,
+      "p": 0.171875
+    },
+    "gate": false
+  },
+  "selected": [
+    {
+      "group": 0,
+      "baseline": 1236.4445120111257,
+      "prior": 770.5499096141907,
+      "zero": 767.9674389509654,
+      "baseline_restart": 0,
+      "zero_restart": 0
+    },
+    {
+      "group": 1,
+      "baseline": 723.2319954482598,
+      "prior": 797.4225705748191,
+      "zero": 856.7538600440066,
+      "baseline_restart": 2,
+      "zero_restart": 2
+    },
+    {
+      "group": 2,
+      "baseline": 107.09810572385348,
+      "prior": 126.43062016130591,
+      "zero": 211.04177136232423,
+      "baseline_restart": 2,
+      "zero_restart": 1
+    },
+    {
+      "group": 3,
+      "baseline": 85.75652405425794,
+      "prior": 142.1051820383952,
+      "zero": 225.36757785069702,
+      "baseline_restart": 1,
+      "zero_restart": 0
+    },
+    {
+      "group": 4,
+      "baseline": 189.0992050685738,
+      "prior": 197.67205474749537,
+      "zero": 268.2913335244493,
+      "baseline_restart": 0,
+      "zero_restart": 0
+    },
+    {
+      "group": 5,
+      "baseline": 2585.5642085614936,
+      "prior": 2806.1748368004323,
+      "zero": 2775.8922649868996,
+      "baseline_restart": 1,
+      "zero_restart": 2
+    },
+    {
+      "group": 6,
+      "baseline": 2176.881761194651,
+      "prior": 1683.5580710078168,
+      "zero": 1491.9730200344538,
+      "baseline_restart": 2,
+      "zero_restart": 1
+    },
+    {
+      "group": 7,
+      "baseline": 331.4302681408044,
+      "prior": 152.42439126598018,
+      "zero": 213.8448769971619,
+      "baseline_restart": 0,
+      "zero_restart": 2
+    },
+    {
+      "group": 8,
+      "baseline": 0.1720986605336958,
+      "prior": 2.9940279378391867,
+      "zero": 80.04911521681305,
+      "baseline_restart": 0,
+      "zero_restart": 2
+    },
+    {
+      "group": 9,
+      "baseline": 13.761636472144037,
+      "prior": 26.542194845891245,
+      "zero": 61.7151951338943,
+      "baseline_restart": 1,
+      "zero_restart": 1
+    }
+  ],
+  "full_client_adam": {
+    "baseline": 129.47315203192218,
+    "zero_update": 129.39815788505612
+  },
+  "closure": "NEGATIVE_COMPLETE",
+  "phase4_ready": false,
+  "seconds": 203.106786417,
+  "interpretation": "Full-client Adam remains negative regardless of bounded result."
+}

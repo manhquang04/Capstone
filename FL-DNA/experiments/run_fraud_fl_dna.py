@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import os
 import sys
 from collections import OrderedDict
 from pathlib import Path
@@ -33,7 +34,12 @@ from experiments.fraud_fl_common import (
 )
 from models.fraud_mlp import FraudMLP
 
-OUTPUT_PATH = PROJECT_ROOT / "results" / "fraud" / "dna_metrics.json"
+OUTPUT_PATH = Path(
+    os.environ.get(
+        "DNA_OUTPUT_PATH",
+        str(PROJECT_ROOT / "results" / "fraud" / "dna_metrics.json"),
+    )
+).resolve()
 
 
 def dna_round_trip_state(

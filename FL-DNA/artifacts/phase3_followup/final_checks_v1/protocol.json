@@ -1,0 +1,16 @@
+{
+  "seed": 472287461,
+  "development_client": 2,
+  "variants": {
+    "raw": 500,
+    "scaled": 100,
+    "categorical": 100
+  },
+  "development_restarts": 1,
+  "selection": "minimum baseline-minus-own-prior mean MSE at 100; development only",
+  "evaluation_iterations": 100,
+  "evaluation_restarts": 2,
+  "evaluation_total_rows": 500000,
+  "exclusion": "entire original 500000-row subset; frozen scaler/checkpoint",
+  "gate": "report paired benefit vs both controls and validity; no automatic significance threshold"
+}
