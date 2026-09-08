@@ -1,0 +1,38 @@
+{
+  "run_seed": 1618279293,
+  "client_records": 4,
+  "composition": "1 fraud + 3 non-fraud",
+  "local_optimizer": "SGD",
+  "local_lr": 0.001,
+  "local_steps": 1,
+  "local_epochs": 1,
+  "batch_size": 4,
+  "model_mode": "train",
+  "known_labels": true,
+  "known_order": true,
+  "known_local_rng": true,
+  "observation": "individual full model-state delta",
+  "objective": "cosine direction plus 0.1 normalized magnitude over parameters and floating BatchNorm buffers",
+  "parameterization": "numeric unconstrained; transaction type softmax simplex",
+  "evaluation_alignment": "Hungarian minimum squared distance within known-label groups; evaluation only",
+  "development_targets": 4,
+  "confirmation_targets": 10,
+  "development_grid": {
+    "attack_lr": [
+      0.01,
+      0.05,
+      0.1
+    ],
+    "iterations": [
+      300
+    ]
+  },
+  "confirmation_iterations": 300,
+  "confirmation_restarts": 3,
+  "selection": "lowest development mean baseline-minus-own-prior MSE",
+  "candidate_selection": "minimum attacker objective; ground truth evaluation-only",
+  "gate": "paired one-sided exact sign p<0.05, negative mean and median MSE difference versus both prior and zero-update",
+  "limitation": "bounded one-batch SGD client-update validation, diagnostic-only; not full utility-client Adam inversion",
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b",
+  "checkpoint_sha256": "5bb8cb368c0c3883f6cac946d57427ad7b77d56cf4c423fd3c82243a3859c710"
+}
