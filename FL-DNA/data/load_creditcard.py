@@ -54,6 +54,9 @@ class PaySimMetadata:
     client_sample_counts: list[int]
     client_fraud_rates: list[float]
     client_type_distributions: list[dict[str, float]]
+    numeric_center: list[float]
+    numeric_scale: list[float]
+    type_categories: list[str]
 
 
 def load_creditcard_data(
@@ -102,7 +105,7 @@ def load_creditcard_data(
         stratify=temp_labels,
     )
 
-    train_array, validation_array, test_array, feature_names = _fit_transform_features(
+    train_array, validation_array, test_array, feature_names, numeric_center, numeric_scale, type_categories = _fit_transform_features(
         train_features,
         validation_features,
         test_features,
@@ -153,6 +156,9 @@ def load_creditcard_data(
         client_type_distributions=[
             _type_distribution(train_features.iloc[indices]["type"]) for indices in client_indices
         ],
+        numeric_center=numeric_center,
+        numeric_scale=numeric_scale,
+        type_categories=type_categories,
     )
     return client_loaders, validation_loader, test_loader, train_array.shape[1], pos_weight, metadata
 
@@ -190,7 +196,7 @@ def load_paysim_splits(
         random_state=seed,
         stratify=temp_labels,
     )
-    train_array, validation_array, test_array, feature_names = _fit_transform_features(
+    train_array, validation_array, test_array, feature_names, numeric_center, numeric_scale, type_categories = _fit_transform_features(
         train_features,
         validation_features,
         test_features,
@@ -217,6 +223,9 @@ def load_paysim_splits(
         client_sample_counts=[int(train_labels.size)],
         client_fraud_rates=[float(np.mean(train_labels))],
         client_type_distributions=[_type_distribution(train_features["type"])],
+        numeric_center=numeric_center,
+        numeric_scale=numeric_scale,
+        type_categories=type_categories,
     )
     return train_loader, validation_loader, test_loader, train_array.shape[1], pos_weight, metadata
 
@@ -268,7 +277,7 @@ def _fit_transform_features(
     train_features: pd.DataFrame,
     validation_features: pd.DataFrame,
     test_features: pd.DataFrame,
-) -> tuple[np.ndarray, np.ndarray, np.ndarray, list[str]]:
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, list[str], list[float], list[float], list[str]]:
     scaler = RobustScaler()
     train_num = scaler.fit_transform(train_features[NUMERIC_COLUMNS])
     validation_num = scaler.transform(validation_features[NUMERIC_COLUMNS])
@@ -288,7 +297,15 @@ def _fit_transform_features(
     train_array = np.hstack([train_num, train_cat]).astype(np.float32)
     validation_array = np.hstack([validation_num, validation_cat]).astype(np.float32)
     test_array = np.hstack([test_num, test_cat]).astype(np.float32)
-    return train_array, validation_array, test_array, feature_names
+    return (
+        train_array,
+        validation_array,
+        test_array,
+        feature_names,
+        [float(value) for value in scaler.center_],
+        [float(value) for value in scaler.scale_],
+        [str(value) for value in encoder.categories_[0].tolist()],
+    )
 
 
 def _mild_non_iid_client_indices(

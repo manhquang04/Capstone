@@ -1,0 +1,78 @@
+{
+  "config": {
+    "seed": 1834141235,
+    "iterations": 30,
+    "restarts": 1,
+    "device": "cpu",
+    "model_mode": "train",
+    "optimizer": "Adam",
+    "lr": 0.001,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "attacker_lr": 0.05,
+    "known_labels": true,
+    "known_batch_order": true,
+    "known_dropout_rng": true,
+    "source": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/artifacts/phase2/phase2_verified_v2",
+    "targets": "first four Phase2 targets reused as development",
+    "scope": "bounded local-set update; not official full-client evaluation"
+  },
+  "records": [
+    {
+      "steps": 1,
+      "method": "baseline",
+      "mse": 581.0430908203125,
+      "prior_mse": 581.5077514648438,
+      "best_objective": 1.1777490271924762e-06,
+      "replay_max_error": 0.0,
+      "reload_objective": 1.1777490271924762e-06,
+      "seconds": 0.09256333400000005,
+      "target_count": 4
+    },
+    {
+      "steps": 1,
+      "method": "zero_update",
+      "mse": 581.5077514648438,
+      "prior_mse": 581.5077514648438,
+      "best_objective": 7.034561235741421e-07,
+      "replay_max_error": 0.0,
+      "reload_objective": 7.034561235741421e-07,
+      "seconds": 0.08368779099999979,
+      "target_count": 4
+    },
+    {
+      "steps": 2,
+      "method": "baseline",
+      "mse": 581.002685546875,
+      "prior_mse": 581.5077514648438,
+      "best_objective": 2.4254452455352293e-06,
+      "replay_max_error": 0.0,
+      "reload_objective": 2.4254452455352293e-06,
+      "seconds": 0.1575549999999999,
+      "target_count": 4
+    },
+    {
+      "steps": 2,
+      "method": "zero_update",
+      "mse": 583.8820190429688,
+      "prior_mse": 581.5077514648438,
+      "best_objective": 1.7472001445639762e-06,
+      "replay_max_error": 0.0,
+      "reload_objective": 1.7472001445639762e-06,
+      "seconds": 0.1690725420000001,
+      "target_count": 4
+    }
+  ],
+  "seconds": 0.9043800829999997,
+  "limitations": [
+    "one restart",
+    "reused development targets",
+    "parameter-only attack objective; buffers captured",
+    "known RNG is privileged",
+    "no full-client inversion",
+    "no DNA ranking"
+  ]
+}

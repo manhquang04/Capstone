@@ -10,7 +10,7 @@ The goal is not to build a production privacy system. The goal is to provide a c
 - FL + DP-style clipping/noise as a traditional privacy baseline.
 - FL + Secure Aggregation as a communication-layer privacy mechanism.
 - FL + DNA Transform Defense as a DNA-centered update transformation.
-- FL + DNA Transform + Secure Aggregation as the strongest current privacy story in this prototype.
+- FL + DNA Transform + Secure Aggregation as a hybrid update-protection configuration for evaluation.
 
 The main code lives in [`FL-DNA/`](FL-DNA/). The dataset file is expected at:
 
@@ -773,6 +773,94 @@ Do not overclaim:
 - PSNR and SSIM are computed on pseudo-images derived from tabular vectors.
 - DNA encode/decode alone preserves utility but does not meaningfully reduce raw-visible gradient inversion risk.
 - DNA Transform has a measurable but modest attack-reduction signal in the current prototype.
+
+## Phase 1--3 Attack Validation
+
+The utility experiments above and the attack-validation work answer different
+questions. Utility artifacts measure fraud-detection performance after FL
+training. The Phase 1--3 artifacts test whether the current inversion
+diagnostic is calibrated well enough to rank update protections. They must not
+be combined into a claim of formal privacy.
+
+### Phase 1: Environment and Pipeline Smoke Validation
+
+Phase 1 restored a dedicated runtime, exercised preprocessing, local training,
+lossless DNA transport, DNA Transform, aggregation, and a small known-label
+sample-level gradient-matching diagnostic. It also added invariant checks for
+lossless round trips, candidate persistence, and metric generation.
+
+Committed result summaries are under:
+
+```text
+FL-DNA/artifacts/phase1_smoke/
+FL-DNA/artifacts/phase1_validation/
+```
+
+This phase established that the diagnostic path runs. It did not establish that
+the diagnostic reliably reconstructs realistic FedAvg client updates.
+
+### Phase 2: Held-Out Diagnostic Calibration
+
+Phase 2 used held-out targets, matched initializations, unoptimized-prior and
+zero-gradient controls, artifact reload checks, and repeated restarts. Across
+the small diagnostic pilot, the observed-gradient attack beat the zero-gradient
+control in 26 of 30 paired trials and the prior in 28 of 30 paired trials.
+Those comparisons support the narrow, known-label sample-level diagnostic only;
+restarts are not independent target records and this is not a full FedAvg
+update attack.
+
+Key committed summaries:
+
+```text
+FL-DNA/artifacts/phase2/phase2_verified_v2/heldout_diagnostic_results.json
+FL-DNA/artifacts/phase2/phase2_verified_v2/heldout_trials.csv
+FL-DNA/artifacts/phase2/phase2_verified_v2/convergence.csv
+```
+
+### Phase 3: Native Local-Update Validation
+
+Phase 3 added differentiable replays for the native local optimizer, including
+Adam state and BatchNorm buffers, then evaluated one-batch, four-batch, and
+full-client local-update targets. The final Adam ladder used 10 confirmation
+groups, 3 restarts per group, 300 attack iterations, and matched prior and
+zero-update controls.
+
+The confirmation gate was not met: the baseline beat the prior in 7/10 groups
+(`p = 0.171875`) and beat the zero-update control in 7/10 groups
+(`p = 0.171875`). On the full-client development target, baseline MSE was
+`129.473152`, versus `117.099641` for the prior and `129.398158` for the
+zero-update control. The artifact status is therefore
+`COMPLETE_WITH_NEGATIVE_RESULT`; the current attack cannot support a reliable
+ranking of DNA protection for full-client FedAvg-style updates.
+
+Key committed summaries:
+
+```text
+FL-DNA/artifacts/phase3_closure/adam_ladder_v2/phase3_closure.json
+FL-DNA/artifacts/phase3/full_summary_20260908/report.json
+FL-DNA/artifacts/phase3_followup/final_checks_v1/followup_report.json
+```
+
+Raw reconstruction tensors and large intermediate checkpoints are intentionally
+not versioned. The committed JSON, CSV, and PNG artifacts retain the reported
+configuration, seeds, aggregate measurements, and convergence traces.
+
+### Re-running the Validation Suite
+
+Use the dedicated environment created for the validation work:
+
+```bash
+cd FL-DNA
+.venv-phase1/bin/python -m pytest -q -p no:cacheprovider \
+  tests/test_phase1_invariants.py \
+  tests/test_phase2_metrics.py \
+  tests/test_phase3_updates.py \
+  tests/test_phase3_followup.py \
+  tests/test_phase3_bounded_validation.py
+```
+
+The checked suite contains 29 tests. A passing suite verifies implementation
+invariants; it does not change the Phase 3 negative scientific result.
 
 ## Practical Notes
 

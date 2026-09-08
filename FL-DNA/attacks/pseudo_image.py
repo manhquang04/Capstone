@@ -34,11 +34,11 @@ def minmax_image(image: np.ndarray) -> np.ndarray:
 
 
 def minmax_pair(reference: np.ndarray, candidate: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
-    """Scale two arrays with the same reference range for fair image metrics."""
+    """Scale both arrays with one joint range so constants cannot look identical."""
     reference = np.asarray(reference, dtype=np.float32)
     candidate = np.asarray(candidate, dtype=np.float32)
-    min_value = float(np.min(reference))
-    max_value = float(np.max(reference))
+    min_value = float(min(np.min(reference), np.min(candidate)))
+    max_value = float(max(np.max(reference), np.max(candidate)))
     if max_value - min_value < 1e-12:
         return np.zeros_like(reference, dtype=np.float32), np.zeros_like(candidate, dtype=np.float32)
     return (

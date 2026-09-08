@@ -1,0 +1,38 @@
+{
+  "config": {
+    "max_rows": 500000,
+    "iterations": 1,
+    "restarts": 1,
+    "clients": [
+      0
+    ],
+    "seed": 1157354082,
+    "data_seed": 20260907,
+    "run_seed": 1157354082,
+    "batch_size": 1024,
+    "local_epochs": 1,
+    "optimizer": "Adam",
+    "lr": 0.001,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "model_mode": "train",
+    "known_labels": true,
+    "known_order": true,
+    "known_rng": true,
+    "attack_lr": 0.05,
+    "selection": "minimum parameter-delta objective",
+    "observation": "individual baseline full local-set delta; buffers available but not optimized",
+    "checkpoint": "one FedAvg warmup round on this exact split/scaler; development",
+    "torch_version": "2.2.2"
+  },
+  "records": [],
+  "failures": [
+    {
+      "error": "ValueError('not enough values to unpack (expected 3, got 2)')"
+    }
+  ],
+  "status": "FAILED"
+}

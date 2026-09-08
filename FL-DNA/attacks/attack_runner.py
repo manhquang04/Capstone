@@ -9,6 +9,7 @@ import os
 import sys
 from collections import OrderedDict
 from pathlib import Path
+from time import perf_counter
 
 import numpy as np
 import torch
@@ -50,7 +51,7 @@ OUTPUT_DIR = Path(
         "ATTACK_OUTPUT_DIR",
         str(PROJECT_ROOT / "artifacts" / "gradient_inversion"),
     )
-)
+).resolve()
 DETAILS_PATH = OUTPUT_DIR / "metrics_details.json"
 SUMMARY_CSV_PATH = OUTPUT_DIR / "metrics_summary.csv"
 SUMMARY_JSON_PATH = OUTPUT_DIR / "metrics_summary.json"
@@ -85,6 +86,7 @@ SECURE_AGG_METHODS = (
 
 
 def main() -> None:
+    total_started = perf_counter()
     set_random_seed()
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     client_loaders, validation_loader, _, input_dim, pos_weight, metadata = load_creditcard_data(
@@ -92,6 +94,9 @@ def main() -> None:
         num_clients=NUM_CLIENTS,
     )
     model = _train_warmup_model(client_loaders, input_dim, pos_weight)
+    # The inversion implementation uses CPU tensors and NumPy metrics. Keep
+    # this diagnostic boundary CPU-only even when FL warm-up used Apple MPS.
+    model = model.to("cpu")
     criterion = build_loss(pos_weight)
     features, labels = _select_attack_samples(validation_loader, ATTACK_NUM_SAMPLES)
     attack_config = GradientInversionConfig(
@@ -131,6 +136,7 @@ def main() -> None:
                 dna_encoder,
                 sample_number,
             )
+            attack_started = perf_counter()
             result = gradient_inversion_attack(
                 copy.deepcopy(model),
                 criterion,
@@ -150,6 +156,7 @@ def main() -> None:
                 "threat_model": "raw_visible_update",
                 "attack_applicability": "direct_server_side",
                 "best_attack_loss": result.best_loss,
+                "attack_runtime_seconds": perf_counter() - attack_started,
                 "loss_history": result.loss_history,
                 **metric_values,
                 **defense_metadata,
@@ -178,6 +185,7 @@ def main() -> None:
                 dna_encoder,
                 sample_number,
             )
+            attack_started = perf_counter()
             result = gradient_inversion_attack(
                 copy.deepcopy(model),
                 criterion,
@@ -198,6 +206,7 @@ def main() -> None:
                 "attack_applicability": "upper_bound_if_raw_client_update_leaks",
                 "server_sees_individual_raw_updates": True,
                 "best_attack_loss": result.best_loss,
+                "attack_runtime_seconds": perf_counter() - attack_started,
                 "loss_history": result.loss_history,
                 **metric_values,
                 **defense_metadata,
@@ -207,7 +216,7 @@ def main() -> None:
             _print_detail(detail)
 
     summary = _summarize(details)
-    _save_outputs(details, summary, metadata.feature_names)
+    _save_outputs(details, summary, metadata.feature_names, perf_counter() - total_started)
     print(f"Saved attack details: {DETAILS_PATH.relative_to(PROJECT_ROOT)}")
     print(f"Saved attack summary: {SUMMARY_CSV_PATH.relative_to(PROJECT_ROOT)}")
 
@@ -250,7 +259,7 @@ def _apply_observed_gradient_defense(
     if method in {"FL_DNA", "FL_DNA_SecureAgg"}:
         encoded = []
         for gradient in gradients:
-            array = gradient.detach().numpy().astype(np.float32, copy=False)
+            array = gradient.detach().cpu().numpy().astype(np.float32, copy=False)
             payload = dna_encoder.encode_array(array)
             restored = dna_encoder.decode_array(payload, array.shape)
             encoded.append(torch.from_numpy(restored.copy()).to(dtype=gradient.dtype))
@@ -272,7 +281,7 @@ def _apply_observed_gradient_defense(
             seed=transform_seed,
         )
         for tensor_index, gradient in enumerate(gradients):
-            array = gradient.detach().numpy().astype(np.float32, copy=False)
+            array = gradient.detach().cpu().numpy().astype(np.float32, copy=False)
             transformed_array, stat = transform_update_array(
                 array,
                 transform_config,
@@ -415,6 +424,7 @@ def _save_outputs(
     details: list[dict[str, object]],
     summary: list[dict[str, object]],
     feature_names: list[str],
+    total_runtime_seconds: float,
 ) -> None:
     payload = {
         "config": {
@@ -424,6 +434,7 @@ def _save_outputs(
             "iterations": ATTACK_ITERATIONS,
             "num_samples": ATTACK_NUM_SAMPLES,
             "warmup_rounds": ATTACK_WARMUP_ROUNDS,
+            "total_runtime_seconds": total_runtime_seconds,
             "dp_clip_norm": DP_CLIP_NORM,
             "dp_noise_multiplier": DP_NOISE_MULTIPLIER,
             "dp_noise_preset": DP_NOISE_PRESET,

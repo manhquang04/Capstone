@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import os
 import sys
 from pathlib import Path
 
@@ -27,7 +28,12 @@ from experiments.fraud_fl_common import (
 )
 from models.fraud_mlp import FraudMLP
 
-OUTPUT_PATH = PROJECT_ROOT / "results" / "fraud" / "baseline_metrics.json"
+OUTPUT_PATH = Path(
+    os.environ.get(
+        "BASELINE_OUTPUT_PATH",
+        str(PROJECT_ROOT / "results" / "fraud" / "baseline_metrics.json"),
+    )
+).resolve()
 
 
 def main() -> None:

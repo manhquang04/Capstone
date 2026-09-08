@@ -1,0 +1,31 @@
+{
+  "run_seed": 508535908,
+  "tiers": {
+    "one_batch": {
+      "records": 4,
+      "fraud": 1,
+      "batch_size": 4
+    },
+    "four_batches": {
+      "records": 16,
+      "fraud": 4,
+      "batch_size": 4
+    }
+  },
+  "development_groups": 4,
+  "confirmation_groups": 10,
+  "iterations": 300,
+  "restarts": 3,
+  "learning_rates": [
+    0.01,
+    0.05,
+    0.1
+  ],
+  "optimizer": "local Adam lr=.001; attack Adam",
+  "loss": "focal alpha=.95 gamma=2",
+  "observation": "full floating model state delta including differentiable BatchNorm buffers",
+  "gate": "negative mean/median versus prior and zero plus one-sided tie-excluding sign p<.05",
+  "scope": "development ladder; confirm one_batch only if development improves prior",
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b",
+  "checkpoint_sha256": "5bb8cb368c0c3883f6cac946d57427ad7b77d56cf4c423fd3c82243a3859c710"
+}

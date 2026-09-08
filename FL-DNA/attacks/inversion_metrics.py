@@ -15,6 +15,8 @@ def reconstruction_metrics(original: np.ndarray, reconstructed: np.ndarray) -> d
     reconstructed = np.asarray(reconstructed, dtype=np.float32).reshape(-1)
     if original.shape != reconstructed.shape:
         raise ValueError("original and reconstructed vectors must have the same shape")
+    if not np.all(np.isfinite(original)) or not np.all(np.isfinite(reconstructed)):
+        raise ValueError("original and reconstructed vectors must contain only finite values")
 
     delta = reconstructed - original
     mse = float(np.mean(np.square(delta)))
@@ -31,6 +33,7 @@ def reconstruction_metrics(original: np.ndarray, reconstructed: np.ndarray) -> d
     return {
         "mse": mse,
         "feature_mse": mse,
+        "feature_mae": float(np.mean(np.abs(delta))),
         "psnr": _psnr(image_mse),
         "ssim": _global_ssim(original_image, reconstructed_image),
         "cosine_similarity": cosine,
