@@ -1,0 +1,243 @@
+{
+  "status": "SCALE_REDEVELOPMENT_NEGATIVE",
+  "baseline_gate_passed": false,
+  "phase4_dna_evaluation_open": false,
+  "protocol": {
+    "run_seed": 748181106,
+    "scope": "source-disjoint 16-record/four-step Adam attack redevelopment",
+    "records_per_group": 16,
+    "fraud_per_group": 4,
+    "batch_size": 4,
+    "local_steps": 4,
+    "development_groups": 3,
+    "confirmation_groups": 12,
+    "iterations": 600,
+    "development_restarts": 1,
+    "confirmation_restarts": 3,
+    "variants": [
+      "manifold_bn1",
+      "manifold_bn3"
+    ],
+    "attack_lrs": [
+      0.03,
+      0.05
+    ],
+    "selection": "minimum max(mean MSE delta vs own prior, mean MSE delta vs paired zero-update)",
+    "gate": "for both controls: negative mean and median MSE difference and one-sided exact sign p<0.05",
+    "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b",
+    "checkpoint_sha256": "5bb8cb368c0c3883f6cac946d57427ad7b77d56cf4c423fd3c82243a3859c710"
+  },
+  "frozen_attack": {
+    "variant": "manifold_bn1",
+    "attack_lr": 0.03,
+    "iterations": 600,
+    "restarts": 3,
+    "protocol_sha256": "d588e26f57e1c98c06012bf214f9d086493565e2ea92e833f93801152b5b9b13",
+    "selected_before_confirmation": true
+  },
+  "development": {
+    "chosen": {
+      "variant": "manifold_bn1",
+      "attack_lr": 0.03,
+      "iterations": 600,
+      "selection_score": -148.96169596559292,
+      "comparisons": {
+        "prior": {
+          "n": 3,
+          "wins": 2,
+          "non_ties": 3,
+          "mean_difference": -148.96169596559292,
+          "median_difference": -1.1869605684583533,
+          "one_sided_sign_p": 0.5,
+          "gate": false
+        },
+        "zero": {
+          "n": 3,
+          "wins": 2,
+          "non_ties": 3,
+          "mean_difference": -246.7227035575046,
+          "median_difference": -18.889037690564855,
+          "one_sided_sign_p": 0.5,
+          "gate": false
+        }
+      },
+      "selected": [
+        {
+          "group_id": 0,
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 2536.2060568795396,
+          "prior_mse": 3100.7536476493196,
+          "zero_mse": 3304.043367216975,
+          "baseline_minus_prior": -564.5475907697801,
+          "baseline_minus_zero": -767.8373103374356
+        },
+        {
+          "group_id": 1,
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 3670.3459071556717,
+          "prior_mse": 3551.496443714212,
+          "zero_mse": 3623.787669800185,
+          "baseline_minus_prior": 118.84946344145965,
+          "baseline_minus_zero": 46.55823735548665
+        },
+        {
+          "group_id": 2,
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 60.081450598550965,
+          "prior_mse": 61.26841116700932,
+          "zero_mse": 78.97048828911582,
+          "baseline_minus_prior": -1.1869605684583533,
+          "baseline_minus_zero": -18.889037690564855
+        }
+      ]
+    }
+  },
+  "confirmation": {
+    "prior": {
+      "n": 12,
+      "wins": 6,
+      "non_ties": 12,
+      "mean_difference": -107.1890030931695,
+      "median_difference": -2.5590943541622337,
+      "one_sided_sign_p": 0.61279296875,
+      "gate": false
+    },
+    "zero": {
+      "n": 12,
+      "wins": 9,
+      "non_ties": 12,
+      "mean_difference": -161.66300317939235,
+      "median_difference": -61.0095078586621,
+      "one_sided_sign_p": 0.072998046875,
+      "gate": false
+    }
+  },
+  "selected_confirmation": [
+    {
+      "group_id": 0,
+      "baseline_restart": 0,
+      "zero_restart": 0,
+      "baseline_mse": 189.6561100045769,
+      "prior_mse": 168.10514520173763,
+      "zero_mse": 159.62146092907233,
+      "baseline_minus_prior": 21.550964802839275,
+      "baseline_minus_zero": 30.034649075504575
+    },
+    {
+      "group_id": 1,
+      "baseline_restart": 2,
+      "zero_restart": 1,
+      "baseline_mse": 258.67007525231213,
+      "prior_mse": 273.0770603319067,
+      "zero_mse": 348.3918249088659,
+      "baseline_minus_prior": -14.406985079594563,
+      "baseline_minus_zero": -89.72174965655375
+    },
+    {
+      "group_id": 2,
+      "baseline_restart": 1,
+      "zero_restart": 0,
+      "baseline_mse": 1184.1436125524442,
+      "prior_mse": 2248.409961297599,
+      "zero_mse": 2255.2400956758197,
+      "baseline_minus_prior": -1064.2663487451546,
+      "baseline_minus_zero": -1071.0964831233755
+    },
+    {
+      "group_id": 3,
+      "baseline_restart": 1,
+      "zero_restart": 2,
+      "baseline_mse": 155.7334000513706,
+      "prior_mse": 126.84307938863058,
+      "zero_mse": 161.74622086961563,
+      "baseline_minus_prior": 28.890320662740024,
+      "baseline_minus_zero": -6.012820818245018
+    },
+    {
+      "group_id": 4,
+      "baseline_restart": 2,
+      "zero_restart": 0,
+      "baseline_mse": 192.09526288080627,
+      "prior_mse": 365.60480933296145,
+      "zero_mse": 472.3792617515664,
+      "baseline_minus_prior": -173.50954645215518,
+      "baseline_minus_zero": -280.2839988707601
+    },
+    {
+      "group_id": 5,
+      "baseline_restart": 2,
+      "zero_restart": 1,
+      "baseline_mse": 1258.1983791489142,
+      "prior_mse": 1522.47863326666,
+      "zero_mse": 1642.1070774625236,
+      "baseline_minus_prior": -264.2802541177457,
+      "baseline_minus_zero": -383.9086983136094
+    },
+    {
+      "group_id": 6,
+      "baseline_restart": 2,
+      "zero_restart": 2,
+      "baseline_mse": 100.20306616075267,
+      "prior_mse": 80.27382673360067,
+      "zero_mse": 118.87795329521094,
+      "baseline_minus_prior": 19.929239427151998,
+      "baseline_minus_zero": -18.674887134458274
+    },
+    {
+      "group_id": 7,
+      "baseline_restart": 1,
+      "zero_restart": 0,
+      "baseline_mse": 430.5266780998516,
+      "prior_mse": 274.5350039937737,
+      "zero_mse": 343.8338080963863,
+      "baseline_minus_prior": 155.99167410607788,
+      "baseline_minus_zero": 86.69287000346532
+    },
+    {
+      "group_id": 8,
+      "baseline_restart": 1,
+      "zero_restart": 1,
+      "baseline_mse": 114.38457452630581,
+      "prior_mse": 131.79107914397864,
+      "zero_mse": 200.30465722221123,
+      "baseline_minus_prior": -17.406504617672823,
+      "baseline_minus_zero": -85.92008269590542
+    },
+    {
+      "group_id": 9,
+      "baseline_restart": 0,
+      "zero_restart": 1,
+      "baseline_mse": 125.6680543970542,
+      "prior_mse": 99.31046279325012,
+      "zero_mse": 124.71387529850065,
+      "baseline_minus_prior": 26.35759160380408,
+      "baseline_minus_zero": 0.9541790985535528
+    },
+    {
+      "group_id": 10,
+      "baseline_restart": 0,
+      "zero_restart": 0,
+      "baseline_mse": 73.35746591137641,
+      "prior_mse": 70.14621139896924,
+      "zero_mse": 126.1371713092473,
+      "baseline_minus_prior": 3.211254512407166,
+      "baseline_minus_zero": -52.779705397870885
+    },
+    {
+      "group_id": 11,
+      "baseline_restart": 2,
+      "zero_restart": 1,
+      "baseline_mse": 77.19377402319365,
+      "prior_mse": 85.52321724392529,
+      "zero_mse": 146.43308434264696,
+      "baseline_minus_prior": -8.329443220731633,
+      "baseline_minus_zero": -69.23931031945331
+    }
+  ],
+  "dna_result": null,
+  "dna_reason": "DNA was not tested because the 16-record baseline failed controls.",
+  "elapsed_seconds": 905.298824792
+}

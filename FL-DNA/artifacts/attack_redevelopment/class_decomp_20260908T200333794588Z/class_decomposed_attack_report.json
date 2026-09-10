@@ -1,0 +1,159 @@
+{
+  "status": "CLASS_DECOMPOSED_GATE_FAILED",
+  "baseline_gate_passed": false,
+  "protocol": {
+    "run_seed": 1925519893,
+    "scope": "oracle class-decomposed 16-record train-mode gradient diagnostic",
+    "records_per_group": 16,
+    "fraud_per_group": 4,
+    "development_groups": 1,
+    "confirmation_groups": 2,
+    "iterations": 5,
+    "development_restarts": 1,
+    "confirmation_restarts": 1,
+    "attack_lrs": [
+      0.03
+    ],
+    "variant": "manifold_bn1",
+    "threat_model_status": "diagnostic_oracle_not_server_visible",
+    "observation": "separate fraud and non-fraud train-mode gradient contributions from one shared full-batch graph",
+    "objective": "equal-weight match of fraud and non-fraud contribution gradients; no ground truth in candidate selection",
+    "purpose": "test whether non-fraud reconstruction is hidden by class-skewed aggregate gradients",
+    "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b",
+    "checkpoint_sha256": "5bb8cb368c0c3883f6cac946d57427ad7b77d56cf4c423fd3c82243a3859c710"
+  },
+  "frozen_attack": {
+    "variant": "manifold_bn1",
+    "attack_lr": 0.03,
+    "iterations": 5,
+    "restarts": 1,
+    "protocol_sha256": "ba2e41edb807e99bc80a21bf4403149d9fcb776d513931ba26248912526b186e",
+    "selected_before_confirmation": true
+  },
+  "development": {
+    "chosen": {
+      "attack_lr": 0.03,
+      "selection_score": -0.5263292935232045,
+      "comparisons": {
+        "prior": {
+          "n": 1,
+          "wins": 1,
+          "non_ties": 1,
+          "mean_difference": -0.5263292935232045,
+          "median_difference": -0.5263292935232045,
+          "one_sided_sign_p": 0.5,
+          "gate": false
+        },
+        "zero": {
+          "n": 1,
+          "wins": 1,
+          "non_ties": 1,
+          "mean_difference": -1.1266065149833935,
+          "median_difference": -1.1266065149833935,
+          "one_sided_sign_p": 0.5,
+          "gate": false
+        },
+        "fraud_vs_prior": {
+          "n": 1,
+          "wins": 1,
+          "non_ties": 1,
+          "mean_difference": -1.7697394623385208,
+          "median_difference": -1.7697394623385208,
+          "one_sided_sign_p": 0.5
+        },
+        "non_fraud_vs_prior": {
+          "n": 1,
+          "wins": 1,
+          "non_ties": 1,
+          "mean_difference": -0.11185923725142288,
+          "median_difference": -0.11185923725142288,
+          "one_sided_sign_p": 0.5
+        }
+      },
+      "selected": [
+        {
+          "group_id": 0,
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 115.74559463923364,
+          "prior_mse": 116.27192393275685,
+          "zero_mse": 116.87220115421704,
+          "baseline_minus_prior": -0.5263292935232045,
+          "baseline_minus_zero": -1.1266065149833935,
+          "baseline_fraud_mse": 33.0224496360867,
+          "baseline_non_fraud_mse": 143.31997630694931,
+          "prior_fraud_mse": 34.79218909842522,
+          "prior_non_fraud_mse": 143.43183554420074
+        }
+      ]
+    }
+  },
+  "confirmation": {
+    "prior": {
+      "n": 2,
+      "wins": 1,
+      "non_ties": 2,
+      "mean_difference": -7.319309981345782,
+      "median_difference": -7.319309981345782,
+      "one_sided_sign_p": 0.75,
+      "gate": false
+    },
+    "zero": {
+      "n": 2,
+      "wins": 1,
+      "non_ties": 2,
+      "mean_difference": -1.7844539310075902,
+      "median_difference": -1.7844539310075902,
+      "one_sided_sign_p": 0.75,
+      "gate": false
+    },
+    "fraud_vs_prior": {
+      "n": 2,
+      "wins": 2,
+      "non_ties": 2,
+      "mean_difference": -29.066624379840714,
+      "median_difference": -29.066624379840714,
+      "one_sided_sign_p": 0.25
+    },
+    "non_fraud_vs_prior": {
+      "n": 2,
+      "wins": 1,
+      "non_ties": 2,
+      "mean_difference": -0.07020518184749491,
+      "median_difference": -0.07020518184749491,
+      "one_sided_sign_p": 0.75
+    }
+  },
+  "selected_confirmation": [
+    {
+      "group_id": 0,
+      "baseline_restart": 0,
+      "zero_restart": 0,
+      "baseline_mse": 1044.91878327059,
+      "prior_mse": 1060.924228166608,
+      "zero_mse": 1054.6311171555708,
+      "baseline_minus_prior": -16.005444896017934,
+      "baseline_minus_zero": -9.712333884980808,
+      "baseline_fraud_mse": 4084.6168899192153,
+      "baseline_non_fraud_mse": 31.68608105438119,
+      "prior_fraud_mse": 4142.224863727698,
+      "prior_non_fraud_mse": 33.82401631291085
+    },
+    {
+      "group_id": 1,
+      "baseline_restart": 0,
+      "zero_restart": 0,
+      "baseline_mse": 393.02092476796395,
+      "prior_mse": 391.6540998346376,
+      "zero_mse": 386.8774987449983,
+      "baseline_minus_prior": 1.3668249333263702,
+      "baseline_minus_zero": 6.1434260229656275,
+      "baseline_fraud_mse": 38.52217875946074,
+      "baseline_non_fraud_mse": 511.1871734374649,
+      "prior_fraud_mse": 39.04745371065946,
+      "prior_non_fraud_mse": 509.1896485426302
+    }
+  ],
+  "interpretation": "Diagnostic-only oracle check; separate class gradients are not available to a normal FL server.",
+  "elapsed_seconds": 8.443139834
+}

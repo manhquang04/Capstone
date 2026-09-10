@@ -1,0 +1,25 @@
+{
+  "run_seed": 748181106,
+  "scope": "source-disjoint 16-record/four-step Adam attack redevelopment",
+  "records_per_group": 16,
+  "fraud_per_group": 4,
+  "batch_size": 4,
+  "local_steps": 4,
+  "development_groups": 3,
+  "confirmation_groups": 12,
+  "iterations": 600,
+  "development_restarts": 1,
+  "confirmation_restarts": 3,
+  "variants": [
+    "manifold_bn1",
+    "manifold_bn3"
+  ],
+  "attack_lrs": [
+    0.03,
+    0.05
+  ],
+  "selection": "minimum max(mean MSE delta vs own prior, mean MSE delta vs paired zero-update)",
+  "gate": "for both controls: negative mean and median MSE difference and one-sided exact sign p<0.05",
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b",
+  "checkpoint_sha256": "5bb8cb368c0c3883f6cac946d57427ad7b77d56cf4c423fd3c82243a3859c710"
+}
