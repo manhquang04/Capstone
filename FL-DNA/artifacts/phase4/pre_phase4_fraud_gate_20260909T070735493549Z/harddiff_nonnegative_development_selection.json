@@ -1,0 +1,93 @@
+{
+  "scope": "Phase 4 hard-diff/nonnegative development tuning only",
+  "target_file": "development_targets.pt",
+  "source_disjoint_from": "evaluation_targets.pt",
+  "candidate_lambdas": [
+    0.0,
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0
+  ],
+  "selection_rule": "minimize max(prior_mean_difference, zero_mean_difference); lower is better; gate still requires both controls",
+  "chosen": {
+    "lambda": 0.001,
+    "prior_wins": 3,
+    "prior_mean_difference": -621.9746644049449,
+    "prior_p": 0.3125,
+    "zero_wins": 4,
+    "zero_mean_difference": -621.0211168502798,
+    "zero_p": 0.0625,
+    "gate": false,
+    "selection_score": -621.0211168502798
+  },
+  "rows": [
+    {
+      "lambda": 0.0,
+      "prior_wins": 2,
+      "prior_mean_difference": -524.5451701192845,
+      "prior_p": 0.6875,
+      "zero_wins": 2,
+      "zero_mean_difference": -327.1477936045208,
+      "zero_p": 0.6875,
+      "gate": false,
+      "selection_score": -327.1477936045208
+    },
+    {
+      "lambda": 0.001,
+      "prior_wins": 3,
+      "prior_mean_difference": -621.9746644049449,
+      "prior_p": 0.3125,
+      "zero_wins": 4,
+      "zero_mean_difference": -621.0211168502798,
+      "zero_p": 0.0625,
+      "gate": false,
+      "selection_score": -621.0211168502798
+    },
+    {
+      "lambda": 0.01,
+      "prior_wins": 2,
+      "prior_mean_difference": -543.458474626912,
+      "prior_p": 0.6875,
+      "zero_wins": 3,
+      "zero_mean_difference": -669.363394422644,
+      "zero_p": 0.3125,
+      "gate": false,
+      "selection_score": -543.458474626912
+    },
+    {
+      "lambda": 0.1,
+      "prior_wins": 4,
+      "prior_mean_difference": -435.16110768807886,
+      "prior_p": 0.0625,
+      "zero_wins": 3,
+      "zero_mean_difference": -234.73149144272088,
+      "zero_p": 0.3125,
+      "gate": false,
+      "selection_score": -234.73149144272088
+    },
+    {
+      "lambda": 1.0,
+      "prior_wins": 3,
+      "prior_mean_difference": -412.431579536241,
+      "prior_p": 0.3125,
+      "zero_wins": 4,
+      "zero_mean_difference": -459.1363650706421,
+      "zero_p": 0.0625,
+      "gate": false,
+      "selection_score": -412.431579536241
+    },
+    {
+      "lambda": 10.0,
+      "prior_wins": 3,
+      "prior_mean_difference": -359.7622543432518,
+      "prior_p": 0.3125,
+      "zero_wins": 2,
+      "zero_mean_difference": -567.9934007761702,
+      "zero_p": 0.6875,
+      "gate": false,
+      "selection_score": -359.7622543432518
+    }
+  ]
+}

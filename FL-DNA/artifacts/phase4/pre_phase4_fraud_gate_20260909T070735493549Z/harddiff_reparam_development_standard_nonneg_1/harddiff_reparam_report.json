@@ -1,0 +1,181 @@
+{
+  "run": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/artifacts/phase4/pre_phase4_fraud_gate_20260909T070735493549Z",
+  "target_file": "development_targets.pt",
+  "groups": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "restarts": 10,
+  "initialization": "standard",
+  "nonnegative_lambda": 1.0,
+  "parameterization": "balance_diff_orig = oldbalanceOrg - newbalanceOrig and balance_diff_dest = newbalanceDest - oldbalanceDest are enforced during optimization",
+  "frozen_attack": {
+    "attack_lr": 0.1,
+    "iterations": 600,
+    "restarts": 3,
+    "protocol_sha256": "2cbc3f4c93a5d053809ddca2403b42e091929b4b3dc5ee46138951544340499f",
+    "selected_before_evaluation": true
+  },
+  "group_summary": [
+    {
+      "group_id": 0,
+      "n_baseline_restarts": 10,
+      "objective_best_restart": 6,
+      "fraud_mse_best_restart": 8,
+      "objective_best_fraud_mse": 20.267737336394966,
+      "fraud_best_fraud_mse": 6.66037674271442,
+      "extra_fraud_mse_from_objective_selection": 13.607360593680546,
+      "objective_best_objective": 0.5953425765037537,
+      "fraud_best_objective": 0.6393072605133057,
+      "objective_margin_wrong_minus_fraud_best": -0.043964684009552,
+      "prior_fraud_mse_mean": 50.90380450800563,
+      "zero_objective_best_fraud_mse": 51.81664660092186,
+      "objective_minus_prior_fraud_mse": -30.636067171610662,
+      "objective_minus_zero_fraud_mse": -31.54890926452689,
+      "fraud_best_minus_prior_fraud_mse": -44.24342776529121,
+      "fraud_best_minus_zero_fraud_mse": -45.15626985820744,
+      "max_balance_residual_raw": 0.3041275576688349
+    },
+    {
+      "group_id": 1,
+      "n_baseline_restarts": 10,
+      "objective_best_restart": 4,
+      "fraud_mse_best_restart": 2,
+      "objective_best_fraud_mse": 54.00077345078091,
+      "fraud_best_fraud_mse": 34.84328713416309,
+      "extra_fraud_mse_from_objective_selection": 19.15748631661782,
+      "objective_best_objective": 0.68832927942276,
+      "fraud_best_objective": 0.8024980425834656,
+      "objective_margin_wrong_minus_fraud_best": -0.11416876316070557,
+      "prior_fraud_mse_mean": 79.78539585090996,
+      "zero_objective_best_fraud_mse": 107.68097409935838,
+      "objective_minus_prior_fraud_mse": -25.784622400129052,
+      "objective_minus_zero_fraud_mse": -53.68020064857747,
+      "fraud_best_minus_prior_fraud_mse": -44.94210871674687,
+      "fraud_best_minus_zero_fraud_mse": -72.83768696519529,
+      "max_balance_residual_raw": 0.20925309718586504
+    },
+    {
+      "group_id": 2,
+      "n_baseline_restarts": 10,
+      "objective_best_restart": 9,
+      "fraud_mse_best_restart": 9,
+      "objective_best_fraud_mse": 877.2450077759169,
+      "fraud_best_fraud_mse": 877.2450077759169,
+      "extra_fraud_mse_from_objective_selection": 0.0,
+      "objective_best_objective": 0.7508682012557983,
+      "fraud_best_objective": 0.7508682012557983,
+      "objective_margin_wrong_minus_fraud_best": 0.0,
+      "prior_fraud_mse_mean": 2489.424334160273,
+      "zero_objective_best_fraud_mse": 2527.5253377034014,
+      "objective_minus_prior_fraud_mse": -1612.179326384356,
+      "objective_minus_zero_fraud_mse": -1650.2803299274847,
+      "fraud_best_minus_prior_fraud_mse": -1612.179326384356,
+      "fraud_best_minus_zero_fraud_mse": -1650.2803299274847,
+      "max_balance_residual_raw": 0.3935791295953095
+    },
+    {
+      "group_id": 3,
+      "n_baseline_restarts": 10,
+      "objective_best_restart": 4,
+      "fraud_mse_best_restart": 9,
+      "objective_best_fraud_mse": 60.86211719193755,
+      "fraud_best_fraud_mse": 7.793280384718761,
+      "extra_fraud_mse_from_objective_selection": 53.06883680721879,
+      "objective_best_objective": 0.6217002272605896,
+      "fraud_best_objective": 0.6794283986091614,
+      "objective_margin_wrong_minus_fraud_best": -0.05772817134857178,
+      "prior_fraud_mse_mean": 41.98841938080553,
+      "zero_objective_best_fraud_mse": 161.89813763391697,
+      "objective_minus_prior_fraud_mse": 18.87369781113202,
+      "objective_minus_zero_fraud_mse": -101.03602044197942,
+      "fraud_best_minus_prior_fraud_mse": -34.19513899608677,
+      "fraud_best_minus_zero_fraud_mse": -154.1048572491982,
+      "max_balance_residual_raw": 0.41940427804365754
+    }
+  ],
+  "wrong_groups_only_gate": {
+    "objective_selection": {
+      "prior": {
+        "n": 4,
+        "wins": 3,
+        "mean_difference": -412.431579536241,
+        "median_difference": -28.210344785869857,
+        "one_sided_sign_p": 0.3125,
+        "gate": false
+      },
+      "zero": {
+        "n": 4,
+        "wins": 4,
+        "mean_difference": -459.1363650706421,
+        "median_difference": -77.35811054527844,
+        "one_sided_sign_p": 0.0625,
+        "gate": false
+      },
+      "gate": false
+    },
+    "fraud_mse_oracle_selection_diagnostic_only": {
+      "prior": {
+        "n": 4,
+        "wins": 4,
+        "mean_difference": -433.89000046562023,
+        "median_difference": -44.592768241019044,
+        "one_sided_sign_p": 0.0625,
+        "gate": false
+      },
+      "zero": {
+        "n": 4,
+        "wins": 4,
+        "mean_difference": -480.5947860000214,
+        "median_difference": -113.47127210719674,
+        "one_sided_sign_p": 0.0625,
+        "gate": false
+      },
+      "gate": false
+    }
+  },
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b",
+  "interpretation": "Diagnostic only; held-out groups were chosen after misselection analysis.",
+  "target_gate": {
+    "objective_selection": {
+      "prior": {
+        "n": 4,
+        "wins": 3,
+        "mean_difference": -412.431579536241,
+        "median_difference": -28.210344785869857,
+        "one_sided_sign_p": 0.3125,
+        "gate": false
+      },
+      "zero": {
+        "n": 4,
+        "wins": 4,
+        "mean_difference": -459.1363650706421,
+        "median_difference": -77.35811054527844,
+        "one_sided_sign_p": 0.0625,
+        "gate": false
+      },
+      "gate": false
+    },
+    "fraud_mse_oracle_selection_diagnostic_only": {
+      "prior": {
+        "n": 4,
+        "wins": 4,
+        "mean_difference": -433.89000046562023,
+        "median_difference": -44.592768241019044,
+        "one_sided_sign_p": 0.0625,
+        "gate": false
+      },
+      "zero": {
+        "n": 4,
+        "wins": 4,
+        "mean_difference": -480.5947860000214,
+        "median_difference": -113.47127210719674,
+        "one_sided_sign_p": 0.0625,
+        "gate": false
+      },
+      "gate": false
+    }
+  }
+}

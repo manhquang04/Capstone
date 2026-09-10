@@ -36,6 +36,25 @@ def update_objective(candidate, observed, keys, reference=None, mode="equal_mse"
     """Compare transmitted floating parameters and BN buffers."""
     if mode == "equal_mse":
         return torch.stack([(candidate[key] - observed[key]).square().mean() for key in keys]).mean()
+    if mode == "balanced_tensor":
+        terms = []
+        for key in keys:
+            candidate_value = candidate[key].reshape(-1)
+            observed_value = observed[key].reshape(-1)
+            if reference is None:
+                reference_value = observed_value
+            else:
+                reference_value = reference[key].reshape(-1)
+            scale = reference_value.square().sum().clamp_min(torch.finfo(candidate_value.dtype).tiny)
+            if float(observed_value.square().sum().detach()) == 0.0:
+                terms.append(candidate_value.square().sum() / scale)
+            else:
+                cosine = 1 - torch.nn.functional.cosine_similarity(
+                    candidate_value, observed_value, dim=0, eps=1e-12
+                )
+                magnitude = (candidate_value - observed_value).square().sum() / scale
+                terms.append(cosine + 0.1 * magnitude)
+        return torch.stack(terms).mean()
     if mode != "cosine_magnitude":
         raise ValueError(f"Unknown objective mode: {mode}")
     flat_candidate=torch.cat([candidate[key].reshape(-1) for key in keys])
