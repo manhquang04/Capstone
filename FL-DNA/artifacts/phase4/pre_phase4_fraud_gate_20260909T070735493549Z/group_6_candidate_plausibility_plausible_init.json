@@ -1,0 +1,93 @@
+{
+  "run": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/artifacts/phase4/pre_phase4_fraud_gate_20260909T070735493549Z",
+  "group_id": 6,
+  "fraud_ordered_record_index": 2,
+  "objective_restart": 2,
+  "fraud_best_restart": 6,
+  "constraints": [
+    {
+      "candidate": "original",
+      "amount_negative": false,
+      "amount": 2629417.395034664,
+      "balance_diff_orig_residual": 0.01467590220272541,
+      "balance_diff_dest_residual": -0.14923496125265956,
+      "type_sum": 1.0,
+      "type_max": 1.0,
+      "type_argmax": 1,
+      "type_entropy": -0.0
+    },
+    {
+      "candidate": "objective_best",
+      "amount_negative": false,
+      "amount": 78240.87362338317,
+      "balance_diff_orig_residual": -106446.1524647118,
+      "balance_diff_dest_residual": 1111797.7525763614,
+      "type_sum": 1.0000000384170562,
+      "type_max": 0.510252058506012,
+      "type_argmax": 0,
+      "type_entropy": 1.0294962001238577
+    },
+    {
+      "candidate": "fraud_mse_best",
+      "amount_negative": false,
+      "amount": 814739.6866220945,
+      "balance_diff_orig_residual": 259034.05144664107,
+      "balance_diff_dest_residual": 448195.20142648905,
+      "type_sum": 0.9999999227002263,
+      "type_max": 0.9745837450027466,
+      "type_argmax": 2,
+      "type_entropy": 0.1472042232188161
+    }
+  ],
+  "largest_candidate_differences": [
+    {
+      "feature": "balance_diff_dest",
+      "objective_minus_original_abs": 18.67547607421875,
+      "fraud_best_minus_original_abs": 25.351655960083008,
+      "objective_minus_fraud_best_abs": 6.676180362701416
+    },
+    {
+      "feature": "amount",
+      "objective_minus_original_abs": 13.087441444396973,
+      "fraud_best_minus_original_abs": 9.309229850769043,
+      "objective_minus_fraud_best_abs": 3.7782115936279297
+    },
+    {
+      "feature": "balance_diff_orig",
+      "objective_minus_original_abs": 261.7705078125,
+      "fraud_best_minus_original_abs": 258.2124328613281,
+      "objective_minus_fraud_best_abs": 3.5580556392669678
+    },
+    {
+      "feature": "newbalanceOrig",
+      "objective_minus_original_abs": 0.8483126759529114,
+      "fraud_best_minus_original_abs": 2.036518096923828,
+      "objective_minus_fraud_best_abs": 2.8848307132720947
+    },
+    {
+      "feature": "step",
+      "objective_minus_original_abs": 2.968292236328125,
+      "fraud_best_minus_original_abs": 4.799650192260742,
+      "objective_minus_fraud_best_abs": 1.8313578367233276
+    },
+    {
+      "feature": "type=DEBIT",
+      "objective_minus_original_abs": 0.09011934697628021,
+      "fraud_best_minus_original_abs": 0.9745837450027466,
+      "objective_minus_fraud_best_abs": 0.8844643831253052
+    },
+    {
+      "feature": "oldbalanceOrg",
+      "objective_minus_original_abs": 24.728487014770508,
+      "fraud_best_minus_original_abs": 23.924667358398438,
+      "objective_minus_fraud_best_abs": 0.8038184642791748
+    },
+    {
+      "feature": "oldbalanceDest",
+      "objective_minus_original_abs": 0.4906984567642212,
+      "fraud_best_minus_original_abs": 0.17340336740016937,
+      "objective_minus_fraud_best_abs": 0.6641018390655518
+    }
+  ],
+  "interpretation": "Diagnostic only; compares saved aligned reconstructions for the fraud record."
+}

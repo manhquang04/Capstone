@@ -1,0 +1,25 @@
+{
+  "run_seed": 1348605030,
+  "scope": "pre-Phase-4 bounded Adam baseline gate; no DNA evaluation",
+  "records_per_group": 4,
+  "fraud_per_group": 1,
+  "batch_size": 4,
+  "local_steps": 1,
+  "development_groups": 4,
+  "evaluation_groups": 12,
+  "restarts": 3,
+  "attack_lrs": [
+    0.05,
+    0.1
+  ],
+  "iterations": [
+    300,
+    600
+  ],
+  "objective": "balanced_tensor over full transmitted update; no class-decomposed oracle signal",
+  "attacker_knowledge": "known supervised labels/order/RNG inherited from Phase 3; no oracle class-separated gradients and no class-weighted objective",
+  "evaluation": "candidate selected by full-update objective; gate computed on fraud records only and non-fraud reported separately",
+  "gate": "fraud class must beat both prior and zero-update controls with negative mean/median and sign-test p<0.05",
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b",
+  "checkpoint_sha256": "5bb8cb368c0c3883f6cac946d57427ad7b77d56cf4c423fd3c82243a3859c710"
+}

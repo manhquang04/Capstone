@@ -1,0 +1,137 @@
+{
+  "raw_dir": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/artifacts/phase4/pre_phase4_fraud_gate_20260909T070735493549Z/harddiff_reparam_clipping_noise_mc_fresh_standard_nonneg_0p001",
+  "comparison": "paired objective-selected fraud reconstruction MSE; positive delta means method is harder to invert than raw",
+  "methods": {
+    "clipping_noise_mc": {
+      "directory": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/artifacts/phase4/pre_phase4_fraud_gate_20260909T070735493549Z/simple_defense_attack_clipping_noise_mc_clipping_noise_mc_fresh_r8_i600_lr0p1_nonneg0p001_rel0p1_mc100",
+      "report_file": "simple_defense_attack_report.json",
+      "target_file": "clipping_noise_mc_fresh_targets.pt",
+      "method_gate": {
+        "prior": {
+          "n": 12,
+          "wins": 11,
+          "mean_difference": -8267.463887326137,
+          "median_difference": -1999.5841901214535,
+          "one_sided_sign_p": 0.003173828125,
+          "gate": true
+        },
+        "zero": {
+          "n": 12,
+          "wins": 12,
+          "mean_difference": -7971.0412205591465,
+          "median_difference": -1784.0756139805628,
+          "one_sided_sign_p": 0.000244140625,
+          "gate": true
+        },
+        "gate": true
+      },
+      "paired_vs_raw": {
+        "n": 12,
+        "non_ties": 12,
+        "method_harder_wins": 3,
+        "mean_method_minus_raw_fraud_mse": -3037.6612890645083,
+        "median_method_minus_raw_fraud_mse": -177.1450248450724,
+        "one_sided_sign_p_method_harder": 0.980712890625,
+        "method_harder_gate": false
+      },
+      "rows": [
+        {
+          "group_id": 0,
+          "raw_fraud_mse": 13573.53633525672,
+          "method_fraud_mse": 18060.375728931373,
+          "method_minus_raw_fraud_mse": 4486.8393936746525,
+          "method_harder": true,
+          "method": "clipping_noise_mc"
+        },
+        {
+          "group_id": 1,
+          "raw_fraud_mse": 56.78202051081416,
+          "method_fraud_mse": 49.707295188778566,
+          "method_minus_raw_fraud_mse": -7.07472532203559,
+          "method_harder": false,
+          "method": "clipping_noise_mc"
+        },
+        {
+          "group_id": 2,
+          "raw_fraud_mse": 637.4716593216416,
+          "method_fraud_mse": 343.21050525537663,
+          "method_minus_raw_fraud_mse": -294.26115406626496,
+          "method_harder": false,
+          "method": "clipping_noise_mc"
+        },
+        {
+          "group_id": 3,
+          "raw_fraud_mse": 4638.1050853499255,
+          "method_fraud_mse": 7166.638939515241,
+          "method_minus_raw_fraud_mse": 2528.5338541653155,
+          "method_harder": true,
+          "method": "clipping_noise_mc"
+        },
+        {
+          "group_id": 4,
+          "raw_fraud_mse": 30236.22721600249,
+          "method_fraud_mse": 25513.725315348864,
+          "method_minus_raw_fraud_mse": -4722.501900653628,
+          "method_harder": false,
+          "method": "clipping_noise_mc"
+        },
+        {
+          "group_id": 5,
+          "raw_fraud_mse": 40.35434474696625,
+          "method_fraud_mse": 6.69796027937159,
+          "method_minus_raw_fraud_mse": -33.656384467594656,
+          "method_harder": false,
+          "method": "clipping_noise_mc"
+        },
+        {
+          "group_id": 6,
+          "raw_fraud_mse": 9.649169111342456,
+          "method_fraud_mse": 28.04698923283253,
+          "method_minus_raw_fraud_mse": 18.397820121490074,
+          "method_harder": true,
+          "method": "clipping_noise_mc"
+        },
+        {
+          "group_id": 7,
+          "raw_fraud_mse": 66404.58980298927,
+          "method_fraud_mse": 36452.86806068572,
+          "method_minus_raw_fraud_mse": -29951.721742303547,
+          "method_harder": false,
+          "method": "clipping_noise_mc"
+        },
+        {
+          "group_id": 8,
+          "raw_fraud_mse": 73.89708096169863,
+          "method_fraud_mse": 13.868185337818753,
+          "method_minus_raw_fraud_mse": -60.02889562387988,
+          "method_harder": false,
+          "method": "clipping_noise_mc"
+        },
+        {
+          "group_id": 9,
+          "raw_fraud_mse": 645.9942471963975,
+          "method_fraud_mse": 340.78857386272466,
+          "method_minus_raw_fraud_mse": -305.20567333367285,
+          "method_harder": false,
+          "method": "clipping_noise_mc"
+        },
+        {
+          "group_id": 10,
+          "raw_fraud_mse": 58399.761438629,
+          "method_fraud_mse": 50932.59196949575,
+          "method_minus_raw_fraud_mse": -7467.169469133252,
+          "method_harder": false,
+          "method": "clipping_noise_mc"
+        },
+        {
+          "group_id": 11,
+          "raw_fraud_mse": 706.7544707799502,
+          "method_fraud_mse": 62.66787894826919,
+          "method_minus_raw_fraud_mse": -644.0865918316811,
+          "method_harder": false,
+          "method": "clipping_noise_mc"
+        }
+      ]
+    }
+  }
+}

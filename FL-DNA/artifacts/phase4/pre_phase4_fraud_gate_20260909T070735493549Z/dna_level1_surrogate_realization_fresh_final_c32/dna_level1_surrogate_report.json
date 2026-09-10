@@ -1,0 +1,62 @@
+{
+  "target_file": "fresh_final_targets.pt",
+  "diagnostic": "Level 1 surrogate-realization direct inversion diagnostics",
+  "baseline_attack_dir": "harddiff_reparam_fresh_final_standard_nonneg_0p001",
+  "dna_transform_config": {
+    "block_size": 256,
+    "mix_ratio": 0.08,
+    "keep_ratio": 0.88,
+    "shrink_factor": 0.45
+  },
+  "dna_run_seed": 477885591,
+  "surrogate_candidates_per_group": 32,
+  "seed_space_audit": {
+    "run_seed_bits": 31,
+    "base_seed_source": "generate_run_seed uses secrets.randbelow(2**31 - 1) + 1 unless provided",
+    "client_round_seed": "derive_seed uses BLAKE2b over the logged run seed and public parts",
+    "block_seed": "base seed plus tensor/block offsets plus DNA counts and rolling hash from the unknown raw block",
+    "bruteforce_assessment": "not enumerable in this scope when the run seed or raw-block-derived realization is unknown"
+  },
+  "all_surrogate_recovery": {
+    "candidates": 384,
+    "mean_relative_l2_error": 0.09471386809688431,
+    "median_relative_l2_error": 0.09193368503581989,
+    "min_relative_l2_error": 0.06629953899627837,
+    "max_relative_l2_error": 0.1297283218334659
+  },
+  "oracle_realization_selection_diagnostic_only": {
+    "groups": 12,
+    "mean_relative_l2_error": 0.08405583400692913,
+    "median_relative_l2_error": 0.08083025329248247,
+    "min_relative_l2_error": 0.06629953899627837,
+    "max_relative_l2_error": 0.10930961833220408,
+    "mean_cosine_to_raw_update": 0.9964474853588147,
+    "median_cosine_to_raw_update": 0.9968076653748104
+  },
+  "self_referential_inverse_pool_selection_deprecated": {
+    "groups": 12,
+    "mean_relative_l2_error": 0.09474145074221625,
+    "median_relative_l2_error": 0.09528416246262206,
+    "min_relative_l2_error": 0.07816483505099046,
+    "max_relative_l2_error": 0.11628431049668876,
+    "mean_cosine_to_raw_update": 0.995507925953666,
+    "median_cosine_to_raw_update": 0.9955165826549307,
+    "selection_rule": "choose the surrogate realization whose recovered signal has the lowest balanced-tensor objective over the saved attacker candidate pool",
+    "selection_formula": "argmin_r min_c L_balanced(delta(c), recovered_signal_r; reference=recovered_signal_r), where recovered_signal_r = M_r^{-1} transmitted_update",
+    "caveat": "Deprecated diagnostic: this objective is self-referential because recovered_signal_r is both the target signal and the scaling reference."
+  },
+  "attacker_visible_forward_transmitted_selection": {
+    "groups": 12,
+    "mean_relative_l2_error": 0.09451406967030089,
+    "median_relative_l2_error": 0.09303394896727643,
+    "min_relative_l2_error": 0.07601827098929315,
+    "max_relative_l2_error": 0.12316346621842962,
+    "mean_cosine_to_raw_update": 0.9954673687588661,
+    "median_cosine_to_raw_update": 0.9956693672018728,
+    "selection_rule": "choose the surrogate realization whose forward-transformed saved candidate delta best matches the transmitted DNA update",
+    "selection_formula": "argmin_r min_c L_balanced(M_r delta(c), transmitted_update; reference=transmitted_update)",
+    "caveat": "This uses only the transmitted update for realization selection, but it still reuses a saved baseline candidate pool rather than optimizing fresh against the DNA objective."
+  },
+  "interpretation": "Random surrogate realizations are a cheap Level-1 diagnostic, not a full adaptive attack. Oracle selection uses raw-update error and must not be reported as a valid Level-1 result. The deprecated inverse-pool row is self-referential and should not be used as Level-1 evidence. The forward-transmitted row is attacker-visible but still reuses an existing candidate pool; it is a selection-rule diagnostic, not a fresh optimized Level-1 attack.",
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b"
+}
