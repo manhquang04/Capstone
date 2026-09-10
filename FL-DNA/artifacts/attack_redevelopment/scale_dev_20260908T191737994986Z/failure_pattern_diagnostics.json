@@ -1,0 +1,524 @@
+{
+  "run": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/artifacts/attack_redevelopment/scale_dev_20260908T191737994986Z",
+  "baseline_gate_passed": false,
+  "status": "SCALE_REDEVELOPMENT_NEGATIVE",
+  "class_summary": [
+    {
+      "label": "0",
+      "label_name": "non_fraud",
+      "control": "prior",
+      "n_groups": 12,
+      "wins": 0,
+      "mean_delta": 100.40961671058643,
+      "median_delta": 81.6482571614318,
+      "min_delta": 7.083986838230061,
+      "max_delta": 247.537662288874
+    },
+    {
+      "label": "0",
+      "label_name": "non_fraud",
+      "control": "zero",
+      "n_groups": 12,
+      "wins": 2,
+      "mean_delta": 74.16381641536266,
+      "median_delta": 47.52028829071687,
+      "min_delta": -16.739449589795086,
+      "max_delta": 230.95516803108882
+    },
+    {
+      "label": "1",
+      "label_name": "fraud",
+      "control": "prior",
+      "n_groups": 12,
+      "wins": 11,
+      "mean_delta": -729.9848625044373,
+      "median_delta": -189.8042907268411,
+      "min_delta": -4542.270265150529,
+      "max_delta": 8.879702810971317
+    },
+    {
+      "label": "1",
+      "label_name": "fraud",
+      "control": "zero",
+      "n_groups": 12,
+      "wins": 12,
+      "mean_delta": -869.1434619636574,
+      "median_delta": -292.4704688978295,
+      "min_delta": -4448.97695589653,
+      "max_delta": -106.82105010150873
+    }
+  ],
+  "selected_class_rows": [
+    {
+      "group_id": 0,
+      "label": "0",
+      "label_name": "non_fraud",
+      "baseline_restart": 0,
+      "zero_restart": 0,
+      "baseline_mse": 152.5208180279556,
+      "prior_mse": 36.798767953712655,
+      "zero_mse": 57.21014597386202,
+      "baseline_minus_prior": 115.72205007424296,
+      "baseline_minus_zero": 95.3106720540936
+    },
+    {
+      "group_id": 0,
+      "label": "1",
+      "label_name": "fraud",
+      "baseline_restart": 0,
+      "zero_restart": 0,
+      "baseline_mse": 301.0619859344408,
+      "prior_mse": 562.0242769458126,
+      "zero_mse": 466.85540579470313,
+      "baseline_minus_prior": -260.9622910113718,
+      "baseline_minus_zero": -165.7934198602623
+    },
+    {
+      "group_id": 1,
+      "label": "0",
+      "label_name": "non_fraud",
+      "baseline_restart": 2,
+      "zero_restart": 1,
+      "baseline_mse": 245.5742730148371,
+      "prior_mse": 43.4674623385433,
+      "zero_mse": 66.87950775511383,
+      "baseline_minus_prior": 202.1068106762938,
+      "baseline_minus_zero": 178.69476525972328
+    },
+    {
+      "group_id": 1,
+      "label": "1",
+      "label_name": "fraud",
+      "baseline_restart": 2,
+      "zero_restart": 1,
+      "baseline_mse": 297.9574819647373,
+      "prior_mse": 961.9058543119969,
+      "zero_mse": 1192.928776370122,
+      "baseline_minus_prior": -663.9483723472596,
+      "baseline_minus_zero": -894.9712944053847
+    },
+    {
+      "group_id": 2,
+      "label": "0",
+      "label_name": "non_fraud",
+      "baseline_restart": 1,
+      "zero_restart": 0,
+      "baseline_mse": 121.58117090745849,
+      "prior_mse": 26.512880850821148,
+      "zero_mse": 66.71749643978247,
+      "baseline_minus_prior": 95.06829005663734,
+      "baseline_minus_zero": 54.86367446767602
+    },
+    {
+      "group_id": 2,
+      "label": "1",
+      "label_name": "fraud",
+      "baseline_restart": 1,
+      "zero_restart": 0,
+      "baseline_mse": 4371.830937487402,
+      "prior_mse": 8914.10120263793,
+      "zero_mse": 8820.807893383932,
+      "baseline_minus_prior": -4542.270265150529,
+      "baseline_minus_zero": -4448.97695589653
+    },
+    {
+      "group_id": 3,
+      "label": "0",
+      "label_name": "non_fraud",
+      "baseline_restart": 1,
+      "zero_restart": 2,
+      "baseline_mse": 187.00891351690134,
+      "prior_mse": 151.44838690357176,
+      "zero_mse": 159.41899124072515,
+      "baseline_minus_prior": 35.560526613329586,
+      "baseline_minus_zero": 27.589922276176196
+    },
+    {
+      "group_id": 3,
+      "label": "1",
+      "label_name": "fraud",
+      "baseline_restart": 1,
+      "zero_restart": 2,
+      "baseline_mse": 61.90685965477836,
+      "prior_mse": 53.02715684380704,
+      "zero_mse": 168.7279097562871,
+      "baseline_minus_prior": 8.879702810971317,
+      "baseline_minus_zero": -106.82105010150873
+    },
+    {
+      "group_id": 4,
+      "label": "0",
+      "label_name": "non_fraud",
+      "baseline_restart": 2,
+      "zero_restart": 0,
+      "baseline_mse": 130.48243430753342,
+      "prior_mse": 32.62048720635441,
+      "zero_mse": 70.35609642774038,
+      "baseline_minus_prior": 97.86194710117901,
+      "baseline_minus_zero": 60.12633787979304
+    },
+    {
+      "group_id": 4,
+      "label": "1",
+      "label_name": "fraud",
+      "baseline_restart": 2,
+      "zero_restart": 0,
+      "baseline_mse": 376.93374860062477,
+      "prior_mse": 1364.5577757127824,
+      "zero_mse": 1678.4487577230443,
+      "baseline_minus_prior": -987.6240271121576,
+      "baseline_minus_zero": -1301.5150091224195
+    },
+    {
+      "group_id": 5,
+      "label": "0",
+      "label_name": "non_fraud",
+      "baseline_restart": 2,
+      "zero_restart": 1,
+      "baseline_mse": 685.3785566979701,
+      "prior_mse": 489.0227984083588,
+      "zero_mse": 501.79470206660153,
+      "baseline_minus_prior": 196.3557582896113,
+      "baseline_minus_zero": 183.58385463136858
+    },
+    {
+      "group_id": 5,
+      "label": "1",
+      "label_name": "fraud",
+      "baseline_restart": 2,
+      "zero_restart": 1,
+      "baseline_mse": 2976.657846501747,
+      "prior_mse": 4622.846137841563,
+      "zero_mse": 5063.04420365029,
+      "baseline_minus_prior": -1646.1882913398163,
+      "baseline_minus_zero": -2086.386357148543
+    },
+    {
+      "group_id": 6,
+      "label": "0",
+      "label_name": "non_fraud",
+      "baseline_restart": 2,
+      "zero_restart": 2,
+      "baseline_mse": 84.84534418226129,
+      "prior_mse": 34.30981983679143,
+      "zero_mse": 64.27653672792435,
+      "baseline_minus_prior": 50.53552434546985,
+      "baseline_minus_zero": 20.568807454336934
+    },
+    {
+      "group_id": 6,
+      "label": "1",
+      "label_name": "fraud",
+      "baseline_restart": 2,
+      "zero_restart": 2,
+      "baseline_mse": 146.2762320962268,
+      "prior_mse": 218.16584742402844,
+      "zero_mse": 282.6822029970708,
+      "baseline_minus_prior": -71.88961532780164,
+      "baseline_minus_zero": -136.405970900844
+    },
+    {
+      "group_id": 7,
+      "label": "0",
+      "label_name": "non_fraud",
+      "baseline_restart": 1,
+      "zero_restart": 0,
+      "baseline_mse": 314.6566448744729,
+      "prior_mse": 67.11898258559889,
+      "zero_mse": 83.70147684338404,
+      "baseline_minus_prior": 247.537662288874,
+      "baseline_minus_zero": 230.95516803108882
+    },
+    {
+      "group_id": 7,
+      "label": "1",
+      "label_name": "fraud",
+      "baseline_restart": 1,
+      "zero_restart": 0,
+      "baseline_mse": 778.1367777759878,
+      "prior_mse": 896.7830682182981,
+      "zero_mse": 1124.2308018553929,
+      "baseline_minus_prior": -118.64629044231037,
+      "baseline_minus_zero": -346.09402407940513
+    },
+    {
+      "group_id": 8,
+      "label": "0",
+      "label_name": "non_fraud",
+      "baseline_restart": 1,
+      "zero_restart": 1,
+      "baseline_mse": 96.81921024006658,
+      "prior_mse": 28.59098597384032,
+      "zero_mse": 69.28062531341403,
+      "baseline_minus_prior": 68.22822426622626,
+      "baseline_minus_zero": 27.538584926652547
+    },
+    {
+      "group_id": 8,
+      "label": "1",
+      "label_name": "fraud",
+      "baseline_restart": 1,
+      "zero_restart": 1,
+      "baseline_mse": 167.0806673850235,
+      "prior_mse": 441.39135865439357,
+      "zero_mse": 593.3767529486029,
+      "baseline_minus_prior": -274.31069126937007,
+      "baseline_minus_zero": -426.29608556357937
+    },
+    {
+      "group_id": 9,
+      "label": "0",
+      "label_name": "non_fraud",
+      "baseline_restart": 0,
+      "zero_restart": 1,
+      "baseline_mse": 123.28217113370317,
+      "prior_mse": 60.92134425454221,
+      "zero_mse": 83.10526901994545,
+      "baseline_minus_prior": 62.36082687916096,
+      "baseline_minus_zero": 40.17690211375772
+    },
+    {
+      "group_id": 9,
+      "label": "1",
+      "label_name": "fraud",
+      "baseline_restart": 0,
+      "zero_restart": 1,
+      "baseline_mse": 132.82570418710725,
+      "prior_mse": 214.47781840937387,
+      "zero_mse": 249.53969413416627,
+      "baseline_minus_prior": -81.65211422226662,
+      "baseline_minus_zero": -116.71398994705902
+    },
+    {
+      "group_id": 10,
+      "label": "0",
+      "label_name": "non_fraud",
+      "baseline_restart": 0,
+      "zero_restart": 0,
+      "baseline_mse": 76.93710402449824,
+      "prior_mse": 69.85311718626818,
+      "zero_mse": 93.67655361429333,
+      "baseline_minus_prior": 7.083986838230061,
+      "baseline_minus_zero": -16.739449589795086
+    },
+    {
+      "group_id": 10,
+      "label": "1",
+      "label_name": "fraud",
+      "baseline_restart": 0,
+      "zero_restart": 0,
+      "baseline_mse": 62.61855157201083,
+      "prior_mse": 71.02549403707249,
+      "zero_mse": 223.51902439410915,
+      "baseline_minus_prior": -8.406942465061661,
+      "baseline_minus_zero": -160.90047282209832
+    },
+    {
+      "group_id": 11,
+      "label": "0",
+      "label_name": "non_fraud",
+      "baseline_restart": 2,
+      "zero_restart": 1,
+      "baseline_mse": 71.39301010299606,
+      "prior_mse": 44.89921700521375,
+      "zero_mse": 84.09645262351587,
+      "baseline_minus_prior": 26.49379309778231,
+      "baseline_minus_zero": -12.703442520519815
+    },
+    {
+      "group_id": 11,
+      "label": "1",
+      "label_name": "fraud",
+      "baseline_restart": 2,
+      "zero_restart": 1,
+      "baseline_mse": 94.59606578378644,
+      "prior_mse": 207.39521796005997,
+      "zero_mse": 333.4429795000403,
+      "baseline_minus_prior": -112.79915217627352,
+      "baseline_minus_zero": -238.84691371625382
+    }
+  ],
+  "tensor_summary": [
+    {
+      "tensor": "network.0.bias",
+      "kind": "parameter",
+      "elements": 128,
+      "mean_term": 1.1921686430772145,
+      "mean_cosine_loss": 1.0230026294787724,
+      "mean_relative_mse": 1.6916599124670029,
+      "mean_observed_norm": 0.0017589619589368037
+    },
+    {
+      "tensor": "network.4.bias",
+      "kind": "parameter",
+      "elements": 64,
+      "mean_term": 1.15400825937589,
+      "mean_cosine_loss": 0.9775492946306864,
+      "mean_relative_mse": 1.764589637517929,
+      "mean_observed_norm": 0.0029508246613355973
+    },
+    {
+      "tensor": "network.0.weight",
+      "kind": "parameter",
+      "elements": 1664,
+      "mean_term": 1.1272371709346771,
+      "mean_cosine_loss": 0.9331798056761423,
+      "mean_relative_mse": 1.9405736128489177,
+      "mean_observed_norm": 0.08371542828778426
+    },
+    {
+      "tensor": "network.8.bias",
+      "kind": "parameter",
+      "elements": 32,
+      "mean_term": 1.0735265091061592,
+      "mean_cosine_loss": 0.8836216578880945,
+      "mean_relative_mse": 1.8990485817193985,
+      "mean_observed_norm": 0.001974624848420111
+    },
+    {
+      "tensor": "network.4.weight",
+      "kind": "parameter",
+      "elements": 8192,
+      "mean_term": 1.0533120582501094,
+      "mean_cosine_loss": 0.8792912811040878,
+      "mean_relative_mse": 1.7402079304059346,
+      "mean_observed_norm": 0.1942852089802424
+    },
+    {
+      "tensor": "network.8.weight",
+      "kind": "parameter",
+      "elements": 2048,
+      "mean_term": 0.9642114688952764,
+      "mean_cosine_loss": 0.8089620769023895,
+      "mean_relative_mse": 1.5524938702583313,
+      "mean_observed_norm": 0.10168901768823464
+    },
+    {
+      "tensor": "network.1.bias",
+      "kind": "parameter",
+      "elements": 128,
+      "mean_term": 0.921681155761083,
+      "mean_cosine_loss": 0.7709009001652399,
+      "mean_relative_mse": 1.5078025658925374,
+      "mean_observed_norm": 0.02500635649388035
+    },
+    {
+      "tensor": "network.1.weight",
+      "kind": "parameter",
+      "elements": 128,
+      "mean_term": 0.9076838145653406,
+      "mean_cosine_loss": 0.7592591196298599,
+      "mean_relative_mse": 1.4842469096183777,
+      "mean_observed_norm": 0.024854292006542284
+    },
+    {
+      "tensor": "network.5.weight",
+      "kind": "parameter",
+      "elements": 64,
+      "mean_term": 0.7715245336294174,
+      "mean_cosine_loss": 0.6414328018824259,
+      "mean_relative_mse": 1.3009172976016998,
+      "mean_observed_norm": 0.01814660127274692
+    },
+    {
+      "tensor": "network.5.bias",
+      "kind": "parameter",
+      "elements": 64,
+      "mean_term": 0.7335808724164963,
+      "mean_cosine_loss": 0.6098653624455134,
+      "mean_relative_mse": 1.237155059973399,
+      "mean_observed_norm": 0.01815968092220525
+    },
+    {
+      "tensor": "network.9.weight",
+      "kind": "parameter",
+      "elements": 32,
+      "mean_term": 0.40837595611810684,
+      "mean_cosine_loss": 0.3428644041220347,
+      "mean_relative_mse": 0.6551154988507429,
+      "mean_observed_norm": 0.014486449925849834
+    },
+    {
+      "tensor": "network.9.bias",
+      "kind": "parameter",
+      "elements": 32,
+      "mean_term": 0.3952858932316303,
+      "mean_cosine_loss": 0.33188897371292114,
+      "mean_relative_mse": 0.6339691715935866,
+      "mean_observed_norm": 0.014585524564608932
+    },
+    {
+      "tensor": "network.12.weight",
+      "kind": "parameter",
+      "elements": 32,
+      "mean_term": 0.36661402011911076,
+      "mean_cosine_loss": 0.30821094910303753,
+      "mean_relative_mse": 0.5840306915342808,
+      "mean_observed_norm": 0.01445813950461646
+    },
+    {
+      "tensor": "network.9.running_var",
+      "kind": "batchnorm_buffer",
+      "elements": 32,
+      "mean_term": 0.17407504903773466,
+      "mean_cosine_loss": 0.14265346030394235,
+      "mean_relative_mse": 0.31421588485439617,
+      "mean_observed_norm": 0.40552536646525067
+    },
+    {
+      "tensor": "network.1.running_var",
+      "kind": "batchnorm_buffer",
+      "elements": 128,
+      "mean_term": 0.12542769083908448,
+      "mean_cosine_loss": 0.06420941650867462,
+      "mean_relative_mse": 0.6121827471069992,
+      "mean_observed_norm": 791.1368436813354
+    },
+    {
+      "tensor": "network.5.running_var",
+      "kind": "batchnorm_buffer",
+      "elements": 64,
+      "mean_term": 0.12146661927302678,
+      "mean_cosine_loss": 0.10070704420407613,
+      "mean_relative_mse": 0.20759575068950653,
+      "mean_observed_norm": 1.2508344203233719
+    },
+    {
+      "tensor": "network.1.running_mean",
+      "kind": "batchnorm_buffer",
+      "elements": 128,
+      "mean_term": 0.11908358832200368,
+      "mean_cosine_loss": 0.07337760428587596,
+      "mean_relative_mse": 0.457059801206924,
+      "mean_observed_norm": 16.176305611928303
+    },
+    {
+      "tensor": "network.9.running_mean",
+      "kind": "batchnorm_buffer",
+      "elements": 32,
+      "mean_term": 0.0996087125192086,
+      "mean_cosine_loss": 0.08188035090764363,
+      "mean_relative_mse": 0.17728359748919806,
+      "mean_observed_norm": 0.22228445733586946
+    },
+    {
+      "tensor": "network.5.running_mean",
+      "kind": "batchnorm_buffer",
+      "elements": 64,
+      "mean_term": 0.08834452119966348,
+      "mean_cosine_loss": 0.07280220588048299,
+      "mean_relative_mse": 0.15542315815885863,
+      "mean_observed_norm": 0.4971887369950612
+    },
+    {
+      "tensor": "network.12.bias",
+      "kind": "parameter",
+      "elements": 1,
+      "mean_term": 0.00011193332718069844,
+      "mean_cosine_loss": 0.0,
+      "mean_relative_mse": 0.0011193332781734473,
+      "mean_observed_norm": 0.0028462506209810576
+    }
+  ],
+  "note": "Diagnostics only; confirmation selection and gates are unchanged."
+}

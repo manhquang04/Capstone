@@ -1,0 +1,372 @@
+{
+  "seed": 20260908,
+  "max_rows": 500000,
+  "feature_representation": "RobustScaler numeric fields plus one-hot transaction type, using stored Phase 3 metadata.",
+  "note": "Diagnostic only; it explains reconstruction controls and does not evaluate DNA protection.",
+  "scopes": [
+    {
+      "scope": "train_reference_500k",
+      "classes": {
+        "non_fraud": {
+          "n": 324581,
+          "mean_centroid_mse": 100.77924020131482,
+          "median_centroid_mse": 8.39324247141239,
+          "mean_feature_variance": 100.77924020144043,
+          "median_feature_variance": 9.731170136760289,
+          "mean_feature_iqr": 0.769141054864543,
+          "median_feature_iqr": 0.9978941936683556,
+          "mean_pairwise_mse": 299.86334316347256,
+          "median_pairwise_mse": 5.339856706796079,
+          "top_variance_features": [
+            {
+              "feature": "oldbalanceOrg",
+              "variance": 722.3524864139389,
+              "iqr": 0.9978941936683556
+            },
+            {
+              "feature": "newbalanceOrig",
+              "variance": 412.61362149935303,
+              "iqr": 1.012607809119527
+            },
+            {
+              "feature": "balance_diff_orig",
+              "variance": 111.06515735719157,
+              "iqr": 0.9984506885017526
+            },
+            {
+              "feature": "balance_diff_dest",
+              "variance": 30.02201737524904,
+              "iqr": 0.9967750968467848
+            },
+            {
+              "feature": "oldbalanceDest",
+              "variance": 12.415212266808792,
+              "iqr": 1.0050144928937248
+            }
+          ]
+        },
+        "fraud": {
+          "n": 419,
+          "mean_centroid_mse": 4038.719078534513,
+          "median_centroid_mse": 1325.761277342564,
+          "mean_feature_variance": 4038.7190785345183,
+          "median_feature_variance": 1.466003259322267,
+          "mean_feature_iqr": 15.3441891446445,
+          "median_feature_iqr": 1.0,
+          "mean_pairwise_mse": 8096.762171798858,
+          "median_pairwise_mse": 778.6756895314154,
+          "top_variance_features": [
+            {
+              "feature": "balance_diff_orig",
+              "variance": 51728.138672491434,
+              "iqr": 166.70924901091854
+            },
+            {
+              "feature": "oldbalanceOrg",
+              "variance": 465.3468534830302,
+              "iqr": 15.654359629956765
+            },
+            {
+              "feature": "balance_diff_dest",
+              "variance": 160.4815108069861,
+              "iqr": 3.1026384180157986
+            },
+            {
+              "feature": "amount",
+              "variance": 138.74208713375134,
+              "iqr": 8.63281739200091
+            },
+            {
+              "feature": "newbalanceDest",
+              "variance": 5.629338661746592,
+              "iqr": 1.0816151855535485
+            }
+          ]
+        }
+      },
+      "ratios": {
+        "fraud_to_non_mean_centroid_mse": 40.07491096843794,
+        "fraud_to_non_median_centroid_mse": 157.95579382558557,
+        "fraud_to_non_mean_feature_variance": 40.074910968388046,
+        "fraud_to_non_median_feature_variance": 0.15065025466817397,
+        "fraud_to_non_mean_feature_iqr": 19.949772603604988,
+        "fraud_to_non_median_feature_iqr": 1.0021102501096868,
+        "fraud_to_non_mean_pairwise_mse": 27.001507041108564,
+        "fraud_to_non_median_pairwise_mse": 145.82333052877402
+      }
+    },
+    {
+      "scope": "run_20260908T180405538992Z",
+      "classes": {
+        "non_fraud": {
+          "n": 36,
+          "mean_centroid_mse": 30.056516030715827,
+          "median_centroid_mse": 4.235694355372828,
+          "mean_feature_variance": 30.056516030715816,
+          "median_feature_variance": 0.5791417800259109,
+          "mean_feature_iqr": 0.6702099999363045,
+          "median_feature_iqr": 0.44678947162465743,
+          "mean_pairwise_mse": 61.830547263186844,
+          "median_pairwise_mse": 1.9865822427141668,
+          "top_variance_features": [
+            {
+              "feature": "oldbalanceOrg",
+              "variance": 216.12669479114737,
+              "iqr": 1.9114721305378644
+            },
+            {
+              "feature": "newbalanceOrig",
+              "variance": 123.76543079587334,
+              "iqr": 1.3096401575721723
+            },
+            {
+              "feature": "balance_diff_orig",
+              "variance": 44.889417419652865,
+              "iqr": 1.0501920982885793
+            },
+            {
+              "feature": "oldbalanceDest",
+              "variance": 2.2492710599678434,
+              "iqr": 0.44678947162465743
+            },
+            {
+              "feature": "newbalanceDest",
+              "variance": 1.6258948538288314,
+              "iqr": 0.43607164495734235
+            }
+          ]
+        },
+        "fraud": {
+          "n": 12,
+          "mean_centroid_mse": 2751.4833472850355,
+          "median_centroid_mse": 932.4309852622807,
+          "mean_feature_variance": 2751.4833472850346,
+          "median_feature_variance": 0.2222222222222223,
+          "mean_feature_iqr": 12.374250576954438,
+          "median_feature_iqr": 1.0,
+          "mean_pairwise_mse": 6003.23639407644,
+          "median_pairwise_mse": 1126.704745526085,
+          "top_variance_features": [
+            {
+              "feature": "balance_diff_orig",
+              "variance": 35195.94323920257,
+              "iqr": 127.34355307945157
+            },
+            {
+              "feature": "oldbalanceOrg",
+              "variance": 310.3443418804682,
+              "iqr": 11.957835502766024
+            },
+            {
+              "feature": "balance_diff_dest",
+              "variance": 163.5058812665518,
+              "iqr": 9.45809146867629
+            },
+            {
+              "feature": "amount",
+              "variance": 94.47861474138892,
+              "iqr": 6.597773729410427
+            },
+            {
+              "feature": "newbalanceDest",
+              "variance": 3.0577359863414517,
+              "iqr": 1.4633693759632578
+            }
+          ]
+        }
+      },
+      "ratios": {
+        "fraud_to_non_mean_centroid_mse": 91.54365544140899,
+        "fraud_to_non_median_centroid_mse": 220.1365129378434,
+        "fraud_to_non_mean_feature_variance": 91.543655441409,
+        "fraud_to_non_median_feature_variance": 0.3837095334622207,
+        "fraud_to_non_mean_feature_iqr": 18.46324372678782,
+        "fraud_to_non_median_feature_iqr": 2.238190609916807,
+        "fraud_to_non_mean_pairwise_mse": 97.09175577119133,
+        "fraud_to_non_median_pairwise_mse": 567.157362680704
+      }
+    },
+    {
+      "scope": "scale_dev_20260908T191737994986Z",
+      "classes": {
+        "non_fraud": {
+          "n": 144,
+          "mean_centroid_mse": 76.54379204850535,
+          "median_centroid_mse": 4.019673434729794,
+          "mean_feature_variance": 76.54379204850532,
+          "median_feature_variance": 25.865540134634912,
+          "mean_feature_iqr": 0.672600083644016,
+          "median_feature_iqr": 0.8345316637134846,
+          "mean_pairwise_mse": 154.15812664314367,
+          "median_pairwise_mse": 5.20409558905577,
+          "top_variance_features": [
+            {
+              "feature": "oldbalanceOrg",
+              "variance": 461.2132233606714,
+              "iqr": 0.5511187996838827
+            },
+            {
+              "feature": "newbalanceOrig",
+              "variance": 263.80616102933635,
+              "iqr": 0.6451378258943756
+            },
+            {
+              "feature": "balance_diff_orig",
+              "variance": 128.049549125739,
+              "iqr": 0.31279606540723337
+            },
+            {
+              "feature": "balance_diff_dest",
+              "variance": 54.743552667623355,
+              "iqr": 1.297756640305091
+            },
+            {
+              "feature": "amount",
+              "variance": 30.828390319786454,
+              "iqr": 1.1804686121222234
+            }
+          ]
+        },
+        "fraud": {
+          "n": 48,
+          "mean_centroid_mse": 1055.8483788851697,
+          "median_centroid_mse": 346.6213649083452,
+          "mean_feature_variance": 1055.8483788851697,
+          "median_feature_variance": 1.217971522955247,
+          "mean_feature_iqr": 9.572905611269661,
+          "median_feature_iqr": 1.0,
+          "mean_pairwise_mse": 2156.6264760207723,
+          "median_pairwise_mse": 302.06998383358416,
+          "top_variance_features": [
+            {
+              "feature": "balance_diff_orig",
+              "variance": 13495.991880610012,
+              "iqr": 101.97558380131589
+            },
+            {
+              "feature": "oldbalanceOrg",
+              "variance": 119.00248530764917,
+              "iqr": 9.575728232067314
+            },
+            {
+              "feature": "balance_diff_dest",
+              "variance": 66.47832789911529,
+              "iqr": 2.741535047047761
+            },
+            {
+              "feature": "amount",
+              "variance": 36.228113245188766,
+              "iqr": 5.2834384747050045
+            },
+            {
+              "feature": "newbalanceDest",
+              "variance": 3.5588083808524344,
+              "iqr": 1.0129644883356612
+            }
+          ]
+        }
+      },
+      "ratios": {
+        "fraud_to_non_mean_centroid_mse": 13.794043261092746,
+        "fraud_to_non_median_centroid_mse": 86.23122513225887,
+        "fraud_to_non_mean_feature_variance": 13.794043261092751,
+        "fraud_to_non_median_feature_variance": 0.047088578727352316,
+        "fraud_to_non_mean_feature_iqr": 14.232685728204977,
+        "fraud_to_non_median_feature_iqr": 1.1982768820900302,
+        "fraud_to_non_mean_pairwise_mse": 13.98970344919335,
+        "fraud_to_non_median_pairwise_mse": 58.044664757664776
+      }
+    },
+    {
+      "scope": "class_decomp_20260908T200353687099Z",
+      "classes": {
+        "non_fraud": {
+          "n": 144,
+          "mean_centroid_mse": 98.09426513945733,
+          "median_centroid_mse": 7.236811435090819,
+          "mean_feature_variance": 98.09426513945735,
+          "median_feature_variance": 3.685147618129088,
+          "mean_feature_iqr": 0.7361106299191148,
+          "median_feature_iqr": 0.8402777777777778,
+          "mean_pairwise_mse": 197.5604780431029,
+          "median_pairwise_mse": 3.1904122643500337,
+          "top_variance_features": [
+            {
+              "feature": "oldbalanceOrg",
+              "variance": 718.9327511202614,
+              "iqr": 0.7157644693412673
+            },
+            {
+              "feature": "newbalanceOrig",
+              "variance": 413.35230127940076,
+              "iqr": 0.534416126683802
+            },
+            {
+              "feature": "balance_diff_orig",
+              "variance": 116.07817721173988,
+              "iqr": 0.7711110709556943
+            },
+            {
+              "feature": "balance_diff_dest",
+              "variance": 11.796351592292334,
+              "iqr": 1.1625179490460498
+            },
+            {
+              "feature": "amount",
+              "variance": 5.61917027324801,
+              "iqr": 1.1619281176494445
+            }
+          ]
+        },
+        "fraud": {
+          "n": 48,
+          "mean_centroid_mse": 3538.4828911031923,
+          "median_centroid_mse": 1205.339318300361,
+          "mean_feature_variance": 3538.4828911031927,
+          "median_feature_variance": 1.34887838648834,
+          "mean_feature_iqr": 13.16030238947457,
+          "median_feature_iqr": 1.0,
+          "mean_pairwise_mse": 7227.539522253328,
+          "median_pairwise_mse": 692.3195342881141,
+          "top_variance_features": [
+            {
+              "feature": "balance_diff_orig",
+              "variance": 45307.754288472344,
+              "iqr": 141.20912115992172
+            },
+            {
+              "feature": "oldbalanceOrg",
+              "variance": 399.50641729289504,
+              "iqr": 13.259842382966854
+            },
+            {
+              "feature": "balance_diff_dest",
+              "variance": 159.705138845885,
+              "iqr": 4.063606126471103
+            },
+            {
+              "feature": "amount",
+              "variance": 121.6223652006059,
+              "iqr": 7.3161601621150405
+            },
+            {
+              "feature": "newbalanceDest",
+              "variance": 5.855338884356805,
+              "iqr": 0.974117305449826
+            }
+          ]
+        }
+      },
+      "ratios": {
+        "fraud_to_non_mean_centroid_mse": 36.072270749698255,
+        "fraud_to_non_median_centroid_mse": 166.55668440602867,
+        "fraud_to_non_mean_feature_variance": 36.072270749698255,
+        "fraud_to_non_median_feature_variance": 0.3660310322041188,
+        "fraud_to_non_mean_feature_iqr": 17.878158329163984,
+        "fraud_to_non_median_feature_iqr": 1.1900826446280992,
+        "fraud_to_non_mean_pairwise_mse": 36.58393416458759,
+        "fraud_to_non_median_pairwise_mse": 217.00002285728326
+      }
+    }
+  ]
+}

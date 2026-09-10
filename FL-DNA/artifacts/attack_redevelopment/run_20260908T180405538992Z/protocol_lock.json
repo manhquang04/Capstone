@@ -1,0 +1,44 @@
+{
+  "run_seed": 1674345701,
+  "scope": "known-label/order/RNG, one Adam step on one four-record batch (one fraud, three non-fraud)",
+  "observation": "individual full floating model-state delta, including BatchNorm buffers",
+  "local_optimizer": "Adam(lr=0.001, betas=(0.9,0.999), eps=1e-8)",
+  "model_mode": "train with replayed dropout RNG",
+  "development_groups": 6,
+  "confirmation_groups": 12,
+  "attack_iterations": 300,
+  "development_restarts": 1,
+  "confirmation_restarts": 3,
+  "attack_learning_rates": [
+    0.01,
+    0.05
+  ],
+  "variants": {
+    "legacy_flat": {
+      "parameterization": "legacy",
+      "objective": "flat",
+      "bn_weight": 1.0
+    },
+    "manifold_flat": {
+      "parameterization": "manifold",
+      "objective": "flat",
+      "bn_weight": 1.0
+    },
+    "manifold_bn1": {
+      "parameterization": "manifold",
+      "objective": "balanced_bn",
+      "bn_weight": 1.0
+    },
+    "manifold_bn3": {
+      "parameterization": "manifold",
+      "objective": "balanced_bn",
+      "bn_weight": 3.0
+    }
+  },
+  "development_selection": "minimum max(mean MSE delta vs own prior, mean MSE delta vs paired zero-update); ground truth development-only",
+  "candidate_selection": "minimum observed-signal objective; ground truth never used",
+  "confirmation_gate": "for both controls: negative mean and median MSE difference and one-sided exact sign p<0.05",
+  "decision_rule": "open DNA comparison only if the locked baseline confirmation gate passes",
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b",
+  "checkpoint_sha256": "5bb8cb368c0c3883f6cac946d57427ad7b77d56cf4c423fd3c82243a3859c710"
+}

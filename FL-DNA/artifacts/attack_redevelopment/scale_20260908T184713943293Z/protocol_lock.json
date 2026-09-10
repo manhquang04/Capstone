@@ -1,0 +1,14 @@
+{
+  "run_seed": 447499892,
+  "scope": "source-disjoint four-batch Adam generalization tier: 16 records, four fraud, batch size four",
+  "frozen_from": "artifacts/attack_redevelopment/run_20260908T180405538992Z",
+  "attack_variant": "manifold_bn1",
+  "attack_lr": 0.05,
+  "iterations": 300,
+  "restarts": 3,
+  "groups": 12,
+  "selection": "minimum attacker objective within group; no retuning on this tier",
+  "gate": "negative mean/median versus prior and zero-update and one-sided exact sign p<0.05",
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b",
+  "checkpoint_sha256": "5bb8cb368c0c3883f6cac946d57427ad7b77d56cf4c423fd3c82243a3859c710"
+}
