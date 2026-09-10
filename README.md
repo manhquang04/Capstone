@@ -27,11 +27,14 @@ oldbalanceDest, newbalanceDest, isFraud
 
 High-cardinality identity columns such as `nameOrig` and `nameDest` are excluded. `isFlaggedFraud` is also excluded because it is a simulator rule flag and can leak rule-based information into the model.
 
-## Current Attack-Validation Scope
+## Phase 4 Status: Bounded Defense Evaluation
 
-The repository now includes the bounded Phase 3/4 attack redevelopment code used
-to validate small-scope update inversion before drawing defense conclusions. The
-validated scope is intentionally narrow:
+Phase 4 is complete for the bounded evaluation scope defined below. It does not
+claim a full-client or full-FedAvg privacy result. The phase answers a narrower
+question: after a validated attacker is available for a small update, does DNA
+Transform add measurable reconstruction resistance over the raw update?
+
+The validated Phase 4 scope is:
 
 ```text
 4 records per group
@@ -41,14 +44,31 @@ known preprocessing/model/loss
 no oracle class labels in the official attacker
 ```
 
-The Phase 4 runners compare raw updates, DNA Transform variants, random
-retention, top-k retention, and clipping/noise style defenses only inside this
-bounded scope. The current bounded-scope conclusion is conservative: DNA
-Transform did not show statistically supported added protection over the raw
-update in the paired Level 1 comparison. Random retention and clipping/noise MC
-also did not show a reliable harder-than-raw result in this scope. Top-k remains
-unresolved because the current soft top-k attacker can pass development but does
-not pass the held-out fresh gate.
+Completed Phase 4 checks include:
+
+- Gate A/B validation for the bounded raw-update attacker.
+- DNA Transform mechanics audit and realization-known direct inversion.
+- Level 1 DNA-aware attack without oracle class labels.
+- Paired DNA-vs-raw comparison on held-out fresh targets.
+- A stronger DNA Transform candidate.
+- Random retention, clipping/noise, clipping/noise Monte Carlo, and soft top-k
+  diagnostics.
+
+The bounded-scope conclusion is conservative:
+
+- DNA Transform conservative did not show statistically supported added
+  protection over the raw update in the paired Level 1 comparison.
+- The stronger DNA Transform candidate also did not establish added protection
+  in this bounded scope.
+- Random retention and clipping/noise Monte Carlo did not show a reliable
+  harder-than-raw result.
+- Soft top-k remains unresolved: it can pass development, but the held-out fresh
+  run did not pass the required attack-control gate, so it is not interpreted as
+  a confirmed defense result.
+
+The next research step is not to keep tuning Phase 4. It is either to redesign
+the DNA Transform or move to a larger Phase 5 protocol for broader FL settings
+with more records, more local steps, and full-client updates.
 
 Key implementation files for this phase include:
 
