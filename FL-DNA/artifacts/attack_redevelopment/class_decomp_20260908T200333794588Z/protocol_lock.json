@@ -1,0 +1,21 @@
+{
+  "run_seed": 1925519893,
+  "scope": "oracle class-decomposed 16-record train-mode gradient diagnostic",
+  "records_per_group": 16,
+  "fraud_per_group": 4,
+  "development_groups": 1,
+  "confirmation_groups": 2,
+  "iterations": 5,
+  "development_restarts": 1,
+  "confirmation_restarts": 1,
+  "attack_lrs": [
+    0.03
+  ],
+  "variant": "manifold_bn1",
+  "threat_model_status": "diagnostic_oracle_not_server_visible",
+  "observation": "separate fraud and non-fraud train-mode gradient contributions from one shared full-batch graph",
+  "objective": "equal-weight match of fraud and non-fraud contribution gradients; no ground truth in candidate selection",
+  "purpose": "test whether non-fraud reconstruction is hidden by class-skewed aggregate gradients",
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b",
+  "checkpoint_sha256": "5bb8cb368c0c3883f6cac946d57427ad7b77d56cf4c423fd3c82243a3859c710"
+}

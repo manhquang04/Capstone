@@ -1,0 +1,132 @@
+{
+  "scope": "paired bounded one-batch Adam confirmation; same targets, initialization seeds, budget, labels, order, RNG, and checkpoint",
+  "lossless_dna": {
+    "max_abs_error": 0.0,
+    "interpretation": "bit-exact transport comparator; reconstruction equals the validated raw baseline"
+  },
+  "dna_transform": {
+    "adaptive_attack": "exact forward DNA transform, identity BPDA backward; transform config and seed disclosed",
+    "n": 12,
+    "higher_mse_wins": 8,
+    "mean_mse_difference": -6.004946938473523,
+    "median_mse_difference": 10.610875504706408,
+    "one_sided_sign_p": 0.19384765625,
+    "mean_baseline_mse": 775.7376775068648,
+    "mean_dna_mse": 769.7327305683913
+  },
+  "limitations": [
+    "BPDA is an adaptive approximation, not an exact derivative of the discrete DNA seed/permutation rule.",
+    "The result applies to a four-record, one-step Adam update under attacker-favorable knowledge.",
+    "It does not establish formal privacy or inversion resistance for full-client FedAvg updates."
+  ],
+  "selected": [
+    {
+      "group_id": 0,
+      "baseline_mse": 32.01021194988624,
+      "dna_mse": 76.44068605624074,
+      "dna_minus_baseline": 44.430474106354495,
+      "baseline_restart": 0,
+      "dna_restart": 0,
+      "transform_seed": 1096815178
+    },
+    {
+      "group_id": 1,
+      "baseline_mse": 30.577474188685404,
+      "dna_mse": 35.975444128474805,
+      "dna_minus_baseline": 5.397969939789402,
+      "baseline_restart": 1,
+      "dna_restart": 1,
+      "transform_seed": 373691879
+    },
+    {
+      "group_id": 2,
+      "baseline_mse": 323.6026628015638,
+      "dna_mse": 190.81739499134343,
+      "dna_minus_baseline": -132.78526781022035,
+      "baseline_restart": 0,
+      "dna_restart": 2,
+      "transform_seed": 1990302021
+    },
+    {
+      "group_id": 3,
+      "baseline_mse": 24.485603951164265,
+      "dna_mse": 7.8865587686103975,
+      "dna_minus_baseline": -16.599045182553866,
+      "baseline_restart": 2,
+      "dna_restart": 1,
+      "transform_seed": 642571379
+    },
+    {
+      "group_id": 4,
+      "baseline_mse": 155.75590095130786,
+      "dna_mse": 262.9597692474815,
+      "dna_minus_baseline": 107.20386829617365,
+      "baseline_restart": 1,
+      "dna_restart": 1,
+      "transform_seed": 2117195052
+    },
+    {
+      "group_id": 5,
+      "baseline_mse": 354.0876661082624,
+      "dna_mse": 528.6045101631385,
+      "dna_minus_baseline": 174.51684405487606,
+      "baseline_restart": 1,
+      "dna_restart": 1,
+      "transform_seed": 243453586
+    },
+    {
+      "group_id": 6,
+      "baseline_mse": 14.675469240911028,
+      "dna_mse": 8.414275983802561,
+      "dna_minus_baseline": -6.2611932571084665,
+      "baseline_restart": 1,
+      "dna_restart": 1,
+      "transform_seed": 50034681
+    },
+    {
+      "group_id": 7,
+      "baseline_mse": 6.713016876058905,
+      "dna_mse": 7.8273562721042875,
+      "dna_minus_baseline": 1.1143393960453825,
+      "baseline_restart": 1,
+      "dna_restart": 1,
+      "transform_seed": 298228814
+    },
+    {
+      "group_id": 8,
+      "baseline_mse": 756.0502209837505,
+      "dna_mse": 985.3075793541218,
+      "dna_minus_baseline": 229.25735837037132,
+      "baseline_restart": 2,
+      "dna_restart": 2,
+      "transform_seed": 35630602
+    },
+    {
+      "group_id": 9,
+      "baseline_mse": 7430.107613626802,
+      "dna_mse": 6790.549929044178,
+      "dna_minus_baseline": -639.5576845826245,
+      "baseline_restart": 2,
+      "dna_restart": 1,
+      "transform_seed": 1521573000
+    },
+    {
+      "group_id": 10,
+      "baseline_mse": 159.07712834483573,
+      "dna_mse": 304.4763206824269,
+      "dna_minus_baseline": 145.39919233759116,
+      "baseline_restart": 2,
+      "dna_restart": 2,
+      "transform_seed": 1919314983
+    },
+    {
+      "group_id": 11,
+      "baseline_mse": 21.709161059150027,
+      "dna_mse": 37.53294212877344,
+      "dna_minus_baseline": 15.823781069623415,
+      "baseline_restart": 2,
+      "dna_restart": 2,
+      "transform_seed": 681380628
+    }
+  ]
+}
