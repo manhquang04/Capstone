@@ -6,6 +6,7 @@ import torch
 
 from attacks.local_update import simulate, simulate_sgd, objective
 from experiments.fraud_fl_common import BinaryFocalLoss
+from experiments.phase3_bounded_validation import update_objective
 from models.fraud_mlp import FraudMLP
 
 
@@ -88,3 +89,41 @@ def test_sgd_batchnorm_buffer_derivative(replay):
     torch.testing.assert_close((grad*direction).sum(), numeric, rtol=1e-4, atol=1e-7)
     assert grad.abs().max() > 0
     assert all(not module._forward_pre_hooks for module in model.modules())
+
+
+def test_balanced_tensor_objective_keeps_small_tensor_signal():
+    observed = {
+        "small_weight": torch.tensor([1e-3, -1e-3]),
+        "large_running_var": torch.tensor([1000.0, -1000.0]),
+    }
+    candidate_matches_large_only = {
+        "small_weight": torch.zeros(2),
+        "large_running_var": observed["large_running_var"].clone(),
+    }
+    candidate_matches_small_only = {
+        "small_weight": observed["small_weight"].clone(),
+        "large_running_var": torch.zeros(2),
+    }
+    flattened = update_objective(
+        candidate_matches_large_only,
+        observed,
+        list(observed),
+        reference=observed,
+        mode="cosine_magnitude",
+    )
+    balanced = update_objective(
+        candidate_matches_large_only,
+        observed,
+        list(observed),
+        reference=observed,
+        mode="balanced_tensor",
+    )
+    small_preserved = update_objective(
+        candidate_matches_small_only,
+        observed,
+        list(observed),
+        reference=observed,
+        mode="balanced_tensor",
+    )
+    assert flattened < balanced
+    torch.testing.assert_close(small_preserved, balanced)

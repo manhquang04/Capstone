@@ -27,6 +27,46 @@ oldbalanceDest, newbalanceDest, isFraud
 
 High-cardinality identity columns such as `nameOrig` and `nameDest` are excluded. `isFlaggedFraud` is also excluded because it is a simulator rule flag and can leak rule-based information into the model.
 
+## Current Attack-Validation Scope
+
+The repository now includes the bounded Phase 3/4 attack redevelopment code used
+to validate small-scope update inversion before drawing defense conclusions. The
+validated scope is intentionally narrow:
+
+```text
+4 records per group
+1 fraud record per group
+1 local Adam step
+known preprocessing/model/loss
+no oracle class labels in the official attacker
+```
+
+The Phase 4 runners compare raw updates, DNA Transform variants, random
+retention, top-k retention, and clipping/noise style defenses only inside this
+bounded scope. The current bounded-scope conclusion is conservative: DNA
+Transform did not show statistically supported added protection over the raw
+update in the paired Level 1 comparison. Random retention and clipping/noise MC
+also did not show a reliable harder-than-raw result in this scope. Top-k remains
+unresolved because the current soft top-k attacker can pass development but does
+not pass the held-out fresh gate.
+
+Key implementation files for this phase include:
+
+```text
+FL-DNA/attacks/adaptive_dna.py
+FL-DNA/attacks/tabular_parameterization.py
+FL-DNA/experiments/run_phase4_harddiff_reparam_for_misselected.py
+FL-DNA/experiments/run_phase4_dna_level1_forward_attack.py
+FL-DNA/experiments/run_phase4_dna_level2_direct_inversion.py
+FL-DNA/experiments/run_phase4_simple_defense_attack.py
+FL-DNA/experiments/compare_phase4_methods_vs_raw.py
+FL-DNA/experiments/create_phase4_source_disjoint_targets.py
+```
+
+Committed Phase 4 artifacts are limited to report/provenance/summary files
+(`.json` and selected `.csv`). Large target tensors and per-restart tensors are
+not committed; they can be regenerated from the recorded seeds and commands.
+
 ## Project Structure
 
 ```text

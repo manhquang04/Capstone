@@ -1,0 +1,173 @@
+{
+  "run": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/artifacts/phase4/pre_phase4_fraud_gate_20260909T070735493549Z",
+  "groups_with_extra_restarts": [
+    0,
+    2,
+    6,
+    9
+  ],
+  "start_restart": 3,
+  "total_restarts": 10,
+  "frozen_attack": {
+    "attack_lr": 0.1,
+    "iterations": 600,
+    "restarts": 3,
+    "protocol_sha256": "2cbc3f4c93a5d053809ddca2403b42e091929b4b3dc5ee46138951544340499f",
+    "selected_before_evaluation": true
+  },
+  "selected_wrong_group_summary": [
+    {
+      "group_id": 0,
+      "n_baseline_restarts": 10,
+      "objective_best_restart": 0,
+      "fraud_mse_best_restart": 3,
+      "objective_best_objective": 0.7937992811203003,
+      "fraud_best_objective": 0.9576693773269653,
+      "objective_margin_wrong_minus_fraud_best": -0.16387009620666504,
+      "objective_best_fraud_mse": 20.154015026943476,
+      "fraud_best_fraud_mse": 6.137053325254541,
+      "extra_fraud_mse_from_objective_selection": 14.016961701688935,
+      "prior_fraud_mse_mean": 12.904014991938274,
+      "zero_objective_best_fraud_mse": 13.26372687446275,
+      "objective_minus_prior_fraud_mse": 7.250000035005202,
+      "objective_minus_zero_fraud_mse": 6.890288152480727,
+      "fraud_best_minus_prior_fraud_mse": -6.7669616666837324,
+      "fraud_best_minus_zero_fraud_mse": -7.126673549208208
+    },
+    {
+      "group_id": 2,
+      "n_baseline_restarts": 10,
+      "objective_best_restart": 0,
+      "fraud_mse_best_restart": 6,
+      "objective_best_objective": 0.9560601115226746,
+      "fraud_best_objective": 1.1647639274597168,
+      "objective_margin_wrong_minus_fraud_best": -0.20870381593704224,
+      "objective_best_fraud_mse": 28286.503513640084,
+      "fraud_best_fraud_mse": 27828.729433723576,
+      "extra_fraud_mse_from_objective_selection": 457.7740799165076,
+      "prior_fraud_mse_mean": 28038.157494272957,
+      "zero_objective_best_fraud_mse": 28214.801201457194,
+      "objective_minus_prior_fraud_mse": 248.34601936712716,
+      "objective_minus_zero_fraud_mse": 71.70231218288973,
+      "fraud_best_minus_prior_fraud_mse": -209.42806054938046,
+      "fraud_best_minus_zero_fraud_mse": -386.0717677336179
+    },
+    {
+      "group_id": 6,
+      "n_baseline_restarts": 10,
+      "objective_best_restart": 9,
+      "fraud_mse_best_restart": 0,
+      "objective_best_objective": 0.7313823699951172,
+      "fraud_best_objective": 0.8741428256034851,
+      "objective_margin_wrong_minus_fraud_best": -0.14276045560836792,
+      "objective_best_fraud_mse": 5235.182356770219,
+      "fraud_best_fraud_mse": 5171.318315263595,
+      "extra_fraud_mse_from_objective_selection": 63.864041506623835,
+      "prior_fraud_mse_mean": 5306.766612038865,
+      "zero_objective_best_fraud_mse": 5220.777359970562,
+      "objective_minus_prior_fraud_mse": -71.5842552686463,
+      "objective_minus_zero_fraud_mse": 14.404996799656146,
+      "fraud_best_minus_prior_fraud_mse": -135.44829677527014,
+      "fraud_best_minus_zero_fraud_mse": -49.45904470696769
+    },
+    {
+      "group_id": 9,
+      "n_baseline_restarts": 10,
+      "objective_best_restart": 7,
+      "fraud_mse_best_restart": 7,
+      "objective_best_objective": 0.5940004587173462,
+      "fraud_best_objective": 0.5940004587173462,
+      "objective_margin_wrong_minus_fraud_best": 0.0,
+      "objective_best_fraud_mse": 1.0680145545303017,
+      "fraud_best_fraud_mse": 1.0680145545303017,
+      "extra_fraud_mse_from_objective_selection": 0.0,
+      "prior_fraud_mse_mean": 1.4373644830579684,
+      "zero_objective_best_fraud_mse": 4.409046387918297,
+      "objective_minus_prior_fraud_mse": -0.3693499285276667,
+      "objective_minus_zero_fraud_mse": -3.341031833387995,
+      "fraud_best_minus_prior_fraud_mse": -0.3693499285276667,
+      "fraud_best_minus_zero_fraud_mse": -3.341031833387995
+    }
+  ],
+  "all_group_gate_with_extra_restarts": {
+    "objective_selection": {
+      "prior": {
+        "n": 12,
+        "wins": 9,
+        "mean_difference": -25.904260079767692,
+        "median_difference": -4.910979973526274,
+        "one_sided_sign_p": 0.072998046875,
+        "gate": false
+      },
+      "zero": {
+        "n": 12,
+        "wins": 8,
+        "mean_difference": -17.67766814030659,
+        "median_difference": -1.819599479675555,
+        "one_sided_sign_p": 0.19384765625,
+        "gate": false
+      },
+      "gate": false
+    },
+    "fraud_mse_oracle_selection_diagnostic_only": {
+      "prior": {
+        "n": 12,
+        "wins": 11,
+        "mean_difference": -70.54218367350272,
+        "median_difference": -20.652450003266182,
+        "one_sided_sign_p": 0.003173828125,
+        "gate": true
+      },
+      "zero": {
+        "n": 12,
+        "wins": 11,
+        "mean_difference": -62.315591734041625,
+        "median_difference": -13.937328939944742,
+        "one_sided_sign_p": 0.003173828125,
+        "gate": true
+      },
+      "gate": true
+    }
+  },
+  "wrong_groups_only_gate": {
+    "objective_selection": {
+      "prior": {
+        "n": 4,
+        "wins": 2,
+        "mean_difference": 45.910603551239596,
+        "median_difference": 3.4403250532387677,
+        "one_sided_sign_p": 0.6875,
+        "gate": false
+      },
+      "zero": {
+        "n": 4,
+        "wins": 1,
+        "mean_difference": 22.41414132540965,
+        "median_difference": 10.647642476068437,
+        "one_sided_sign_p": 0.9375,
+        "gate": false
+      },
+      "gate": false
+    },
+    "fraud_mse_oracle_selection_diagnostic_only": {
+      "prior": {
+        "n": 4,
+        "wins": 4,
+        "mean_difference": -88.0031672299655,
+        "median_difference": -71.10762922097693,
+        "one_sided_sign_p": 0.0625,
+        "gate": false
+      },
+      "zero": {
+        "n": 4,
+        "wins": 4,
+        "mean_difference": -111.49962945579544,
+        "median_difference": -28.292859128087947,
+        "one_sided_sign_p": 0.0625,
+        "gate": false
+      },
+      "gate": false
+    }
+  },
+  "interpretation": "Diagnostic only; extra restarts are run after seeing held-out misselections and cannot be used as the official gate."
+}

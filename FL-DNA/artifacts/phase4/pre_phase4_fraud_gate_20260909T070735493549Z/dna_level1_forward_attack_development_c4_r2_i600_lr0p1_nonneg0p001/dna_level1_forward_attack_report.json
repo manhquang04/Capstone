@@ -1,0 +1,96 @@
+{
+  "target_file": "development_targets.pt",
+  "groups": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "diagnostic": "fresh optimized Level 1 surrogate-forward DNA attack",
+  "dna_run_seed": 477885591,
+  "surrogate_candidates_per_group": 4,
+  "restarts_per_candidate": 2,
+  "iterations": 600,
+  "attack_lr": 0.1,
+  "nonnegative_lambda": 0.001,
+  "selection_formula": "argmin_r,c L_balanced(M_r delta(c), transmitted_update; reference=transmitted_update)",
+  "caveat": "Surrogate realizations do not equal the raw-block-derived realization; this is a Level-1 diagnostic attack, not Level 2.",
+  "group_summary": [
+    {
+      "group_id": 0,
+      "n_baseline_candidates": 8,
+      "objective_best_restart": 1,
+      "objective_best_realization_id": 1,
+      "objective_best_objective": 0.5909941792488098,
+      "objective_best_fraud_mse": 42.19294791859371,
+      "objective_best_non_fraud_mse": 35.231517555110926,
+      "prior_fraud_mse_mean": 79.31376304249716,
+      "zero_objective_best_fraud_mse": 61.165400737764166,
+      "objective_minus_prior_fraud_mse": -37.12081512390345,
+      "objective_minus_zero_fraud_mse": -18.972452819170456,
+      "max_balance_residual_raw": 0.41004583053290844
+    },
+    {
+      "group_id": 1,
+      "n_baseline_candidates": 8,
+      "objective_best_restart": 1,
+      "objective_best_realization_id": 3,
+      "objective_best_objective": 0.6710514426231384,
+      "objective_best_fraud_mse": 45.23173822139919,
+      "objective_best_non_fraud_mse": 11.442973100343247,
+      "prior_fraud_mse_mean": 37.717103311096025,
+      "zero_objective_best_fraud_mse": 119.02199995798165,
+      "objective_minus_prior_fraud_mse": 7.514634910303165,
+      "objective_minus_zero_fraud_mse": -73.79026173658247,
+      "max_balance_residual_raw": 0.40020762104541063
+    },
+    {
+      "group_id": 2,
+      "n_baseline_candidates": 8,
+      "objective_best_restart": 1,
+      "objective_best_realization_id": 1,
+      "objective_best_objective": 0.7137183547019958,
+      "objective_best_fraud_mse": 107.30105065969762,
+      "objective_best_non_fraud_mse": 342.11498747016236,
+      "prior_fraud_mse_mean": 2409.816288269389,
+      "zero_objective_best_fraud_mse": 1606.4177858860655,
+      "objective_minus_prior_fraud_mse": -2302.5152376096917,
+      "objective_minus_zero_fraud_mse": -1499.1167352263678,
+      "max_balance_residual_raw": 0.7375153675675392
+    },
+    {
+      "group_id": 3,
+      "n_baseline_candidates": 8,
+      "objective_best_restart": 1,
+      "objective_best_realization_id": 1,
+      "objective_best_objective": 0.6213266849517822,
+      "objective_best_fraud_mse": 28.74430668256707,
+      "objective_best_non_fraud_mse": 27.705783698311468,
+      "prior_fraud_mse_mean": 26.797097147604255,
+      "zero_objective_best_fraud_mse": 14.206890084386329,
+      "objective_minus_prior_fraud_mse": 1.9472095349628162,
+      "objective_minus_zero_fraud_mse": 14.537416598180743,
+      "max_balance_residual_raw": 0.47038459312170744
+    }
+  ],
+  "target_gate": {
+    "prior": {
+      "n": 4,
+      "wins": 2,
+      "mean_difference": -582.5435520720823,
+      "median_difference": -17.586802794470316,
+      "one_sided_sign_p": 0.6875,
+      "gate": false
+    },
+    "zero": {
+      "n": 4,
+      "wins": 3,
+      "mean_difference": -394.335508295985,
+      "median_difference": -46.38135727787646,
+      "one_sided_sign_p": 0.3125,
+      "gate": false
+    },
+    "gate": false
+  },
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b"
+}

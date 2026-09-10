@@ -1,0 +1,694 @@
+{
+  "candidates": [
+    {
+      "iterations": 300,
+      "attack_lr": 0.05,
+      "selection_score": 1.3369150098304057,
+      "comparisons": {
+        "fraud": {
+          "prior": {
+            "n": 4,
+            "wins": 4,
+            "non_ties": 4,
+            "mean_difference": -5.004872128259555,
+            "median_difference": -0.7730759564624323,
+            "one_sided_sign_p": 0.0625,
+            "gate": false
+          },
+          "zero": {
+            "n": 4,
+            "wins": 3,
+            "non_ties": 4,
+            "mean_difference": 1.3369150098304057,
+            "median_difference": -1.6649309965197228,
+            "one_sided_sign_p": 0.3125,
+            "gate": false
+          }
+        },
+        "non_fraud": {
+          "prior": {
+            "n": 4,
+            "wins": 1,
+            "non_ties": 4,
+            "mean_difference": -0.4034295029786982,
+            "median_difference": 0.2581011476214362,
+            "one_sided_sign_p": 0.9375,
+            "gate": false
+          },
+          "zero": {
+            "n": 4,
+            "wins": 3,
+            "non_ties": 4,
+            "mean_difference": -0.21540102774521125,
+            "median_difference": -0.3539840458022653,
+            "one_sided_sign_p": 0.3125,
+            "gate": false
+          }
+        },
+        "fraud_gate": false
+      },
+      "selected": [
+        {
+          "group_id": 0,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 27.32489999371667,
+          "prior_mse": 27.94751252743252,
+          "zero_mse": 35.66017077309871,
+          "baseline_minus_prior": -0.6226125337158486,
+          "baseline_minus_zero": -8.335270779382043
+        },
+        {
+          "group_id": 0,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 1.562692798623395,
+          "prior_mse": 1.1208687767875283,
+          "zero_mse": 2.1569890975802384,
+          "baseline_minus_prior": 0.44182402183586666,
+          "baseline_minus_zero": -0.5942962989568434
+        },
+        {
+          "group_id": 1,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 31.41539253701463,
+          "prior_mse": 31.813555740479885,
+          "zero_mse": 32.604203639643515,
+          "baseline_minus_prior": -0.3981632034652556,
+          "baseline_minus_zero": -1.1888111026288861
+        },
+        {
+          "group_id": 1,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 33.4213011619514,
+          "prior_mse": 33.00658295441286,
+          "zero_mse": 32.17086800378458,
+          "baseline_minus_prior": 0.4147182075385345,
+          "baseline_minus_zero": 1.250433158166821
+        },
+        {
+          "group_id": 2,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 2223.0109867294746,
+          "prior_mse": 2241.0861601261226,
+          "zero_mse": 2205.9981939177314,
+          "baseline_minus_prior": -18.075173396648097,
+          "baseline_minus_zero": 17.01279281174311
+        },
+        {
+          "group_id": 2,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 263.97052357783383,
+          "prior_mse": 266.54226790682736,
+          "zero_mse": 265.37459275537697,
+          "baseline_minus_prior": -2.571744328993532,
+          "baseline_minus_zero": -1.4040691775431355
+        },
+        {
+          "group_id": 3,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 15.562822059514078,
+          "prior_mse": 16.486361438723094,
+          "zero_mse": 17.703872949924637,
+          "baseline_minus_prior": -0.9235393792090161,
+          "baseline_minus_zero": -2.1410508904105594
+        },
+        {
+          "group_id": 3,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 1.2297181668734425,
+          "prior_mse": 1.1282340791691046,
+          "zero_mse": 1.3433899595211296,
+          "baseline_minus_prior": 0.10148408770433792,
+          "baseline_minus_zero": -0.11367179264768712
+        }
+      ]
+    },
+    {
+      "iterations": 300,
+      "attack_lr": 0.1,
+      "selection_score": -2.560343654320695,
+      "comparisons": {
+        "fraud": {
+          "prior": {
+            "n": 4,
+            "wins": 3,
+            "non_ties": 4,
+            "mean_difference": -7.297395554487185,
+            "median_difference": -3.53022125419613,
+            "one_sided_sign_p": 0.3125,
+            "gate": false
+          },
+          "zero": {
+            "n": 4,
+            "wins": 2,
+            "non_ties": 4,
+            "mean_difference": -2.560343654320695,
+            "median_difference": -2.2421585356389055,
+            "one_sided_sign_p": 0.6875,
+            "gate": false
+          }
+        },
+        "non_fraud": {
+          "prior": {
+            "n": 4,
+            "wins": 2,
+            "non_ties": 4,
+            "mean_difference": -0.42178780936222016,
+            "median_difference": 0.2279738164977373,
+            "one_sided_sign_p": 0.6875,
+            "gate": false
+          },
+          "zero": {
+            "n": 4,
+            "wins": 3,
+            "non_ties": 4,
+            "mean_difference": -0.2513592321635075,
+            "median_difference": -0.2656493944964132,
+            "one_sided_sign_p": 0.3125,
+            "gate": false
+          }
+        },
+        "fraud_gate": false
+      },
+      "selected": [
+        {
+          "group_id": 0,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 26.54994320045046,
+          "prior_mse": 27.94751252743252,
+          "zero_mse": 31.40083187050641,
+          "baseline_minus_prior": -1.3975693269820582,
+          "baseline_minus_zero": -4.850888670055948
+        },
+        {
+          "group_id": 0,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 1.0686393108074077,
+          "prior_mse": 1.1208687767875283,
+          "zero_mse": 1.395452089006725,
+          "baseline_minus_prior": -0.05222946598012057,
+          "baseline_minus_zero": -0.3268127781993173
+        },
+        {
+          "group_id": 1,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 26.150682559069683,
+          "prior_mse": 31.813555740479885,
+          "zero_mse": 34.588683283571015,
+          "baseline_minus_prior": -5.662873181410202,
+          "baseline_minus_zero": -8.438000724501332
+        },
+        {
+          "group_id": 1,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 35.001795447655475,
+          "prior_mse": 33.00658295441286,
+          "zero_mse": 31.449991625296736,
+          "baseline_minus_prior": 1.9952124932426116,
+          "baseline_minus_zero": 3.551803822358739
+        },
+        {
+          "group_id": 2,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 2215.5001446912906,
+          "prior_mse": 2241.0861601261226,
+          "zero_mse": 2212.8192015127943,
+          "baseline_minus_prior": -25.586015434832007,
+          "baseline_minus_zero": 2.6809431784963635
+        },
+        {
+          "group_id": 2,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 262.4039565431404,
+          "prior_mse": 266.54226790682736,
+          "zero_mse": 266.42989850516034,
+          "baseline_minus_prior": -4.138311363686967,
+          "baseline_minus_zero": -4.025941962019942
+        },
+        {
+          "group_id": 3,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 19.943237163998617,
+          "prior_mse": 16.486361438723094,
+          "zero_mse": 19.57666556522048,
+          "baseline_minus_prior": 3.4568757252755233,
+          "baseline_minus_zero": 0.36657159877813683
+        },
+        {
+          "group_id": 3,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 1.6364111781446997,
+          "prior_mse": 1.1282340791691046,
+          "zero_mse": 1.8408971889382089,
+          "baseline_minus_prior": 0.5081770989755952,
+          "baseline_minus_zero": -0.20448601079350914
+        }
+      ]
+    },
+    {
+      "iterations": 600,
+      "attack_lr": 0.05,
+      "selection_score": 10.138841978900052,
+      "comparisons": {
+        "fraud": {
+          "prior": {
+            "n": 4,
+            "wins": 4,
+            "non_ties": 4,
+            "mean_difference": -5.004872128259555,
+            "median_difference": -0.7730759564624323,
+            "one_sided_sign_p": 0.0625,
+            "gate": false
+          },
+          "zero": {
+            "n": 4,
+            "wins": 3,
+            "non_ties": 4,
+            "mean_difference": 10.138841978900052,
+            "median_difference": -1.6649309965197228,
+            "one_sided_sign_p": 0.3125,
+            "gate": false
+          }
+        },
+        "non_fraud": {
+          "prior": {
+            "n": 4,
+            "wins": 1,
+            "non_ties": 4,
+            "mean_difference": -0.4034295029786982,
+            "median_difference": 0.2581011476214362,
+            "one_sided_sign_p": 0.9375,
+            "gate": false
+          },
+          "zero": {
+            "n": 4,
+            "wins": 2,
+            "non_ties": 4,
+            "mean_difference": 0.8181589011952117,
+            "median_difference": 0.568380682759567,
+            "one_sided_sign_p": 0.6875,
+            "gate": false
+          }
+        },
+        "fraud_gate": false
+      },
+      "selected": [
+        {
+          "group_id": 0,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 27.32489999371667,
+          "prior_mse": 27.94751252743252,
+          "zero_mse": 39.98655423647228,
+          "baseline_minus_prior": -0.6226125337158486,
+          "baseline_minus_zero": -12.66165424275561
+        },
+        {
+          "group_id": 0,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 1.562692798623395,
+          "prior_mse": 1.1208687767875283,
+          "zero_mse": 2.9218479319757944,
+          "baseline_minus_prior": 0.44182402183586666,
+          "baseline_minus_zero": -1.3591551333523995
+        },
+        {
+          "group_id": 1,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 31.41539253701463,
+          "prior_mse": 31.813555740479885,
+          "zero_mse": 32.604203639643515,
+          "baseline_minus_prior": -0.3981632034652556,
+          "baseline_minus_zero": -1.1888111026288861
+        },
+        {
+          "group_id": 1,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 33.4213011619514,
+          "prior_mse": 33.00658295441286,
+          "zero_mse": 32.17086800378458,
+          "baseline_minus_prior": 0.4147182075385345,
+          "baseline_minus_zero": 1.250433158166821
+        },
+        {
+          "group_id": 2,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 2223.0109867294746,
+          "prior_mse": 2241.0861601261226,
+          "zero_mse": 2166.4641025780793,
+          "baseline_minus_prior": -18.075173396648097,
+          "baseline_minus_zero": 56.54688415139526
+        },
+        {
+          "group_id": 2,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 263.97052357783383,
+          "prior_mse": 266.54226790682736,
+          "zero_mse": 260.4754942052197,
+          "baseline_minus_prior": -2.571744328993532,
+          "baseline_minus_zero": 3.4950293726141126
+        },
+        {
+          "group_id": 3,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 15.562822059514078,
+          "prior_mse": 16.486361438723094,
+          "zero_mse": 17.703872949924637,
+          "baseline_minus_prior": -0.9235393792090161,
+          "baseline_minus_zero": -2.1410508904105594
+        },
+        {
+          "group_id": 3,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 1.2297181668734425,
+          "prior_mse": 1.1282340791691046,
+          "zero_mse": 1.3433899595211296,
+          "baseline_minus_prior": 0.10148408770433792,
+          "baseline_minus_zero": -0.11367179264768712
+        }
+      ]
+    },
+    {
+      "iterations": 600,
+      "attack_lr": 0.1,
+      "selection_score": -13.119875931832382,
+      "comparisons": {
+        "fraud": {
+          "prior": {
+            "n": 4,
+            "wins": 3,
+            "non_ties": 4,
+            "mean_difference": -17.588899412246565,
+            "median_difference": -3.53022125419613,
+            "one_sided_sign_p": 0.3125,
+            "gate": false
+          },
+          "zero": {
+            "n": 4,
+            "wins": 3,
+            "non_ties": 4,
+            "mean_difference": -13.119875931832382,
+            "median_difference": -8.701192649182873,
+            "one_sided_sign_p": 0.3125,
+            "gate": false
+          }
+        },
+        "non_fraud": {
+          "prior": {
+            "n": 4,
+            "wins": 2,
+            "non_ties": 4,
+            "mean_difference": -1.0787263204363224,
+            "median_difference": 0.2279738164977373,
+            "one_sided_sign_p": 0.6875,
+            "gate": false
+          },
+          "zero": {
+            "n": 4,
+            "wins": 3,
+            "non_ties": 4,
+            "mean_difference": -1.0370989811072684,
+            "median_difference": -0.3383495490301781,
+            "one_sided_sign_p": 0.3125,
+            "gate": false
+          }
+        },
+        "fraud_gate": false
+      },
+      "selected": [
+        {
+          "group_id": 0,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 26.54994320045046,
+          "prior_mse": 27.94751252743252,
+          "zero_mse": 31.811323214831628,
+          "baseline_minus_prior": -1.3975693269820582,
+          "baseline_minus_zero": -5.261380014381167
+        },
+        {
+          "group_id": 0,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 1.0686393108074077,
+          "prior_mse": 1.1208687767875283,
+          "zero_mse": 1.5408523980742548,
+          "baseline_minus_prior": -0.05222946598012057,
+          "baseline_minus_zero": -0.4722130872668471
+        },
+        {
+          "group_id": 1,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 26.150682559069683,
+          "prior_mse": 31.813555740479885,
+          "zero_mse": 38.29168784305426,
+          "baseline_minus_prior": -5.662873181410202,
+          "baseline_minus_zero": -12.14100528398458
+        },
+        {
+          "group_id": 1,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 35.001795447655475,
+          "prior_mse": 33.00658295441286,
+          "zero_mse": 31.72945383404085,
+          "baseline_minus_prior": 1.9952124932426116,
+          "baseline_minus_zero": 3.272341613614625
+        },
+        {
+          "group_id": 2,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 2174.334129260253,
+          "prior_mse": 2241.0861601261226,
+          "zero_mse": 2209.777819287995,
+          "baseline_minus_prior": -66.75203086586953,
+          "baseline_minus_zero": -35.44369002774192
+        },
+        {
+          "group_id": 2,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 259.776202498844,
+          "prior_mse": 266.54226790682736,
+          "zero_mse": 266.5202409388273,
+          "baseline_minus_prior": -6.766065407983376,
+          "baseline_minus_zero": -6.744038439983342
+        },
+        {
+          "group_id": 3,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 19.943237163998617,
+          "prior_mse": 16.486361438723094,
+          "zero_mse": 19.57666556522048,
+          "baseline_minus_prior": 3.4568757252755233,
+          "baseline_minus_zero": 0.36657159877813683
+        },
+        {
+          "group_id": 3,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 1.6364111781446997,
+          "prior_mse": 1.1282340791691046,
+          "zero_mse": 1.8408971889382089,
+          "baseline_minus_prior": 0.5081770989755952,
+          "baseline_minus_zero": -0.20448601079350914
+        }
+      ]
+    }
+  ],
+  "chosen": {
+    "iterations": 600,
+    "attack_lr": 0.1,
+    "selection_score": -13.119875931832382,
+    "comparisons": {
+      "fraud": {
+        "prior": {
+          "n": 4,
+          "wins": 3,
+          "non_ties": 4,
+          "mean_difference": -17.588899412246565,
+          "median_difference": -3.53022125419613,
+          "one_sided_sign_p": 0.3125,
+          "gate": false
+        },
+        "zero": {
+          "n": 4,
+          "wins": 3,
+          "non_ties": 4,
+          "mean_difference": -13.119875931832382,
+          "median_difference": -8.701192649182873,
+          "one_sided_sign_p": 0.3125,
+          "gate": false
+        }
+      },
+      "non_fraud": {
+        "prior": {
+          "n": 4,
+          "wins": 2,
+          "non_ties": 4,
+          "mean_difference": -1.0787263204363224,
+          "median_difference": 0.2279738164977373,
+          "one_sided_sign_p": 0.6875,
+          "gate": false
+        },
+        "zero": {
+          "n": 4,
+          "wins": 3,
+          "non_ties": 4,
+          "mean_difference": -1.0370989811072684,
+          "median_difference": -0.3383495490301781,
+          "one_sided_sign_p": 0.3125,
+          "gate": false
+        }
+      },
+      "fraud_gate": false
+    },
+    "selected": [
+      {
+        "group_id": 0,
+        "class": "fraud",
+        "baseline_restart": 0,
+        "zero_restart": 0,
+        "baseline_mse": 26.54994320045046,
+        "prior_mse": 27.94751252743252,
+        "zero_mse": 31.811323214831628,
+        "baseline_minus_prior": -1.3975693269820582,
+        "baseline_minus_zero": -5.261380014381167
+      },
+      {
+        "group_id": 0,
+        "class": "non_fraud",
+        "baseline_restart": 0,
+        "zero_restart": 0,
+        "baseline_mse": 1.0686393108074077,
+        "prior_mse": 1.1208687767875283,
+        "zero_mse": 1.5408523980742548,
+        "baseline_minus_prior": -0.05222946598012057,
+        "baseline_minus_zero": -0.4722130872668471
+      },
+      {
+        "group_id": 1,
+        "class": "fraud",
+        "baseline_restart": 0,
+        "zero_restart": 0,
+        "baseline_mse": 26.150682559069683,
+        "prior_mse": 31.813555740479885,
+        "zero_mse": 38.29168784305426,
+        "baseline_minus_prior": -5.662873181410202,
+        "baseline_minus_zero": -12.14100528398458
+      },
+      {
+        "group_id": 1,
+        "class": "non_fraud",
+        "baseline_restart": 0,
+        "zero_restart": 0,
+        "baseline_mse": 35.001795447655475,
+        "prior_mse": 33.00658295441286,
+        "zero_mse": 31.72945383404085,
+        "baseline_minus_prior": 1.9952124932426116,
+        "baseline_minus_zero": 3.272341613614625
+      },
+      {
+        "group_id": 2,
+        "class": "fraud",
+        "baseline_restart": 0,
+        "zero_restart": 0,
+        "baseline_mse": 2174.334129260253,
+        "prior_mse": 2241.0861601261226,
+        "zero_mse": 2209.777819287995,
+        "baseline_minus_prior": -66.75203086586953,
+        "baseline_minus_zero": -35.44369002774192
+      },
+      {
+        "group_id": 2,
+        "class": "non_fraud",
+        "baseline_restart": 0,
+        "zero_restart": 0,
+        "baseline_mse": 259.776202498844,
+        "prior_mse": 266.54226790682736,
+        "zero_mse": 266.5202409388273,
+        "baseline_minus_prior": -6.766065407983376,
+        "baseline_minus_zero": -6.744038439983342
+      },
+      {
+        "group_id": 3,
+        "class": "fraud",
+        "baseline_restart": 0,
+        "zero_restart": 0,
+        "baseline_mse": 19.943237163998617,
+        "prior_mse": 16.486361438723094,
+        "zero_mse": 19.57666556522048,
+        "baseline_minus_prior": 3.4568757252755233,
+        "baseline_minus_zero": 0.36657159877813683
+      },
+      {
+        "group_id": 3,
+        "class": "non_fraud",
+        "baseline_restart": 0,
+        "zero_restart": 0,
+        "baseline_mse": 1.6364111781446997,
+        "prior_mse": 1.1282340791691046,
+        "zero_mse": 1.8408971889382089,
+        "baseline_minus_prior": 0.5081770989755952,
+        "baseline_minus_zero": -0.20448601079350914
+      }
+    ]
+  }
+}
