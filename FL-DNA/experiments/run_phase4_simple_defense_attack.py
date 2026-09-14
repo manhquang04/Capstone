@@ -143,6 +143,25 @@ def _clipping_noise_plan(update, keys, target_rel_l2, clip_factor, seed):
     }
 
 
+def _dp_clipping_noise_plan(update, keys, clip_norm, noise_multiplier, seed):
+    """Use the same clip-norm/noise-multiplier contract as RQ2 DP runs."""
+    update_norm = float(_global_l2(update, keys))
+    clip_factor = min(1.0, clip_norm / max(update_norm, 1e-12))
+    noise_std = noise_multiplier * clip_norm
+    raw = _raw_noise(update, keys, seed)
+    return {
+        "defense": "clipping_noise",
+        "noise": {key: raw[key] * noise_std for key in keys},
+        "noise_scale": noise_std,
+        "noise_std": noise_std,
+        "noise_multiplier": noise_multiplier,
+        "clip_norm": clip_norm,
+        "clip_factor": clip_factor,
+        "keep_ratio": 1.0,
+        "parameterization": "clip_norm_noise_multiplier",
+    }
+
+
 def _apply_observed_defense(update, keys, defense, plan):
     defended = {}
     for key, value in update.items():
@@ -228,13 +247,25 @@ def _plan(defense, observed, keys, group_id, args):
         )
         return {"defense": defense, "noise": noise, "keep_ratio": 1.0}
     if defense in ("clipping_noise", "clipping_noise_mc"):
-        plan = _clipping_noise_plan(
-            observed,
-            keys,
-            args.target_rel_l2,
-            args.clip_factor,
-            derive_seed(args.defense_seed, "clipping-noise", group_id),
-        )
+        if args.clip_norm is not None or args.noise_multiplier is not None:
+            if args.clip_norm is None or args.noise_multiplier is None:
+                raise ValueError("--clip-norm and --noise-multiplier must be supplied together")
+            plan = _dp_clipping_noise_plan(
+                observed,
+                keys,
+                args.clip_norm,
+                args.noise_multiplier,
+                derive_seed(args.defense_seed, "clipping-noise", group_id),
+            )
+        else:
+            plan = _clipping_noise_plan(
+                observed,
+                keys,
+                args.target_rel_l2,
+                args.clip_factor,
+                derive_seed(args.defense_seed, "clipping-noise", group_id),
+            )
+            plan["parameterization"] = "legacy_target_relative_l2"
         plan["defense"] = defense
         if defense == "clipping_noise_mc":
             plan["mc_noise_samples"] = args.mc_noise_samples
@@ -343,6 +374,10 @@ def _run_one(folder, method, group, group_id, restart, protocol, frozen, distrib
                 "threshold": float(plan["threshold"]) if "threshold" in plan else None,
                 "temperature": float(plan["temperature"]) if "temperature" in plan else None,
                 "mc_noise_samples": int(plan["mc_noise_samples"]) if "mc_noise_samples" in plan else 0,
+                "parameterization": plan.get("parameterization"),
+                "clip_norm": float(plan["clip_norm"]) if "clip_norm" in plan else None,
+                "noise_multiplier": float(plan["noise_multiplier"]) if "noise_multiplier" in plan else None,
+                "noise_std": float(plan["noise_std"]) if "noise_std" in plan else None,
             },
             "keys": keys,
         },
@@ -442,6 +477,8 @@ def main():
     parser.add_argument("--nonnegative-lambda", type=float, default=0.001)
     parser.add_argument("--target-rel-l2", type=float, default=0.10)
     parser.add_argument("--clip-factor", type=float, default=0.95)
+    parser.add_argument("--clip-norm", type=float)
+    parser.add_argument("--noise-multiplier", type=float)
     parser.add_argument("--mc-noise-samples", type=int, default=0)
     parser.add_argument("--topk-temperature", type=float, default=0.05)
     parser.add_argument("--defense-seed", type=int, default=314159265)
@@ -460,6 +497,13 @@ def main():
     lr_tag = f"{attack_lr:g}".replace(".", "p")
     lambda_tag = f"{args.nonnegative_lambda:g}".replace(".", "p")
     rel_tag = f"{args.target_rel_l2:g}".replace(".", "p")
+    defense_parameter_tag = f"rel{rel_tag}"
+    if args.clip_norm is not None or args.noise_multiplier is not None:
+        if args.clip_norm is None or args.noise_multiplier is None:
+            parser.error("--clip-norm and --noise-multiplier must be supplied together")
+        clip_tag = f"{args.clip_norm:g}".replace(".", "p")
+        multiplier_tag = f"{args.noise_multiplier:g}".replace(".", "p")
+        defense_parameter_tag = f"clip{clip_tag}_mult{multiplier_tag}"
     extra_tags = []
     if args.defense == "clipping_noise_mc":
         extra_tags.append(f"mc{args.mc_noise_samples}")
@@ -469,7 +513,7 @@ def main():
     target_tag = (run / args.target_file).stem.replace("_targets", "")
     out = run / (
         f"simple_defense_attack_{args.defense}_{target_tag}_r{args.restarts}"
-        f"_i{iterations}_lr{lr_tag}_nonneg{lambda_tag}_rel{rel_tag}{extra_tag}"
+        f"_i{iterations}_lr{lr_tag}_nonneg{lambda_tag}_{defense_parameter_tag}{extra_tag}"
     )
     out.mkdir(exist_ok=True)
     records = []
@@ -507,6 +551,8 @@ def main():
             "unknown realization for Gaussian noise"
         ),
         "target_relative_l2_delta": args.target_rel_l2,
+        "clip_norm": args.clip_norm,
+        "noise_multiplier": args.noise_multiplier,
         "defense_seed": args.defense_seed,
         "restarts": args.restarts,
         "iterations": iterations,

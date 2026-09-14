@@ -1,0 +1,37 @@
+{
+  "config": "protocols/config/rq1_scope_boundary_screen_rpg8.json",
+  "run_dir": "artifacts/rq1/scope_boundary_rpg8_raw_screen_20260914",
+  "records_per_group": 8,
+  "fraud_records_per_group": 1,
+  "local_steps": 1,
+  "groups": 10,
+  "branch": "raw",
+  "control_gates": {
+    "prior": {
+      "n": 10,
+      "wins": 7,
+      "mean_difference": -1100.4133250125465,
+      "median_difference": -42.04479855490915,
+      "one_sided_sign_p": 0.171875,
+      "pass": false
+    },
+    "zero": {
+      "n": 10,
+      "wins": 8,
+      "mean_difference": -823.789980050716,
+      "median_difference": -168.1036192352601,
+      "one_sided_sign_p": 0.0546875,
+      "pass": false
+    }
+  },
+  "raw_branch_pass": false,
+  "mean_objective_minus_prior_fraud_mse_ci95": [
+    -2314.5035154889056,
+    113.67686546381265
+  ],
+  "mean_objective_minus_zero_fraud_mse_ci95": [
+    -1831.3022738796194,
+    183.72231377818719
+  ],
+  "screening_decision": "FAIL_STOP_SCREENING"
+}

@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-12T19:54:32.132675+00:00",
+  "scope": "single frozen RQ2 confirmatory execution",
+  "n_seeds": 21,
+  "primary_hypothesis": "DNA_TRANSFORM_MINUS_BASELINE",
+  "primary_alpha": 0.05,
+  "endpoint_rule": "both_f1_and_auc_must_pass",
+  "analyses": {
+    "dna_transform": {
+      "f1": {
+        "n": 21,
+        "mean": 0.001425975749799857,
+        "sd": 0.020989223919980274,
+        "median": 0.0,
+        "ci95": [
+          -0.008128204431391568,
+          0.010980155930991282
+        ],
+        "noninferiority_margin": 0.02,
+        "noninferiority_pass": true
+      },
+      "auc": {
+        "n": 21,
+        "mean": -0.0003905774585267646,
+        "sd": 0.0015668113953949132,
+        "median": -0.00010059387644090201,
+        "ci95": [
+          -0.0011037814549497555,
+          0.0003226265378962262
+        ],
+        "noninferiority_margin": 0.005,
+        "noninferiority_pass": true
+      }
+    },
+    "dna_lossless": {
+      "f1": {
+        "n": 21,
+        "mean": 0.004211191234930639,
+        "sd": 0.017575132745088432,
+        "median": 0.00599760095961599,
+        "ci95": [
+          -0.0037889132756076527,
+          0.01221129574546893
+        ]
+      },
+      "auc": {
+        "n": 21,
+        "mean": -1.5754754494741913e-05,
+        "sd": 0.0005789668971165507,
+        "median": 4.827885119307318e-05,
+        "ci95": [
+          -0.00027929732639189487,
+          0.0002477878174024111
+        ]
+      }
+    },
+    "dp_0.00025": {
+      "f1": {
+        "n": 21,
+        "mean": -0.06438698089252608,
+        "sd": 0.0291760386241925,
+        "median": -0.06247115586322638,
+        "ci95": [
+          -0.07766775444812106,
+          -0.0511062073369311
+        ]
+      },
+      "auc": {
+        "n": 21,
+        "mean": -0.000952433585273368,
+        "sd": 0.0019536905231753894,
+        "median": -0.0011301287353235878,
+        "ci95": [
+          -0.0018417428492969498,
+          -6.312432124978623e-05
+        ]
+      }
+    }
+  },
+  "primary_conclusion": "DNA Transform establishes non-inferiority for both F1 and AUC-ROC at the approved margins",
+  "lossless_role": "secondary technical/sanity check; not adjusted jointly with primary",
+  "dp_role": "secondary/contextual distortion-matched comparator"
+}
