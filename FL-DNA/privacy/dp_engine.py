@@ -12,6 +12,7 @@ def apply_dp_to_local_state(
     global_state: OrderedDict[str, torch.Tensor],
     clip_norm: float,
     noise_multiplier: float,
+    noise_generator: torch.Generator | None = None,
 ) -> tuple[OrderedDict[str, torch.Tensor], float, float, float]:
     """Clip a full client model update and add Gaussian noise to floating tensors."""
     floating_updates = [
@@ -35,7 +36,19 @@ def apply_dp_to_local_state(
         global_tensor = global_state[name]
         if torch.is_floating_point(local_tensor):
             clipped_update = (local_tensor - global_tensor) * clip_factor
-            gaussian_noise = torch.randn_like(clipped_update) * noise_std
+            if noise_generator is None:
+                gaussian_noise = torch.randn_like(clipped_update) * noise_std
+            else:
+                # Draw on CPU from a defense-specific generator, then move to
+                # the update device. This keeps DP noise from advancing the
+                # training/dropout RNG used by paired RQ2 methods and works on
+                # both CPU and MPS.
+                gaussian_noise = torch.randn(
+                    clipped_update.shape,
+                    generator=noise_generator,
+                    dtype=clipped_update.dtype,
+                    device="cpu",
+                ).to(clipped_update.device) * noise_std
             dp_state[name] = global_tensor + clipped_update + gaussian_noise
         else:
             dp_state[name] = local_tensor.clone()

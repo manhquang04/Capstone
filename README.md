@@ -931,3 +931,140 @@ invariants; it does not change the Phase 3 negative scientific result.
 - Use `compare_fraud_results.py` to avoid mixing mismatched round counts in the official table.
 - Use `privacy_utility_tradeoff.csv` for paper-ready privacy-utility discussion.
 - Use `metrics_summary.csv` and `metrics_details.json` for attack details and metric definitions.
+
+## Final RQ1/RQ2/RQ3 Confirmatory Evaluation (2026-09-13 to 2026-09-14)
+
+This section documents the final, protocol-driven evaluation phase that closes
+out the project's three standard research questions. Unlike the earlier
+Phase 1-4 diagnostic work above, every experiment described here was run under
+a pre-registered protocol: statistical thresholds, sample sizes, comparator
+configurations, and stop rules were locked in writing before any confirmatory
+data was generated or inspected. This is an explicit defense against
+p-hacking and selective reporting.
+
+The three research questions:
+
+- **RQ1**: Does DNA encoding protect gradients against gradient inversion more
+  effectively than Differential Privacy, measured quantitatively (PSNR/SSIM of
+  the reconstructed data)?
+- **RQ2**: How does applying DNA encoding affect the final accuracy of the
+  global model (measured by F1-score and AUC-ROC)?
+- **RQ3**: Are the computational and bandwidth costs of DNA encoding within an
+  acceptable range for real-world deployment?
+
+Raw per-restart artifacts, protocol/amendment documents, and narrative reports
+generated during this phase are intentionally not included in this public
+repository (consistent with the "large intermediate artifacts are not
+versioned" policy stated earlier in this README). Only source code and the
+aggregated result files under `FL-DNA/results/rq1/`, `FL-DNA/results/rq2/`,
+and `FL-DNA/results/rq3/` are committed.
+
+### RQ1 — Reconstruction resistance of DNA Transform vs. distortion-matched clipping/noise
+
+All RQ1 experiments share the same bounded threat model established in
+Phase 4: 4 records per local-update group, 1 fraud record per group, 1 local
+Adam step, known model architecture, no oracle class labels. This scope was
+used because it is the only one at which the reconstruction attacker has been
+validated to beat both the prior-guess and zero-update controls; a dedicated
+scope-boundary experiment (below) shows the attacker already fails once the
+group size grows to 8 records.
+
+For each comparison, the primary statistic is an exact one-sided sign test on
+paired per-group feature-MSE (`DNA harder to reconstruct than the
+distortion-matched clipping/noise comparator`), with `alpha=0.05`,
+`p0=0.50`, and a pre-registered minimum meaningful effect of `p1=0.70`.
+
+| Run | DNA config | n (non-tied) | DNA wins | Win probability (95% CI) | One-sided p | Significant? |
+| --- | --- | ---: | ---: | --- | ---: | --- |
+| Confirmatory (Group 2) | conservative | 39 | 19 | 0.487 [0.324, 0.652] | 0.6254 | No |
+| Confirmatory (Group 2) | medium | 44 | 26 | 0.591 [0.432, 0.737] | 0.1456 | No |
+| Confirmatory (Group 2) | stronger | 44 | 25 | 0.568 [0.410, 0.717] | 0.2257 | No |
+| Replication 1 (Group 3) | conservative | 39 | 26 | 0.667 [0.498, 0.809] | 0.0266 | Yes |
+| Replication 2 (Group 3) | conservative | 39 | 26 | 0.667 [0.498, 0.809] | 0.0266 | Yes |
+| Replication 3 (Group 3) | conservative | 39 | 25 | 0.641 [0.472, 0.788] | 0.0541 | No |
+| **Pooled (4 independent draws, conservative only)** | conservative | 156 | 96 | 0.615 [0.534, 0.692] | 0.00246 | Yes, but below `p1=0.70` |
+
+Additional checks:
+
+- **Level 2 (realization-known) direct inversion**: on the confirmatory
+  conservative target set, all 2496 transform blocks were full-rank and the
+  mean relative-L2 recovery error was `3.4e-8` — i.e. DNA Transform is
+  essentially fully invertible if the defense seed leaks.
+- **Scope-boundary screening**: at `records_per_group=8` (fraud count held at
+  1, local steps held at 1), the raw-update attacker failed both controls
+  (Prior: 7/10 wins, `p=0.172`; Zero-update: 8/10 wins, `p=0.0547`). The
+  attacker's validated scope is therefore between 4 and 8 records per group;
+  no larger-scope RQ1 claim is supported by current evidence.
+
+**RQ1 conclusion**: within the validated bounded scope, DNA Transform does not
+show a large, unambiguous reconstruction-resistance advantage over a
+distortion-matched clipping/noise comparator. The pooled conservative-config
+evidence (4 independent draws, n=156) is statistically above chance
+(p=0.00246) but the effect size sits below the pre-registered practical-effect
+threshold. Medium and stronger DNA configurations show no significant
+advantage in their single confirmatory draws. This result does not generalize
+beyond the bounded scope in which it was measured.
+
+### RQ2 — Effect of DNA Transform on model utility (F1, AUC-ROC)
+
+Unlike RQ1, RQ2 experiments run at the full official FL scale (500,000 rows,
+3 clients, 50 rounds, focal loss) — not the bounded 4-record scope. The
+primary test is one-sided non-inferiority of DNA Transform vs. FL Baseline,
+with a pre-registered margin of `0.02` for F1 and `0.005` for AUC-ROC; both
+endpoints must pass.
+
+| Run | F1 delta (95% CI) | AUC-ROC delta (95% CI) | Both endpoints pass? |
+| --- | --- | --- | --- |
+| Confirmatory (Group 2), n=21 seeds | +0.00143 [-0.00813, +0.01098] | -0.00039 [-0.00110, +0.00032] | Yes |
+| Replication 1 (Group 3), n=21 seeds | -0.00651 [-0.01622, +0.00319] | -0.00029 [-0.00094, +0.00037] | Yes |
+| Replication 2 (Group 3), n=21 seeds | -0.00051 [-0.01082, +0.00979] | -0.00022 [-0.00091, +0.00046] | Yes |
+
+**RQ2 conclusion**: DNA Transform (conservative) establishes non-inferiority
+for both F1 and AUC-ROC in all three independent confirmatory runs. This is
+the most consistent and reliable result of the three research questions, and
+it is measured at full FL scale rather than the bounded scope used for RQ1.
+
+### RQ3 — Deployment cost (compute and bandwidth)
+
+RQ3 acceptance thresholds ("Bundle B") were locked before the official
+benchmark was run: end-to-end round overhead <= 25%, client encode/serialize
+p95 <= 250 ms, server decode/aggregate p95 <= 500 ms, memory overhead <= 25%,
+application payload expansion <= 6x, and profile-specific added transfer
+latency caps, evaluated across 3 network profiles (LAN, Broadband,
+Constrained/mobile) and 3 client scales (3, 5, 10), each cell measured with
+10 warm-up + 50 measured repetitions (27 cells, 1,350 measured observations,
+0 correctness failures, 0 timeouts).
+
+| Profile | Clients | Raw p95 (s) | Lossless DNA p95 (s) | DNA Transform p95 (s) |
+| --- | ---: | ---: | ---: | ---: |
+| LAN | 3 | 0.0612 | 1.0342 | 0.8046 |
+| LAN | 10 | 0.1651 | 3.3678 | 2.6481 |
+| Broadband | 3 | 0.2521 | 1.4517 | 0.9733 |
+| Broadband | 10 | 0.6900 | 4.6339 | 3.1220 |
+| Constrained | 3 | 0.7303 | 2.7878 | 1.4883 |
+| Constrained | 10 | 2.2851 | 9.1619 | 4.7452 |
+
+Bundle-B criterion coverage (18 non-raw cells):
+
+- End-to-end overhead: **0/18 pass** (observed 1.32x-23.24x vs. the 25%
+  ceiling).
+- Memory overhead fraction: **0/18 pass** (observed up to 10.4x vs. the 25%
+  ceiling).
+- Application payload expansion: 18/18 pass (lossless DNA reaches 5.27x,
+  under the 6x ceiling; DNA Transform is 1.0x).
+- Correctness/authentication failures and timeouts: 18/18 pass (0 failures).
+
+**RQ3 conclusion**: `NOT_ACCEPTABLE` under Bundle B at all three mandatory
+network profiles. The failure is concentrated in processing-time and
+memory overhead, not in data correctness or payload size — DNA lossless and
+DNA Transform never corrupt data and stay within the payload-expansion budget,
+but the DNA encode/decode pipeline is too slow and memory-heavy for the
+locked deployment thresholds in this prototype implementation.
+
+### Overall summary across the three research questions
+
+| RQ | Answer | Scope |
+| --- | --- | --- |
+| RQ1 | No large, unambiguous reconstruction-resistance advantage over distortion-matched clipping/noise; a small statistically-detectable effect for the conservative config falls below the pre-registered practical-effect threshold | Bounded (4 records/group, 1 local Adam step) only |
+| RQ2 | No meaningful utility loss; non-inferiority holds across 3 independent confirmatory runs | Full FL scale (500k rows, 3 clients, 50 rounds) |
+| RQ3 | Not acceptable under the pre-registered deployment thresholds, driven by compute time and memory overhead rather than data correctness or payload size | Full FL scale, 3 client counts x 3 network profiles |

@@ -15,7 +15,10 @@ from torch.utils.data import DataLoader, TensorDataset
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DATASET_PATH = PROJECT_ROOT / "datasets" / "creditcard.csv"
-RANDOM_SEED = 42
+# Keep this in sync with experiments.fraud_fl_common without importing the
+# experiment module (which would create a data/experiment dependency cycle).
+# Runners set FL_RUN_SEED once per paired method/seed job.
+RANDOM_SEED = int(os.environ.get("FL_RUN_SEED", "42"))
 TARGET_COLUMN = "isFraud"
 DEFAULT_NUM_WORKERS = int(os.environ.get("DATALOADER_NUM_WORKERS", "4"))
 BASE_FEATURE_COLUMNS = [

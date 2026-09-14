@@ -20,6 +20,7 @@ from experiments.fraud_fl_common import (
     LOCAL_EPOCHS,
     NUM_CLIENTS,
     NUM_ROUNDS,
+    RANDOM_SEED,
     evaluate_model,
     fed_avg,
     print_round_header,
@@ -36,6 +37,7 @@ from privacy.dp_config import (
     dp_noise_multiplier_from_env,
 )
 from privacy.dp_engine import apply_dp_to_local_state
+from privacy.seed_manager import derive_seed
 
 OUTPUT_PATH = Path(
     os.environ.get(
@@ -76,15 +78,19 @@ def main() -> None:
         norms_after_clip = []
         noise_std = NOISE_MULTIPLIER * CLIP_NORM
 
-        for loader in client_loaders:
+        dp_client_seeds = []
+        for client_index, loader in enumerate(client_loaders):
             local_model = copy.deepcopy(global_model)
             local_losses.append(train_local_model(local_model, loader, pos_weight, LOCAL_EPOCHS))
 
+            dp_seed = derive_seed(RANDOM_SEED, "rq2-dna-dp-noise", round_number, client_index)
+            dp_client_seeds.append(dp_seed)
             dp_state, norm_before, norm_after, noise_std = apply_dp_to_local_state(
                 local_model.state_dict(),
                 global_state,
                 CLIP_NORM,
                 NOISE_MULTIPLIER,
+                noise_generator=torch.Generator().manual_seed(dp_seed),
             )
             norms_before_clip.append(norm_before)
             norms_after_clip.append(norm_after)
@@ -119,6 +125,7 @@ def main() -> None:
             "dp_noise_std": noise_std,
             "avg_update_norm_before_clip": sum(norms_before_clip) / len(norms_before_clip),
             "avg_update_norm_after_clip": sum(norms_after_clip) / len(norms_after_clip),
+            "dp_client_seeds": dp_client_seeds,
         }
         round_metrics.append(metrics)
         print_round_metrics(metrics)

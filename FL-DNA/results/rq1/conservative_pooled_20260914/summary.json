@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-14T07:56:13.499339+00:00",
+  "status": "EXPLORATORY_POST_HOC_POOLED_ANALYSIS",
+  "amendment": "protocols/amendments/2026-09-14_group3_replication_3_and_pooled_analysis.md",
+  "interpretation_contract": "Does not replace or reverse any individual confirmatory decision; used only as stability/sensitivity evidence.",
+  "batches": [
+    {
+      "label": "original_group2_conservative",
+      "path": "results/rq1/confirmatory_20260913/rq1_summary.json",
+      "branch_gates_pass": true,
+      "wins": 19,
+      "losses": 20,
+      "ties": 0,
+      "non_tied_n": 39,
+      "one_sided_exact_sign_p": 0.625370687619579,
+      "reject_h0": false
+    },
+    {
+      "label": "group3_replication_1",
+      "path": "results/rq1/group3_replication_1_20260913/summary.json",
+      "branch_gates_pass": true,
+      "wins": 26,
+      "losses": 13,
+      "ties": 0,
+      "non_tied_n": 39,
+      "one_sided_exact_sign_p": 0.02662595704896376,
+      "reject_h0": true
+    },
+    {
+      "label": "group3_replication_2",
+      "path": "results/rq1/group3_replication_2_20260913/summary.json",
+      "branch_gates_pass": true,
+      "wins": 26,
+      "losses": 13,
+      "ties": 0,
+      "non_tied_n": 39,
+      "one_sided_exact_sign_p": 0.02662595704896376,
+      "reject_h0": true
+    },
+    {
+      "label": "group3_replication_3",
+      "path": "results/rq1/group3_replication_3_20260914/summary.json",
+      "branch_gates_pass": true,
+      "wins": 25,
+      "losses": 14,
+      "ties": 0,
+      "non_tied_n": 39,
+      "one_sided_exact_sign_p": 0.05406451070302866,
+      "reject_h0": false
+    }
+  ],
+  "pooled": {
+    "wins": 96,
+    "losses": 60,
+    "ties": 0,
+    "non_tied_n": 156,
+    "win_probability": 0.6153846153846154,
+    "win_probability_exact_ci95": [
+      0.5342306283136875,
+      0.6920667262218236
+    ],
+    "one_sided_exact_sign_p_p0_0p50": 0.0024564823104850407,
+    "statistically_above_0p50_alpha_0p05": true,
+    "practical_effect_reference_p1": 0.7,
+    "meets_practical_effect_reference": false
+  },
+  "heterogeneity": {
+    "test": "chi_square_4x2_wins_losses",
+    "statistic": 3.683333333333333,
+    "df": 3,
+    "p_value": 0.29775116896809023,
+    "minimum_expected_cell_count": 15.0,
+    "descriptive_if_expected_lt_5": false
+  },
+  "final_draw_rule": "Replication 3 is the final additional draw for this RQ1 conservative comparison."
+}

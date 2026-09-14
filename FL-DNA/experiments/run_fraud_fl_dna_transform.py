@@ -25,6 +25,7 @@ from experiments.fraud_fl_common import (
     LOCAL_EPOCHS,
     NUM_CLIENTS,
     NUM_ROUNDS,
+    RANDOM_SEED,
     evaluate_model,
     fed_avg,
     print_round_header,
@@ -34,7 +35,7 @@ from experiments.fraud_fl_common import (
     train_local_model,
 )
 from models.fraud_mlp import FraudMLP
-from privacy.seed_manager import derive_seed, generate_run_seed
+from privacy.seed_manager import derive_seed
 
 OUTPUT_PATH = Path(
     os.environ.get(
@@ -48,7 +49,9 @@ TRANSFORM_CONFIG = DNATransformConfig(
     keep_ratio=float(os.environ.get("DNA_TRANSFORM_KEEP", "0.90")),
     shrink_factor=float(os.environ.get("DNA_TRANSFORM_SHRINK", "0.50")),
 )
-DNA_TRANSFORM_RUN_SEED = int(os.environ.get("DNA_TRANSFORM_RUN_SEED", generate_run_seed()))
+DNA_TRANSFORM_RUN_SEED = int(
+    os.environ.get("DNA_TRANSFORM_RUN_SEED", derive_seed(RANDOM_SEED, "rq2-dna-transform"))
+)
 
 
 def dna_transform_state(

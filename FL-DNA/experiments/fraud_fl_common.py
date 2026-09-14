@@ -23,7 +23,10 @@ from sklearn.metrics import (
 from torch import nn
 from torch.utils.data import DataLoader
 
-RANDOM_SEED = 42
+# FL_RUN_SEED is the protocol-level paired seed.  Every method launched with
+# the same value must reuse the same split, client partition, initialization,
+# and data-loader order.  Keep 42 as the backwards-compatible default.
+RANDOM_SEED = int(os.environ.get("FL_RUN_SEED", "42"))
 NUM_CLIENTS = int(os.environ.get("FL_NUM_CLIENTS", "3"))
 QUICK_MODE = os.environ.get("QUICK") == "1"
 NUM_ROUNDS = int(os.environ.get("NUM_ROUNDS", 3 if QUICK_MODE else 15))

@@ -1,0 +1,127 @@
+{
+  "experiment": "privacy_utility_pareto",
+  "description": "privacy_proxy = dna_transform_cosine_similarity (lower = more private). Methods without cosine_sim tracking use proxy=1.0.",
+  "axis_labels": {
+    "x": "Privacy proxy (cosine similarity \u2014 lower = more private gradient obfuscation)",
+    "y": "Utility (F1 score, final round)"
+  },
+  "methods": [
+    {
+      "method": "FL + DNA Transform (stronger)",
+      "final_f1": 0.6967213114754098,
+      "final_auc_roc": 0.9903895591007653,
+      "final_pr_auc": 0.7115610738371267,
+      "privacy_proxy": 0.9917231686526901,
+      "has_cosine_sim": true,
+      "source_file": "results/fraud/dna_transform_stronger_metrics.json"
+    },
+    {
+      "method": "FL + DNA Transform (medium)",
+      "final_f1": 0.6854838709677419,
+      "final_auc_roc": 0.991030845063076,
+      "final_pr_auc": 0.7061140435716562,
+      "privacy_proxy": 0.994438203178845,
+      "has_cosine_sim": true,
+      "source_file": "results/fraud/dna_transform_medium_metrics.json"
+    },
+    {
+      "method": "FL + DNA Transform (conservative)",
+      "final_f1": 0.7088607594936709,
+      "final_auc_roc": 0.9900472993027976,
+      "final_pr_auc": 0.7160455608359148,
+      "privacy_proxy": 0.9965986155016487,
+      "has_cosine_sim": true,
+      "source_file": "results/fraud/dna_transform_conservative_metrics.json"
+    },
+    {
+      "method": "FL + DNA Transform+SecureAgg",
+      "final_f1": 0.7124463519313304,
+      "final_auc_roc": 0.9907415600495766,
+      "final_pr_auc": 0.711958751769989,
+      "privacy_proxy": 0.9987153565604312,
+      "has_cosine_sim": true,
+      "source_file": "results/fraud/dna_transform_secureagg_metrics.json"
+    },
+    {
+      "method": "FL + DNA Transform",
+      "final_f1": 0.7058823529411765,
+      "final_auc_roc": 0.9911830553961785,
+      "final_pr_auc": 0.7130828682479524,
+      "privacy_proxy": 0.9987296692079509,
+      "has_cosine_sim": true,
+      "source_file": "results/fraud/dna_transform_metrics.json"
+    },
+    {
+      "method": "FL Baseline",
+      "final_f1": 0.7288888888888889,
+      "final_auc_roc": 0.9911892648947241,
+      "final_pr_auc": 0.7143993297437666,
+      "privacy_proxy": 1.0,
+      "has_cosine_sim": false,
+      "source_file": "results/fraud/baseline_metrics.json"
+    },
+    {
+      "method": "FL + DNA",
+      "final_f1": 0.7183673469387755,
+      "final_auc_roc": 0.9906915735862835,
+      "final_pr_auc": 0.7172072278578835,
+      "privacy_proxy": 1.0,
+      "has_cosine_sim": false,
+      "source_file": "results/fraud/dna_metrics.json"
+    },
+    {
+      "method": "FL + DP (mild)",
+      "final_f1": 0.27555555555555555,
+      "final_auc_roc": 0.9205976673397762,
+      "final_pr_auc": 0.2091202419896086,
+      "privacy_proxy": 1.0,
+      "has_cosine_sim": false,
+      "source_file": "results/fraud/dp_mild_metrics.json"
+    },
+    {
+      "method": "FL + DP",
+      "final_f1": 0.008321198252548368,
+      "final_auc_roc": 0.7891366452935726,
+      "final_pr_auc": 0.0037307293545422197,
+      "privacy_proxy": 1.0,
+      "has_cosine_sim": false,
+      "source_file": "results/fraud/dp_metrics.json"
+    },
+    {
+      "method": "FL + DP (utility)",
+      "final_f1": 0.6923076923076923,
+      "final_auc_roc": 0.9896687139383372,
+      "final_pr_auc": 0.6920738177910514,
+      "privacy_proxy": 1.0,
+      "has_cosine_sim": false,
+      "source_file": "results/fraud/dp_utility_metrics.json"
+    },
+    {
+      "method": "FL + DNA+DP",
+      "final_f1": 0.002593219137146851,
+      "final_auc_roc": 0.5059461381886644,
+      "final_pr_auc": 0.001305667579671924,
+      "privacy_proxy": 1.0,
+      "has_cosine_sim": false,
+      "source_file": "results/fraud/dna_dp_metrics.json"
+    },
+    {
+      "method": "FL + SecureAgg",
+      "final_f1": 0.711864406779661,
+      "final_auc_roc": 0.9906308757379989,
+      "final_pr_auc": 0.711759095231994,
+      "privacy_proxy": 1.0,
+      "has_cosine_sim": false,
+      "source_file": "results/fraud/secureagg_metrics.json"
+    },
+    {
+      "method": "FL + DNA+SecureAgg",
+      "final_f1": 0.711864406779661,
+      "final_auc_roc": 0.9906308757379989,
+      "final_pr_auc": 0.711759095231994,
+      "privacy_proxy": 1.0,
+      "has_cosine_sim": false,
+      "source_file": "results/fraud/dna_secureagg_metrics.json"
+    }
+  ]
+}
