@@ -1,0 +1,101 @@
+{
+  "variant": "conservative_replication_2",
+  "n_targets": 39,
+  "branch_gates": {
+    "raw": {
+      "prior": {
+        "n": 39,
+        "wins": 30,
+        "mean_difference": -1299.4562513541994,
+        "median_difference": -85.96428454310123,
+        "one_sided_sign_p": 0.00053250981727615,
+        "pass": true
+      },
+      "zero": {
+        "n": 39,
+        "wins": 32,
+        "mean_difference": -1281.2401996028727,
+        "median_difference": -113.88041996108745,
+        "one_sided_sign_p": 3.5127392038702965e-05,
+        "pass": true
+      },
+      "pass": true
+    },
+    "dna": {
+      "prior": {
+        "n": 39,
+        "wins": 35,
+        "mean_difference": -1587.0127465870853,
+        "median_difference": -77.47083020080073,
+        "one_sided_sign_p": 1.6765807231422514e-07,
+        "pass": true
+      },
+      "zero": {
+        "n": 39,
+        "wins": 31,
+        "mean_difference": -1905.2303911484935,
+        "median_difference": -66.87776272769217,
+        "one_sided_sign_p": 0.00014703843771712855,
+        "pass": true
+      },
+      "pass": true
+    },
+    "dp": {
+      "prior": {
+        "n": 39,
+        "wins": 33,
+        "mean_difference": -332.13856103602905,
+        "median_difference": -84.72609575825422,
+        "one_sided_sign_p": 7.14963061909657e-06,
+        "pass": true
+      },
+      "zero": {
+        "n": 39,
+        "wins": 31,
+        "mean_difference": -346.47826396517667,
+        "median_difference": -95.67743699627515,
+        "one_sided_sign_p": 0.00014703843771712855,
+        "pass": true
+      },
+      "pass": true
+    }
+  },
+  "primary": {
+    "valid": true,
+    "wins": 26,
+    "losses": 13,
+    "ties": 0,
+    "non_tied_n": 39,
+    "win_probability": 0.6666666666666666,
+    "win_probability_exact_ci95": [
+      0.49782773530109037,
+      0.809119020953654
+    ],
+    "one_sided_exact_sign_p": 0.02662595704896376,
+    "reject_h0": true,
+    "mean_mse_difference": -375.00293038441583,
+    "mean_mse_difference_ci95": [
+      -890.8631390105625,
+      140.85727824173085
+    ],
+    "conclusion": "DNA shows significantly greater reconstruction resistance than distortion-matched clipping/noise"
+  },
+  "secondary": {
+    "dna_minus_raw_mse_ci95": [
+      -192.90523388918743,
+      78.6385245125833
+    ],
+    "dp_minus_raw_mse_ci95": [
+      -87.08816576336483,
+      722.8273171555924
+    ],
+    "dna_minus_dp_psnr_ci95": [
+      -0.49353951334574864,
+      1.0846170203868617
+    ],
+    "dna_minus_dp_ssim_ci95": [
+      -0.029957978731269395,
+      0.0940835456193033
+    ]
+  }
+}
