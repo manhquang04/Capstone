@@ -25,7 +25,12 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def _source_ids(groups):
-    return {int(source_id) for group in groups for source_id in group["source_ids"]}
+    return {
+        int(source_id)
+        for group in groups
+        if isinstance(group, dict) and "source_ids" in group
+        for source_id in group["source_ids"]
+    }
 
 
 def _target_source_ids(path):

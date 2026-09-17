@@ -29,6 +29,12 @@ if str(ROOT) not in sys.path:
 
 from dna_encoder.encoder import DNAEncoder
 from dna_encoder.transform_defense import DNATransformConfig, transform_update_array
+from dna_encoder.transform_defense_v2 import (
+    DNATransformV2Config,
+    reconstruct_update_array_v2,
+    transform_and_reconstruct_array_v2,
+    transform_update_array_v2,
+)
 from experiments.rq3_user_space_network import NetworkProfile, transfer_payload
 from models.fraud_mlp import FraudMLP
 
@@ -92,6 +98,36 @@ def _deserialize_lossless(payload: bytes, encoder: DNAEncoder) -> OrderedDict[st
     output: OrderedDict[str, np.ndarray] = OrderedDict()
     for item in document["tensors"]:
         output[item["name"]] = encoder.decode_array(item["encrypted_dna"], item["shape"])
+    return output
+
+
+def _serialize_v2(tensors: OrderedDict[str, np.ndarray], config: DNATransformV2Config, quantization_seed: int) -> tuple[bytes, OrderedDict[str, np.ndarray]]:
+    """Wire-format v2 sketches; server derives public projection metadata from seed."""
+    entries, expected = [], OrderedDict()
+    for tensor_index, (name, value) in enumerate(tensors.items()):
+        sketch, reconstructed, metadata, _ = transform_and_reconstruct_array_v2(value, config, tensor_index, quantization_seed)
+        entries.append({"name": name, "shape": list(value.shape), "tensor_index": tensor_index,
+                        "quantization_delta": metadata.quantization_delta,
+                        "sketch_f32_base64": base64.b64encode(np.ascontiguousarray(sketch, dtype=np.float32).tobytes()).decode("ascii")})
+        expected[name] = reconstructed
+    return _compact_json({"format": "dna-transform-v2-sketch-json-v1", "compression_ratio": config.compression_ratio,
+                          "quantization_eta": config.quantization_eta, "seed": config.seed, "tensors": entries}), expected
+
+
+def _deserialize_v2(payload: bytes) -> OrderedDict[str, np.ndarray]:
+    document = json.loads(payload)
+    if document.get("format") != "dna-transform-v2-sketch-json-v1":
+        raise ValueError("unexpected v2 wire format")
+    config = DNATransformV2Config(float(document["compression_ratio"]), float(document["quantization_eta"]), int(document["seed"]))
+    output = OrderedDict()
+    for entry in document["tensors"]:
+        shape = tuple(entry["shape"])
+        # Recreate all deterministic public metadata from the seed; patch only
+        # the transmitted data-dependent quantization step size.
+        _, metadata = transform_update_array_v2(np.zeros(shape, dtype=np.float32), config, int(entry["tensor_index"]))
+        metadata = replace(metadata, quantization_delta=float(entry["quantization_delta"]))
+        sketch = np.frombuffer(base64.b64decode(entry["sketch_f32_base64"]), dtype=np.float32)
+        output[entry["name"]], _ = reconstruct_update_array_v2(sketch, metadata)
     return output
 
 
@@ -168,6 +204,9 @@ def _measure_cell(config: dict, profile_name: str, method: str, client_count: in
             elif method == "DNA_TRANSFORM_TRANSPORT":
                 expected = _transform(state, transform_cfg, _seed(benchmark["transform_seed"], client_index, repetition))
                 payload = _serialize_binary(expected)
+            elif method == "DNA_TRANSFORM_V2_TRANSPORT":
+                v2_cfg = DNATransformV2Config(**config["dna_transform_v2"], seed=_seed(benchmark["transform_seed"], client_index, repetition))
+                payload, expected = _serialize_v2(state, v2_cfg, repetition)
             else:
                 raise ValueError(f"unknown method {method}")
             client_times.append(time.perf_counter() - started)
@@ -195,6 +234,8 @@ def _measure_cell(config: dict, profile_name: str, method: str, client_count: in
         server_started = time.perf_counter()
         if method == "LOSSLESS_DNA_AES_GCM":
             decoded = [_deserialize_lossless(payload, encoder) for payload in received_payloads]
+        elif method == "DNA_TRANSFORM_V2_TRANSPORT":
+            decoded = [_deserialize_v2(payload) for payload in received_payloads]
         else:
             decoded = [_deserialize_binary(payload) for payload in received_payloads]
         aggregated = _aggregate(decoded)
@@ -281,7 +322,8 @@ def main() -> None:
         "torch_num_threads": torch.get_num_threads(),
         "config_sha256": hashlib.sha256(args.config.read_bytes()).hexdigest(),
     })
-    cells = [(profile, method, count) for profile in config["network_profiles"] for method in METHODS for count in config["benchmark"]["client_counts"]]
+    methods = tuple(config["benchmark"].get("methods", METHODS))
+    cells = [(profile, method, count) for profile in config["network_profiles"] for method in methods for count in config["benchmark"]["client_counts"]]
     random.Random(config["benchmark"]["method_order_seed"]).shuffle(cells)
     _write_json(args.output / "cell_order.json", {"seed": config["benchmark"]["method_order_seed"], "cells": cells})
     script = Path(__file__).resolve()

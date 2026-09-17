@@ -1,0 +1,49 @@
+{
+  "created_at": "2026-09-16T09:10:14.901547+00:00",
+  "scope": "RQ2-v2 pre-frozen pilot only",
+  "seeds": [
+    48511685,
+    589150035,
+    672591598,
+    733003850,
+    848504097,
+    880535557,
+    1065351580,
+    1771003338
+  ],
+  "power_method": "one-sided paired non-inferiority noncentral-t; 95% chi-square upper variance bound",
+  "alpha": 0.05,
+  "power": 0.8,
+  "endpoint_rule": "both F1 and AUC endpoints required",
+  "rows": [
+    {
+      "endpoint": "f1",
+      "n_pilot": 8,
+      "mean_delta": -0.011854122722749882,
+      "sd": 0.03180942925480873,
+      "ci95": [
+        -0.03844747108487018,
+        0.014739225639370412
+      ],
+      "upper_95pct_variance": 0.0032679903213739554,
+      "margin": 0.02,
+      "required_n": 52
+    },
+    {
+      "endpoint": "auc",
+      "n_pilot": 8,
+      "mean_delta": -0.0020840338423880472,
+      "sd": 0.0048561003225238404,
+      "ci95": [
+        -0.006143835309550766,
+        0.001975767624774672
+      ],
+      "upper_95pct_variance": 7.616304671836545e-05,
+      "margin": 0.005,
+      "required_n": 21
+    }
+  ],
+  "required_confirmatory_seed_count": 52,
+  "maximum_feasible_seed_count": 30,
+  "within_cap": false
+}

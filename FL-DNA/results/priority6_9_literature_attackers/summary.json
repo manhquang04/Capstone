@@ -1,0 +1,80 @@
+{
+  "description": "Curated confirmatory summary for Priority 6-9: attacker generations instantiating published loss objectives (iDLG-style fixed-label matching, Geiping-style cosine-similarity matching) evaluated against DNA Transform v1 and v2 across PaySim, IEEE-CIS, and CIFAR-10. Full per-restart execution records live under artifacts/priority6_sota_attackers, artifacts/priority7_image_domain, artifacts/priority8_v2_ratio0p90, and artifacts/priority9_v1_family; per-cell narrative reports live under reports/ (not included in this snapshot).",
+  "statistical_framework": {
+    "test": "exact_one_sided_sign_test",
+    "p0": 0.5,
+    "p1": 0.70,
+    "alpha": 0.05,
+    "power": 0.80,
+    "required_non_tied_n": 37,
+    "confirmatory_draw_n": 39
+  },
+  "priority6_literature_attacker_confirmatory": [
+    {
+      "dataset": "PaySim",
+      "transform": "v1_medium",
+      "attacker": "GEN_IDLG_STYLE",
+      "n": 39,
+      "vs_prior": {"wins": 29, "p_value": 0.0016889239559532143},
+      "vs_zero_update": {"wins": 32, "p_value": 3.5127392038702965e-05},
+      "gate": "PASS"
+    },
+    {
+      "dataset": "IEEE-CIS",
+      "transform": "v2_ratio0p95_eta0p01",
+      "attacker": "GEN_COSINE_TV",
+      "n": 39,
+      "vs_prior": {"wins": 36, "p_value": 1.8044374883174896e-08},
+      "vs_zero_update": {"wins": 36, "p_value": 1.8044374883174896e-08},
+      "gate": "PASS"
+    }
+  ],
+  "priority7_cross_domain_cifar10": {
+    "dataset": "CIFAR-10",
+    "transform": "v2_ratio0p95_eta0p01",
+    "attacker": "GEN_COSINE_TV",
+    "model": "minimal_lenet_136886_params",
+    "escalation_chain": [
+      {"stage": "development", "n": 8, "scope": "1 image", "vs_prior": {"wins": 8, "p_value": 0.00390625}, "vs_zero_update": {"wins": 8, "p_value": 0.00390625}, "gate": "PASS"},
+      {"stage": "pilot", "n": 24, "scope": "4 images", "vs_prior": {"wins": 24, "p_value": 5.960464477539063e-08}, "vs_zero_update": {"wins": 24, "p_value": 5.960464477539063e-08}, "gate": "PASS"},
+      {"stage": "confirmatory", "n": 39, "scope": "4 images", "vs_prior": {"wins": 39, "p_value": 1.8189894035458565e-12}, "vs_zero_update": {"wins": 39, "p_value": 1.8189894035458565e-12}, "gate": "PASS"}
+    ],
+    "other_cells_tested_at_n8_development_and_not_escalated": [
+      {"transform": "v1_medium", "attacker": "GEN_IDLG_STYLE", "vs_prior": {"wins": 4, "p_value": 0.637}, "vs_zero_update": {"wins": 5, "p_value": 0.363}, "gate": "FAIL"},
+      {"transform": "v1_medium", "attacker": "GEN_RAW_LIFT", "vs_prior": {"wins": 4, "p_value": 0.637}, "vs_zero_update": {"wins": 3, "p_value": 0.855}, "gate": "FAIL"},
+      {"transform": "v2_ratio0p95_eta0p01", "attacker": "GEN_RAW_LIFT", "vs_prior": {"wins": 3, "p_value": 0.855}, "vs_zero_update": {"wins": 5, "p_value": 0.363}, "gate": "FAIL"}
+    ]
+  },
+  "priority8_v2_parameter_sensitivity": {
+    "dataset": "IEEE-CIS",
+    "transform": "v2_ratio0p90_eta0p01",
+    "attacker": "GEN_COSINE_TV",
+    "n": 8,
+    "vs_prior": {"wins": 6, "p_value": 0.14453125},
+    "vs_zero_update": {"wins": 6, "p_value": 0.14453125},
+    "gate": "FAIL",
+    "escalated": false,
+    "note": "Reported as a parameter boundary, not as evidence that ratio 0.90 is private."
+  },
+  "priority9_v1_parameter_family_sensitivity": [
+    {
+      "config": "conservative",
+      "attacker": "GEN_IDLG_STYLE",
+      "dataset": "PaySim",
+      "n": 8,
+      "vs_prior": {"wins": 6, "p_value": 0.14453125},
+      "vs_zero_update": {"wins": 6, "p_value": 0.14453125},
+      "gate": "FAIL",
+      "escalated": false
+    },
+    {
+      "config": "stronger",
+      "attacker": "GEN_IDLG_STYLE",
+      "dataset": "PaySim",
+      "n": 39,
+      "vs_prior": {"wins": 27, "p_value": 0.011851351235236507},
+      "vs_zero_update": {"wins": 29, "p_value": 0.0016889239559532143},
+      "gate": "PASS"
+    }
+  ]
+}
