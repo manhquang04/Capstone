@@ -60,8 +60,7 @@ def transform_update_array(
         if block.size == 0:
             continue
 
-        dna_sequence = binary_to_dna(float32_array_to_binary(block))
-        block_seed = _dna_block_seed(dna_sequence, config.seed, tensor_index, blocks)
+        block_seed = _dna_block_seed_from_float32_block(block, config.seed, tensor_index, blocks)
         rng = np.random.default_rng(block_seed)
         permutation = rng.permutation(block.size)
         permuted = block[permutation]
@@ -91,6 +90,55 @@ def transform_update_array(
         cosine_similarity=float(dot / denom),
     )
     return transformed.reshape(original.shape).astype(np.float32, copy=False), stats
+
+
+_DNA_SYMBOLS_BY_BYTE = tuple(
+    "".join("ATGC"[(byte >> shift) & 0b11] for shift in (6, 4, 2, 0))
+    for byte in range(256)
+)
+_DNA_COUNTS_BY_BYTE = tuple(
+    (
+        symbols.count("A"),
+        symbols.count("T"),
+        symbols.count("G"),
+        symbols.count("C"),
+    )
+    for symbols in _DNA_SYMBOLS_BY_BYTE
+)
+
+
+def _dna_block_seed_from_float32_block(
+    block: np.ndarray,
+    base_seed: int,
+    tensor_index: int,
+    block_index: int,
+) -> int:
+    """Compute the same DNA-derived seed without materializing bit/DNA strings."""
+    raw = np.ascontiguousarray(np.asarray(block, dtype="<f4")).tobytes()
+    count_a = count_t = count_g = count_c = 0
+    rolling = 0
+    rolling_symbols = 0
+    for byte in raw:
+        a, t, g, c = _DNA_COUNTS_BY_BYTE[byte]
+        count_a += a
+        count_t += t
+        count_g += g
+        count_c += c
+        if rolling_symbols < 512:
+            for symbol in _DNA_SYMBOLS_BY_BYTE[byte][: 512 - rolling_symbols]:
+                rolling += (rolling_symbols + 1) * ord(symbol)
+                rolling_symbols += 1
+    seed = (
+        base_seed
+        + 1_000_003 * tensor_index
+        + 97_409 * block_index
+        + 17 * count_a
+        + 31 * count_t
+        + 47 * count_g
+        + 61 * count_c
+        + rolling
+    )
+    return int(seed % (2**31))
 
 
 def _dna_block_seed(

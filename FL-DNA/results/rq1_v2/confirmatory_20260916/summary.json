@@ -1,0 +1,105 @@
+{
+  "variant": "rq1_v2_ratio0p95_eta0p01_iht0p20",
+  "scope": "single frozen RQ1-v2 confirmatory execution",
+  "n_targets": 176,
+  "tie_threshold_mse": 0.01953125,
+  "branch_gates": {
+    "raw": {
+      "prior": {
+        "n": 176,
+        "wins": 139,
+        "mean_difference": -2732.023502249869,
+        "median_difference": -227.6568633594856,
+        "one_sided_sign_p": 2.1130779812017945e-15,
+        "pass": true
+      },
+      "zero": {
+        "n": 176,
+        "wins": 145,
+        "mean_difference": -2408.436357422085,
+        "median_difference": -215.1019623743309,
+        "one_sided_sign_p": 3.953061198298895e-19,
+        "pass": true
+      },
+      "pass": true
+    },
+    "dna_v2": {
+      "prior": {
+        "n": 176,
+        "wins": 137,
+        "mean_difference": -2565.7186665588583,
+        "median_difference": -194.22027868041127,
+        "one_sided_sign_p": 2.8030656322098304e-14,
+        "pass": true
+      },
+      "zero": {
+        "n": 176,
+        "wins": 144,
+        "mean_difference": -2254.994599229054,
+        "median_difference": -232.39508884566465,
+        "one_sided_sign_p": 1.8100755292778277e-18,
+        "pass": true
+      },
+      "pass": true
+    },
+    "dp_v2": {
+      "prior": {
+        "n": 176,
+        "wins": 131,
+        "mean_difference": -1825.3401481979772,
+        "median_difference": -46.831567717290156,
+        "one_sided_sign_p": 3.070409941510299e-11,
+        "pass": true
+      },
+      "zero": {
+        "n": 176,
+        "wins": 138,
+        "mean_difference": -2031.7024086434437,
+        "median_difference": -125.96931399694276,
+        "one_sided_sign_p": 7.823730835975639e-15,
+        "pass": true
+      },
+      "pass": true
+    }
+  },
+  "primary": {
+    "contrast": "DNA_TRANSFORM_V2_MINUS_DP_DISTORTION_MATCHED_V2",
+    "valid": true,
+    "all_branch_gates_pass": true,
+    "wins": 85,
+    "losses": 91,
+    "ties": 0,
+    "non_tied_n": 176,
+    "win_probability": 0.48295454545454547,
+    "win_probability_exact_ci95": [
+      0.4071309636931088,
+      0.5593618585338765
+    ],
+    "one_sided_exact_sign_p": 0.7010637754721671,
+    "reject_h0": false,
+    "mean_mse_difference": -494.371414760297,
+    "mean_mse_difference_ci95": [
+      -739.7330556691949,
+      -249.00977385139916
+    ],
+    "conclusion": "No significant DNA v2 advantage over distortion-matched clipping/noise v2 under the frozen test"
+  },
+  "secondary": {
+    "dna_v2_minus_raw_mse_ci95": [
+      -61.20031357471676,
+      164.37012425183332
+    ],
+    "dp_v2_minus_raw_mse_ci95": [
+      280.4819109744752,
+      811.4307292232353
+    ],
+    "dna_v2_minus_dp_v2_psnr_ci95": [
+      1.384658726681257,
+      2.5632928032828017
+    ],
+    "dna_v2_minus_dp_v2_ssim_ci95": [
+      0.0926971220534971,
+      0.2078840079838999
+    ]
+  }
+}
