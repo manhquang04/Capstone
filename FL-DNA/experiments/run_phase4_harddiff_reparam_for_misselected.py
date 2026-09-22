@@ -85,6 +85,10 @@ def _sign_tail(wins, total):
     return sum(math.comb(total, k) for k in range(wins, total + 1)) / 2**total if total else 1.0
 
 
+def _trainable_keys(model):
+    return [name for name, parameter in model.named_parameters() if parameter.requires_grad]
+
+
 def _feature_distribution():
     meta = metadata()
     frame = pd.read_csv(ROOT / "datasets/creditcard.csv", usecols=BASE_FEATURE_COLUMNS + [TARGET_COLUMN])
@@ -168,7 +172,7 @@ def _run_pair_harddiff(
     model, criterion, x, y, batches, rng, observed = capture(
         group, derive_seed(run_seed, "local", group_id, batch_size), batch_size
     )
-    keys = [key for key, value in observed.items() if value.is_floating_point()]
+    keys = _trainable_keys(model)
     initial = _initial(
         x.shape,
         derive_seed(run_seed, "harddiff-initial", init_mode, group_id, restart, batch_size),

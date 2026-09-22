@@ -8,9 +8,7 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from dna_encoder.binary_mapper import float32_array_to_binary
-from dna_encoder.dna_mapper import binary_to_dna
-from dna_encoder.transform_defense import DNATransformConfig, _dna_block_seed, transform_update_array
+from dna_encoder.transform_defense import DNATransformConfig, _dna_block_seed_from_float32_block, transform_update_array
 from experiments.run_phase3_adam_ladder import capture
 from experiments.run_phase3_full_client import checksum, dump
 from privacy.seed_manager import derive_seed, generate_run_seed
@@ -20,8 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def _fixed_realization_matrix(block, config, tensor_index, block_index):
-    dna_sequence = binary_to_dna(float32_array_to_binary(block.astype(np.float32, copy=False)))
-    block_seed = _dna_block_seed(dna_sequence, config.seed, tensor_index, block_index)
+    block_seed = _dna_block_seed_from_float32_block(block, config.seed, tensor_index, block_index)
     rng = np.random.default_rng(block_seed)
     permutation = rng.permutation(block.size)
     permuted = block[permutation]

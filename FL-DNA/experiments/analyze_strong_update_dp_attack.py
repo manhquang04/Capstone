@@ -8,7 +8,8 @@ ROOT=Path(__file__).resolve().parents[1]
 BRANCHES=("raw","epsilon_100","epsilon_50","epsilon_10","epsilon_1")
 def tail(w,n):return sum(math.comb(n,k) for k in range(w,n+1))/2**n
 def gate(vals):
- w=sum(v<0 for v in vals);return {"n":len(vals),"wins":w,"mean_difference":float(np.mean(vals)),"median_difference":float(np.median(vals)),"one_sided_sign_p":tail(w,len(vals)),"gate":bool(np.mean(vals)<0 and np.median(vals)<0 and tail(w,len(vals))<.05)}
+ w=sum(v<0 for v in vals);t=sum(v==0 for v in vals);l=sum(v>0 for v in vals);n=w+l
+ return {"n":len(vals),"wins":w,"losses":l,"ties":t,"non_tied_n":n,"mean_difference":float(np.mean(vals)),"median_difference":float(np.median(vals)),"one_sided_sign_p":tail(w,n) if n else 1.0,"gate":bool(np.mean(vals)<0 and np.median(vals)<0 and n and tail(w,n)<.05)}
 def choose(ptfiles):
  rows=[]
  for f in ptfiles:
@@ -16,9 +17,11 @@ def choose(ptfiles):
  return min(rows,key=lambda z:z[0])[1]
 def main():
  p=argparse.ArgumentParser();p.add_argument("--run-dir",type=Path,required=True);p.add_argument("--output-dir",type=Path,required=True);a=p.parse_args();out=a.output_dir.resolve();out.mkdir(parents=True,exist_ok=False);allrows=[];branches={}
+ manifest=json.loads((a.run_dir/"manifest.json").read_text()) if (a.run_dir/"manifest.json").exists() else {}
+ groups=int(manifest.get("groups",8))
  for branch in BRANCHES:
   summaries=[]
-  for group in range(8):
+  for group in range(groups):
    run=a.run_dir/branch/f"group_{group}_run"
    report=next(run.rglob("*report.json")); data=json.loads(report.read_text()); s=data["group_summary"][0]
    if branch=="raw": prior=s["objective_minus_prior_fraud_mse"];zero=s["objective_minus_zero_fraud_mse"]; pts=list(run.rglob("baseline.pt"));method="baseline"

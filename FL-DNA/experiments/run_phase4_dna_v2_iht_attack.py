@@ -83,8 +83,8 @@ def _sign_tail(wins: int, total: int) -> float:
     return sum(math.comb(total, k) for k in range(wins, total + 1)) / 2**total if total else 1.0
 
 
-def _floating_keys(update: dict[str, torch.Tensor]) -> list[str]:
-    return [key for key, value in update.items() if value.is_floating_point()]
+def _trainable_keys(model: torch.nn.Module) -> list[str]:
+    return [name for name, parameter in model.named_parameters() if parameter.requires_grad]
 
 
 def _fwht_normalized_np(values: np.ndarray) -> np.ndarray:
@@ -206,7 +206,7 @@ def _run_one(folder, method, group, group_id, restart, protocol, frozen, distrib
     meta = distribution[0]
     local_seed = derive_seed(protocol["run_seed"], "local", group_id, protocol["batch_size"])
     model, criterion, x, y, batches, rng, observed = _capture_for_iht(group, local_seed, protocol["batch_size"])
-    keys = _floating_keys(observed)
+    keys = _trainable_keys(model)
     v2_config = DNATransformV2Config(
         compression_ratio=args.compression_ratio,
         quantization_eta=args.quantization_eta,
