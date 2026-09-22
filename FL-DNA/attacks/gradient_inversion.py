@@ -126,11 +126,11 @@ def gradient_inversion_attack(
             closure()
             optimizer.step()
 
-        # Score and snapshot the post-update candidate. The previous code
-        # recorded the pre-step loss but copied the post-step dummy, so the
-        # saved candidate did not necessarily correspond to best_loss.
-        loss = closure()
-        loss_value = float(loss.detach().item())
+        # Score and snapshot the post-update candidate without a second
+        # create_graph=True closure/backward pass.
+        last_match, last_regularization, loss_value = _score_components(
+            model, criterion, dummy.detach(), observed, label, config.l2_weight
+        )
 
         loss_history.append(loss_value)
         component_history.append(dict(iteration=len(loss_history), gradient_match_loss=last_match,

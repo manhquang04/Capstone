@@ -84,8 +84,8 @@ def _sign_tail(wins, total):
     return sum(math.comb(total, k) for k in range(wins, total + 1)) / 2**total if total else 1.0
 
 
-def _floating_keys(update):
-    return [key for key, value in update.items() if value.is_floating_point()]
+def _trainable_keys(model):
+    return [name for name, parameter in model.named_parameters() if parameter.requires_grad]
 
 
 def _global_l2(update, keys):
@@ -197,9 +197,10 @@ def _dp_clipping_noise_plan(update, keys, clip_norm, noise_multiplier, seed):
 
 
 def _apply_observed_defense(update, keys, defense, plan):
+    key_set = set(keys)
     defended = {}
     for key, value in update.items():
-        if not value.is_floating_point():
+        if not value.is_floating_point() or key not in key_set:
             defended[key] = value.clone()
             continue
         if defense in ("random_retention", "topk_retention", "soft_topk_retention"):
@@ -214,9 +215,10 @@ def _apply_observed_defense(update, keys, defense, plan):
 
 
 def _apply_candidate_defense(update, keys, defense, plan):
+    key_set = set(keys)
     defended = {}
     for key, value in update.items():
-        if not value.is_floating_point():
+        if not value.is_floating_point() or key not in key_set:
             defended[key] = value.clone()
             continue
         if defense in ("random_retention", "topk_retention"):
@@ -330,7 +332,7 @@ def _run_one(folder, method, group, group_id, restart, protocol, frozen, distrib
     meta = distribution[0]
     local_seed = derive_seed(protocol["run_seed"], "local", group_id, protocol["batch_size"])
     model, criterion, x, y, batches, rng, observed = capture(group, local_seed, protocol["batch_size"])
-    keys = _floating_keys(observed)
+    keys = _trainable_keys(model)
     plan = _plan(args.defense, observed, keys, group_id, args)
     defended_observed = _apply_observed_defense(observed, keys, args.defense, plan)
     signal = defended_observed if method == "baseline" else {key: torch.zeros_like(value) for key, value in defended_observed.items()}

@@ -1,11 +1,15 @@
 """CPU local Adam replay for bounded, known-order update inversion."""
-import torch
+from __future__ import annotations
+
 from contextlib import contextmanager
+from collections.abc import Mapping, Sequence
+
+import torch
 from torch.func import functional_call
 
 
 @contextmanager
-def _batchnorm_state(model, initial):
+def _batchnorm_state(model: torch.nn.Module, initial: dict[str, torch.Tensor]):
     state = dict(initial)
     handles = []
     def make_hook(name):
@@ -32,7 +36,16 @@ def _batchnorm_state(model, initial):
             handle.remove()
 
 
-def simulate(model, criterion, x, y, batches, rng_state, lr=1e-3, create_graph=True):
+def simulate(
+    model: torch.nn.Module,
+    criterion: torch.nn.Module,
+    x: torch.Tensor,
+    y: torch.Tensor,
+    batches: Sequence[torch.Tensor],
+    rng_state: torch.Tensor,
+    lr: float = 1e-3,
+    create_graph: bool = True,
+) -> dict[str, torch.Tensor]:
     """Fresh Adam state, train mode, fixed dropout realization; return full state delta."""
     params = dict(model.named_parameters())
     initial = {k: v.detach().clone() for k, v in params.items()}
@@ -61,46 +74,36 @@ def simulate(model, criterion, x, y, batches, rng_state, lr=1e-3, create_graph=T
     return delta
 
 
-def objective(delta, observed, names):
+def objective(
+    delta: Mapping[str, torch.Tensor],
+    observed: Mapping[str, torch.Tensor],
+    names: Sequence[str],
+) -> torch.Tensor:
     return torch.stack([(delta[k] - observed[k]).square().mean() for k in names]).mean()
 
 
-def simulate_sgd(model, criterion, x, y, batches, rng_state, lr=1e-3, create_graph=True):
+def simulate_sgd(
+    model: torch.nn.Module,
+    criterion: torch.nn.Module,
+    x: torch.Tensor,
+    y: torch.Tensor,
+    batches: Sequence[torch.Tensor],
+    rng_state: torch.Tensor,
+    lr: float = 1e-3,
+    create_graph: bool = True,
+) -> dict[str, torch.Tensor]:
     """Differentiable train-mode SGD replay used only for bounded Level-1 validation."""
     params = dict(model.named_parameters())
     initial = {k: v.detach().clone() for k, v in params.items()}
     buffers = {k: v.detach().clone() for k, v in model.named_buffers()}
     initial_buffers = {k: v.clone() for k, v in buffers.items()}
     differentiable_buffers = dict(initial_buffers)
-    handles = []
-    def capture_stats(name):
-        def hook(module, inputs):
-            value = inputs[0]
-            if not module.training or not module.track_running_stats:
-                return
-            count_key = name + '.num_batches_tracked'
-            count = differentiable_buffers[count_key] + 1
-            differentiable_buffers[count_key] = count
-            factor = module.momentum if module.momentum is not None else 1.0 / float(count)
-            axes = (0,) + tuple(range(2, value.ndim))
-            for suffix, statistic in [('running_mean', value.mean(axes)),
-                                      ('running_var', value.var(axes, unbiased=True))]:
-                key = name + '.' + suffix
-                differentiable_buffers[key] = (1-factor)*differentiable_buffers[key] + factor*statistic
-        return hook
-    for name, module in model.named_modules():
-        if isinstance(module, torch.nn.modules.batchnorm._BatchNorm):
-            handles.append(module.register_forward_pre_hook(capture_stats(name)))
-    try:
-        with torch.random.fork_rng(devices=[]):
-            torch.set_rng_state(rng_state)
-            for ids in batches:
-                logits = functional_call(model, (params, buffers), (x[ids],))
-                grads = torch.autograd.grad(criterion(logits, y[ids]), tuple(params.values()), create_graph=create_graph)
-                params = {name: value - lr * grad for (name, value), grad in zip(params.items(), grads)}
-    finally:
-        for handle in handles:
-            handle.remove()
+    with _batchnorm_state(model, differentiable_buffers) as tracked, torch.random.fork_rng(devices=[]):
+        torch.set_rng_state(rng_state)
+        for ids in batches:
+            logits = functional_call(model, (params, buffers), (x[ids],))
+            grads = torch.autograd.grad(criterion(logits, y[ids]), tuple(params.values()), create_graph=create_graph)
+            params = {name: value - lr * grad for (name, value), grad in zip(params.items(), grads)}
     delta = {k: v - initial[k] for k, v in params.items()}
-    delta.update({k: v - initial_buffers[k] for k, v in differentiable_buffers.items()})
+    delta.update({k: v - initial_buffers[k] for k, v in tracked.items()})
     return delta

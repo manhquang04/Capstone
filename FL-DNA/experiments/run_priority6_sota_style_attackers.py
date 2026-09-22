@@ -37,6 +37,11 @@ if str(ROOT) not in sys.path:
 from attacks.local_update import simulate
 from dna_encoder.transform_defense import DNATransformConfig
 from dna_encoder.transform_defense_v2 import DNATransformV2Config
+from dna_encoder.transform_defense_v3 import (
+    DNATransformV3Config,
+    V3_SENSITIVE_PARAMETER_NAMES,
+    transform_update_state_v3,
+)
 from experiments import fraud_fl_common as common
 from experiments.phase3_bounded_validation import _align_for_evaluation, update_objective
 from experiments.run_ieee_cis_rq1_development_gate import (
@@ -82,6 +87,7 @@ DEFENSES = (
     "v1_stronger",
     "v2_ratio0p95_eta0p01",
     "v2_ratio0p9_eta0p01",
+    "v3_sensitive_final_layer_ratio0p50_rest0p95_eta0p01",
 )
 V1_CONFIGS = {
     "v1_conservative": dict(block_size=256, mix_ratio=0.08, keep_ratio=0.88, shrink_factor=0.45, seed=681958327),
@@ -91,6 +97,15 @@ V1_CONFIGS = {
 V2_CONFIGS = {
     "v2_ratio0p95_eta0p01": dict(compression_ratio=0.95, quantization_eta=0.01, seed=20260916),
     "v2_ratio0p9_eta0p01": dict(compression_ratio=0.90, quantization_eta=0.01, seed=20260916),
+}
+V3_CONFIGS = {
+    "v3_sensitive_final_layer_ratio0p50_rest0p95_eta0p01": dict(
+        rest_compression_ratio=0.95,
+        sensitive_compression_ratio=0.50,
+        quantization_eta=0.01,
+        seed=20260916,
+        sensitive_parameter_names=V3_SENSITIVE_PARAMETER_NAMES,
+    ),
 }
 
 
@@ -138,11 +153,7 @@ def prepare_ieee(
     historical: dict[str, set[int]] = {}
     excluded: set[int] = set()
     candidate_paths = set((ROOT / "artifacts/priority5_ieee_cis").rglob("*targets.pt"))
-    candidate_paths.update(
-        (ROOT / "artifacts/priority6_sota_attackers").glob(
-            "targets_ieee*/ieee_priority6_bundle.pt"
-        )
-    )
+    candidate_paths.update((ROOT / "artifacts").rglob("ieee_priority6_bundle.pt"))
     for path in sorted(candidate_paths):
         rows = _source_rows_from_ieee_target(path)
         historical[str(path.relative_to(ROOT))] = rows
@@ -240,6 +251,25 @@ def _defense_payload(observed: dict[str, torch.Tensor], defense: str, group_id: 
         payload = _observed_sketches(observed, config, group_id)
         sketch = {key: item["sketch"].to(dtype=observed[key].dtype) for key, item in payload.items()}
         return sketch, ("v2", payload)
+    if defense in V3_CONFIGS:
+        config = DNATransformV3Config(**V3_CONFIGS[defense])
+        arrays = {
+            key: value.detach().cpu().numpy().astype(np.float32, copy=False)
+            for key, value in observed.items()
+            if value.is_floating_point()
+        }
+        sketches, metadata = transform_update_state_v3(arrays, config, quantization_seed=group_id)
+        reference = next(value for value in observed.values() if value.is_floating_point())
+        signal = {
+            block: torch.from_numpy(sketch.copy()).to(dtype=reference.dtype)
+            for block, sketch in sketches.items()
+        }
+        payload = {
+            "metadata": metadata,
+            "sketches": signal,
+            "config": config,
+        }
+        return signal, ("v3", payload)
     raise ValueError(defense)
 
 
@@ -247,14 +277,58 @@ def _candidate_defended(delta: dict[str, torch.Tensor], payload, defense: str) -
     kind, plan = payload
     if kind == "v1":
         return _apply_surrogate_realization_torch(delta, plan)
-    v2 = V2_CONFIGS[defense]
-    args = argparse.Namespace(
-        compression_ratio=v2["compression_ratio"],
-        quantization_eta=v2["quantization_eta"],
-        v2_base_seed=v2["seed"],
-        ste_quantization=True,
-    )
-    return _candidate_sketches(delta, plan, args)
+    if kind == "v2":
+        v2 = V2_CONFIGS[defense]
+        args = argparse.Namespace(
+            compression_ratio=v2["compression_ratio"],
+            quantization_eta=v2["quantization_eta"],
+            v2_base_seed=v2["seed"],
+            ste_quantization=True,
+        )
+        return _candidate_sketches(delta, plan, args)
+    if kind == "v3":
+        return _candidate_v3_sketches(delta, plan, defense)
+    raise ValueError(kind)
+
+
+def _flatten_v3_blocks_torch(delta: dict[str, torch.Tensor]) -> dict[str, torch.Tensor]:
+    parts: dict[str, list[torch.Tensor]] = {"rest": [], "sensitive": []}
+    sensitive = set(V3_SENSITIVE_PARAMETER_NAMES)
+    for name, value in delta.items():
+        if not value.is_floating_point():
+            continue
+        block = "sensitive" if name in sensitive else "rest"
+        parts[block].append(value.reshape(-1))
+    out = {}
+    reference = next(value for value in delta.values() if value.is_floating_point())
+    for block, values in parts.items():
+        out[block] = torch.cat(values) if values else torch.zeros(0, dtype=reference.dtype, device=reference.device)
+    return out
+
+
+def _candidate_v3_sketches(delta: dict[str, torch.Tensor], payload: dict, defense: str) -> dict[str, torch.Tensor]:
+    from experiments.run_phase4_dna_v2_sketch_space_attack import _candidate_sketch_torch
+
+    config = V3_CONFIGS[defense]
+    blocks = _flatten_v3_blocks_torch(delta)
+    metadata_by_block = {item.block: item.metadata for item in payload["metadata"].block_metadata}
+    compression = {
+        "rest": float(config["rest_compression_ratio"]),
+        "sensitive": float(config["sensitive_compression_ratio"]),
+    }
+    out = {}
+    for tensor_index, block in enumerate(("rest", "sensitive")):
+        block_meta = metadata_by_block[block]
+        out[block] = _candidate_sketch_torch(
+            blocks[block],
+            compression_ratio=compression[block],
+            quantization_eta=float(config["quantization_eta"]),
+            base_seed=int(config["seed"]),
+            tensor_index=tensor_index,
+            quantization_delta=float(block_meta.quantization_delta),
+            ste_quantization=True,
+        )
+    return out
 
 
 def _loss(candidate, signal, reference, generation, range_penalty):

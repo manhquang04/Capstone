@@ -128,6 +128,7 @@ def _dna_block_seed_from_float32_block(
             for symbol in _DNA_SYMBOLS_BY_BYTE[byte][: 512 - rolling_symbols]:
                 rolling += (rolling_symbols + 1) * ord(symbol)
                 rolling_symbols += 1
+    # Large odd/prime multipliers decorrelate tensor/block indices and DNA base counts.
     seed = (
         base_seed
         + 1_000_003 * tensor_index
@@ -136,34 +137,6 @@ def _dna_block_seed_from_float32_block(
         + 31 * count_t
         + 47 * count_g
         + 61 * count_c
-        + rolling
-    )
-    return int(seed % (2**31))
-
-
-def _dna_block_seed(
-    dna_sequence: str,
-    base_seed: int,
-    tensor_index: int,
-    block_index: int,
-) -> int:
-    counts = {
-        "A": dna_sequence.count("A"),
-        "T": dna_sequence.count("T"),
-        "G": dna_sequence.count("G"),
-        "C": dna_sequence.count("C"),
-    }
-    rolling = 0
-    for index, symbol in enumerate(dna_sequence[:512]):
-        rolling += (index + 1) * ord(symbol)
-    seed = (
-        base_seed
-        + 1_000_003 * tensor_index
-        + 97_409 * block_index
-        + 17 * counts["A"]
-        + 31 * counts["T"]
-        + 47 * counts["G"]
-        + 61 * counts["C"]
         + rolling
     )
     return int(seed % (2**31))

@@ -23,11 +23,11 @@ def job_run(job, python, out, target):
     r={**job,"command":cmd,"returncode":p.returncode,"seconds":time.perf_counter()-t,"status":"SUCCESS" if p.returncode==0 else "FAILED"};(folder/"job_record.json").write_text(json.dumps(r,indent=2)+"\n");return r
 
 def main():
- p=argparse.ArgumentParser();p.add_argument("--target",type=Path,required=True);p.add_argument("--output-dir",type=Path,required=True);p.add_argument("--workers",type=int,default=9);p.add_argument("--python",default=str(ROOT/".venv-phase1/bin/python"));a=p.parse_args()
+ p=argparse.ArgumentParser();p.add_argument("--target",type=Path,required=True);p.add_argument("--output-dir",type=Path,required=True);p.add_argument("--workers",type=int,default=9);p.add_argument("--groups",type=int,default=8);p.add_argument("--python",default=str(ROOT/".venv-phase1/bin/python"));a=p.parse_args()
  if not 1<=a.workers<=9: raise ValueError("workers must be in 1..9")
  target=a.target.resolve();out=a.output_dir.resolve();out.mkdir(parents=True,exist_ok=False)
- jobs=[{"branch":"raw","group":g} for g in range(8)]+[{"branch":b,"group":g} for b in MULTIPLIERS for g in range(8)]
- (out/"manifest.json").write_text(json.dumps({"created_at":datetime.now(timezone.utc).isoformat(),"scope":"development-only strong update-DP attack gates", "amendment":"protocols/amendments/2026-09-16_strong_update_dp_exploratory_pareto.md", "target":str(target),"multipliers":MULTIPLIERS,"jobs":jobs},indent=2)+"\n")
+ jobs=[{"branch":"raw","group":g} for g in range(a.groups)]+[{"branch":b,"group":g} for b in MULTIPLIERS for g in range(a.groups)]
+ (out/"manifest.json").write_text(json.dumps({"created_at":datetime.now(timezone.utc).isoformat(),"scope":"development-only strong update-DP attack gates", "amendment":"protocols/amendments/2026-09-16_strong_update_dp_exploratory_pareto.md", "target":str(target),"groups":a.groups,"multipliers":MULTIPLIERS,"jobs":jobs},indent=2)+"\n")
  records=[]
  with ThreadPoolExecutor(max_workers=a.workers) as ex:
   fs=[ex.submit(job_run,j,a.python,out,target) for j in jobs]

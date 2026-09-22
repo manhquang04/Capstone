@@ -227,6 +227,7 @@ def _sketch_size(padded_size: int, compression_ratio: float) -> int:
 
 
 def _derive_seed(*values: int) -> int:
+    # 0x9E3779B9 is the standard 32-bit golden-ratio hash-mixing constant.
     state = 0x9E3779B9
     for value in values:
         state ^= int(value) + 0x9E3779B9 + ((state << 6) & 0xFFFFFFFF) + (state >> 2)
