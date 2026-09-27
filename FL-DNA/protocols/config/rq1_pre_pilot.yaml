@@ -1,0 +1,193 @@
+schema_version: 1
+protocol_id: RQ1-CONFIRMATORY-V1
+config_id: RQ1-PRE-PILOT-V1-APPROVED
+status: PRE-PILOT FROZEN
+execution_authorized: true
+decision_package: ../supervisor_decision_package.md
+
+statistics:
+  alpha:
+    proposed: 0.05
+    approved: 0.05
+  target_power:
+    proposed: 0.80
+    approved: 0.80
+  null_win_probability:
+    proposed: 0.50
+    approved: 0.50
+  minimum_meaningful_win_probability:
+    options: [0.65, 0.70, 0.75]
+    recommended: 0.70
+    approved: 0.70
+  expected_tie_rate:
+    proposed: 0.10
+    approved: 0.10
+  expected_technical_dropout_rate:
+    proposed: 0.05
+    approved: 0.05
+  required_confirmatory_target_count:
+    method: exact_binomial_power_analysis
+    non_tied_n_at_power_0p80: 37
+    inflated_for_tie_and_dropout: 44
+    recomputed_with_measured_tie_rate: 39
+    measured_development_tie_rate: 0.0
+    measured_groups: 8
+    evidence: ../../artifacts/rq1/confirmatory_power_analysis_20260913/rq1_power_analysis.json
+    tie_rate_evidence: ../../artifacts/rq1/stage1_selected_dp_tie_rate_20260913/tie_rate_report.json
+    note: "44 is the supervisor-approved planning value using 10% expected
+      ties; the required draw is 39 after the required recomputation with the
+      observed 0/8 development tie rate and frozen 5% technical-dropout rate"
+  tie_threshold_mse:
+    selection_rule: development_only_numerical_stability_study
+    approved_value: 0.0390625
+    evidence: ../../artifacts/rq1/stage1_tie_threshold_20260912/tie_threshold_report.json
+    approval_source: ../amendments/2026-09-13_stage1_supervisor_approvals.md
+  primary_test: exact_one_sided_sign_test
+  primary_contrast: dna_transform_vs_dp_distortion_matched
+  primary_metric: normalized_feature_mse
+  secondary_multiplicity:
+    proposed: holm
+    approved: holm
+
+resources:
+  maximum_feasible_target_count:
+    approved: 150
+    basis: "measured runtime probe on development_gate_targets.pt group 0,
+      2026-09-12: raw 15.26s/restart, DNA-surrogate 15.85s/candidate-restart,
+      clipping/noise-MC 14.72s/restart at 600 iterations; frozen budget R8 raw,
+      4 realizations x R8 DNA, R8 DP-MC => ~747s/target => 150 targets is
+      ~3.4x required_confirmatory_target_count (44) at ~31 CPU-hours serial"
+  maximum_machine_hours:
+    approved: null
+    status: REMOVED_BY_SUPERVISOR
+    amendment: ../amendments/2026-09-13_resource_ceiling_removed.md
+  maximum_artifact_gb:
+    approved: 500
+  safety_factor:
+    proposed: 1.25
+    approved: 1.25
+
+benchmark_provenance:
+  probe_date: 2026-09-12
+  hardware: "MacBook Pro, Apple M1 Pro, 32GB RAM, CPU-only for the attacker
+    (attacks run on torch.device('cpu') by implementation contract; MPS is
+    available on this machine for RQ2 training but is not used by the attack
+    scripts)"
+  parallelism_model: "one process per target/restart unit, each pinned to a
+    single CPU thread (torch.set_num_threads(1), unchanged by design); scale
+    throughput by running multiple processes concurrently, not by increasing
+    per-process thread count, to avoid oversubscription on a 10-core machine"
+  recommended_concurrent_workers: 9
+
+scope:
+  records_per_group: 4
+  fraud_records_per_group: 1
+  local_optimizer: Adam
+  local_steps: 1
+  known_architecture: true
+  oracle_class_decomposed_labels: false
+
+dna_transform:
+  selection_status: approved_existing_conservative
+  block_size: 256
+  mix_ratio: 0.08
+  keep_ratio: 0.88
+  shrink_factor: 0.45
+  seed_derivation: deterministic_per_round_client_seed_from_dna_transform_run_seed
+    # as implemented in dna_encoder/transform_defense.py; see README "Dynamic
+    # Seed Verification". Inherited from existing code, not a new decision.
+
+dp_distortion_calibration:
+  clip_norm_grid: [100.0]
+  noise_multiplier_grid: [0.0001, 0.0002, 0.00025, 0.0003, 0.0005, 0.001, 0.005, 0.01]
+  grid_amendment_source: ../amendments/2026-09-12_rq1_distortion_grid_expansion.md
+  target_statistic: median_relative_l2
+  matching_tolerance:
+    proposed: 0.05
+    approved: 0.05
+    note: "5% relative deviation from DNA's median relative-L2 on development
+      groups; assistant-proposed engineering default, flagged for a quick
+      supervisor nod rather than a full survey round"
+  noise_realizations:
+    proposed: 100
+    approved: 100
+    note: "inherited from the Phase 4 clipping/noise Monte Carlo precedent
+      (N=100), not a new value"
+  calibration_seed_list:
+    proposed: [11, 22, 33, 44, 55]
+    approved: [11, 22, 33, 44, 55]
+    note: "assistant-proposed fixed 5-seed calibration list; arbitrary but
+      fixed before grid execution, flagged for a quick supervisor nod"
+  tie_breaker: smallest_noise_multiplier_among_equal_absolute_distances
+  save_full_grid: true
+  selected_candidate:
+    status: approved
+    clip_norm: 100.0
+    noise_multiplier: 0.00025
+    evidence: ../../artifacts/rq1/stage1_distortion_calibration_shared_impl_expanded_20260912/calibration_report.json
+    approval_source: ../amendments/2026-09-13_stage1_supervisor_approvals.md
+
+attack:
+  iterations: 600
+  restarts: 8
+  learning_rate: 0.1
+  nonnegative_lambda: 0.001
+  candidate_selection: attacker_visible_objective_only
+  monte_carlo_realizations: 100
+  gate_rule: must_beat_prior_and_zero_update
+
+data_firewall:
+  development_registry:
+    - path: artifacts/phase4/pre_phase4_fraud_gate_20260909T070735493549Z/development_gate_targets.pt
+      run_seed: 196482731
+      groups: 8
+      records_per_group: 4
+      fraud_per_group: 1
+      role: "attack-budget calibration, artifact audit, and 2026-09-12 runtime
+        probe; not used for confirmatory conclusions"
+  post_hoc_target_sets:
+    - level1_fresh_final_targets.pt
+  confirmatory_source_disjoint: true
+  maximum_robustness_sets: 1
+
+still_open_before_confirmatory_freeze:
+  []
+
+required_before_pre_pilot_frozen:
+  - resolve_all_null_approval_fields: DONE; tie_threshold_mse approved after
+      the Stage-1 development-only numerical-stability study
+  - approve_resource_ceiling: DONE
+  - register_data_pools: DONE
+  - hash_metric_and_pseudo_image_implementation: DONE (see implementation_hashes)
+  - record_protocol_config_code_environment_hashes: DONE (see approval_record)
+  - record_research_lead_and_supervisor_approval: DONE (see approval_record)
+
+implementation_hashes:
+  attacks/inversion_metrics.py: 6ad0b2581d35ec804311dbecf7b682dd1a8e447ccc61db001b97f917eb2aa8c2
+  attacks/pseudo_image.py: 6273e59d73cd17b4c8812c46776356defbcf090dea9c2a1bdcca94498ff8993a
+  experiments/rq1_power_analysis.py: 989ba46c0cf53cc2f9e1426b215c18d3beafebcbb82841e8724c2815572f8ffd
+  hashed_at: 2026-09-12T14:26:43Z
+  note: "sha256 of the current metric/pseudo-image implementation files; if
+    either file changes before confirmatory execution, rehash and record as
+    a protocol amendment, do not silently reuse this hash"
+
+approval_record:
+  - role: supervisor_and_research_lead
+    name: Manh Quang
+    decision: approved
+    scope: "statistics, resources, dp_distortion_calibration defaults,
+      attack.monte_carlo_realizations; recorded via chat session confirmation"
+    timestamp: 2026-09-12T14:26:43Z
+    code_tree_reference: 65afddc33d7012e0c0798ad4a210beebce718650
+    dataset_sha256: 16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b
+    note: "code_tree_reference is the last git commit; the protocols/ and
+      protocols/config/ files themselves are not yet committed to git as of
+      this timestamp and should be committed to make this hash fully cover
+      the frozen protocol text"
+  - role: supervisor_and_research_lead
+    name: Manh Quang
+    decision: approved_stage1_outputs_for_confirmatory_freeze
+    scope: "tie threshold 0.0390625; DP distortion comparator multiplier
+      0.00025; RQ1 grid amendment; no confirmatory execution authorization"
+    timestamp: 2026-09-13T00:24:52+07:00
+    reference: ../amendments/2026-09-13_stage1_supervisor_approvals.md

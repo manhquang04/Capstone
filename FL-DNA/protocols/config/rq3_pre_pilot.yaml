@@ -1,0 +1,137 @@
+schema_version: 1
+protocol_id: RQ3-COST-ACCEPTANCE-V1
+config_id: RQ3-PRE-PILOT-V1-APPROVED
+status: PRE-PILOT FROZEN
+execution_authorized: true
+decision_package: ../supervisor_decision_package.md
+
+decision_rule:
+  proposed: all_mandatory_criteria_pass_all_mandatory_profiles_and_scales
+  approved: all_mandatory_criteria_pass_all_mandatory_profiles_and_scales
+  missing_mandatory_cell: INCONCLUSIVE
+  borderline_ci_rule:
+    proposed: entire_paired_95pct_ci_must_be_within_threshold
+    approved: entire_paired_95pct_ci_must_be_within_threshold
+
+network_profiles:
+  LAN:
+    uplink_mbps: 100
+    rtt_ms: 5
+    packet_loss_fraction: 0.0
+    mandatory_proposed: true
+    mandatory_approved: true
+  BROADBAND:
+    uplink_mbps: 20
+    rtt_ms: 30
+    packet_loss_fraction: 0.001
+    mandatory_proposed: true
+    mandatory_approved: true
+  CONSTRAINED:
+    uplink_mbps: 5
+    rtt_ms: 80
+    packet_loss_fraction: 0.01
+    mandatory_proposed: false
+    mandatory_approved: true
+    note: "supervisor chose to make all three profiles mandatory (stricter
+      than the recommended LAN+Broadband-mandatory default)"
+
+acceptance_thresholds_balanced_proposal:
+  end_to_end_round_overhead_p95_fraction: 0.25
+  client_encode_serialize_p95_ms: 250
+  server_decode_aggregate_p95_ms: 500
+  peak_client_memory_overhead_fraction: 0.25
+  peak_client_memory_overhead_mb: 512
+  peak_server_memory_overhead_fraction: 0.25
+  peak_server_memory_overhead_mb: 1024
+  application_payload_expansion_ratio: 6.0
+  added_transfer_latency_p95_seconds:
+    LAN: 0.25
+    BROADBAND: 1.0
+    CONSTRAINED: 3.0
+  authentication_or_correctness_failures: 0
+  timeout_rate_fraction: 0.0
+acceptance_thresholds_approved: bundle_B_balanced_academic_prototype
+  # values are exactly acceptance_thresholds_balanced_proposal above
+
+benchmark:
+  methods:
+    - RAW_FLOAT32
+    - LOSSLESS_DNA_AES_GCM
+    - DNA_TRANSFORM_TRANSPORT
+  client_counts: [3, 5, 10]
+  scaling_modes:
+    - fixed_total_data
+    - fixed_data_per_client_if_compute_permits
+  warmup_repetitions:
+    proposed: 5
+    approved: 10
+    note: "supervisor asked to increase repetitions beyond the balanced
+      default; approved value follows the increased pairing (10 warmup / 50
+      measured) rather than the original 5/30 proposal"
+  measured_repetitions:
+    proposed: 30
+    approved: 50
+  method_order: randomized_or_balanced_from_frozen_seed
+  method_order_seed:
+    approved: 271828
+    note: "assistant-proposed fixed seed, arbitrary but fixed before the
+      benchmark runs"
+  monotonic_high_resolution_timer: true
+  process_isolation:
+    approved: one_measured_cell_at_a_time_no_concurrent_benchmark_load
+    note: "unlike RQ1/RQ2 (throughput-oriented, parallelize across
+      processes), RQ3 measures latency/timing directly, so cells must run
+      sequentially and isolated from other load on the machine; running
+      benchmark cells concurrently would contaminate the p95 latency figures
+      with contention and invalidate the acceptance thresholds"
+  cpu_thread_policy:
+    approved: single_thread_per_process
+    note: "consistent with the reproducibility rationale used for RQ1/RQ2"
+  network_emulation_tool: versioned_user_space_loopback_socket_emulator
+  network_emulation_implementation: ../../experiments/rq3_user_space_network.py
+  network_emulation_amendment: ../amendments/2026-09-13_rq3_network_emulator_and_freeze.md
+  timeout_seconds:
+    approved: 30
+    note: "per operation; a timeout counts as a failure for
+      timeout_rate_fraction, not as excluded/ignored"
+
+measurement_scope:
+  cpu_utilization: descriptive_optional
+  energy_and_power: out_of_scope
+  application_payload_bytes: required
+  transport_headers_if_observable: report_separately
+
+resources:
+  maximum_machine_hours:
+    approved: null
+    status: REMOVED_BY_SUPERVISOR
+    amendment: ../amendments/2026-09-13_resource_ceiling_removed.md
+  maximum_artifact_gb:
+    approved: 500
+  hardware_description:
+    approved: "MacBook Pro, Apple M1 Pro, 32GB RAM, macOS"
+  safety_factor:
+    proposed: 1.25
+    approved: 1.25
+
+required_before_pre_pilot_frozen:
+  - approve_network_profiles_and_mandatory_set: DONE
+  - approve_numerical_acceptance_thresholds: DONE
+  - approve_decision_and_borderline_rules: DONE
+  - resolve_benchmark_null_fields: DONE
+  - approve_resource_ceiling: DONE
+  - record_protocol_config_code_environment_hashes: DONE (see approval_record)
+  - record_research_lead_and_supervisor_approval: DONE (see approval_record)
+
+approval_record:
+  - role: supervisor_and_research_lead
+    name: Manh Quang
+    decision: approved
+    scope: "decision rule, all three network profiles as mandatory, Bundle B
+      acceptance thresholds, increased repetitions (50 measured / 10
+      warm-up), resources; recorded via chat session confirmation"
+    timestamp: 2026-09-12T14:26:43Z
+    code_tree_reference: 65afddc33d7012e0c0798ad4a210beebce718650
+    note: "protocols/ and protocols/config/ files are not yet committed to
+      git as of this timestamp; commit them so this hash fully covers the
+      frozen protocol text"

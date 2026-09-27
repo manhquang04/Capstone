@@ -1,0 +1,48 @@
+{
+  "config_id": "rq1_scope_boundary_screen_rpg8_20260914",
+  "status": "SCOPE_SCREENING_FROZEN",
+  "scope_screening_authorized": true,
+  "branch": "raw",
+  "approval": {
+    "supervisor": "Manh Quang",
+    "approval_date": "2026-09-14",
+    "amendment": "protocols/amendments/2026-09-14_rq1_scope_boundary_coarse_screening.md"
+  },
+  "screening": {
+    "records_per_group": 8,
+    "fraud_records_per_group": 1,
+    "local_steps": 1,
+    "stop_rule": "run levels in ascending order and stop immediately if raw branch fails prior or zero control gate"
+  },
+  "target": {
+    "path": "artifacts/rq1/scope_boundary_rpg8_freeze_20260914/rq1_scope_boundary_rpg8_targets.pt",
+    "sha256": "6653f4d904f74cc46d95abf89eeab80995f8687afb8d8dfd199a7116e1f568a0",
+    "overlap_matrix": "artifacts/rq1/scope_boundary_rpg8_freeze_20260914/source_overlap_matrix.json",
+    "overlap_matrix_sha256": "30efe1230b20604d0e65fa028ffae7d8f59fa99ae0fdea1b256026fd6b1c9262",
+    "groups": 10,
+    "source_count": 80,
+    "target_seed": 1940948331,
+    "source_disjointness_gate": "PASS"
+  },
+  "attack": {
+    "iterations": 600,
+    "restarts": 4,
+    "init_mode": "standard",
+    "nonnegative_lambda": 0.001,
+    "maximum_concurrent_processes": 9,
+    "torch_num_threads": 1
+  },
+  "gate": {
+    "controls": ["prior", "zero_update"],
+    "mean_difference_must_be_negative": true,
+    "median_difference_must_be_negative": true,
+    "one_sided_exact_sign_test_alpha": 0.05
+  },
+  "implementation_hashes": {
+    "experiments/run_rq1_raw_scope_screening.py": "a553cb8c5a180eae04fe7a1508a35adca1e7be4306de1f769324468fbb8d921a",
+    "experiments/analyze_rq1_raw_scope_screening.py": "a5f615f73aa4546107a89167b3d9d54c7b7dabf1b1de2152dc2de13c062b0182",
+    "experiments/run_phase4_harddiff_reparam_for_misselected.py": "66e6557b93a867f3d650bfcc9ee146270a4d2b8fc0227a766eaffa8ed5caeebb",
+    "experiments/create_phase4_source_disjoint_targets.py": "ec63eb09c5d91741def37bc35c911ab0cbeb053d82fd4289bd03afb6b4059cdf",
+    "experiments/verify_rq1_target_disjointness.py": "32e844161e3cd97afb06c6e9ea2d88342777ce2bc75775a0814fe9ac884671b0"
+  }
+}

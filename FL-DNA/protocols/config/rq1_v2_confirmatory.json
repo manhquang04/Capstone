@@ -1,0 +1,97 @@
+{
+  "config_id": "RQ1-V2-CONFIRMATORY-P1-0P60-FROZEN",
+  "variant": "rq1_v2_ratio0p95_eta0p01_iht0p20",
+  "status": "CONFIRMATORY FROZEN",
+  "execution_authorized": true,
+  "confirmatory_attack_authorized": true,
+  "authorization_scope": "single_execution_on_frozen_176_group_rq1_v2_target",
+  "statistics": {
+    "test": "exact_one_sided_sign",
+    "primary_contrast": "DNA_TRANSFORM_V2_MINUS_DP_DISTORTION_MATCHED_V2",
+    "primary_metric": "feature_mse",
+    "p0": 0.5,
+    "p1": 0.6,
+    "alpha": 0.05,
+    "power": 0.8,
+    "tie_threshold_mse": 0.01953125,
+    "planned_tie_rate": 0.05,
+    "dropout_rate": 0.05,
+    "required_non_tied_n": 158,
+    "planned_rejection_minimum_wins_at_n158": 90,
+    "actual_alpha_at_n158": 0.04723726761096572,
+    "actual_power_at_p1_n158": 0.8056549358366878,
+    "initial_target_draw": 176,
+    "v2_target_count_ceiling_note": "v2 confirmatory intentionally exceeds the older v1 target ceiling of 150 to power p1=0.60"
+  },
+  "target": {
+    "path": "artifacts/rq1_v2/confirmatory_freeze_20260916/rq1_v2_confirmatory_targets.pt",
+    "sha256": "87153ed0550254e92bfd0ea2eacbaec840b31d887d421e4513001224976b064f",
+    "groups": 176,
+    "source_count": 704,
+    "overlap_matrix": "artifacts/rq1_v2/confirmatory_freeze_20260916/source_overlap_matrix.json",
+    "overlap_matrix_sha256": "4a08fbc49f663ca65cb0c38b4c593677a0775e56a68859ff7eee79abffe86d77",
+    "disjointness_gate": "PASS",
+    "maximum_overlap": 0,
+    "historical_target_files_checked": 1047,
+    "generation_seed": 2026091676,
+    "generated_once": true,
+    "provenance": "artifacts/rq1_v2/confirmatory_freeze_20260916/rq1_v2_confirmatory_targets.provenance.json",
+    "provenance_sha256": "514e3832846adf37b7966f3127712517851d3a69684824e60cc6de42704dd973"
+  },
+  "scope": {
+    "dataset": "PaySim",
+    "records_per_group": 4,
+    "fraud_records_per_group": 1,
+    "local_steps": 1,
+    "local_optimizer": "Adam"
+  },
+  "dna_transform_v2": {
+    "config_id": "DNA-TRANSFORM-V2-RATIO0P95-ETA0P01",
+    "compression_ratio": 0.95,
+    "quantization_eta": 0.01,
+    "base_seed": 20260916
+  },
+  "dp_distortion_matched_v2": {
+    "config_id": "DP-STYLE-DISTORTION-MATCHED-V2-0P00105-WEAK-ACCOUNTING",
+    "formal_record_level_dp_claim": false,
+    "weak_update_level_accounting": true,
+    "clip_norm": 100.0,
+    "noise_multiplier": 0.00105,
+    "median_relative_l2_from_development": 0.3279535493,
+    "dna_v2_median_relative_l2_from_development": 0.3312435936,
+    "relative_distance_from_dna_v2": 0.00993,
+    "mc_noise_samples": 100,
+    "defense_seed": 314159265
+  },
+  "attack": {
+    "iterations": 600,
+    "restarts": 4,
+    "learning_rate": 0.1,
+    "nonnegative_lambda": 0.001,
+    "iht_sparsity_fraction": 0.2,
+    "iht_iterations": 80,
+    "iht_step_size": 1.0,
+    "maximum_concurrent_processes": 9,
+    "torch_num_threads": 1
+  },
+  "implementation_hashes": {
+    "experiments/run_rq1_v2_confirmatory.py": "01733b999133dfd02ef3d754c3851c17992c2866fef71f98c7d5316c2c3457a7",
+    "experiments/analyze_rq1_v2_confirmatory.py": "5d62e5095113c025e43512a6653d5c7c23a1470e1331f1de18693c3865c245a9",
+    "experiments/run_phase4_dna_v2_iht_attack.py": "930565f1ee46b9691a911b41d6d6b04948d53d38ecf0ad24c118b0330e6fb576",
+    "experiments/run_phase4_harddiff_reparam_for_misselected.py": "66e6557b93a867f3d650bfcc9ee146270a4d2b8fc0227a766eaffa8ed5caeebb",
+    "experiments/run_phase4_simple_defense_attack.py": "34f2d5e3a92904df293873dd3efebd1af0fad184d68c2a1206b420785c49acbb",
+    "attacks/inversion_metrics.py": "6ad0b2581d35ec804311dbecf7b682dd1a8e447ccc61db001b97f917eb2aa8c2",
+    "attacks/pseudo_image.py": "6273e59d73cd17b4c8812c46776356defbcf090dea9c2a1bdcca94498ff8993a"
+  },
+  "amendments": [
+    "protocols/amendments/2026-09-16_rq1_v2_confirmatory_protocol.md",
+    "protocols/amendments/2026-09-16_dna_transform_v2_dp_local_grid_interpolation.md",
+    "protocols/amendments/2026-09-16_dna_transform_v2_expanded_development_pilot.md",
+    "protocols/amendments/2026-09-16_dna_transform_v2_expanded_pilot_numeric_replay.md"
+  ],
+  "approval": {
+    "name": "Manh Quang",
+    "date": "2026-09-16",
+    "scope": "RQ1-v2 confirmatory single execution"
+  }
+}

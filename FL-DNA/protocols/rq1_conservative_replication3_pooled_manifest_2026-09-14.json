@@ -1,0 +1,59 @@
+{
+  "created_at": "2026-09-14T14:56:13+07:00",
+  "status": "COMPLETE",
+  "scope": "Final RQ1 conservative replication 3 and exploratory pooled analysis",
+  "final_draw_rule": "No further RQ1 conservative DNA-vs-DP target draws are permitted for this comparison.",
+  "amendment": {
+    "path": "protocols/amendments/2026-09-14_group3_replication_3_and_pooled_analysis.md",
+    "sha256": "3138d91d546e74e0c100d94fefb18d8db33ecdfff4391345ca0ce53c31db6ef1"
+  },
+  "config": {
+    "path": "protocols/config/rq1_group3_replication_3.json",
+    "sha256": "159b2a6751baac0df08942212390a8cfb7ab83753b05a55fa35e4cbc5ed53024"
+  },
+  "target": {
+    "path": "artifacts/rq1/group3_replication_3_freeze_20260914/rq1_replication_3_targets.pt",
+    "sha256": "0786b9bcd7e067b9b6ee8961307be0605543e9e5eb318a8e7e5b176caf6e182e",
+    "groups": 39,
+    "source_count": 156,
+    "source_disjointness_gate": "PASS",
+    "historical_target_files_checked": 673,
+    "maximum_overlap": 0,
+    "overlap_matrix_sha256": "45e35370132f0652f4abbe032152eeca7f0662e5c14bd97b0b2b95d82b732a60"
+  },
+  "replication_3_run": {
+    "run_dir": "artifacts/rq1/group3_replication_3_run_20260914",
+    "result_dir": "results/rq1/group3_replication_3_20260914",
+    "summary_sha256": "29ba49c7cc786b9c3474fa6ffae3a8e4ab1b1a9815763c7840017a1dd9f1392e",
+    "jobs": 117,
+    "success": 117,
+    "failed": 0,
+    "branch_gates": "PASS",
+    "primary_wins": 25,
+    "primary_losses": 14,
+    "primary_ties": 0,
+    "primary_non_tied_n": 39,
+    "primary_one_sided_p": 0.05406451070302866,
+    "primary_reject_h0": false
+  },
+  "pooled_analysis": {
+    "script": "experiments/analyze_rq1_conservative_pooled.py",
+    "script_sha256": "d6b060f9d9300f89d1566c6f35456227a07dfbdae270aa3a4014b24c8db0c1e8",
+    "result_dir": "results/rq1/conservative_pooled_20260914",
+    "summary_sha256": "4af1c56c7d34d4c874a8ce1e04d2f35960a78185971e0d76728bf0d47b387bd4",
+    "status": "EXPLORATORY_POST_HOC",
+    "pooled_wins": 96,
+    "pooled_losses": 60,
+    "pooled_ties": 0,
+    "pooled_non_tied_n": 156,
+    "pooled_win_probability": 0.6153846153846154,
+    "pooled_ci95": [0.5342306283136875, 0.6920667262218236],
+    "pooled_one_sided_p": 0.0024564823104850407,
+    "meets_practical_effect_reference_p1_0p70": false,
+    "heterogeneity_chi_square_p": 0.29775116896809023
+  },
+  "updated_reports": {
+    "reports/group3_replication_report.md": "b1d59dff6401d1c428a17644e95e3c424c39cc09915b208cf23a34e4a14a03ed",
+    "../PROJECT.md": "2a14b491970e073131610d065083ce5fb5b4e6f6b2e21296f9ce0d0bb0c87028"
+  }
+}

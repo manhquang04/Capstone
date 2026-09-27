@@ -1,0 +1,73 @@
+{
+  "created_at": "2026-09-26T23:04:59.722644+00:00",
+  "config": "protocols/config/rq2_priority14_dp_utility_confirmatory.json",
+  "config_sha256": "689a651d8436f15e9caa0145641e9b5ccb74b37085aaa7c8d2ddd0fdb69ef966",
+  "run_dir": "artifacts/rq2_priority14_dp_utility/confirmatory_20260927",
+  "baseline_source": {
+    "run_dir": "artifacts/rq2_v2/confirmatory_20260916",
+    "config": "protocols/config/rq2_v2_confirmatory.json",
+    "config_sha256": "da0ca7cebb8bd394ec2c44a593fb357757938df7695f6793f670aa77a0987224",
+    "execution_summary_sha256": "aefbea99842877ed614a6b95f30663cdb72570f41c3ccf7a8d113ffd180f6cac",
+    "reuse_rationale": "same 52 seeds, same training configuration, same paired seed contract"
+  },
+  "n_seeds": 52,
+  "contrast": "FL_DP_COMPARATOR_MINUS_FL_BASELINE",
+  "endpoint_rule": "both_f1_and_auc_must_pass",
+  "alpha": 0.05,
+  "analyses": {
+    "dp_v1_stronger_0p0004": {
+      "f1": {
+        "n": 52,
+        "mean_delta": -0.12755637934205835,
+        "sd": 0.03905620019614246,
+        "median_delta": -0.12467515021189007,
+        "ci95": [
+          -0.13842969491207358,
+          -0.11668306377204311
+        ],
+        "noninferiority_margin": 0.02,
+        "noninferiority_pass": false
+      },
+      "auc": {
+        "n": 52,
+        "mean_delta": -0.004227407205253724,
+        "sd": 0.002011588236684736,
+        "median_delta": -0.003993173277298867,
+        "ci95": [
+          -0.004787436946615095,
+          -0.0036673774638923515
+        ],
+        "noninferiority_margin": 0.005,
+        "noninferiority_pass": true
+      },
+      "primary_noninferiority_pass": false
+    },
+    "dp_v2_ratio0p95_0p00105": {
+      "f1": {
+        "n": 52,
+        "mean_delta": -0.3160461709589174,
+        "sd": 0.20300314725104926,
+        "median_delta": -0.22834564975223498,
+        "ci95": [
+          -0.3725626080593434,
+          -0.25952973385849143
+        ],
+        "noninferiority_margin": 0.02,
+        "noninferiority_pass": false
+      },
+      "auc": {
+        "n": 52,
+        "mean_delta": -0.14003352809783762,
+        "sd": 0.19521001081859335,
+        "median_delta": -0.060969067538231836,
+        "ci95": [
+          -0.1943803421605712,
+          -0.08568671403510403
+        ],
+        "noninferiority_margin": 0.005,
+        "noninferiority_pass": false
+      },
+      "primary_noninferiority_pass": false
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "config_id": "RQ3-INSTRUMENTATION-SMOKE-2026-09-13",
+  "status": "SMOKE_ONLY_NOT_SCIENTIFIC_EVIDENCE",
+  "network_profiles": {
+    "LAN": {
+      "uplink_mbps": 100.0,
+      "rtt_ms": 5.0,
+      "packet_loss_fraction": 0.0
+    }
+  },
+  "dna_transform": {
+    "block_size": 256,
+    "mix_ratio": 0.08,
+    "keep_ratio": 0.88,
+    "shrink_factor": 0.45
+  },
+  "benchmark": {
+    "client_counts": [3],
+    "warmup_repetitions": 1,
+    "measured_repetitions": 1,
+    "method_order_seed": 271828,
+    "input_dim": 13,
+    "input_seed": 1618033,
+    "transform_seed": 1184685071,
+    "aes_256_key_hex": "ab25e9d535a043b91e5e8f904cc9ac801fbf514b3562fcac802941164f91f9f9",
+    "emulation_packet_bytes": 1200,
+    "timeout_seconds": 30.0
+  }
+}

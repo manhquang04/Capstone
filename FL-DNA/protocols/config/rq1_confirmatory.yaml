@@ -1,0 +1,140 @@
+schema_version: 1
+protocol_id: RQ1-CONFIRMATORY-V1
+config_id: RQ1-CONFIRMATORY-V1-FROZEN
+status: CONFIRMATORY FROZEN
+frozen_at: 2026-09-13T00:29:00+07:00
+confirmatory_execution_authorized: true
+authorization_state: AUTHORIZED_SINGLE_CONFIRMATORY_EXECUTION
+freeze_integrity_gate: PASS
+approval_source: ../amendments/2026-09-13_stage1_supervisor_approvals.md
+freeze_manifest: ../confirmatory_freeze_manifest_2026-09-13.json
+
+resources:
+  maximum_machine_hours:
+    approved: null
+    status: REMOVED_BY_SUPERVISOR
+    amendment: ../amendments/2026-09-13_resource_ceiling_removed.md
+  maximum_feasible_target_count: 150
+  maximum_artifact_gb: 500
+
+scope:
+  dataset: PaySim
+  records_per_group: 4
+  fraud_records_per_group: 1
+  local_optimizer: Adam
+  local_steps: 1
+  known_architecture: true
+  oracle_class_decomposed_labels: false
+
+statistics:
+  primary_metric: normalized_feature_mse
+  primary_contrast: DNA_TRANSFORM_MINUS_DP_DISTORTION_MATCHED
+  hypothesis_direction: greater
+  test: exact_one_sided_sign_test
+  alpha: 0.05
+  target_power: 0.80
+  null_win_probability: 0.50
+  minimum_meaningful_win_probability: 0.70
+  tie_threshold_mse: 0.0390625
+  tie_rule: "abs(MSE_DNA - MSE_DP) <= tie_threshold_mse"
+  technical_dropout_rate: 0.05
+  measured_development_tie_rate: 0.0
+  measured_ties: 0
+  measured_groups: 8
+  effective_non_tied_n: 37
+  rejection_minimum_wins: 24
+  actual_alpha: 0.04943587479647249
+  actual_power: 0.8070956916527874
+  planning_target_count_at_10pct_ties: 44
+  required_confirmatory_target_count: 39
+  maximum_feasible_target_count: 150
+  ceiling_gate: PASS
+  secondary_multiplicity: holm
+  evidence:
+    tie_threshold: ../../artifacts/rq1/stage1_tie_threshold_20260912/tie_threshold_report.json
+    measured_tie_rate: ../../artifacts/rq1/stage1_selected_dp_tie_rate_20260913/tie_rate_report.json
+    exact_power: ../../artifacts/rq1/confirmatory_power_analysis_20260913/rq1_power_analysis.json
+
+dna_transform:
+  config_id: DNA-TRANSFORM-CONSERVATIVE-V1
+  block_size: 256
+  mix_ratio: 0.08
+  keep_ratio: 0.88
+  shrink_factor: 0.45
+  seed_derivation: deterministic_per_round_client_seed_from_dna_transform_run_seed
+  dna_run_seed: 1184685071
+  dna_run_seed_derivation: "first 31 bits of SHA256('RQ1-CONFIRMATORY-V1|DNA-SURROGATE|2026-09-13')"
+
+dp_distortion_matched:
+  config_id: DP-DISTORTION-MATCHED-RQ1-V1
+  formal_dp_claim: false
+  clip_norm: 100.0
+  noise_multiplier: 0.00025
+  monte_carlo_realizations: 100
+  defense_seed: 314159265
+  calibration_statistic: median_relative_l2
+  dna_median_relative_l2: 0.07557749969956536
+  dp_median_relative_l2: 0.07808418251845803
+  relative_mismatch: 0.03316705142214552
+  matching_tolerance: 0.05
+  calibration_gate: PASS
+  calibration_evidence: ../../artifacts/rq1/stage1_distortion_calibration_shared_impl_expanded_20260912/calibration_report.json
+  grid_amendment: ../amendments/2026-09-12_rq1_distortion_grid_expansion.md
+
+dp_utility_matched:
+  status: NOT_FOUND
+  included: false
+  search_closed: true
+
+attack:
+  iterations: 600
+  restarts: 8
+  dna_surrogate_realizations: 4
+  learning_rate: 0.1
+  nonnegative_lambda: 0.001
+  initialization: standard
+  candidate_selection: attacker_visible_objective_only
+  branch_gate: must_beat_prior_and_zero_update
+  torch_num_threads: 1
+  maximum_concurrent_processes: 9
+
+confirmatory_target_generation:
+  generator: ../../experiments/create_phase4_source_disjoint_targets.py
+  seed: 1409291722
+  seed_derivation: "first 31 bits of SHA256('RQ1-CONFIRMATORY-V1|TARGETS|2026-09-13')"
+  groups: 39
+  records_per_group: 4
+  fraud_per_group: 1
+  output: ../../artifacts/rq1/confirmatory_freeze_20260913/rq1_confirmatory_targets.pt
+  generated_once: true
+  generated_at: 2026-09-13T00:31:00+07:00
+  target_sha256: caee0024c318c2874037382996b843ead8024b02b132185e502e245d3266267f
+  source_count: 156
+  provenance: ../../artifacts/rq1/confirmatory_freeze_20260913/rq1_confirmatory_targets.provenance.json
+  provenance_sha256: 245358ba050b61f7245f3f425feb13a2d740ed2adce185d3206292ff7720ac8a
+  source_overlap_gate: PASS
+  historical_target_files_checked: 53
+  maximum_overlap_count: 0
+  overlap_matrix: ../../artifacts/rq1/confirmatory_freeze_20260913/source_overlap_matrix.json
+  overlap_matrix_sha256: ac8e492499ee055316aecad02b7dd41147ebb2b0064ef845ad6b220407c60bfe
+
+implementation_hashes:
+  attacks/inversion_metrics.py: 6ad0b2581d35ec804311dbecf7b682dd1a8e447ccc61db001b97f917eb2aa8c2
+  attacks/pseudo_image.py: 6273e59d73cd17b4c8812c46776356defbcf090dea9c2a1bdcca94498ff8993a
+  experiments/rq1_power_analysis.py: 989ba46c0cf53cc2f9e1426b215c18d3beafebcbb82841e8724c2815572f8ffd
+  experiments/measure_rq1_development_tie_rate.py: 17e8e3543c20b33e744af64281c3711032b204ddbd1dd9eff3e90a57767be5fd
+  experiments/create_phase4_source_disjoint_targets.py: ec63eb09c5d91741def37bc35c911ab0cbeb053d82fd4289bd03afb6b4059cdf
+  experiments/verify_rq1_target_disjointness.py: 32e844161e3cd97afb06c6e9ea2d88342777ce2bc75775a0814fe9ac884671b0
+
+approval_record:
+  role: supervisor_and_research_lead
+  name: Manh Quang
+  decision: APPROVED_FOR_CONFIRMATORY_FREEZE
+  timestamp: 2026-09-13T00:24:52+07:00
+  execution_authorized_by_freeze_record: false
+  reference: ../amendments/2026-09-13_stage1_supervisor_approvals.md
+  execution_authorization:
+    approved_by: Manh Quang
+    timestamp: 2026-09-13T00:41:34+07:00
+    scope: single_confirmatory_execution_on_frozen_target_only
+    reference: ../amendments/2026-09-13_rq2_multiplicity_and_execution_authorization.md

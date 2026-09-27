@@ -1,0 +1,98 @@
+{
+  "config_id": "PRIORITY15-RQ1-V2-STAGE1-N8-TECHNICAL-REPLAY",
+  "variant": "rq1_v2_ratio0p95_eta0p01_iht0p20",
+  "status": "TECHNICAL_REPLAY_STAGE1_FROZEN",
+  "execution_authorized": true,
+  "confirmatory_attack_authorized": true,
+  "authorization_scope": "priority15_stage1_n8_technical_replay",
+  "statistics": {
+    "test": "exact_one_sided_sign",
+    "primary_contrast": "DNA_TRANSFORM_V2_MINUS_DP_DISTORTION_MATCHED_V2",
+    "primary_metric": "feature_mse",
+    "p0": 0.5,
+    "p1": 0.6,
+    "alpha": 0.05,
+    "power": 0.8,
+    "tie_threshold_mse": 0.01953125,
+    "planned_tie_rate": 0.05,
+    "dropout_rate": 0.05,
+    "required_non_tied_n": 158,
+    "planned_rejection_minimum_wins_at_n158": 90,
+    "actual_alpha_at_n158": 0.04723726761096572,
+    "actual_power_at_p1_n158": 0.8056549358366878,
+    "initial_target_draw": 176,
+    "v2_target_count_ceiling_note": "v2 confirmatory intentionally exceeds the older v1 target ceiling of 150 to power p1=0.60"
+  },
+  "target": {
+    "path": "artifacts/priority15_selection_objective_replay/rq1_v2_stage1_n8_targets_20260921/paysim_priority15_rq1_v2_stage1_n8_targets.pt",
+    "sha256": "728e3f0408acf10fbebbfbaa80ad1256bcd6c851b82d09bbd83b7dc0bd10609c",
+    "groups": 8,
+    "source_count": 32,
+    "overlap_matrix": "artifacts/priority15_selection_objective_replay/rq1_v2_stage1_n8_targets_20260921/source_overlap_matrix.json",
+    "overlap_matrix_sha256": "9754df4044c36b28184eec4704f5af3fad85c06df644572ecea6e716d6f982a6",
+    "disjointness_gate": "PASS",
+    "maximum_overlap": 0,
+    "historical_target_files_checked": 1639,
+    "generation_seed": 2026092130,
+    "generated_once": true,
+    "provenance": "artifacts/priority15_selection_objective_replay/rq1_v2_stage1_n8_targets_20260921/paysim_priority15_rq1_v2_stage1_n8_targets.provenance.json",
+    "provenance_sha256": "c1b5fcd86928a5049e91fa3fa0105f6f05f115ac19a3288b7d29ef71bece2901"
+  },
+  "scope": {
+    "dataset": "PaySim",
+    "records_per_group": 4,
+    "fraud_records_per_group": 1,
+    "local_steps": 1,
+    "local_optimizer": "Adam"
+  },
+  "dna_transform_v2": {
+    "config_id": "DNA-TRANSFORM-V2-RATIO0P95-ETA0P01",
+    "compression_ratio": 0.95,
+    "quantization_eta": 0.01,
+    "base_seed": 20260916
+  },
+  "dp_distortion_matched_v2": {
+    "config_id": "DP-STYLE-DISTORTION-MATCHED-V2-0P00105-WEAK-ACCOUNTING",
+    "formal_record_level_dp_claim": false,
+    "weak_update_level_accounting": true,
+    "clip_norm": 100.0,
+    "noise_multiplier": 0.00105,
+    "median_relative_l2_from_development": 0.3279535493,
+    "dna_v2_median_relative_l2_from_development": 0.3312435936,
+    "relative_distance_from_dna_v2": 0.00993,
+    "mc_noise_samples": 100,
+    "defense_seed": 314159265
+  },
+  "attack": {
+    "iterations": 600,
+    "restarts": 4,
+    "learning_rate": 0.1,
+    "nonnegative_lambda": 0.001,
+    "iht_sparsity_fraction": 0.2,
+    "iht_iterations": 80,
+    "iht_step_size": 1.0,
+    "maximum_concurrent_processes": 9,
+    "torch_num_threads": 1
+  },
+  "implementation_hashes": {
+    "experiments/run_rq1_v2_confirmatory.py": "01733b999133dfd02ef3d754c3851c17992c2866fef71f98c7d5316c2c3457a7",
+    "experiments/analyze_rq1_v2_confirmatory.py": "5d62e5095113c025e43512a6653d5c7c23a1470e1331f1de18693c3865c245a9",
+    "experiments/run_phase4_dna_v2_iht_attack.py": "c7697467c5884e0bf4d759e27ab0c3ebcd65c30f38e029042e70cbd99cc6204d",
+    "experiments/run_phase4_harddiff_reparam_for_misselected.py": "a1033494f55b23baa2c27f2685d8e8e81081d5bdffe715cf51eb2848c9c576fc",
+    "experiments/run_phase4_simple_defense_attack.py": "8e96e0164f79f71f4a7505adf50d63d2b72d70d865250b59597c104529036eee",
+    "attacks/inversion_metrics.py": "6ad0b2581d35ec804311dbecf7b682dd1a8e447ccc61db001b97f917eb2aa8c2",
+    "attacks/pseudo_image.py": "6273e59d73cd17b4c8812c46776356defbcf090dea9c2a1bdcca94498ff8993a"
+  },
+  "amendments": [
+    "protocols/amendments/2026-09-16_rq1_v2_confirmatory_protocol.md",
+    "protocols/amendments/2026-09-16_dna_transform_v2_dp_local_grid_interpolation.md",
+    "protocols/amendments/2026-09-16_dna_transform_v2_expanded_development_pilot.md",
+    "protocols/amendments/2026-09-16_dna_transform_v2_expanded_pilot_numeric_replay.md",
+    "protocols/amendments/2026-09-21_selection_objective_trainable_keys_technical_replay.md"
+  ],
+  "approval": {
+    "name": "Manh Quang",
+    "date": "2026-09-21",
+    "scope": "Priority 15 RQ1-v2 Stage 1 n=8 technical replay"
+  }
+}

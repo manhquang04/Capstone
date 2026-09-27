@@ -1,0 +1,300 @@
+schema_version: 1
+protocol_id: RQ1-IMAGE-DOMAIN-GENERALIZATION-DEVELOPMENT
+config_id: RQ1-IMAGE-DOMAIN-PRE-PILOT-V1
+status: DEVELOPMENT-GATE AUTHORIZED
+execution_authorized: true
+created_at: 2026-09-17T00:00:00+07:00
+purpose: >
+  Development-gate exploration of whether the RQ1 attacker-strength lesson
+  from tabular PaySim/IEEE-CIS repeats on a natural image domain. This config
+  does not alter any frozen tabular RQ1/RQ2/RQ3 conclusion and does not
+  authorize confirmatory execution.
+
+quick_nod_required:
+  supervisor: Manh Quang
+  required_before_execution: false
+  approved_at: 2026-09-17T00:00:00+07:00
+  approval_channel: chat_session
+  decisions_to_approve:
+    - cnn_architecture
+    - optimizer_and_learning_rate
+    - image_scope_definition
+    - attacker_priority_matrix
+    - psnr_ssim_metric_adapter
+  note: >
+    Supervisor approved all listed quick-nod decisions on 2026-09-17. This
+    authorizes development-gate execution only; confirmatory execution remains
+    explicitly unauthorized.
+
+dataset:
+  name: CIFAR-10
+  source_api: torchvision.datasets.CIFAR10(root="datasets/cifar10", download=True)
+  root: datasets/cifar10
+  download_status: downloaded_and_torchvision_verified
+  download_note: >
+    The default torchvision University of Toronto mirror was too slow in this
+    environment. The same cifar-10-python.tar.gz archive was downloaded from
+    the public BrainChip CIFAR-10 mirror, placed at the torchvision expected
+    path, and then torchvision.datasets.CIFAR10(..., download=True) was called
+    successfully. Torchvision reported "Using downloaded and verified file" and
+    extracted the dataset.
+  mirror_used_for_archive:
+    url: https://data.brainchip.com/dataset-mirror/cifar10/cifar-10-python.tar.gz
+    reason: faster public mirror for the same CIFAR-10 python tarball
+    verification: torchvision_md5_verification_passed
+  train_size: 50000
+  test_size: 10000
+  file_count: 9
+  directory_manifest_sha256: 44e3967e7fecd77443f81803d4f0e3cabe61d23538dab9ee5d96b17fa09189a5
+  archive_sha256: 6d958be074577803d12ecdefd02955f39262c83c16fe9348329d7fe0b5c001ce
+  files:
+    - path: cifar-10-batches-py/batches.meta
+      bytes: 158
+      sha256: f962466ef690d46b226450fb9aadc74ba4bc64a76aa526b5827fe4bc5c7125cb
+    - path: cifar-10-batches-py/data_batch_1
+      bytes: 31035704
+      sha256: 54636561a3ce25bd3e19253c6b0d8538147b0ae398331ac4a2d86c6d987368cd
+    - path: cifar-10-batches-py/data_batch_2
+      bytes: 31035320
+      sha256: 766b2cef9fbc745cf056b3152224f7cf77163b330ea9a15f9392beb8b89bc5a8
+    - path: cifar-10-batches-py/data_batch_3
+      bytes: 31035999
+      sha256: 0f00d98ebfb30b3ec0ad19f9756dc2630b89003e10525f5e148445e82aa6a1f9
+    - path: cifar-10-batches-py/data_batch_4
+      bytes: 31035696
+      sha256: 3f7bb240661948b8f4d53e36ec720d8306f5668bd0071dcb4e6c947f78e9682b
+    - path: cifar-10-batches-py/data_batch_5
+      bytes: 31035623
+      sha256: d91802434d8376bbaeeadf58a737e3a1b12ac839077e931237e0dcd43adcb154
+    - path: cifar-10-batches-py/readme.html
+      bytes: 88
+      sha256: 4d1c3fb199d6a183ae03f5162b469d7bc04edf2fad9547bd5f224271d52f98e5
+    - path: cifar-10-batches-py/test_batch
+      bytes: 31035526
+      sha256: f53d8d457504f7cff4ea9e021afcf0e0ad8e24a91f3fc42091b8adef61157831
+    - path: cifar-10-python.tar.gz
+      bytes: 170498071
+      sha256: 6d958be074577803d12ecdefd02955f39262c83c16fe9348329d7fe0b5c001ce
+
+literature_basis:
+  - id: DLG_2019
+    title: Deep Leakage from Gradients
+    authors: Zhu, Liu, Han
+    venue_year: NeurIPS 2019
+    url: https://arxiv.org/abs/1906.08935
+    relevance: original L2 gradient-matching DLG image attack; LeNet-style image experiments
+  - id: iDLG_2020
+    title: "iDLG: Improved Deep Leakage from Gradients"
+    authors: Zhao, Mopuri, Bilen
+    year: 2020
+    url: https://arxiv.org/abs/2001.02610
+    relevance: fixed/inferred label simplification
+  - id: GEIPING_2020
+    title: Inverting Gradients -- How easy is it to break privacy in federated learning?
+    authors: Geiping, Bauermeister, Droge, Moeller
+    venue_year: NeurIPS 2020
+    url: https://arxiv.org/abs/2003.14053
+    relevance: cosine/magnitude-invariant gradient matching and CIFAR-10 image inversion setting
+
+model:
+  proposal_id: minimal_lenet5_style_cifar10_cnn
+  status: approved_for_development_gate
+  source_rationale: >
+    Use a LeNet-style small CNN because DLG/iDLG image leakage work uses simple
+    convolutional image classifiers, and Geiping et al. use a ConvNet baseline
+    for CIFAR-10-style image inversion. The architecture is intentionally small
+    enough for development-gate inversion and not copied from tabular models.
+  input_shape: [3, 32, 32]
+  num_classes: 10
+  architecture:
+    - Conv2d(in_channels=3, out_channels=6, kernel_size=5, padding=2)
+    - ReLU
+    - MaxPool2d(kernel_size=2)
+    - Conv2d(in_channels=6, out_channels=16, kernel_size=5, padding=2)
+    - ReLU
+    - MaxPool2d(kernel_size=2)
+    - Flatten
+    - Linear(in_features=1024, out_features=120)
+    - ReLU
+    - Linear(in_features=120, out_features=84)
+    - ReLU
+    - Linear(in_features=84, out_features=10)
+  initialization_seed_base: 2026091791
+  pretrained: false
+  note: >
+    The initially approved wider LeNet-style CNN was too expensive for the
+    reference second-order inversion implementation under torch.set_num_threads(1).
+    Amendment protocols/amendments/2026-09-17_priority7_image_domain_minimal_lenet_timeout.md
+    freezes this minimal LeNet-5-style variant for a final sequential feasibility
+    probe. A ResNet-style or wider-CNN follow-up would need a separate amendment.
+
+federated_setup:
+  status: approved_for_development_gate
+  num_clients: 3
+  aggregation: none_for_gate_single_client_update_observed
+  optimizer:
+    proposal: SGD
+    learning_rate: 0.01
+    momentum: 0.0
+    weight_decay: 0.0
+    rationale: >
+      SGD lr=0.01 is a conservative image-domain development choice and avoids
+      copying Adam settings from tabular PaySim/IEEE-CIS. Momentum is disabled
+      for the first gate so the observed update is easier to attribute to the
+      target image batch.
+  local_epochs: 1
+  local_steps: 1
+  batch_unit: images
+  loss: cross_entropy
+  known_architecture: true
+  known_label_modes:
+    GEN_IDLG_STYLE: fixed_or_inferred_label_before_input_optimization
+    GEN_RAW_LIFT: optimize_or_fix_label_according_to_generation_definition
+    GEN_COSINE_TV: optimize_label_logits_unless_fixed_by_generation
+
+scope:
+  status: approved_for_development_gate
+  minimal_scope:
+    images_per_group: 1
+    client_steps: 1
+    interpretation: smallest natural image-domain analogue of one client-step leakage
+  expansion_scope_if_minimal_gate_passes:
+    images_per_group: 4
+    client_steps: 1
+    requires_new_target_set: true
+    remains_development_only: true
+    no_n24_without_new_amendment: true
+  planned_groups_per_development_gate: 8
+  planned_restarts_per_group: 4
+  gate_rule:
+    test: exact_one_sided_sign_test
+    alpha: 0.05
+    controls: [Prior, Zero-update]
+    pass_condition: must_beat_both_controls
+    effect_direction: lower_reconstruction_error_than_control
+  metrics:
+    primary_for_gate: image_mse
+    secondary: [PSNR, SSIM]
+    psnr_ssim_note: >
+      attacks/pseudo_image.py is PaySim/tabular-specific and should not be used
+      to convert CIFAR images. CIFAR uses direct image-domain PSNR/SSIM on
+      reconstructed 3x32x32 tensors after a simple adapter handles CHW/HWC and
+      [0,1] clipping.
+
+dna_transforms:
+  v1_medium:
+    status: frozen_from_tabular_project
+    block_size: 256
+    mix_ratio: 0.10
+    keep_ratio: 0.85
+    shrink_factor: 0.40
+    application: flatten_full_cnn_gradient_vector_then_apply_v1_then_unflatten_for_matching_if_needed
+    formula_change_allowed: false
+  v2_ratio0p95_eta0p01:
+    status: frozen_from_tabular_project
+    compression_ratio: 0.95
+    quantization_eta: 0.01
+    application: flatten_full_cnn_gradient_vector_then_apply_v2_sketch_quantization
+    formula_change_allowed: false
+
+attacker_priority_matrix:
+  status: approved_for_development_gate
+  cells_for_minimal_scope:
+    - cell_id: cifar10_v1_medium_GEN_IDLG_STYLE
+      dna_version: v1_medium
+      generation: GEN_IDLG_STYLE
+      priority: highest
+      rationale: confirmed Priority 6 attacker against v1-medium on PaySim
+    - cell_id: cifar10_v2_ratio0p95_eta0p01_GEN_COSINE_TV
+      dna_version: v2_ratio0p95_eta0p01
+      generation: GEN_COSINE_TV
+      priority: highest
+      rationale: confirmed Priority 6 attacker against v2 on IEEE-CIS
+    - cell_id: cifar10_v1_medium_GEN_RAW_LIFT
+      dna_version: v1_medium
+      generation: GEN_RAW_LIFT
+      priority: baseline_comparator
+      rationale: L2 gradient-matching baseline analogous to DLG-style raw lift
+    - cell_id: cifar10_v2_ratio0p95_eta0p01_GEN_RAW_LIFT
+      dna_version: v2_ratio0p95_eta0p01
+      generation: GEN_RAW_LIFT
+      priority: baseline_comparator
+      rationale: L2 gradient-matching baseline analogous to DLG-style raw lift
+  explicitly_not_authorized_without_amendment:
+    - GEN_COSINE_TV_vs_v1_medium
+    - GEN_IDLG_STYLE_vs_v2_ratio0p95_eta0p01
+    - any_confirmatory_run
+    - any_n24_expansion
+
+target_generation_plan_after_quick_nod:
+  minimal_scope_seed: 2026091792
+  expansion_scope_seed: 2026091793
+  split: CIFAR10_train_only_for_targets
+  disjointness_rule: >
+    Image-domain target sets must be internally source-disjoint by CIFAR-10
+    train index. Because this is a new data domain, there is no overlap with
+    tabular PaySim/IEEE-CIS target pools; the report must still prove overlap=0
+    among CIFAR image-domain target pools created for this package.
+  target_manifest_required: true
+  hash_target_indices: true
+
+attack_execution_parameters:
+  status: frozen_before_development_gate_with_technical_replay_amendment
+  technical_replay_amendment: protocols/amendments/2026-09-17_priority7_image_domain_gate_technical_replay.md
+  minimal_lenet_timeout_amendment: protocols/amendments/2026-09-17_priority7_image_domain_minimal_lenet_timeout.md
+  optimizer: Adam
+  learning_rate: 0.05
+  iterations: 25
+  restarts_per_group: 4
+  candidate_parameterization: sigmoid_logits_clipped_to_unit_interval
+  label_policy: >
+    Labels are fixed to the known CIFAR-10 class labels for all development
+    cells. This is attacker-favorable and follows the project convention that
+    label-known variants are legitimate for development-gate stress testing.
+  prior_control: random_sigmoid_candidate_before_gradient_matching
+  zero_update_control: optimize_same_generation_against_zero_observed_signal
+  selection_rule: choose_restart_with_lowest_attacker_visible_objective
+  note: >
+    These parameters are implementation parameters frozen before any image
+    development-gate result is observed. They do not authorize tuning after
+    results are known.
+
+execution_policy:
+  torch_num_threads: 1
+  single_thread_per_process: true
+  max_workers: 8
+  prioritized_minimal_lenet_probe:
+    first_cell: v1_medium__GEN_IDLG_STYLE
+    workers: 1
+    timeout_seconds: 10800
+    if_timeout: stop_package_c_and_report_feasibility_blocker
+  development_only: true
+  confirmatory_authorized: false
+  tune_after_results: false
+  if_minimal_scope_passes: >
+    Write/use the predeclared scope-4 expansion only with a fresh disjoint
+    target set. Do not run n=24 or confirmatory without a new amendment and
+    explicit supervisor approval.
+  if_attacker_fails: >
+    Report attacker failure as an unresolved measurement limitation or negative
+    development result. Do not claim DNA privacy success from attacker failure.
+
+approval_record:
+  - role: assistant
+    name: Codex
+    decision: prepared_for_supervisor_quick_nod
+    timestamp: 2026-09-17T00:00:00+07:00
+    no_gate_run: true
+  - role: supervisor
+    name: Manh Quang
+    decision: approved_all_quick_nod_items_and_authorized_development_gate
+    timestamp: 2026-09-17T00:00:00+07:00
+    approved_items:
+      - lenet_style_cifar10_small_cnn
+      - SGD_lr_0p01_local_steps_1
+      - image_scope_1_to_4
+      - attacker_matrix_GEN_IDLG_STYLE_v1_GEN_COSINE_TV_v2_GEN_RAW_LIFT_both
+    additional_pre_gate_conditions:
+      - quote_actual_torchvision_brainchip_md5_verification_log_in_report
+      - unit_test_real_image_psnr_ssim_adapter_against_independent_reference
+    confirmatory_authorized: false
