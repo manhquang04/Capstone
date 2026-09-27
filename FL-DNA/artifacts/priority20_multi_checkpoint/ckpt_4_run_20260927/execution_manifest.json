@@ -1,0 +1,30 @@
+{
+  "created_at": "2026-09-27T16:31:33.296138+00:00",
+  "amendment": "protocols/amendments/2026-09-27_priority20_multi_checkpoint_head_to_head_replication.md",
+  "cell": "v1_medium_vs_dp_0p000315",
+  "checkpoint_id": "ckpt_4",
+  "checkpoint": "artifacts/priority20_multi_checkpoint/checkpoints_20260927/ckpt_4/pre_local.pt",
+  "checkpoint_sha256": "1797e895ce4eac857add189f31201f0a227c67a84481f3ba9c41117638e7244e",
+  "target": "artifacts/priority20_multi_checkpoint/ckpt_4_targets_20260927/paysim_priority20_ckpt_4_targets.pt",
+  "target_sha256": "4f11d3f0e2e072e5e7dd2adf7966c9c7685865a7fb5d8d3e2392bc9685127dcd",
+  "groups": 8,
+  "restarts": 4,
+  "jobs": 32,
+  "workers": 8,
+  "torch_num_threads": 1,
+  "vector_scope": "trainable_parameters_only",
+  "attacker": "simple_balanced_tensor_raw_lift_clean_vector",
+  "dp_config": {
+    "clip_norm": 100.0,
+    "noise_multiplier": 0.000315,
+    "mc_noise_samples": 100,
+    "defense_seed": 314159265
+  },
+  "dna_config": {
+    "block_size": 256,
+    "mix_ratio": 0.1,
+    "keep_ratio": 0.85,
+    "shrink_factor": 0.4,
+    "seed": 681958327
+  }
+}
