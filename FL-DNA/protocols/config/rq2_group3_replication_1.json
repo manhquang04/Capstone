@@ -1,0 +1,13 @@
+{
+  "config_id": "RQ2-GROUP3-CONSERVATIVE-REPLICATION-1-FROZEN",
+  "replication_id": "replication_1",
+  "status": "CONFIRMATORY FROZEN",
+  "execution_authorized": true,
+  "seeds": [543690164, 129131931, 1038748199, 1972112964, 2115261792, 1822830539, 2135951440, 1247940034, 1399825770, 2087962451, 1951111365, 180480027, 1250999780, 859127074, 112229053, 1310949595, 841232522, 152008346, 1525593026, 1307106033, 264815235],
+  "contract": {"path": "artifacts/rq2/group3_replication_1_freeze_20260913/per_seed_contract.json", "sha256": "1fb53c28bff683e0d5a84d8eca9063bb46599b9be5192548f5fd9bed2982fcaf"},
+  "statistics": {"alpha": 0.05, "f1_noninferiority_margin": 0.02, "auc_noninferiority_margin": 0.005, "endpoint_rule": "both_f1_and_auc_must_pass", "required_seed_count": 21, "maximum_feasible_seed_count": 30},
+  "training": {"maximum_rows": 500000, "num_clients": 3, "num_rounds": 50, "local_epochs": 1, "batch_size": 1024, "torch_num_threads": 1, "maximum_concurrent_processes": 9},
+  "implementation_hashes": {"experiments/run_rq2_replication.py": "7bd7a7bde8ea703b104f6b6d2cca4b2ffafc4fff7de1511dc9b31cb7337ed559", "experiments/analyze_rq2_replication.py": "69b652d3ce89820329a731147fffd968053ced4775e53c5711b7c9a73aaffe70"},
+  "amendment": "protocols/amendments/2026-09-13_group3_replication_1.md",
+  "approval": {"name": "Manh Quang", "date": "2026-09-13", "scope": "Group 3 replication 1"}
+}

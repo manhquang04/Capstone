@@ -1,0 +1,13 @@
+{
+  "config_id": "RQ1-GROUP2-MEDIUM-PRETARGET-FROZEN",
+  "status": "PRETARGET FROZEN",
+  "frozen_before_target_generation": true,
+  "variant": "medium",
+  "target_generation": {"groups": 44, "records_per_group": 4, "fraud_per_group": 1, "seed": 436629911, "output": "artifacts/rq1/group2_medium_freeze_20260913/rq1_medium_confirmatory_targets.pt"},
+  "statistics": {"test": "exact_one_sided_sign", "p0": 0.5, "p1": 0.7, "alpha": 0.05, "power": 0.8, "tie_threshold_mse": 0.0390625, "planned_tie_rate": 0.1, "dropout_rate": 0.05, "required_non_tied_n": 37, "rejection_minimum_wins": 24, "initial_target_draw": 44, "maximum_feasible_target_count": 150},
+  "dna_transform": {"block_size": 256, "mix_ratio": 0.1, "keep_ratio": 0.85, "shrink_factor": 0.4, "dna_run_seed": 681958327},
+  "dp_distortion_matched": {"clip_norm": 100.0, "noise_multiplier": 0.000315, "mc_noise_samples": 100, "defense_seed": 314159265, "relative_mismatch": 0.0037624108348589245, "calibration_gate": "PASS", "evidence": "../../artifacts/rq1/group2_medium_distortion_calibration_local_extension_20260913/calibration_report.json"},
+  "attack": {"iterations": 600, "restarts": 8, "dna_candidates": 4, "learning_rate": 0.1, "nonnegative_lambda": 0.001, "maximum_concurrent_processes": 9, "torch_num_threads": 1},
+  "amendments": ["../amendments/2026-09-13_rq1_variant_and_utility_extension.md", "../amendments/2026-09-13_rq1_medium_distortion_grid_extension.md", "../amendments/2026-09-13_resource_ceiling_removed.md"],
+  "confirmatory_attack_authorized": false
+}

@@ -1,0 +1,94 @@
+{
+  "config_id": "RQ1-PRIORITY2-CLEAN-CONSERVATIVE-P1-0P65-FROZEN",
+  "variant": "priority2_clean_conservative",
+  "status": "CONFIRMATORY FROZEN",
+  "execution_authorized": true,
+  "confirmatory_attack_authorized": true,
+  "authorization_scope": "single_execution_on_frozen_81_group_priority2_clean_target",
+  "selection_rationale": {
+    "selected_pair": "dna_conservative_vs_dp_0.00025",
+    "basis": "selected by supervisor because this is the only pair with complete real attack evidence available before Priority 2 began: original Group 2 conservative plus conservative replications 1, 2 and 3",
+    "not_basis": "Priority 2 Pareto/proxy sweep is contextual only and was not used to choose the pair",
+    "anti_cherrypicking_note": "selection rationale was frozen before creating or viewing the Priority 2 clean confirmatory target outcomes"
+  },
+  "statistics": {
+    "test": "exact_one_sided_sign",
+    "primary_contrast": "DNA_TRANSFORM_MINUS_DP_DISTORTION_MATCHED",
+    "p0": 0.5,
+    "p1": 0.65,
+    "alpha": 0.05,
+    "power": 0.8,
+    "tie_threshold_mse": 0.0390625,
+    "planned_tie_rate": 0.1,
+    "dropout_rate": 0.05,
+    "required_non_tied_n": 69,
+    "planned_rejection_minimum_wins_at_n69": 42,
+    "actual_alpha_at_n69": 0.04559324528350576,
+    "actual_power_at_p1_n69": 0.8020563639664955,
+    "initial_target_draw": 81,
+    "maximum_feasible_target_count": 150
+  },
+  "target": {
+    "path": "artifacts/rq1/priority2_clean_freeze_20260916/rq1_priority2_clean_targets.pt",
+    "sha256": "5f7cf97d3bd26ce951e80ab06d72ea43192b7dd0b78f6592ecc555b66fc8d6ca",
+    "groups": 81,
+    "source_count": 324,
+    "overlap_matrix": "artifacts/rq1/priority2_clean_freeze_20260916/source_overlap_matrix.json",
+    "overlap_matrix_sha256": "d52a74cfaaf8661e4885fd7d370bd161361dd173c60be9d6d9e2877d531be83c",
+    "disjointness_gate": "PASS",
+    "maximum_overlap": 0,
+    "generation_seed": 338413135,
+    "generated_once": true,
+    "provenance": "artifacts/rq1/priority2_clean_freeze_20260916/rq1_priority2_clean_targets.provenance.json",
+    "provenance_sha256": "ef42db5afdb7e6d2389d07820555bec7889625da9cbce5eee55344c05c101ea8"
+  },
+  "scope": {
+    "dataset": "PaySim",
+    "records_per_group": 4,
+    "fraud_records_per_group": 1,
+    "local_steps": 1,
+    "local_optimizer": "Adam"
+  },
+  "dna_transform": {
+    "config_id": "DNA-TRANSFORM-CONSERVATIVE-V1",
+    "block_size": 256,
+    "mix_ratio": 0.08,
+    "keep_ratio": 0.88,
+    "shrink_factor": 0.45,
+    "dna_run_seed": 1151115843
+  },
+  "dp_distortion_matched": {
+    "config_id": "DP-STYLE-DISTORTION-MATCHED-0P00025-WEAK-ACCOUNTING",
+    "formal_record_level_dp_claim": false,
+    "weak_update_level_accounting": true,
+    "clip_norm": 100.0,
+    "noise_multiplier": 0.00025,
+    "epsilon_delta_1e_5_add_remove_single_release": 8019194.104554142,
+    "epsilon_source": "artifacts/dp_accounting/priority3_20260916_v2/dp_update_accounting.json",
+    "mc_noise_samples": 100,
+    "defense_seed": 314159265
+  },
+  "attack": {
+    "iterations": 600,
+    "restarts": 8,
+    "dna_candidates": 4,
+    "learning_rate": 0.1,
+    "nonnegative_lambda": 0.001,
+    "maximum_concurrent_processes": 9,
+    "torch_num_threads": 1
+  },
+  "implementation_hashes": {
+    "experiments/run_rq1_variant_confirmatory.py": "d848a78f863189bd179a435a92ea7f5931fd365925f840a48c459878c1a7e5b0",
+    "experiments/analyze_rq1_variant_confirmatory.py": "3febc5a33366a33decec6925298dcd695165602a8dc026209338c51fb9b27d43"
+  },
+  "amendments": [
+    "protocols/amendments/2026-09-16_priority2_rq1_clean_confirmatory_design.md",
+    "protocols/amendments/2026-09-16_priority2_rq1_clean_confirmatory_pair_freeze.md",
+    "protocols/amendments/2026-09-13_resource_ceiling_removed.md"
+  ],
+  "approval": {
+    "name": "Manh Quang",
+    "date": "2026-09-16",
+    "scope": "Priority 2 RQ1 clean confirmatory single execution"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "config_id": "RQ3-V2-TRANSPORT-EXTENSION-20260916",
+  "amendment": "../amendments/2026-09-16_rq3_v2_transport_benchmark.md",
+  "confirmatory_execution_authorized": true,
+  "network_profiles": {
+    "LAN": {"uplink_mbps": 100.0, "rtt_ms": 5.0, "packet_loss_fraction": 0.0},
+    "BROADBAND": {"uplink_mbps": 20.0, "rtt_ms": 30.0, "packet_loss_fraction": 0.001},
+    "CONSTRAINED": {"uplink_mbps": 5.0, "rtt_ms": 80.0, "packet_loss_fraction": 0.01}
+  },
+  "benchmark": {
+    "methods": ["RAW_FLOAT32", "DNA_TRANSFORM_TRANSPORT", "DNA_TRANSFORM_V2_TRANSPORT"],
+    "client_counts": [3, 5, 10], "cells": 27, "warmup_repetitions": 10, "measured_repetitions": 50,
+    "method_order_seed": 271828, "timeout_seconds": 30.0, "emulation_packet_bytes": 1200,
+    "input_dim": 13, "input_seed": 1618033, "transform_seed": 1184685071,
+    "aes_256_key_hex": "ab25e9d535a043b91e5e8f904cc9ac801fbf514b3562fcac802941164f91f9f9"
+  },
+  "dna_transform": {"block_size": 256, "mix_ratio": 0.08, "keep_ratio": 0.88, "shrink_factor": 0.45},
+  "dna_transform_v2": {"compression_ratio": 0.95, "quantization_eta": 0.01},
+  "acceptance_thresholds": {
+    "end_to_end_round_overhead_p95_fraction": 0.25, "client_encode_serialize_p95_ms": 250.0,
+    "server_decode_aggregate_p95_ms": 500.0, "peak_client_memory_overhead_fraction": 0.25,
+    "peak_client_memory_overhead_mb": 512.0, "peak_server_memory_overhead_fraction": 0.25,
+    "peak_server_memory_overhead_mb": 1024.0, "application_payload_expansion_ratio": 6.0,
+    "added_transfer_latency_p95_seconds": {"LAN": 0.25, "BROADBAND": 1.0, "CONSTRAINED": 3.0},
+    "authentication_or_correctness_failures": 0, "timeout_rate_fraction": 0.0
+  },
+  "uncertainty": {"resamples": 10000, "seed": 271828}
+}

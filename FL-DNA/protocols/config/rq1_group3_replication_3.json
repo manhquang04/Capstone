@@ -1,0 +1,17 @@
+{
+  "config_id": "RQ1-GROUP3-CONSERVATIVE-REPLICATION-3-FROZEN",
+  "replication_id": "replication_3",
+  "variant": "conservative_replication_3",
+  "status": "CONFIRMATORY FROZEN",
+  "execution_authorized": true,
+  "confirmatory_attack_authorized": true,
+  "authorization_scope": "single_execution_on_frozen_39_group_replication_target",
+  "statistics": {"test": "exact_one_sided_sign", "primary_contrast": "DNA_TRANSFORM_MINUS_DP_DISTORTION_MATCHED", "p0": 0.5, "p1": 0.7, "alpha": 0.05, "power": 0.8, "tie_threshold_mse": 0.0390625, "required_non_tied_n": 37, "initial_target_draw": 39, "maximum_feasible_target_count": 150},
+  "target": {"path": "artifacts/rq1/group3_replication_3_freeze_20260914/rq1_replication_3_targets.pt", "sha256": "0786b9bcd7e067b9b6ee8961307be0605543e9e5eb318a8e7e5b176caf6e182e", "groups": 39, "source_count": 156, "historical_target_files_checked": 673, "overlap_matrix": "artifacts/rq1/group3_replication_3_freeze_20260914/source_overlap_matrix.json", "overlap_matrix_sha256": "45e35370132f0652f4abbe032152eeca7f0662e5c14bd97b0b2b95d82b732a60", "disjointness_gate": "PASS", "maximum_overlap": 0, "generation_seed": 655946849, "generated_once": true},
+  "dna_transform": {"block_size": 256, "mix_ratio": 0.08, "keep_ratio": 0.88, "shrink_factor": 0.45, "dna_run_seed": 656257992},
+  "dp_distortion_matched": {"clip_norm": 100.0, "noise_multiplier": 0.00025, "mc_noise_samples": 100, "defense_seed": 314159265},
+  "attack": {"iterations": 600, "restarts": 8, "dna_candidates": 4, "learning_rate": 0.1, "nonnegative_lambda": 0.001, "maximum_concurrent_processes": 9, "torch_num_threads": 1},
+  "implementation_hashes": {"experiments/run_rq1_variant_confirmatory.py": "d848a78f863189bd179a435a92ea7f5931fd365925f840a48c459878c1a7e5b0", "experiments/analyze_rq1_variant_confirmatory.py": "3febc5a33366a33decec6925298dcd695165602a8dc026209338c51fb9b27d43"},
+  "amendment": "protocols/amendments/2026-09-14_group3_replication_3_and_pooled_analysis.md",
+  "approval": {"name": "Manh Quang", "date": "2026-09-14", "scope": "Group 3 replication 3 final RQ1 conservative draw"}
+}

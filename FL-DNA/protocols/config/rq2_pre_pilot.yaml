@@ -1,0 +1,204 @@
+schema_version: 1
+protocol_id: RQ2-MULTISEED-V1
+config_id: RQ2-PRE-PILOT-V1-APPROVED
+status: PRE-PILOT FROZEN
+execution_authorized: true
+decision_package: ../supervisor_decision_package.md
+
+statistics:
+  framework: non_inferiority
+  alpha:
+    proposed: 0.05
+    approved: 0.05
+  target_power:
+    proposed: 0.80
+    approved: 0.80
+  descriptive_confidence_level:
+    proposed: 0.95
+    approved: 0.95
+  f1_noninferiority_margin:
+    options: [0.01, 0.02, 0.05]
+    recommended: 0.02
+    approved: 0.02
+  auc_noninferiority_margin:
+    options: [0.0025, 0.005, 0.01]
+    recommended: 0.005
+    approved: 0.005
+  endpoint_rule:
+    proposed: both_f1_and_auc_must_pass
+    approved: both_f1_and_auc_must_pass
+  sample_size_method: paired_continuous_using_conservative_variance
+  conservative_variance_method: one_sided_95pct_chi_square_upper_bound
+  power_test_approximation: one_sided_paired_noninferiority_t_test
+  required_confirmatory_seed_count: 21
+  required_confirmatory_seed_count_evidence: ../../artifacts/rq2/stage1_development_20260912/power_analysis.csv
+  required_confirmatory_seed_count_approval: ../amendments/2026-09-13_stage1_supervisor_approvals.md
+
+resources:
+  maximum_feasible_seed_count:
+    approved: 30
+    basis: "measured runtime probe 2026-09-12: FL_BASELINE at official scale
+      (500k rows, 3 clients, focal loss) costs ~9.26s fixed overhead + ~4.49s
+      per round (measured at 3 and 6 rounds); 50 rounds => ~234s (~3.9 min) per
+      method/seed. 30 seeds x ~5 methods (3 primary + 2 secondary) x 3.9 min
+      => ~10 CPU-hours serial under the original planning estimate; the later
+      machine-hour ceiling removal does not change the seed cap"
+  maximum_machine_hours:
+    approved: null
+    status: REMOVED_BY_SUPERVISOR
+    amendment: ../amendments/2026-09-13_resource_ceiling_removed.md
+  maximum_artifact_gb:
+    approved: 500
+  safety_factor:
+    proposed: 1.25
+    approved: 1.25
+
+benchmark_provenance:
+  probe_date: 2026-09-12
+  hardware: "MacBook Pro, Apple M1 Pro, 32GB RAM; MPS available and not
+    excluded for RQ2 training (unlike the RQ1 attacker, FL local training uses
+    standard Linear/BatchNorm/ReLU/Dropout ops with no known MPS boundary
+    issue in this codebase)"
+  measured_points:
+    - {rows: 500000, rounds: 3, seconds: 22.73}
+    - {rows: 500000, rounds: 6, seconds: 36.20}
+  derived: {fixed_overhead_seconds: 9.26, per_round_seconds: 4.49}
+  parallelism_model: "run independent seed/method jobs as separate processes;
+    do not rely on per-process multi-threading for speedup on a 10-core
+    machine shared with the RQ1 attacker workload"
+  recommended_concurrent_workers: 9
+
+development_batch:
+  seed_count:
+    allowed_range: [5, 8]
+    approved: 8
+    note: "use the upper end of the allowed range since the measured per-run
+      cost (~3.9 min) is cheap; more pilot seeds give a tighter, less
+      conservative variance bound for the RQ2 power analysis"
+  seed_list:
+    approved: [101, 202, 303, 404, 505, 606, 707, 808]
+    note: "assistant-proposed fixed 8-seed list, arbitrary but fixed before
+      the batch runs; flagged for a quick supervisor nod"
+  reusable_for:
+    - dp_utility_matching
+    - paired_variance_estimation
+    - pipeline_check
+  reusable_in_confirmatory: false
+
+primary_methods:
+  - FL_BASELINE
+  - FL_DNA_LOSSLESS
+  - FL_DNA_TRANSFORM
+secondary_methods:
+  - FL_DP_DISTORTION_MATCHED
+  - FL_DP_UTILITY_MATCHED
+
+training:
+  paired_seed_environment_variable: FL_RUN_SEED
+  seed_contract: "each approved seed controls dataset subsampling and split,
+    client partition, model initialization, and loader order; every method in
+    that seed receives the identical FL_RUN_SEED"
+  split_partition_checksum_contract: one_checksum_record_per_seed
+  development_split_partition_checksums:
+    status: COMPLETE
+    artifact: ../../artifacts/rq2/stage1_development_20260912/per_seed_contract.json
+    count: 8
+  maximum_rows: 500000
+  maximum_rows_basis: approved_official_scale_in_resource_benchmark
+  num_clients: 3
+  num_rounds: 50
+  local_epochs: 1
+  batch_size: 1024
+  optimizer: Adam
+  learning_rate: 0.001
+  loss: focal
+  focal_alpha: 0.95
+  focal_gamma: 2.0
+  final_model_rule: last_round
+  threshold_selection: maximize_f1_on_validation_only
+  split_checksum: DEPRECATED_USE_DEVELOPMENT_SPLIT_PARTITION_CHECKSUMS
+
+dna_transform:
+  block_size: 256
+  mix_ratio: 0.08
+  keep_ratio: 0.88
+  shrink_factor: 0.45
+  seed_derivation: deterministic_per_round_client_seed_from_dna_transform_run_seed
+    # inherited from existing code (dna_encoder/transform_defense.py), same as
+    # the RQ1 pre-pilot config; not a new decision
+
+dp_utility_calibration:
+  candidate_noise_multipliers: [0.0001, 0.0005, 0.001, 0.005, 0.01]
+  clip_norm_grid: [100.0]
+  f1_matching_tolerance:
+    approved: 0.01
+    note: "candidate DP config qualifies as utility-matched if its F1
+      degradation from baseline is within +-0.01 of DNA Transform's observed
+      F1 degradation on the shared development batch; assistant-proposed,
+      flagged for a quick supervisor nod"
+  auc_matching_tolerance:
+    approved: 0.0025
+    note: "same logic as f1_matching_tolerance, half the primary AUC margin"
+  distance_function:
+    approved: max_of_normalized_f1_and_auc_absolute_deviation
+  tie_breaker:
+    approved: smallest_noise_multiplier_among_equal_absolute_distances
+    note: "consistent with the RQ1 distortion-matched tie-breaker"
+  save_full_grid: true
+  final_result:
+    status: NOT_FOUND
+    search_closed: true
+    reopen_grid_permitted: false
+    nearest_candidate_may_be_relabelled: false
+    evidence: ../../artifacts/rq2/stage1_development_20260912/batch_summary.json
+    approval_source: ../amendments/2026-09-13_stage1_supervisor_approvals.md
+
+confirmatory_interpretation:
+  frozen_at: 2026-09-13T00:24:52+07:00
+  frozen_before_confirmatory_seed_list: true
+  contrast: DNA_TRANSFORM_MINUS_BASELINE
+  endpoint: F1
+  confidence_level: 0.95
+  noninferiority_margin: -0.02
+  rule: "if the lower confidence bound is below -0.02, conclude that DNA
+    Transform did not establish F1 non-inferiority at the approved margin"
+  forbidden_responses:
+    - relax_margin
+    - change_endpoint_rule
+    - increase_seed_count
+    - exclude_observation
+  approval_source: ../amendments/2026-09-13_stage1_supervisor_approvals.md
+
+failure_policy:
+  replace_low_performing_seed: false
+  rerun_only_demonstrable_infrastructure_failure: true
+  retain_failure_and_retry_records: true
+
+required_before_pre_pilot_frozen:
+  - resolve_all_null_approval_fields: DONE; per-seed split/partition checksums
+      were materialized in Stage 1
+  - approve_resource_ceiling: DONE
+  - freeze_development_seed_list: DONE
+  - freeze_split_and_threshold_rules: DONE
+  - record_protocol_config_code_environment_hashes: DONE (see approval_record)
+  - record_research_lead_and_supervisor_approval: DONE (see approval_record)
+
+approval_record:
+  - role: supervisor_and_research_lead
+    name: Manh Quang
+    decision: approved
+    scope: "statistics, resources, development_batch, dp_utility_calibration
+      defaults; recorded via chat session confirmation"
+    timestamp: 2026-09-12T14:26:43Z
+    code_tree_reference: 65afddc33d7012e0c0798ad4a210beebce718650
+    dataset_sha256: 16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b
+    note: "protocols/ and protocols/config/ files are not yet committed to
+      git as of this timestamp; commit them so this hash fully covers the
+      frozen protocol text"
+  - role: supervisor_and_research_lead
+    name: Manh Quang
+    decision: approved_stage1_outputs_for_confirmatory_freeze
+    scope: "required n=21; DP_UTILITY_MATCHED=NOT_FOUND with search closed;
+      precommitted F1 interpretation rule; no confirmatory execution authorization"
+    timestamp: 2026-09-13T00:24:52+07:00
+    reference: ../amendments/2026-09-13_stage1_supervisor_approvals.md
