@@ -1,0 +1,18 @@
+{
+  "config_id": "RQ1-GROUP2-STRONGER-CONFIRMATORY-FROZEN",
+  "status": "CONFIRMATORY FROZEN",
+  "frozen_at": "2026-09-13",
+  "confirmatory_attack_authorized": true,
+  "authorization_scope": "single_execution_on_frozen_44_group_target",
+  "variant": "stronger",
+  "statistics": {"test": "exact_one_sided_sign", "primary_contrast": "DNA_TRANSFORM_MINUS_DP_DISTORTION_MATCHED", "p0": 0.5, "p1": 0.7, "alpha": 0.05, "power": 0.8, "tie_threshold_mse": 0.0390625, "planned_tie_rate": 0.1, "dropout_rate": 0.05, "required_non_tied_n": 37, "rejection_minimum_wins": 24, "initial_target_draw": 44, "maximum_feasible_target_count": 150},
+  "target": {"path": "artifacts/rq1/group2_stronger_freeze_20260913/rq1_stronger_confirmatory_targets.pt", "sha256": "7004f42dbf2189423d42e014ec20dc3ff09aec692f620273935a80a012011774", "groups": 44, "source_count": 176, "overlap_matrix": "artifacts/rq1/group2_stronger_freeze_20260913/source_overlap_matrix.json", "overlap_matrix_sha256": "3895f55a04c11ea1c3675211ab01e772f1fb1e2373ce6bbbe839f2aa71545c70", "disjointness_gate": "PASS", "historical_target_files_checked": 172, "maximum_overlap": 0, "generation_seed": 1539844373, "generated_once": true},
+  "dna_transform": {"block_size": 256, "mix_ratio": 0.12, "keep_ratio": 0.82, "shrink_factor": 0.35, "dna_run_seed": 1669639641},
+  "dp_distortion_matched": {"clip_norm": 100.0, "noise_multiplier": 0.0004, "mc_noise_samples": 100, "defense_seed": 314159265, "dna_median_relative_l2": 0.12096458952207162, "dp_median_relative_l2": 0.12493468685167303, "relative_mismatch": 0.03282032655413599, "matching_tolerance": 0.05, "calibration_gate": "PASS"},
+  "dp_utility_matched_context": {"noise_multiplier": 0.00001, "status": "UTILITY_MATCHED_STRICT", "included_in_variant_primary_attack": false, "evidence": "artifacts/rq2/utility_extension_20260913/utility_extension_report.json"},
+  "attack": {"iterations": 600, "restarts": 8, "dna_candidates": 4, "learning_rate": 0.1, "nonnegative_lambda": 0.001, "maximum_concurrent_processes": 9, "torch_num_threads": 1},
+  "resources": {"maximum_machine_hours": null, "machine_hour_status": "REMOVED_BY_SUPERVISOR", "maximum_feasible_target_count": 150, "maximum_artifact_gb": 500},
+  "implementation_hashes": {"experiments/run_rq1_variant_confirmatory.py": "d848a78f863189bd179a435a92ea7f5931fd365925f840a48c459878c1a7e5b0", "experiments/analyze_rq1_variant_confirmatory.py": "3febc5a33366a33decec6925298dcd695165602a8dc026209338c51fb9b27d43", "experiments/run_phase4_harddiff_reparam_for_misselected.py": "66e6557b93a867f3d650bfcc9ee146270a4d2b8fc0227a766eaffa8ed5caeebb", "experiments/run_phase4_dna_level1_forward_attack.py": "1e4a8fedd9cb936e8d5b0b4d9b77e88973bf6bccb7ff1c190696c65eabe23ad4", "experiments/run_phase4_simple_defense_attack.py": "34f2d5e3a92904df293873dd3efebd1af0fad184d68c2a1206b420785c49acbb", "attacks/inversion_metrics.py": "6ad0b2581d35ec804311dbecf7b682dd1a8e447ccc61db001b97f917eb2aa8c2", "attacks/pseudo_image.py": "6273e59d73cd17b4c8812c46776356defbcf090dea9c2a1bdcca94498ff8993a", "dna_encoder/transform_defense.py": "407d126e0c0d5d7bb1903a763bc7ff536e6aa8f60f296eddd4bbed3217c1a181"},
+  "amendments": ["protocols/amendments/2026-09-13_rq1_variant_and_utility_extension.md", "protocols/amendments/2026-09-13_resource_ceiling_removed.md"],
+  "approval": {"name": "Manh Quang", "date": "2026-09-13", "scope": "Group 2 single confirmatory execution"}
+}

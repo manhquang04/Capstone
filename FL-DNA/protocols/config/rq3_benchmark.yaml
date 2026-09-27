@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "protocol_id": "RQ3-COST-ACCEPTANCE-V1",
+  "config_id": "RQ3-CONFIRMATORY-BENCHMARK-V1-FROZEN",
+  "status": "CONFIRMATORY FROZEN",
+  "frozen_at": "2026-09-13T03:42:08Z",
+  "confirmatory_execution_authorized": true,
+  "authorization_state": "AUTHORIZED_SINGLE_CONFIRMATORY_EXECUTION",
+  "deadline": "2026-10-04",
+  "approval": {
+    "name": "Manh Quang",
+    "role": "supervisor_and_research_lead",
+    "decision": "APPROVED_RQ3_GROUP1_EXECUTION",
+    "date": "2026-09-13",
+    "source": "../amendments/2026-09-13_rq3_network_emulator_and_freeze.md"
+  },
+  "network_emulator": {
+    "tool": "versioned_user_space_loopback_socket_emulator",
+    "implementation": "../../experiments/rq3_user_space_network.py",
+    "packet_bytes": 1200,
+    "reliable_retransmission": true,
+    "client_upload_scheduling": "sequential_current_simulated_fl_semantics",
+    "reported_byte_scope": "APPLICATION_PAYLOAD_BYTES",
+    "excluded_headers": ["TCP_IP", "TLS", "link_layer"],
+    "amendment": "../amendments/2026-09-13_rq3_network_emulator_and_freeze.md"
+  },
+  "network_profiles": {
+    "LAN": {"uplink_mbps": 100.0, "rtt_ms": 5.0, "packet_loss_fraction": 0.0, "mandatory": true},
+    "BROADBAND": {"uplink_mbps": 20.0, "rtt_ms": 30.0, "packet_loss_fraction": 0.001, "mandatory": true},
+    "CONSTRAINED": {"uplink_mbps": 5.0, "rtt_ms": 80.0, "packet_loss_fraction": 0.01, "mandatory": true}
+  },
+  "benchmark": {
+    "methods": ["RAW_FLOAT32", "LOSSLESS_DNA_AES_GCM", "DNA_TRANSFORM_TRANSPORT"],
+    "client_counts": [3, 5, 10],
+    "cells": 27,
+    "warmup_repetitions": 10,
+    "measured_repetitions": 50,
+    "process_isolation": "one_cell_subprocess_at_a_time_no_concurrent_benchmark_load",
+    "method_order": "randomized_cells_from_frozen_seed",
+    "method_order_seed": 271828,
+    "cpu_thread_policy": "single_thread_per_process",
+    "timeout_seconds": 30.0,
+    "emulation_packet_bytes": 1200,
+    "input_model": "FraudMLP",
+    "input_dim": 13,
+    "parameters_per_client": 12609,
+    "input_seed": 1618033,
+    "input_fixture_sha256_by_client_count": {
+      "3": "5fe6edc33448965e42b8bd1f677b9c200faa86576469a2bc0d536ad35f284480",
+      "5": "cfd0318101a3ecd86fc2e6b451041bec480ea8553d098f0156d76175f89e8c77",
+      "10": "2d2c621fe95a05daae86fbb85910c788e9534609fca9b71f81a737ef6fc801a9"
+    },
+    "transform_seed": 1184685071,
+    "aes_256_key_hex": "ab25e9d535a043b91e5e8f904cc9ac801fbf514b3562fcac802941164f91f9f9",
+    "aes_key_scope": "fixed_nonproduction_benchmark_key_only"
+  },
+  "dna_transform": {
+    "block_size": 256,
+    "mix_ratio": 0.08,
+    "keep_ratio": 0.88,
+    "shrink_factor": 0.45
+  },
+  "acceptance_thresholds": {
+    "bundle": "B_balanced_academic_prototype",
+    "end_to_end_round_overhead_p95_fraction": 0.25,
+    "client_encode_serialize_p95_ms": 250.0,
+    "server_decode_aggregate_p95_ms": 500.0,
+    "peak_client_memory_overhead_fraction": 0.25,
+    "peak_client_memory_overhead_mb": 512.0,
+    "peak_server_memory_overhead_fraction": 0.25,
+    "peak_server_memory_overhead_mb": 1024.0,
+    "application_payload_expansion_ratio": 6.0,
+    "added_transfer_latency_p95_seconds": {"LAN": 0.25, "BROADBAND": 1.0, "CONSTRAINED": 3.0},
+    "authentication_or_correctness_failures": 0,
+    "timeout_rate_fraction": 0.0
+  },
+  "decision_rule": {
+    "rule": "all_mandatory_criteria_pass_all_mandatory_profiles_and_scales",
+    "missing_mandatory_cell": "INCONCLUSIVE",
+    "borderline_ci": "entire_paired_95pct_ci_must_be_within_threshold"
+  },
+  "uncertainty": {
+    "method": "paired_percentile_bootstrap_over_repetition_indices",
+    "confidence_level": 0.95,
+    "resamples": 10000,
+    "seed": 271828
+  },
+  "resources": {
+    "maximum_machine_hours": {"approved": null, "status": "REMOVED_BY_SUPERVISOR", "amendment": "../amendments/2026-09-13_resource_ceiling_removed.md"},
+    "maximum_artifact_gb": 500
+  },
+  "implementation_hashes": {
+    "experiments/rq3_user_space_network.py": "95a88442e91b8e0c550ddc3e7ffbba080e237c77c4b1ca8b030899a2a03ee879",
+    "experiments/run_rq3_benchmark.py": "71ae37cafa0960a9fd4a993e25cf2b52c8ca7deebff27ed061db3397e19aaf25",
+    "experiments/analyze_rq3_benchmark.py": "c4b2bbc9ff74deabfa5811e05c237b8553ca3e40804a8f615d816fcd2d64f94c",
+    "dna_encoder/encoder.py": "5829de19648d39f93874e72d2d0629e0c6d35449b8124f82ba8e2869c109f85f",
+    "dna_encoder/aes_crypto.py": "4e07d1190de478847f014f860b5e4e365d2e682ce46a9d19dcd4a78fb95b3d9a",
+    "dna_encoder/binary_mapper.py": "076608be9d4dda69e3725033099bd31bc8b549f008a72245373a7c2e110224d7",
+    "dna_encoder/dna_mapper.py": "fecd35f2769d761ebed092b0d31f33e2a18054bc573d843e39f7833632f6c27e",
+    "dna_encoder/transform_defense.py": "407d126e0c0d5d7bb1903a763bc7ff536e6aa8f60f296eddd4bbed3217c1a181",
+    "models/fraud_mlp.py": "aebdb70ab0e88aea6da0230e5ac8d5fcbdfd33a6e476f53f832236b63e6ae3ca"
+  },
+  "source_tree_reference": {
+    "git_commit": "65afddc33d7012e0c0798ad4a210beebce718650",
+    "git_tree": "4430eb34e08e1728f04862b26a321dd0729c4e10",
+    "note": "uncommitted protocol and benchmark files are covered by explicit SHA-256 values"
+  }
+}

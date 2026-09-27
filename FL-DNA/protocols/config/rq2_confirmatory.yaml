@@ -1,0 +1,140 @@
+schema_version: 1
+protocol_id: RQ2-MULTISEED-V1
+config_id: RQ2-CONFIRMATORY-V1-FROZEN
+status: CONFIRMATORY FROZEN
+frozen_at: 2026-09-13T00:29:00+07:00
+confirmatory_execution_authorized: true
+authorization_state: AUTHORIZED_SINGLE_CONFIRMATORY_EXECUTION
+freeze_integrity_gate: PASS
+approval_source: ../amendments/2026-09-13_stage1_supervisor_approvals.md
+freeze_manifest: ../confirmatory_freeze_manifest_2026-09-13.json
+
+resources:
+  maximum_machine_hours:
+    approved: null
+    status: REMOVED_BY_SUPERVISOR
+    amendment: ../amendments/2026-09-13_resource_ceiling_removed.md
+  maximum_feasible_seed_count: 30
+  maximum_artifact_gb: 500
+
+statistics:
+  framework: non_inferiority
+  alpha: 0.05
+  target_power: 0.80
+  confidence_level: 0.95
+  f1_noninferiority_margin: 0.02
+  auc_noninferiority_margin: 0.005
+  endpoint_rule: both_f1_and_auc_must_pass
+  sample_size_method: paired_continuous_using_conservative_variance
+  conservative_variance_method: one_sided_95pct_chi_square_upper_bound
+  required_confirmatory_seed_count: 21
+  maximum_feasible_seed_count: 30
+  ceiling_gate: PASS
+  power_evidence: ../../artifacts/rq2/stage1_development_20260912/power_analysis.csv
+
+execution_methods:
+  - FL_BASELINE
+  - FL_DNA_LOSSLESS
+  - FL_DNA_TRANSFORM
+primary_hypothesis:
+  contrast: FL_DNA_TRANSFORM_MINUS_FL_BASELINE
+  alpha: 0.05
+  endpoint_rule: both_f1_and_auc_must_pass
+sanity_checks:
+  - contrast: FL_DNA_LOSSLESS_MINUS_FL_BASELINE
+    role: secondary_technical_transport_invariance
+    report_confidence_interval: true
+secondary_contextual_methods:
+  - FL_DP_DISTORTION_MATCHED
+omitted_methods:
+  FL_DP_UTILITY_MATCHED:
+    status: NOT_FOUND
+    search_closed: true
+    reopen_permitted: false
+    nearest_candidate_may_be_relabelled: false
+
+dna_transform:
+  config_id: DNA-TRANSFORM-CONSERVATIVE-V1
+  block_size: 256
+  mix_ratio: 0.08
+  keep_ratio: 0.88
+  shrink_factor: 0.45
+  seed_derivation: deterministic_per_round_client_seed_from_dna_transform_run_seed
+
+dp_distortion_matched:
+  config_id: DP-DISTORTION-MATCHED-RQ1-V1
+  role: secondary_contextual
+  formal_dp_claim: false
+  clip_norm: 100.0
+  noise_multiplier: 0.00025
+
+training:
+  paired_seed_environment_variable: FL_RUN_SEED
+  seed_contract: "each seed controls dataset subsampling/split, client
+    partition, model initialization and loader order; every method within a
+    seed uses the identical realization"
+  maximum_rows: 500000
+  num_clients: 3
+  num_rounds: 50
+  local_epochs: 1
+  batch_size: 1024
+  optimizer: Adam
+  learning_rate: 0.001
+  loss: focal
+  focal_alpha: 0.95
+  focal_gamma: 2.0
+  final_model_rule: last_round
+  threshold_selection: maximize_f1_on_validation_only
+  torch_num_threads: 1
+  maximum_concurrent_processes: 9
+
+confirmatory_seeds:
+  generated_at: 2026-09-13T00:29:00+07:00
+  generated_after_interpretation_rule_frozen_at: 2026-09-13T00:24:52+07:00
+  generation_rule: "first 31 bits of SHA256('RQ2-MULTISEED-V1|CONFIRMATORY|2026-09-13|i'), i=0.., excluding zero, duplicates, and development seeds"
+  development_seeds_excluded: [101, 202, 303, 404, 505, 606, 707, 808]
+  values: [1984441809, 653660776, 650446433, 1419599061, 1306102865, 1754157487, 1247758568, 1723661792, 1703506450, 848721957, 1402156061, 1726548684, 1764332517, 1278184566, 420568183, 1819638191, 232043868, 1937725506, 1347707636, 98089969, 1723546374]
+  count: 21
+  disjoint_from_development: true
+  contract_artifact: ../../artifacts/rq2/confirmatory_freeze_20260913/per_seed_contract.json
+  contract_sha256: 2015b6062245661109bb84c0c3c24ba589e1990747c9ff93582902337eed643c
+  unique_split_partition_checksums: 21
+  dataset_sha256: 16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b
+
+precommitted_interpretation:
+  frozen_at: 2026-09-13T00:24:52+07:00
+  contrast: DNA_TRANSFORM_MINUS_BASELINE
+  endpoint: F1
+  rule: "if the 95% paired-CI lower bound is below -0.02, conclude that DNA
+    Transform did not establish F1 non-inferiority at the approved margin"
+  forbidden_responses: [relax_margin, change_endpoint_rule, increase_seed_count, exclude_observation]
+
+failure_policy:
+  replace_low_performing_seed: false
+  rerun_only_demonstrable_infrastructure_failure: true
+  retain_failure_and_retry_records: true
+
+method_family_multiplicity:
+  status: APPROVED
+  primary_family: [FL_DNA_TRANSFORM_MINUS_FL_BASELINE]
+  primary_alpha: 0.05
+  alpha_partition_across_methods: false
+  lossless_in_primary_family: false
+  lossless_adjusted_with_transform: false
+  rationale: "lossless DNA is a separately reported technical/sanity check;
+    the DNA Transform claim remains the sole primary hypothesis"
+  approval_timestamp: 2026-09-13T00:41:34+07:00
+  approval_source: ../amendments/2026-09-13_rq2_multiplicity_and_execution_authorization.md
+
+approval_record:
+  role: supervisor_and_research_lead
+  name: Manh Quang
+  decision: APPROVED_STAGE1_OUTPUTS_FOR_CONFIRMATORY_FREEZE
+  timestamp: 2026-09-13T00:24:52+07:00
+  confirmatory_execution_authorized: true
+  reference: ../amendments/2026-09-13_stage1_supervisor_approvals.md
+  execution_authorization:
+    approved_by: Manh Quang
+    timestamp: 2026-09-13T00:41:34+07:00
+    scope: single_confirmatory_execution_on_frozen_seeds_only
+    reference: ../amendments/2026-09-13_rq2_multiplicity_and_execution_authorization.md

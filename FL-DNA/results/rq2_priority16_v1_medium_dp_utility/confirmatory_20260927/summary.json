@@ -1,0 +1,46 @@
+{
+  "created_at": "2026-09-27T10:47:24.525577+00:00",
+  "config": "protocols/config/rq2_priority16_v1_medium_dp_utility_confirmatory.json",
+  "config_sha256": "bfd3fbf3539a7b429127f2ec90cd9b347b0a8e998087a867a385d9f150de1d63",
+  "run_dir": "artifacts/rq2_priority16_v1_medium_dp_utility/confirmatory_20260927",
+  "baseline_source": {
+    "run_dir": "artifacts/rq2_v2/confirmatory_20260916",
+    "config": "protocols/config/rq2_v2_confirmatory.json",
+    "config_sha256": "da0ca7cebb8bd394ec2c44a593fb357757938df7695f6793f670aa77a0987224",
+    "execution_summary_sha256": "aefbea99842877ed614a6b95f30663cdb72570f41c3ccf7a8d113ffd180f6cac",
+    "reuse_rationale": "same 52 seeds, same training configuration, same paired seed contract"
+  },
+  "n_seeds": 52,
+  "contrast": "FL_DP_COMPARATOR_MINUS_FL_BASELINE",
+  "endpoint_rule": "both_f1_and_auc_must_pass",
+  "alpha": 0.05,
+  "analyses": {
+    "dp_v1_medium_0p000315": {
+      "f1": {
+        "n": 52,
+        "mean_delta": -0.09929304829258362,
+        "sd": 0.0338038879223396,
+        "median_delta": -0.09646797613534203,
+        "ci95": [
+          -0.10870411078783702,
+          -0.08988198579733021
+        ],
+        "noninferiority_margin": 0.02,
+        "noninferiority_pass": false
+      },
+      "auc": {
+        "n": 52,
+        "mean_delta": -0.0023619380093341203,
+        "sd": 0.0014656001950658596,
+        "median_delta": -0.0024406239987183054,
+        "ci95": [
+          -0.0027699637092331326,
+          -0.001953912309435108
+        ],
+        "noninferiority_margin": 0.005,
+        "noninferiority_pass": true
+      },
+      "primary_noninferiority_pass": false
+    }
+  }
+}
