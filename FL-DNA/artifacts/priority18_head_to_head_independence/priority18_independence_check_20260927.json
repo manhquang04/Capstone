@@ -1,0 +1,159 @@
+{
+  "analysis": "Priority 18 head-to-head sign-test independence robustness check",
+  "inputs": {
+    "v1_stronger": {
+      "label": "Transform v1 stronger vs DP 0.0004",
+      "report": "artifacts/priority14_fresh_probe/v1_stronger_confirmatory_20260921/priority14_probe_report.json",
+      "replay_csv": "artifacts/priority17_replay_stability/comparisons_20260927/v1_stronger_replay_comparison.csv"
+    },
+    "v1_medium": {
+      "label": "Transform v1 medium vs DP 0.000315",
+      "report": "artifacts/priority16_v1_medium_dp_head_to_head/confirmatory_run_20260927/priority14_probe_report.json",
+      "replay_csv": "artifacts/priority17_replay_stability/comparisons_20260927/v1_medium_replay_comparison.csv"
+    },
+    "v2_ratio0p95": {
+      "label": "Transform v2 ratio0.95/eta0.01 vs DP 0.00105",
+      "report": "artifacts/priority14_fresh_probe/v2_ratio0p95_confirmatory_20260921/priority14_probe_report.json",
+      "replay_csv": "artifacts/priority17_replay_stability/comparisons_20260927/v2_ratio0p95_replay_comparison.csv"
+    }
+  },
+  "permutation_seed": 20260927,
+  "permutation_trials": 100000,
+  "cells": {
+    "v1_stronger": {
+      "label": "Transform v1 stronger vs DP 0.0004",
+      "report": "artifacts/priority14_fresh_probe/v1_stronger_confirmatory_20260921/priority14_probe_report.json",
+      "replay_csv": "artifacts/priority17_replay_stability/comparisons_20260927/v1_stronger_replay_comparison.csv",
+      "n": 39,
+      "dp_wins": 39,
+      "dna_wins": 0,
+      "ties": 0,
+      "mean_D": -0.0016166626669785634,
+      "sd_D": 2.239451446454247e-05,
+      "mean_abs_D": 0.0016166626669785634,
+      "min_D": -0.0016648222065312667,
+      "max_D": -0.0015611634361454207,
+      "exact_one_sided_p": 1.8189894035458565e-12,
+      "permutation_trials": 100000,
+      "permutation_extreme_count": 0,
+      "permutation_empirical_p": 0.0,
+      "permutation_resolution_note": "0/100000 extreme permutations observed; empirical p is reported as 0.0 with Monte Carlo resolution 1/100000."
+    },
+    "v1_medium": {
+      "label": "Transform v1 medium vs DP 0.000315",
+      "report": "artifacts/priority16_v1_medium_dp_head_to_head/confirmatory_run_20260927/priority14_probe_report.json",
+      "replay_csv": "artifacts/priority17_replay_stability/comparisons_20260927/v1_medium_replay_comparison.csv",
+      "n": 39,
+      "dp_wins": 39,
+      "dna_wins": 0,
+      "ties": 0,
+      "mean_D": -0.0010026436558672064,
+      "sd_D": 1.4117016824531628e-05,
+      "mean_abs_D": 0.0010026436558672064,
+      "min_D": -0.001032592196022129,
+      "max_D": -0.0009677024415664272,
+      "exact_one_sided_p": 1.8189894035458565e-12,
+      "permutation_trials": 100000,
+      "permutation_extreme_count": 0,
+      "permutation_empirical_p": 0.0,
+      "permutation_resolution_note": "0/100000 extreme permutations observed; empirical p is reported as 0.0 with Monte Carlo resolution 1/100000."
+    },
+    "v2_ratio0p95": {
+      "label": "Transform v2 ratio0.95/eta0.01 vs DP 0.00105",
+      "report": "artifacts/priority14_fresh_probe/v2_ratio0p95_confirmatory_20260921/priority14_probe_report.json",
+      "replay_csv": "artifacts/priority17_replay_stability/comparisons_20260927/v2_ratio0p95_replay_comparison.csv",
+      "n": 39,
+      "dp_wins": 39,
+      "dna_wins": 0,
+      "ties": 0,
+      "mean_D": -0.011142000339682493,
+      "sd_D": 0.00015395491425476958,
+      "mean_abs_D": 0.011142000339682493,
+      "min_D": -0.011472191521304603,
+      "max_D": -0.010762953239998747,
+      "exact_one_sided_p": 1.8189894035458565e-12,
+      "permutation_trials": 100000,
+      "permutation_extreme_count": 0,
+      "permutation_empirical_p": 0.0,
+      "permutation_resolution_note": "0/100000 extreme permutations observed; empirical p is reported as 0.0 with Monte Carlo resolution 1/100000."
+    }
+  },
+  "effective_n_table": [
+    {
+      "effective_n": 1,
+      "unanimous_one_sided_p": 0.5
+    },
+    {
+      "effective_n": 2,
+      "unanimous_one_sided_p": 0.25
+    },
+    {
+      "effective_n": 3,
+      "unanimous_one_sided_p": 0.125
+    },
+    {
+      "effective_n": 4,
+      "unanimous_one_sided_p": 0.0625
+    },
+    {
+      "effective_n": 5,
+      "unanimous_one_sided_p": 0.03125
+    },
+    {
+      "effective_n": 6,
+      "unanimous_one_sided_p": 0.015625
+    },
+    {
+      "effective_n": 7,
+      "unanimous_one_sided_p": 0.0078125
+    },
+    {
+      "effective_n": 8,
+      "unanimous_one_sided_p": 0.00390625
+    },
+    {
+      "effective_n": 9,
+      "unanimous_one_sided_p": 0.001953125
+    },
+    {
+      "effective_n": 10,
+      "unanimous_one_sided_p": 0.0009765625
+    },
+    {
+      "effective_n": 12,
+      "unanimous_one_sided_p": 0.000244140625
+    },
+    {
+      "effective_n": 15,
+      "unanimous_one_sided_p": 3.0517578125e-05
+    },
+    {
+      "effective_n": 20,
+      "unanimous_one_sided_p": 9.5367431640625e-07
+    },
+    {
+      "effective_n": 25,
+      "unanimous_one_sided_p": 2.9802322387695312e-08
+    },
+    {
+      "effective_n": 30,
+      "unanimous_one_sided_p": 9.313225746154785e-10
+    },
+    {
+      "effective_n": 35,
+      "unanimous_one_sided_p": 2.9103830456733704e-11
+    },
+    {
+      "effective_n": 37,
+      "unanimous_one_sided_p": 7.275957614183426e-12
+    },
+    {
+      "effective_n": 39,
+      "unanimous_one_sided_p": 1.8189894035458565e-12
+    }
+  ],
+  "limitations": [
+    "The permutation test flips target labels independently and therefore checks the targetwise paired-sign null; it does not by itself model run-level clustering.",
+    "The effective-n table is a conservative sensitivity analysis for possible positive within-run correlation."
+  ]
+}
