@@ -1,0 +1,51 @@
+{
+  "target_file": "rq1_replication_1_targets.pt",
+  "groups": [
+    6
+  ],
+  "diagnostic": "fresh optimized Level 1 surrogate-forward DNA attack",
+  "dna_run_seed": 1307020394,
+  "surrogate_candidates_per_group": 4,
+  "restarts_per_candidate": 8,
+  "iterations": 600,
+  "attack_lr": 0.1,
+  "nonnegative_lambda": 0.001,
+  "selection_formula": "argmin_r,c L_balanced(M_r delta(c), transmitted_update; reference=transmitted_update)",
+  "caveat": "Surrogate realizations do not equal the raw-block-derived realization; this is a Level-1 diagnostic attack, not Level 2.",
+  "group_summary": [
+    {
+      "group_id": 6,
+      "n_baseline_candidates": 32,
+      "objective_best_restart": 2,
+      "objective_best_realization_id": 2,
+      "objective_best_objective": 0.474157452583313,
+      "objective_best_fraud_mse": 60.22875991756529,
+      "objective_best_non_fraud_mse": 19.4753322350977,
+      "prior_fraud_mse_mean": 51.963671890917674,
+      "zero_objective_best_fraud_mse": 20.856724549500083,
+      "objective_minus_prior_fraud_mse": 8.265088026647618,
+      "objective_minus_zero_fraud_mse": 39.37203536806521,
+      "max_balance_residual_raw": 0.9955424759536982
+    }
+  ],
+  "target_gate": {
+    "prior": {
+      "n": 1,
+      "wins": 0,
+      "mean_difference": 8.265088026647618,
+      "median_difference": 8.265088026647618,
+      "one_sided_sign_p": 1.0,
+      "gate": false
+    },
+    "zero": {
+      "n": 1,
+      "wins": 0,
+      "mean_difference": 39.37203536806521,
+      "median_difference": 39.37203536806521,
+      "one_sided_sign_p": 1.0,
+      "gate": false
+    },
+    "gate": false
+  },
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b"
+}

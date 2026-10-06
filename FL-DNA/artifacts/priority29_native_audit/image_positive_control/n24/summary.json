@@ -1,0 +1,100 @@
+{
+  "priority": 29,
+  "stage": "n24",
+  "n": 24,
+  "target_indices": [
+    9465,
+    5050,
+    3753,
+    1780,
+    1244,
+    7081,
+    6570,
+    272,
+    7373,
+    3220,
+    7729,
+    3309,
+    871,
+    538,
+    1593,
+    9428,
+    9569,
+    1409,
+    1633,
+    292,
+    4281,
+    5560,
+    6641,
+    9518
+  ],
+  "source_disjoint_evidence": {
+    "split": "CIFAR-10 test",
+    "within_stage_unique": true,
+    "priority29_stage_offsets": {
+      "n8": 0,
+      "n24": 100,
+      "confirmatory": 500
+    },
+    "note": "Earlier project CIFAR attack artifacts used train split; Priority 29 native image gates use test split."
+  },
+  "model": "external_defenses/invertinggradients construct_model('LeNetZhu', seed=42)",
+  "attacker": {
+    "class": "inversefed.GradientReconstructor",
+    "config": {
+      "signed": true,
+      "boxed": true,
+      "cost_fn": "sim",
+      "indices": "def",
+      "weights": "equal",
+      "lr": 0.1,
+      "optim": "adam",
+      "restarts": 1,
+      "max_iterations": 4800,
+      "total_variation": 0.01,
+      "init": "randn",
+      "filter": "none",
+      "lr_decay": true,
+      "scoring_choice": "loss"
+    },
+    "known_labels": true
+  },
+  "baselines": [
+    "prior",
+    "decoy",
+    "gray",
+    "cifar_mean"
+  ],
+  "summary": {
+    "prior": {
+      "wins": 24,
+      "losses": 0,
+      "ties": 0,
+      "one_sided_exact_p": 5.960464477539063e-08
+    },
+    "decoy": {
+      "wins": 24,
+      "losses": 0,
+      "ties": 0,
+      "one_sided_exact_p": 5.960464477539063e-08
+    },
+    "gray": {
+      "wins": 24,
+      "losses": 0,
+      "ties": 0,
+      "one_sided_exact_p": 5.960464477539063e-08
+    },
+    "cifar_mean": {
+      "wins": 24,
+      "losses": 0,
+      "ties": 0,
+      "one_sided_exact_p": 5.960464477539063e-08
+    }
+  },
+  "elapsed_seconds": 258.29654087498784,
+  "threads": 1,
+  "outputs": {
+    "per_target_csv": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/artifacts/priority29_native_audit/image_positive_control/n24/per_target.csv",
+    "reconstruction_grid_png": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/artifacts/priority29_native_audit/image_positive_control/n24/reconstruction_grid.png"
+  }
+}

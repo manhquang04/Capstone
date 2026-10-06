@@ -1,0 +1,105 @@
+{
+  "method": "DNA_Transform_v2SB_ServerBlind",
+  "config": {
+    "seed": 260001,
+    "num_clients": 3,
+    "num_rounds": 1,
+    "local_epochs": 1,
+    "batch_size": 1024,
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "loss": "focal",
+    "focal_alpha": 0.95,
+    "focal_gamma": 2.0,
+    "dataset": "PaySim",
+    "target": "isFraud",
+    "features": [
+      "step",
+      "amount",
+      "oldbalanceOrg",
+      "newbalanceOrig",
+      "oldbalanceDest",
+      "newbalanceDest",
+      "balance_diff_orig",
+      "balance_diff_dest",
+      "type=CASH_IN",
+      "type=CASH_OUT",
+      "type=DEBIT",
+      "type=PAYMENT",
+      "type=TRANSFER"
+    ],
+    "train_fraud_rate": 0.0013076922623440623,
+    "validation_fraud_rate": 0.001333777909167111,
+    "test_fraud_rate": 0.001249687629751861,
+    "client_sample_counts": [
+      5301,
+      4741,
+      2958
+    ],
+    "client_fraud_rates": [
+      0.001131861936300993,
+      0.0012655557366088033,
+      0.001690331264398992
+    ],
+    "client_type_distributions": [
+      {
+        "CASH_IN": 0.3050367855121675,
+        "CASH_OUT": 0.19298245614035087,
+        "DEBIT": 0.003961516694963215,
+        "PAYMENT": 0.4534993397472175,
+        "TRANSFER": 0.044519901905300883
+      },
+      {
+        "CASH_IN": 0.13942206285593756,
+        "CASH_OUT": 0.5260493566758068,
+        "DEBIT": 0.004429445264712086,
+        "PAYMENT": 0.20755114954650916,
+        "TRANSFER": 0.12254798565703438
+      },
+      {
+        "CASH_IN": 0.22379986477349562,
+        "CASH_OUT": 0.34550371872887087,
+        "DEBIT": 0.01757944557133198,
+        "PAYMENT": 0.332657200811359,
+        "TRANSFER": 0.08045977011494253
+      }
+    ],
+    "threshold_tuning": "F1 on validation split",
+    "dna_transform_v2sb_defense": "server-blind shared-key sketch aggregation; server aggregates sketches without decode key; clients decode aggregate",
+    "dna_transform_v2sb_config": {
+      "compression_ratio": 0.95,
+      "quantization_eta": 0.01
+    },
+    "dna_transform_v2sb_key_strategy": "deterministic 256-bit round key from SHA-256(run_seed, round) for reproducible simulated key agreement",
+    "dna_transform_v2sb_run_seed": 1197198292
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "train_loss": 0.011867615023149833,
+      "f1_score": 0.0,
+      "auc_roc": 0.9473473473473473,
+      "pr_auc": 0.33714802093555774,
+      "accuracy": 0.9987503124218945,
+      "precision": 0.0,
+      "recall": 0.0,
+      "optimal_threshold": 0.64,
+      "tn": 3996,
+      "fp": 0,
+      "fn": 5,
+      "tp": 0,
+      "dna_encode_decode_ms": 62.43654400000054,
+      "encoded_tensors": 60,
+      "encoded_elements": 38331,
+      "dna_transform_v2sb_tensors": 20,
+      "dna_transform_v2sb_original_elements": 13057,
+      "dna_transform_v2sb_sketch_elements": 12777,
+      "dna_transform_v2sb_sketch_ratio": 0.9785555640652523,
+      "dna_transform_v2sb_aggregate_relative_l2_error": 0.21442514258122983,
+      "dna_transform_v2sb_client_encode_ms": 58.86437499999886,
+      "dna_transform_v2sb_server_aggregate_ms": 0.4324599999936396,
+      "dna_transform_v2sb_client_decode_ms": 3.1397090000080397,
+      "dna_transform_v2sb_total_ms": 62.43654400000054
+    }
+  ]
+}

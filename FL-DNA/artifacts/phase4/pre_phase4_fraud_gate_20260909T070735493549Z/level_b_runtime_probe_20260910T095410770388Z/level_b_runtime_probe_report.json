@@ -1,0 +1,56 @@
+{
+  "protocol": {
+    "purpose": "runtime_probe_only",
+    "observation_mode": "public_projection_matrix",
+    "projection_input_dim": 131072,
+    "projection_output_dim": 4096,
+    "projection_seed": 202609104091,
+    "projection_distribution": "signed_hadamard_jl",
+    "projection_objective_normalization": "l2_normalize_projected_update",
+    "surrogate_init_seed": 202609107337,
+    "target_file": "development_gate_targets.pt",
+    "target_file_sha256": "7ad42895965b0cc0d349c9d61fd39642eaf8c1e8b866a22100e55330b32e183b",
+    "group_index": 0,
+    "source_ids": [
+      2875806,
+      2019382,
+      3960343,
+      1744941
+    ],
+    "architecture_id": "B3",
+    "local_lr": 0.001,
+    "iterations": 200,
+    "restarts": 2,
+    "attack_lr": 0.1,
+    "nonnegative_lambda": 0.001,
+    "init_mode": "plausible"
+  },
+  "rows": [
+    {
+      "restart": 0,
+      "best_objective": 0.0006102839834056795,
+      "best_step": 200,
+      "initial_objective": 0.0006856840918771923,
+      "final_objective": 0.0006102839834056795,
+      "seconds": 2.4252752500000003
+    },
+    {
+      "restart": 1,
+      "best_objective": 0.0006030037184245884,
+      "best_step": 200,
+      "initial_objective": 0.0006895993137732148,
+      "final_objective": 0.0006030037184245884,
+      "seconds": 2.4275525830000007
+    }
+  ],
+  "summary": {
+    "best_restart": 1,
+    "best_objective": 0.0006030037184245884,
+    "total_seconds": 11.002588375,
+    "seconds_per_restart": 5.5012941875,
+    "estimated_96_cell_coarse_seconds": 1056.248484,
+    "estimated_96_cell_coarse_hours": 0.29340235666666664,
+    "max_rss_mb": 3094.5625,
+    "status": "RUNTIME_PROBE_ONLY"
+  }
+}

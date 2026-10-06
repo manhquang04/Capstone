@@ -1,0 +1,154 @@
+{
+  "protocol": {
+    "observation_mode": "public_projection_matrix",
+    "projection_input_dim": 100000,
+    "projection_output_dim": 4096,
+    "projection_seed": 202609104091,
+    "projection_distribution": "signed_sparse_jl",
+    "jl_hashes_per_input": 3,
+    "surrogate_init_seed": 202609107337,
+    "target_file": "development_gate_targets.pt",
+    "group_index": 0,
+    "source_ids": [
+      2875806,
+      2019382,
+      3960343,
+      1744941
+    ],
+    "projection_input_dim_sha256_context": "7ad42895965b0cc0d349c9d61fd39642eaf8c1e8b866a22100e55330b32e183b"
+  },
+  "rows": [
+    {
+      "label": "true_bounded_phase4_update",
+      "architecture_id": "B3_true_checkpoint",
+      "parameter_count": 12609,
+      "floating_state_count": 13057,
+      "flattened_delta_length": 13057,
+      "padding_zeros": 86943,
+      "raw_stats": {
+        "length": 13057,
+        "norm": 44.454986572265625,
+        "mean": -0.021081412211060524,
+        "std": 0.38847342133522034,
+        "min": -13.287437438964844,
+        "max": 3.116591453552246,
+        "abs_mean": 0.029261741787195206,
+        "abs_max": 13.287437438964844,
+        "near_zero_fraction": 0.13226622343063354
+      },
+      "projected_stats": {
+        "length": 4096,
+        "norm": 43.66099166870117,
+        "mean": 0.008348220959305763,
+        "std": 0.6821523904800415,
+        "min": -7.671505928039551,
+        "max": 7.666887283325195,
+        "abs_mean": 0.15163803100585938,
+        "abs_max": 7.671505928039551,
+        "near_zero_fraction": 0.024169921875
+      },
+      "projected_norm_ratio_to_true": 1.0
+    },
+    {
+      "label": "surrogate_candidate_update",
+      "architecture_id": "B1",
+      "parameter_count": 3009,
+      "floating_state_count": 3009,
+      "flattened_delta_length": 3009,
+      "padding_zeros": 96991,
+      "raw_stats": {
+        "length": 3009,
+        "norm": 0.04237709194421768,
+        "mean": -0.00013715527893509716,
+        "std": 0.000760265626013279,
+        "min": -0.0010000020265579224,
+        "max": 0.0010000020265579224,
+        "abs_mean": 0.0005970087368041277,
+        "abs_max": 0.0010000020265579224,
+        "near_zero_fraction": 0.4027916193008423
+      },
+      "projected_stats": {
+        "length": 4096,
+        "norm": 0.042613934725522995,
+        "mean": 5.8201298998028506e-06,
+        "std": 0.0006658172933384776,
+        "min": -0.0023094015195965767,
+        "max": 0.0028867346700280905,
+        "abs_mean": 0.0004680715501308441,
+        "abs_max": 0.0028867346700280905,
+        "near_zero_fraction": 0.315673828125
+      },
+      "projected_norm_ratio_to_true": 0.0009760184800399581
+    },
+    {
+      "label": "surrogate_candidate_update",
+      "architecture_id": "B3",
+      "parameter_count": 12609,
+      "floating_state_count": 13057,
+      "flattened_delta_length": 13057,
+      "padding_zeros": 86943,
+      "raw_stats": {
+        "length": 13057,
+        "norm": 19.49009132385254,
+        "mean": 0.011301819235086441,
+        "std": 0.17019256949424744,
+        "min": -0.11924649775028229,
+        "max": 4.120382308959961,
+        "abs_mean": 0.013977856375277042,
+        "abs_max": 4.120382308959961,
+        "near_zero_fraction": 0.16527533531188965
+      },
+      "projected_stats": {
+        "length": 4096,
+        "norm": 19.405826568603516,
+        "mean": -0.0008883796399459243,
+        "std": 0.3032149076461792,
+        "min": -2.3806324005126953,
+        "max": 2.3829452991485596,
+        "abs_mean": 0.07175479829311371,
+        "abs_max": 2.3829452991485596,
+        "near_zero_fraction": 0.019287109375
+      },
+      "projected_norm_ratio_to_true": 0.4444660056247596
+    },
+    {
+      "label": "surrogate_candidate_update",
+      "architecture_id": "B4",
+      "parameter_count": 45697,
+      "floating_state_count": 46593,
+      "flattened_delta_length": 46593,
+      "padding_zeros": 53407,
+      "raw_stats": {
+        "length": 46593,
+        "norm": 29.10966682434082,
+        "mean": 0.006802104413509369,
+        "std": 0.13468928635120392,
+        "min": -0.12392840534448624,
+        "max": 4.270279884338379,
+        "abs_mean": 0.008643073961138725,
+        "abs_max": 4.270279884338379,
+        "near_zero_fraction": 0.13969910144805908
+      },
+      "projected_stats": {
+        "length": 4096,
+        "norm": 29.516141891479492,
+        "mean": -0.013518338091671467,
+        "std": 0.46099165081977844,
+        "min": -3.540722608566284,
+        "max": 4.021222114562988,
+        "abs_mean": 0.1475793719291687,
+        "abs_max": 4.021222114562988,
+        "near_zero_fraction": 0.00048828125
+      },
+      "projected_norm_ratio_to_true": 0.6760300387917767
+    }
+  ],
+  "summary": {
+    "projected_norm_min": 0.042613934725522995,
+    "projected_norm_max": 43.66099166870117,
+    "projected_norm_max_over_min": 1024.5707642329273,
+    "status": "DIAGNOSTIC_ONLY",
+    "interpretation": "Projection scale must be comparable across B1/B3/B4 before the Level-B grid is run; this artifact does not select an architecture or attack result."
+  },
+  "seconds": 0.5225792909999998
+}

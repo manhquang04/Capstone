@@ -1,0 +1,168 @@
+{
+  "lenet_137k": {
+    "baselines_raw_mse": {
+      "constant_gray": 0.06813362240791321,
+      "mean_image": 0.06609930843114853
+    },
+    "defenses": {
+      "ats": {
+        "adaptive": {
+          "raw_mse": 1.1462682485580444,
+          "status": "ran",
+          "succeeds_vs_baselines": false
+        },
+        "original": {
+          "blocked_vs_baselines": true,
+          "raw_mse": 0.9835162162780762,
+          "status": "ran"
+        }
+      },
+      "count_sketch": {
+        "adaptive": {
+          "raw_mse": 1.2209149599075317,
+          "status": "known_hashes",
+          "succeeds_vs_baselines": false
+        },
+        "adaptive_unknown_hashes": {
+          "raw_mse": 0.35820651054382324,
+          "status": "unavailable_without_sketch_hashes",
+          "succeeds_vs_baselines": false
+        },
+        "original": {
+          "blocked_vs_baselines": null,
+          "raw_mse": null,
+          "status": "not_published"
+        }
+      },
+      "gradient_pruning": {
+        "adaptive": {
+          "raw_mse": 1.115970492362976,
+          "status": "ran",
+          "succeeds_vs_baselines": false
+        },
+        "original": {
+          "blocked_vs_baselines": true,
+          "raw_mse": 1.4280420541763306,
+          "status": "ran"
+        }
+      },
+      "precode": {
+        "adaptive": {
+          "raw_mse": 0.9197149276733398,
+          "status": "ran",
+          "succeeds_vs_baselines": false
+        },
+        "original": {
+          "blocked_vs_baselines": true,
+          "raw_mse": 0.9808818697929382,
+          "status": "ran"
+        }
+      },
+      "soteria": {
+        "adaptive": {
+          "raw_mse": 0.9197149276733398,
+          "status": "ran",
+          "succeeds_vs_baselines": false
+        },
+        "original": {
+          "blocked_vs_baselines": true,
+          "raw_mse": 0.9980668425559998,
+          "status": "ran"
+        }
+      }
+    },
+    "parameter_count": 135708,
+    "undefended_positive_control": {
+      "raw_mse": 0.9808818697929382,
+      "succeeds_vs_baselines": false
+    }
+  },
+  "scope": {
+    "cifar10_test_indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "criterion": "raw-input MSE must beat every named data-free baseline",
+    "paysim_max_rows": 5000,
+    "qualitative_only": true,
+    "steps": 20
+  },
+  "tabular_mlp_bn": {
+    "baselines_raw_mse": {
+      "population_mean": 7.741337299346924
+    },
+    "defenses": {
+      "ats": {
+        "adaptive": {
+          "raw_mse": 1.6483598947525024,
+          "status": "ran",
+          "succeeds_vs_baselines": true
+        },
+        "original": {
+          "blocked_vs_baselines": false,
+          "raw_mse": 1.3894661664962769,
+          "status": "ran"
+        }
+      },
+      "count_sketch": {
+        "adaptive": {
+          "raw_mse": 1.6563929319381714,
+          "status": "known_hashes",
+          "succeeds_vs_baselines": true
+        },
+        "adaptive_unknown_hashes": {
+          "raw_mse": 1.2961063385009766,
+          "status": "unavailable_without_sketch_hashes",
+          "succeeds_vs_baselines": false
+        },
+        "original": {
+          "blocked_vs_baselines": null,
+          "raw_mse": null,
+          "status": "not_published"
+        }
+      },
+      "gradient_pruning": {
+        "adaptive": {
+          "raw_mse": 2.0253663063049316,
+          "status": "ran",
+          "succeeds_vs_baselines": true
+        },
+        "original": {
+          "blocked_vs_baselines": false,
+          "raw_mse": 2.067863702774048,
+          "status": "ran"
+        }
+      },
+      "precode": {
+        "adaptive": {
+          "raw_mse": 1.216817855834961,
+          "status": "ran",
+          "succeeds_vs_baselines": true
+        },
+        "original": {
+          "blocked_vs_baselines": false,
+          "raw_mse": 1.8414013385772705,
+          "status": "ran"
+        }
+      },
+      "soteria": {
+        "adaptive": {
+          "raw_mse": 1.216817855834961,
+          "status": "ran",
+          "succeeds_vs_baselines": true
+        },
+        "original": {
+          "blocked_vs_baselines": false,
+          "raw_mse": 1.8961522579193115,
+          "status": "ran"
+        }
+      }
+    },
+    "undefended_positive_control": {
+      "raw_mse": 1.8414013385772705,
+      "succeeds_vs_baselines": true
+    }
+  }
+}

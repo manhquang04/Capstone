@@ -1,0 +1,205 @@
+{
+  "protocol": {
+    "observation_mode": "public_projection_matrix",
+    "projection_input_dim": 131072,
+    "projection_output_dim": 4096,
+    "projection_seed": 202609104091,
+    "projection_distribution": "signed_hadamard_jl",
+    "projection_objective_normalization": "l2_normalize_projected_update",
+    "surrogate_init_seed": 202609107337,
+    "target_file": "development_gate_targets.pt",
+    "group_index": 0,
+    "source_ids": [
+      2875806,
+      2019382,
+      3960343,
+      1744941
+    ],
+    "projection_input_dim_sha256_context": "7ad42895965b0cc0d349c9d61fd39642eaf8c1e8b866a22100e55330b32e183b"
+  },
+  "rows": [
+    {
+      "label": "true_bounded_phase4_update",
+      "architecture_id": "B3_true_checkpoint",
+      "parameter_count": 12609,
+      "floating_state_count": 13057,
+      "flattened_delta_length": 13057,
+      "padding_zeros": 118015,
+      "raw_stats": {
+        "length": 13057,
+        "norm": 44.454986572265625,
+        "mean": -0.021081412211060524,
+        "std": 0.38847342133522034,
+        "min": -13.287437438964844,
+        "max": 3.116591453552246,
+        "abs_mean": 0.029261741787195206,
+        "abs_max": 13.287437438964844,
+        "near_zero_fraction": 0.13226622343063354
+      },
+      "projected_stats": {
+        "length": 4096,
+        "norm": 44.45939636230469,
+        "mean": -0.007194451987743378,
+        "std": 0.6946408152580261,
+        "min": -2.2888505458831787,
+        "max": 2.285766363143921,
+        "abs_mean": 0.5623131394386292,
+        "abs_max": 2.2888505458831787,
+        "near_zero_fraction": 0.0
+      },
+      "normalized_projected_stats": {
+        "length": 4096,
+        "norm": 1.0,
+        "mean": -0.0001618207315914333,
+        "std": 0.01562416274100542,
+        "min": -0.05148181691765785,
+        "max": 0.05141244828701019,
+        "abs_mean": 0.01264779083430767,
+        "abs_max": 0.05148181691765785,
+        "near_zero_fraction": 0.0
+      },
+      "projected_norm_ratio_to_true": 1.0,
+      "normalized_abs_mean_ratio_to_true": 1.0
+    },
+    {
+      "label": "surrogate_candidate_update",
+      "architecture_id": "B1",
+      "parameter_count": 3009,
+      "floating_state_count": 3009,
+      "flattened_delta_length": 3009,
+      "padding_zeros": 128063,
+      "raw_stats": {
+        "length": 3009,
+        "norm": 0.04237709194421768,
+        "mean": -0.00013715527893509716,
+        "std": 0.000760265626013279,
+        "min": -0.0010000020265579224,
+        "max": 0.0010000020265579224,
+        "abs_mean": 0.0005970087368041277,
+        "abs_max": 0.0010000020265579224,
+        "near_zero_fraction": 0.4027916193008423
+      },
+      "projected_stats": {
+        "length": 4096,
+        "norm": 0.04132101684808731,
+        "mean": 8.087204150797334e-06,
+        "std": 0.0006455902475863695,
+        "min": -0.0021423306316137314,
+        "max": 0.002233407460153103,
+        "abs_mean": 0.0005145551403984427,
+        "abs_max": 0.002233407460153103,
+        "near_zero_fraction": 0.0
+      },
+      "normalized_projected_stats": {
+        "length": 4096,
+        "norm": 1.0,
+        "mean": 0.00019571644952520728,
+        "std": 0.015623774379491806,
+        "min": -0.05184602737426758,
+        "max": 0.05405015870928764,
+        "abs_mean": 0.0124526247382164,
+        "abs_max": 0.05405015870928764,
+        "near_zero_fraction": 0.0
+      },
+      "projected_norm_ratio_to_true": 0.0009294102086172659,
+      "normalized_abs_mean_ratio_to_true": 0.9845691553056148
+    },
+    {
+      "label": "surrogate_candidate_update",
+      "architecture_id": "B3",
+      "parameter_count": 12609,
+      "floating_state_count": 13057,
+      "flattened_delta_length": 13057,
+      "padding_zeros": 118015,
+      "raw_stats": {
+        "length": 13057,
+        "norm": 19.49009132385254,
+        "mean": 0.011301819235086441,
+        "std": 0.17019256949424744,
+        "min": -0.11924649775028229,
+        "max": 4.120382308959961,
+        "abs_mean": 0.013977856375277042,
+        "abs_max": 4.120382308959961,
+        "near_zero_fraction": 0.16527533531188965
+      },
+      "projected_stats": {
+        "length": 4096,
+        "norm": 19.844520568847656,
+        "mean": -0.0016150856390595436,
+        "std": 0.3100664019584656,
+        "min": -0.892748236656189,
+        "max": 0.893055260181427,
+        "abs_mean": 0.24263541400432587,
+        "abs_max": 0.893055260181427,
+        "near_zero_fraction": 0.0
+      },
+      "normalized_projected_stats": {
+        "length": 4096,
+        "norm": 0.9999998211860657,
+        "mean": -8.138697739923373e-05,
+        "std": 0.015624786727130413,
+        "min": -0.04498714208602905,
+        "max": 0.045002613216638565,
+        "abs_mean": 0.012226821854710579,
+        "abs_max": 0.045002613216638565,
+        "near_zero_fraction": 0.0
+      },
+      "projected_norm_ratio_to_true": 0.4463515520348589,
+      "normalized_abs_mean_ratio_to_true": 0.9667160071579303
+    },
+    {
+      "label": "surrogate_candidate_update",
+      "architecture_id": "B4",
+      "parameter_count": 45697,
+      "floating_state_count": 46593,
+      "flattened_delta_length": 46593,
+      "padding_zeros": 84479,
+      "raw_stats": {
+        "length": 46593,
+        "norm": 29.10966682434082,
+        "mean": 0.006802104413509369,
+        "std": 0.13468928635120392,
+        "min": -0.12392840534448624,
+        "max": 4.270279884338379,
+        "abs_mean": 0.008643073961138725,
+        "abs_max": 4.270279884338379,
+        "near_zero_fraction": 0.13969910144805908
+      },
+      "projected_stats": {
+        "length": 4096,
+        "norm": 29.116783142089844,
+        "mean": -0.008319233544170856,
+        "std": 0.45487362146377563,
+        "min": -1.5608035326004028,
+        "max": 1.5673918724060059,
+        "abs_mean": 0.35759589076042175,
+        "abs_max": 1.5673918724060059,
+        "near_zero_fraction": 0.0
+      },
+      "normalized_projected_stats": {
+        "length": 4096,
+        "norm": 0.9999998211860657,
+        "mean": -0.00028571952134370804,
+        "std": 0.015622385777533054,
+        "min": -0.05360494554042816,
+        "max": 0.05383121594786644,
+        "abs_mean": 0.012281437404453754,
+        "abs_max": 0.05383121594786644,
+        "near_zero_fraction": 0.0
+      },
+      "projected_norm_ratio_to_true": 0.6549072979941937,
+      "normalized_abs_mean_ratio_to_true": 0.9710341960383969
+    }
+  ],
+  "summary": {
+    "projected_norm_min": 0.04132101684808731,
+    "projected_norm_max": 44.45939636230469,
+    "projected_norm_max_over_min": 1075.951168524127,
+    "normalized_abs_mean_min": 0.012226821854710579,
+    "normalized_abs_mean_max": 0.01264779083430767,
+    "normalized_abs_mean_max_over_min": 1.0344299593630626,
+    "status": "DIAGNOSTIC_ONLY",
+    "interpretation": "Raw projection scale is logged for leakage checks. Candidate selection must use the L2-normalized projected objective; this artifact does not select an architecture or attack result."
+  },
+  "seconds": 0.45918637500000004
+}

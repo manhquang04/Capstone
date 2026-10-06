@@ -1,0 +1,101 @@
+{
+  "amendment": "protocols/amendments/2026-09-29_priority25b_bracketed_utility.md",
+  "amendment_sha256": "3d686a135ab64e5c3c8c38c542beed40e06cccf28adee4e3e9114df8d7180dee",
+  "confirm_target": "artifacts/priority25b_bracketed_utility/t1_confirm_targets_20260929/paysim_priority25b_t1_confirm_targets.pt",
+  "confirm_target_sha256": "fcd5b0d8e5af2cfe4b4853d7e595b7cdd9f0a7056253fb4be3e8a4d51119195f",
+  "confirmatory_tests": {
+    "v1_conservative": {
+      "dna_greater_p": 7.275957614183426e-11,
+      "dna_wins": 38,
+      "dp_greater_p": 0.999999999998181,
+      "dp_wins": 1,
+      "holm_dna_greater_p_within_priority25_utility": 7.275957614183426e-11,
+      "holm_dp_greater_p_within_priority25_utility": 1.0,
+      "mean_mse_ratio_dna_over_dp": 233.98791548206495,
+      "median_mse_ratio_dna_over_dp": 33.05883630632897,
+      "non_tied_n": 39,
+      "ties": 0
+    },
+    "v2_0p95_eta0p01": {
+      "dna_greater_p": 1.8189894035458565e-12,
+      "dna_wins": 39,
+      "dp_greater_p": 1.0,
+      "dp_wins": 0,
+      "holm_dna_greater_p_within_priority25_utility": 3.637978807091713e-12,
+      "holm_dp_greater_p_within_priority25_utility": 1.0,
+      "mean_mse_ratio_dna_over_dp": 82.35164958869629,
+      "median_mse_ratio_dna_over_dp": 36.35513451773111,
+      "non_tied_n": 39,
+      "ties": 0
+    }
+  },
+  "created_at": "2026-09-29T09:03:02.630221+00:00",
+  "dev_qualification": {
+    "n": 8,
+    "p_vs_decoy": 0.00390625,
+    "p_vs_prior": 0.00390625,
+    "qualified": true,
+    "wins_vs_decoy": 8,
+    "wins_vs_prior": 8
+  },
+  "dev_target": "artifacts/priority25b_bracketed_utility/t1_dev_targets_20260929/paysim_priority25b_t1_dev_targets.pt",
+  "dev_target_sha256": "ec33b121a7cd462bebe9ab282ac7eeac34748b3b1f45c9e186f06bea5030dcb0",
+  "feature_names": [
+    "step",
+    "amount",
+    "oldbalanceOrg",
+    "newbalanceOrig",
+    "oldbalanceDest",
+    "newbalanceDest",
+    "balance_diff_orig",
+    "balance_diff_dest",
+    "type=CASH_IN",
+    "type=CASH_OUT",
+    "type=DEBIT",
+    "type=PAYMENT",
+    "type=TRANSFER"
+  ],
+  "instrument": "T1_BN_RUNNING_MEAN_BATCH_MEAN_RECOVERY",
+  "matching": "utility_matched_dp_full_floating_state",
+  "selected_dp": {
+    "v1_conservative": {
+      "bracket_status": "BRACKETED",
+      "bracketed": true,
+      "epsilon_50_releases_delta_1e_minus_5": 250003651292.54645,
+      "epsilon_one_release_delta_1e_minus_5": 5000480258.509299,
+      "next_larger_mean_delta_f1": -0.005681964304056902,
+      "next_larger_method": "dp_sigma_3em05",
+      "next_larger_noise_multiplier": 3e-05,
+      "selected_clip_norm": 259.0841131896973,
+      "selected_mean_delta_auc": 0.0004634056592438471,
+      "selected_mean_delta_f1": 0.004804753941017904,
+      "selected_mean_delta_pr_auc": 0.004610464162197528,
+      "selected_method": "dp_sigma_1em05",
+      "selected_noise_multiplier": 1e-05,
+      "selected_sd_delta_f1": 0.02304114382218871,
+      "status": "MATCH_FOUND",
+      "threshold_delta_f1": -0.0036
+    },
+    "v2_0p95_eta0p01": {
+      "bracket_status": "BRACKETED",
+      "bracketed": true,
+      "epsilon_50_releases_delta_1e_minus_5": 27778908979.606583,
+      "epsilon_one_release_delta_1e_minus_5": 555715568.515226,
+      "next_larger_mean_delta_f1": -0.03991808025710951,
+      "next_larger_method": "dp_sigma_1em04",
+      "next_larger_noise_multiplier": 0.0001,
+      "selected_clip_norm": 259.0841131896973,
+      "selected_mean_delta_auc": 0.0004275166981178094,
+      "selected_mean_delta_f1": -0.005681964304056902,
+      "selected_mean_delta_pr_auc": -0.002712535978421693,
+      "selected_method": "dp_sigma_3em05",
+      "selected_noise_multiplier": 3e-05,
+      "selected_sd_delta_f1": 0.01605217836034881,
+      "status": "MATCH_FOUND",
+      "threshold_delta_f1": -0.0167
+    }
+  },
+  "tie_band_from_development_replay": 0.0,
+  "utility_summary": "results/priority25b_bracketed_utility/utility_grid_initial_20260929/utility_grid_summary.json",
+  "utility_summary_sha256": "6009a64f4d95372c9920b0a7e48cbd654be2a7ad2d3eab51a570dfcbcd23cdbf"
+}

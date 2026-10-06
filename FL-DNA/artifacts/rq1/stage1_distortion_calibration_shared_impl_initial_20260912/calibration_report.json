@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "run_id": "stage1_distortion_calibration_shared_impl_initial_20260912",
+  "created_at": "2026-09-12T15:36:23.393379+00:00",
+  "scope": "development-only RQ1 distortion calibration",
+  "target_file": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/artifacts/phase4/pre_phase4_fraud_gate_20260909T070735493549Z/development_gate_targets.pt",
+  "target_sha256": "7ad42895965b0cc0d349c9d61fd39642eaf8c1e8b866a22100e55330b32e183b",
+  "dna_artifact_dir": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/artifacts/phase4/pre_phase4_fraud_gate_20260909T070735493549Z/dna_level1_forward_attack_development_gate_c4_r8_i600_lr0p1_nonneg0p001",
+  "dna_target_median_relative_l2": 0.07557749969956536,
+  "clip_norm": 100.0,
+  "noise_multiplier_grid": [
+    0.0001,
+    0.0005,
+    0.001,
+    0.005,
+    0.01
+  ],
+  "calibration_seed_list": [
+    11,
+    22,
+    33,
+    44,
+    55
+  ],
+  "matching_tolerance": 0.05,
+  "target_statistic": "median_relative_l2",
+  "selection_rule": "minimum absolute distance; smallest multiplier tie-break",
+  "selected_candidate": {
+    "noise_multiplier": 0.0001,
+    "median_relative_l2": 0.031233671775318217,
+    "dna_median_relative_l2": 0.07557749969956536,
+    "absolute_distance": 0.04434382792424714,
+    "relative_distance": 0.5867331957331496,
+    "within_tolerance": false,
+    "observations": 40
+  },
+  "match_succeeded": false,
+  "full_grid_file": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/artifacts/rq1/stage1_distortion_calibration_shared_impl_initial_20260912/full_grid.csv",
+  "amendment_required_before_confirmatory_freeze": true
+}

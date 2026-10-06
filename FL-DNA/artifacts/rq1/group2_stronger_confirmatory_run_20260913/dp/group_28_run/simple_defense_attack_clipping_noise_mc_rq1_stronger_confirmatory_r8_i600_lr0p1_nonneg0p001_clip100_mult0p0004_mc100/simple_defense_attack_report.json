@@ -1,0 +1,59 @@
+{
+  "target_file": "rq1_stronger_confirmatory_targets.pt",
+  "groups": [
+    28
+  ],
+  "defense": "clipping_noise_mc",
+  "diagnostic": "bounded simple-defense attack; attacker-visible masks/thresholds/factors for retention and clipping; unknown realization for Gaussian noise",
+  "target_relative_l2_delta": 0.1,
+  "clip_norm": 100.0,
+  "noise_multiplier": 0.0004,
+  "defense_seed": 314159265,
+  "restarts": 8,
+  "iterations": 600,
+  "attack_lr": 0.1,
+  "nonnegative_lambda": 0.001,
+  "clip_factor": 0.95,
+  "mc_noise_samples": 100,
+  "topk_temperature": null,
+  "selection_formula": "argmin_c L_balanced(T_visible_clipping_noise_mc(delta(c)), defended_update; reference=defended_update)",
+  "group_summary": [
+    {
+      "group_id": 28,
+      "n_baseline_restarts": 8,
+      "objective_best_restart": 6,
+      "objective_best_objective": 0.9325045943260193,
+      "objective_best_fraud_mse": 5.541816729499711,
+      "objective_best_non_fraud_mse": 25.958724939462588,
+      "prior_fraud_mse_mean": 50.16307691121048,
+      "zero_objective_best_fraud_mse": 34.54845126377488,
+      "objective_minus_prior_fraud_mse": -44.62126018171077,
+      "objective_minus_zero_fraud_mse": -29.006634534275168,
+      "max_balance_residual_raw": 0.1219982816837728,
+      "mean_defense_relative_l2_delta": 0.09446915957576585,
+      "mean_defense_keep_ratio": 1.0
+    }
+  ],
+  "target_gate": {
+    "prior": {
+      "n": 1,
+      "wins": 1,
+      "mean_difference": -44.62126018171077,
+      "median_difference": -44.62126018171077,
+      "one_sided_sign_p": 0.5,
+      "gate": false
+    },
+    "zero": {
+      "n": 1,
+      "wins": 1,
+      "mean_difference": -29.006634534275168,
+      "median_difference": -29.006634534275168,
+      "one_sided_sign_p": 0.5,
+      "gate": false
+    },
+    "gate": false
+  },
+  "mean_defense_relative_l2_delta": 0.09446915957576585,
+  "mean_defense_keep_ratio": 1.0,
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b"
+}

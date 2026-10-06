@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-16T04:19:03.080491+00:00",
+  "scope": "DNA Transform v2 Step 3 mechanical audit only",
+  "development_target": "artifacts/phase4/pre_phase4_fraud_gate_20260909T070735493549Z/development_gate_targets.pt",
+  "development_target_sha256": "7ad42895965b0cc0d349c9d61fd39642eaf8c1e8b866a22100e55330b32e183b",
+  "observed_update_source": "artifacts/phase4/pre_phase4_fraud_gate_20260909T070735493549Z/dna_level1_forward_attack_development_gate_c4_r8_i600_lr0p1_nonneg0p001",
+  "groups": 8,
+  "base_seed": 20260916,
+  "configs": [
+    {
+      "config_id": "v2_ratio0p95_eta0",
+      "compression_ratio": 0.95,
+      "quantization_eta": 0.0
+    },
+    {
+      "config_id": "v2_ratio0p95_eta0p01",
+      "compression_ratio": 0.95,
+      "quantization_eta": 0.01
+    },
+    {
+      "config_id": "v2_ratio0p95_eta0p02",
+      "compression_ratio": 0.95,
+      "quantization_eta": 0.02
+    },
+    {
+      "config_id": "v2_ratio0p9_eta0",
+      "compression_ratio": 0.9,
+      "quantization_eta": 0.0
+    },
+    {
+      "config_id": "v2_ratio0p9_eta0p01",
+      "compression_ratio": 0.9,
+      "quantization_eta": 0.01
+    },
+    {
+      "config_id": "v2_ratio0p9_eta0p02",
+      "compression_ratio": 0.9,
+      "quantization_eta": 0.02
+    }
+  ],
+  "rank_interpretation": "R has rank at most k.  The nonzero singular values of the ideal row sketch are well-conditioned, but the lifted operator R^T R is rank deficient and therefore has infinite full condition number whenever k < d.",
+  "v1_level2_reference_relative_error": 3.41e-08,
+  "summary": [
+    {
+      "config_id": "v2_ratio0p95_eta0",
+      "groups": 8,
+      "compression_ratio": 0.95,
+      "quantization_eta": 0.0,
+      "mean_relative_l2_reconstruction_error": 0.3002872207472369,
+      "median_relative_l2_reconstruction_error": 0.33113531095299736,
+      "min_relative_l2_reconstruction_error": 0.1995560114103827,
+      "max_relative_l2_reconstruction_error": 0.34196717153899187,
+      "mean_rank_retained_upper_fraction": 0.9569579535881136,
+      "all_groups_rank_loss": true
+    },
+    {
+      "config_id": "v2_ratio0p95_eta0p01",
+      "groups": 8,
+      "compression_ratio": 0.95,
+      "quantization_eta": 0.01,
+      "mean_relative_l2_reconstruction_error": 0.3003622172995928,
+      "median_relative_l2_reconstruction_error": 0.331243595003304,
+      "min_relative_l2_reconstruction_error": 0.19967969436402952,
+      "max_relative_l2_reconstruction_error": 0.3420836758960451,
+      "mean_rank_retained_upper_fraction": 0.9569579535881136,
+      "all_groups_rank_loss": true
+    },
+    {
+      "config_id": "v2_ratio0p95_eta0p02",
+      "groups": 8,
+      "compression_ratio": 0.95,
+      "quantization_eta": 0.02,
+      "mean_relative_l2_reconstruction_error": 0.30040802991226645,
+      "median_relative_l2_reconstruction_error": 0.3312707636602894,
+      "min_relative_l2_reconstruction_error": 0.1996238674269461,
+      "max_relative_l2_reconstruction_error": 0.34218803900989014,
+      "mean_rank_retained_upper_fraction": 0.9569579535881136,
+      "all_groups_rank_loss": true
+    },
+    {
+      "config_id": "v2_ratio0p9_eta0",
+      "groups": 8,
+      "compression_ratio": 0.9,
+      "quantization_eta": 0.0,
+      "mean_relative_l2_reconstruction_error": 0.34110511973924296,
+      "median_relative_l2_reconstruction_error": 0.34675088888086647,
+      "min_relative_l2_reconstruction_error": 0.3064215437021843,
+      "max_relative_l2_reconstruction_error": 0.3706947431034953,
+      "mean_rank_retained_upper_fraction": 0.9133797962778586,
+      "all_groups_rank_loss": true
+    },
+    {
+      "config_id": "v2_ratio0p9_eta0p01",
+      "groups": 8,
+      "compression_ratio": 0.9,
+      "quantization_eta": 0.01,
+      "mean_relative_l2_reconstruction_error": 0.3411692091821453,
+      "median_relative_l2_reconstruction_error": 0.3468108113248103,
+      "min_relative_l2_reconstruction_error": 0.3064500996783639,
+      "max_relative_l2_reconstruction_error": 0.370708237143045,
+      "mean_rank_retained_upper_fraction": 0.9133797962778586,
+      "all_groups_rank_loss": true
+    },
+    {
+      "config_id": "v2_ratio0p9_eta0p02",
+      "groups": 8,
+      "compression_ratio": 0.9,
+      "quantization_eta": 0.02,
+      "mean_relative_l2_reconstruction_error": 0.3412551066367909,
+      "median_relative_l2_reconstruction_error": 0.3468968912591794,
+      "min_relative_l2_reconstruction_error": 0.3065810627373346,
+      "max_relative_l2_reconstruction_error": 0.3706909236928183,
+      "mean_rank_retained_upper_fraction": 0.9133797962778586,
+      "all_groups_rank_loss": true
+    }
+  ],
+  "gate": {
+    "rank_loss_observed": true,
+    "known_seed_reconstruction_error_exceeds_v1": true,
+    "pass": true
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "target_file": "development_gate_targets.pt",
+  "groups": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "defense": "dna_transform_v2_iht_compressed_sensing",
+  "diagnostic": "final development-only IHT compressed-sensing attacker for DNA Transform v2",
+  "amendment": "protocols/amendments/2026-09-16_dna_transform_v2_final_compressed_sensing_attacker.md",
+  "v2_config": {
+    "compression_ratio": 0.95,
+    "quantization_eta": 0.01,
+    "seed": 20260916
+  },
+  "sparsity_fraction": 0.05,
+  "iht_iterations": 80,
+  "iht_step_size": 1.0,
+  "restarts": 4,
+  "iterations": 600,
+  "attack_lr": 0.1,
+  "nonnegative_lambda": 0.001,
+  "selection_formula": "IHT sparse update reconstruction from q_obs, then argmin_x L_balanced(delta(x), u_iht)",
+  "group_summary": [
+    {
+      "group_id": 0,
+      "n_baseline_restarts": 4,
+      "objective_best_restart": 1,
+      "objective_best_objective": 1.168489694595337,
+      "objective_best_fraud_mse": 14.795256938687647,
+      "objective_best_non_fraud_mse": 26.943582610695206,
+      "prior_fraud_mse_mean": 95.00780544820431,
+      "zero_objective_best_fraud_mse": 53.580860352338796,
+      "objective_minus_prior_fraud_mse": -80.21254850951667,
+      "objective_minus_zero_fraud_mse": -38.785603413651145,
+      "max_balance_residual_raw": 0.2409558962099254,
+      "mean_iht_final_residual_l2": 1.7469459147900253
+    },
+    {
+      "group_id": 1,
+      "n_baseline_restarts": 4,
+      "objective_best_restart": 2,
+      "objective_best_objective": 1.1697919368743896,
+      "objective_best_fraud_mse": 8.636702963755743,
+      "objective_best_non_fraud_mse": 8.653978141941398,
+      "prior_fraud_mse_mean": 133.77023027231172,
+      "zero_objective_best_fraud_mse": 261.2340323577069,
+      "objective_minus_prior_fraud_mse": -125.13352730855598,
+      "objective_minus_zero_fraud_mse": -252.59732939395116,
+      "max_balance_residual_raw": 0.30449249036610126,
+      "mean_iht_final_residual_l2": 1.843742661396235
+    },
+    {
+      "group_id": 2,
+      "n_baseline_restarts": 4,
+      "objective_best_restart": 2,
+      "objective_best_objective": 1.1207011938095093,
+      "objective_best_fraud_mse": 9428.430884207273,
+      "objective_best_non_fraud_mse": 35.03662682681736,
+      "prior_fraud_mse_mean": 15599.225003743762,
+      "zero_objective_best_fraud_mse": 11468.552597289345,
+      "objective_minus_prior_fraud_mse": -6170.794119536489,
+      "objective_minus_zero_fraud_mse": -2040.1217130820714,
+      "max_balance_residual_raw": 0.36619175132364035,
+      "mean_iht_final_residual_l2": 88.72695649119335
+    },
+    {
+      "group_id": 3,
+      "n_baseline_restarts": 4,
+      "objective_best_restart": 3,
+      "objective_best_objective": 1.3736603260040283,
+      "objective_best_fraud_mse": 51.63591228453746,
+      "objective_best_non_fraud_mse": 83.66619048604882,
+      "prior_fraud_mse_mean": 31.19303597529408,
+      "zero_objective_best_fraud_mse": 74.14909271077501,
+      "objective_minus_prior_fraud_mse": 20.44287630924338,
+      "objective_minus_zero_fraud_mse": -22.513180426237547,
+      "max_balance_residual_raw": 0.22701624408364296,
+      "mean_iht_final_residual_l2": 1.3056149625900102
+    },
+    {
+      "group_id": 4,
+      "n_baseline_restarts": 4,
+      "objective_best_restart": 2,
+      "objective_best_objective": 1.2414445877075195,
+      "objective_best_fraud_mse": 91.4756260658969,
+      "objective_best_non_fraud_mse": 32.11768338183294,
+      "prior_fraud_mse_mean": 44.940148575421716,
+      "zero_objective_best_fraud_mse": 9.936300889615548,
+      "objective_minus_prior_fraud_mse": 46.53547749047519,
+      "objective_minus_zero_fraud_mse": 81.53932517628135,
+      "max_balance_residual_raw": 0.21237638825550675,
+      "mean_iht_final_residual_l2": 2.174704229613916
+    },
+    {
+      "group_id": 5,
+      "n_baseline_restarts": 4,
+      "objective_best_restart": 0,
+      "objective_best_objective": 1.1883413791656494,
+      "objective_best_fraud_mse": 44.22609730536932,
+      "objective_best_non_fraud_mse": 38.97676522242217,
+      "prior_fraud_mse_mean": 6.912285199841572,
+      "zero_objective_best_fraud_mse": 28.70454389307454,
+      "objective_minus_prior_fraud_mse": 37.31381210552775,
+      "objective_minus_zero_fraud_mse": 15.521553412294782,
+      "max_balance_residual_raw": 0.3359401049092412,
+      "mean_iht_final_residual_l2": 2.077055459307447
+    },
+    {
+      "group_id": 6,
+      "n_baseline_restarts": 4,
+      "objective_best_restart": 3,
+      "objective_best_objective": 1.139870047569275,
+      "objective_best_fraud_mse": 63818.379924562476,
+      "objective_best_non_fraud_mse": 30.47437346051149,
+      "prior_fraud_mse_mean": 76182.34206254198,
+      "zero_objective_best_fraud_mse": 68952.84273189201,
+      "objective_minus_prior_fraud_mse": -12363.962137979506,
+      "objective_minus_zero_fraud_mse": -5134.462807329539,
+      "max_balance_residual_raw": 0.31514946930110455,
+      "mean_iht_final_residual_l2": 425.65938099538226
+    },
+    {
+      "group_id": 7,
+      "n_baseline_restarts": 4,
+      "objective_best_restart": 3,
+      "objective_best_objective": 1.290572166442871,
+      "objective_best_fraud_mse": 43.586727780072,
+      "objective_best_non_fraud_mse": 4427.568023456947,
+      "prior_fraud_mse_mean": 36.79031059497837,
+      "zero_objective_best_fraud_mse": 42.496428227888366,
+      "objective_minus_prior_fraud_mse": 6.796417185093631,
+      "objective_minus_zero_fraud_mse": 1.0902995521836374,
+      "max_balance_residual_raw": 0.5156379612162709,
+      "mean_iht_final_residual_l2": 41.669767030800095
+    }
+  ],
+  "target_gate": {
+    "prior": {
+      "n": 8,
+      "wins": 4,
+      "mean_difference": -2328.626718780466,
+      "median_difference": -36.70806566221152,
+      "one_sided_sign_p": 0.63671875,
+      "gate": false
+    },
+    "zero": {
+      "n": 8,
+      "wins": 5,
+      "mean_difference": -923.7911819380863,
+      "median_difference": -30.649391919944346,
+      "one_sided_sign_p": 0.36328125,
+      "gate": false
+    },
+    "gate": false
+  },
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b"
+}

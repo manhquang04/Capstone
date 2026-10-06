@@ -1,0 +1,56 @@
+{
+  "attack_lr": 0.05,
+  "cells": [
+    "v1_medium__GEN_RAW_LIFT"
+  ],
+  "cells_summary": {
+    "v1_medium__GEN_RAW_LIFT": {
+      "gate": {
+        "overall": false,
+        "prior": {
+          "mean_difference": -1.1366668117851475e-07,
+          "median_difference": -1.1366668117851475e-07,
+          "non_ties": 1,
+          "one_sided_exact_sign_p": 0.5,
+          "pass": false,
+          "wins": 1
+        },
+        "zero": {
+          "mean_difference": 1.80470560107171e-07,
+          "median_difference": 1.80470560107171e-07,
+          "non_ties": 1,
+          "one_sided_exact_sign_p": 1.0,
+          "pass": false,
+          "wins": 0
+        }
+      },
+      "selected": [
+        {
+          "baseline_minus_prior": -1.1366668117851475e-07,
+          "baseline_minus_zero": 1.80470560107171e-07,
+          "baseline_mse": 0.1478492798079176,
+          "baseline_psnr": 8.301807866347122,
+          "baseline_restart": 0,
+          "baseline_ssim": 0.0018438514593691689,
+          "group": 0,
+          "prior_mse": 0.14784939347459877,
+          "zero_mse": 0.1478490993373575,
+          "zero_restart": 0
+        }
+      ]
+    }
+  },
+  "completed_jobs": 1,
+  "config": "protocols/config/rq1_image_domain_pre_pilot.yaml",
+  "created_at": "2026-09-16T18:29:06.502678+00:00",
+  "development_only": true,
+  "failed_jobs": 0,
+  "groups": 1,
+  "iterations": 1,
+  "jobs": 1,
+  "local_lr": 0.01,
+  "restarts": 1,
+  "target": "artifacts/priority7_image_domain/minimal_scope1_targets_20260917/cifar10_priority7_targets.pt",
+  "target_sha256": "60a129d35913fc2a10b7d4aac4d941dcc2a2d42e077450da8b29d937ad834f92",
+  "torch_num_threads": 1
+}

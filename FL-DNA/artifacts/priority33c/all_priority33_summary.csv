@@ -1,0 +1,27 @@
+priority,dataset,method,comparator,status,metric,median_dna,median_comparator,delta,interval,reason
+33a,ieee_cis,dna_v1_conservative,distortion,NOT_ASSESSABLE,batch_mean_standardized_MSE,,,,,Unprotected batch-mean qualification n8 failed
+33a,ieee_cis,dna_v1_conservative,utility,NOT_ASSESSABLE,batch_mean_standardized_MSE,,,,,Unprotected batch-mean qualification n8 failed
+33a,ieee_cis,dna_v2_0p95,distortion,NOT_ASSESSABLE,batch_mean_standardized_MSE,,,,,Unprotected batch-mean qualification n8 failed
+33a,ieee_cis,dna_v2_0p95,utility,NOT_ASSESSABLE,batch_mean_standardized_MSE,,,,,Unprotected batch-mean qualification n8 failed
+33a,baf,dna_v1_conservative,distortion,VALID,batch_mean_standardized_MSE,18.471631957349977,36.63756207128195,-23.85029707665918,"[-33.030458596365996, -13.017699350634839]",
+33a,baf,dna_v1_conservative,utility,NOT_ASSESSABLE,batch_mean_standardized_MSE,,,,,Required full-state CPU transform violates BN/finite training gate
+33a,baf,dna_v2_0p95,distortion,VALID,batch_mean_standardized_MSE,0.04499028348398336,152.96437675762394,-152.90374438727068,"[-182.61600155519366, -104.01579599771509]",
+33a,baf,dna_v2_0p95,utility,NOT_ASSESSABLE,batch_mean_standardized_MSE,,,,,Required full-state CPU transform violates BN/finite training gate
+33b,ieee_cis,dna_v1_conservative,distortion,NOT_ASSESSABLE,record_feature_accuracy,,,,,qualification failed
+33b,ieee_cis,dna_v1_conservative,utility,NOT_ASSESSABLE,record_feature_accuracy,,,,,qualification failed
+33b,ieee_cis,dna_v2_0p95,distortion,NOT_ASSESSABLE,record_feature_accuracy,,,,,qualification failed
+33b,ieee_cis,dna_v2_0p95,utility,NOT_ASSESSABLE,record_feature_accuracy,,,,,qualification failed
+33b,baf,dna_v1_conservative,distortion,NOT_ASSESSABLE,record_feature_accuracy,,,,,qualification failed
+33b,baf,dna_v1_conservative,utility,NOT_ASSESSABLE,record_feature_accuracy,,,,,qualification failed
+33b,baf,dna_v2_0p95,distortion,NOT_ASSESSABLE,record_feature_accuracy,,,,,qualification failed
+33b,baf,dna_v2_0p95,utility,NOT_ASSESSABLE,record_feature_accuracy,,,,,qualification failed
+33c,CIFAR10,C1::dna_v1_medium::unprotected::DNA_stronger,unprotected,VALID,PSNR,23.503469463571736,23.72549903297637,-0.19327655661342646,"[-0.32491323747662193, -0.08571669343453792]",
+33c,CIFAR10,C1::dna_v1_medium::distortion::DNA_stronger,distortion,VALID,PSNR,23.503469463571736,23.573704168952162,0.08175329550889643,"[-0.05826125369505064, 0.15434930903880684]",
+33c,CIFAR10,C1::dna_v1_medium::single::DNA_stronger,single,VALID,PSNR,23.503469463571736,23.28442018588712,0.30833209037709963,"[0.18907670548800226, 0.42771544920377025]",
+33c,CIFAR10,C1::dna_v1_stronger::unprotected::DNA_stronger,unprotected,VALID,PSNR,23.348872516243095,23.72549903297637,-0.26452567205406297,"[-0.4375528727790936, -0.16214587734307173]",
+33c,CIFAR10,C1::dna_v1_stronger::distortion::DNA_stronger,distortion,VALID,PSNR,23.348872516243095,23.22943130932852,0.13771827374510792,"[-0.06369356318401742, 0.25203519461067003]",
+33c,CIFAR10,C1::dna_v1_stronger::single::DNA_stronger,single,VALID,PSNR,23.348872516243095,23.34960280511413,0.13495845985803356,"[0.018970580057061426, 0.24278355633781246]",
+33c,CIFAR10,D::image::dna_v1_conservative::per_tensor::DNA_stronger,per_tensor,VALID,PSNR,23.633492817942297,18.55080998906486,4.9379313264197755,"[4.366026281321062, 6.62183329708083]",
+33c,PaySim,D::PaySim::dna_v1_conservative::per_tensor::DNA_stronger,per_tensor,NOT_ASSESSABLE,,,,,"[None, None]",no BN-valid full-state CPU utility target and bracketed comparator
+33c,CIFAR10,D::image::dna_v2_0p95::per_tensor::DNA_stronger,per_tensor,VALID,PSNR,23.73199176519156,18.528448348346753,5.097837813135911,"[4.5171059635766895, 6.45825863812691]",
+33c,PaySim,D::PaySim::dna_v2_0p95::per_tensor::DNA_stronger,per_tensor,NOT_ASSESSABLE,,,,,"[None, None]",no BN-valid full-state CPU utility target and bracketed comparator

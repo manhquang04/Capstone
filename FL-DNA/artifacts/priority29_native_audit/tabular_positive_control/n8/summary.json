@@ -1,0 +1,137 @@
+{
+  "priority": 29,
+  "stage": "n8",
+  "n": 8,
+  "dataset": "Adult native TabLeak",
+  "batch_size": 8,
+  "target_batches": [
+    [
+      2800,
+      11883,
+      26097,
+      20699,
+      1528,
+      16579,
+      27165,
+      8777
+    ],
+    [
+      10130,
+      11933,
+      5514,
+      6111,
+      18237,
+      18448,
+      13523,
+      3706
+    ],
+    [
+      26776,
+      22059,
+      2777,
+      25979,
+      3430,
+      9950,
+      23573,
+      18822
+    ],
+    [
+      9261,
+      16309,
+      19924,
+      13787,
+      10809,
+      19752,
+      20164,
+      2513
+    ],
+    [
+      21790,
+      26107,
+      15952,
+      12762,
+      20571,
+      8895,
+      10867,
+      21892
+    ],
+    [
+      23327,
+      1332,
+      10499,
+      11959,
+      23104,
+      26228,
+      27875,
+      3475
+    ],
+    [
+      14931,
+      18348,
+      9114,
+      210,
+      25867,
+      24034,
+      19476,
+      10632
+    ],
+    [
+      5446,
+      1142,
+      20051,
+      29353,
+      29970,
+      17774,
+      5458,
+      9318
+    ]
+  ],
+  "source_disjoint_evidence": {
+    "within_stage_unique_rows": true,
+    "stage_offsets": {
+      "n8": 0,
+      "n24": 2000,
+      "confirmatory": 6000
+    }
+  },
+  "summary": {
+    "mean_mode": {
+      "wins": 8,
+      "losses": 0,
+      "ties": 0,
+      "one_sided_exact_p": 0.00390625
+    },
+    "empirical_marginal_mean": {
+      "wins": 8,
+      "losses": 0,
+      "ties": 0,
+      "one_sided_exact_p": 0.00390625
+    }
+  },
+  "config": {
+    "reconstruction_loss": "cosine_sim",
+    "initialization_mode": "uniform",
+    "learning_rates": 0.06,
+    "priors": null,
+    "max_iterations": 1500,
+    "optimization_mode": "naive",
+    "refill": "fuzzy",
+    "post_selection": 30,
+    "return_all": true,
+    "sign_trick": true,
+    "weight_trick": false,
+    "softmax_trick": true,
+    "gumbel_softmax_trick": false,
+    "temperature_mode": "constant",
+    "pooling": "median+softmax",
+    "perfect_pooling": false,
+    "device": "cpu",
+    "sigmoid_trick": true,
+    "return_all_reconstruction_losses": true
+  },
+  "elapsed_seconds": 727.5240905840183,
+  "threads": 1,
+  "outputs": {
+    "per_target_csv": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/artifacts/priority29_native_audit/tabular_positive_control/n8/per_target.csv"
+  }
+}

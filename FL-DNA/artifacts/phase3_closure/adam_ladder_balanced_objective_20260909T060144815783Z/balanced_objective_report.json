@@ -1,0 +1,154 @@
+{
+  "status": "BALANCED_OBJECTIVE_GATE_FAILED",
+  "protocol": {
+    "source_run": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/artifacts/phase3_closure/adam_ladder_v2",
+    "source_protocol_sha256": "13baf20ab9982104e8c4725c87db7bafbb649a077526e0dd5a31c9e7cc14378f",
+    "source_confirmation_targets_sha256": "9353459b9d4b5a4b1cf4ad3e5b898fc741828a18abf601044a77af5780f76a57",
+    "run_seed": 508535908,
+    "records_per_group": 4,
+    "fraud_per_group": 1,
+    "batch_size": 4,
+    "confirmation_groups": 10,
+    "iterations": 300,
+    "restarts": 3,
+    "attack_lr": 0.1,
+    "objective_mode": "balanced_tensor",
+    "purpose": "Rerun old 4-record/1-step Adam confirmation targets after replacing flattened cosine/magnitude with equal per-tensor normalized objective."
+  },
+  "tensor_norm_diagnostic": {
+    "running_buffer_norm": 391.40341529551165,
+    "param_like_norm": 0.10034146812531101,
+    "running_buffer_to_param_like_norm_ratio": 3900.7144564270193,
+    "largest_tensor": {
+      "tensor": "network.1.running_var",
+      "numel": 128,
+      "norm": 391.29803466796875,
+      "max_abs": 84.30064392089844,
+      "mse_to_zero": 1196.2042236328125,
+      "is_running_buffer": true
+    }
+  },
+  "confirmation": {
+    "prior": {
+      "n": 10,
+      "wins": 9,
+      "non_ties": 10,
+      "mean_difference": -12.647372842060156,
+      "median_difference": -5.4319308999054385,
+      "one_sided_sign_p": 0.0107421875,
+      "gate": true
+    },
+    "zero": {
+      "n": 10,
+      "wins": 6,
+      "non_ties": 10,
+      "mean_difference": -12.656905635469816,
+      "median_difference": -1.973405050797153,
+      "one_sided_sign_p": 0.376953125,
+      "gate": false
+    }
+  },
+  "selected_confirmation": [
+    {
+      "group_id": 0,
+      "baseline_restart": 2,
+      "zero_restart": 1,
+      "baseline_mse": 767.4069659013666,
+      "prior_mse": 770.5499096141907,
+      "zero_mse": 801.8898179652616,
+      "baseline_minus_prior": -3.142943712824149,
+      "baseline_minus_zero": -34.48285206389505
+    },
+    {
+      "group_id": 1,
+      "baseline_restart": 2,
+      "zero_restart": 1,
+      "baseline_mse": 793.5282537886927,
+      "prior_mse": 797.4225705748191,
+      "zero_mse": 782.5333011995966,
+      "baseline_minus_prior": -3.89431678612641,
+      "baseline_minus_zero": 10.994952589096101
+    },
+    {
+      "group_id": 2,
+      "baseline_restart": 0,
+      "zero_restart": 2,
+      "baseline_mse": 117.10980778102982,
+      "prior_mse": 126.43062016130591,
+      "zero_mse": 118.84218690300493,
+      "baseline_minus_prior": -9.320812380276095,
+      "baseline_minus_zero": -1.7323791219751143
+    },
+    {
+      "group_id": 3,
+      "baseline_restart": 2,
+      "zero_restart": 1,
+      "baseline_mse": 121.390423105863,
+      "prior_mse": 142.1051820383952,
+      "zero_mse": 146.16458076609734,
+      "baseline_minus_prior": -20.71475893253222,
+      "baseline_minus_zero": -24.77415766023435
+    },
+    {
+      "group_id": 4,
+      "baseline_restart": 1,
+      "zero_restart": 1,
+      "baseline_mse": 199.5215942583624,
+      "prior_mse": 197.67205474749537,
+      "zero_mse": 198.3726210597242,
+      "baseline_minus_prior": 1.8495395108670323,
+      "baseline_minus_zero": 1.1489731986382026
+    },
+    {
+      "group_id": 5,
+      "baseline_restart": 0,
+      "zero_restart": 2,
+      "baseline_mse": 2749.211276141334,
+      "prior_mse": 2806.1748368004323,
+      "zero_mse": 2809.4968861204743,
+      "baseline_minus_prior": -56.96356065909822,
+      "baseline_minus_zero": -60.28560997914019
+    },
+    {
+      "group_id": 6,
+      "baseline_restart": 0,
+      "zero_restart": 2,
+      "baseline_mse": 1657.7009293554343,
+      "prior_mse": 1683.5580710078168,
+      "zero_mse": 1677.020027498718,
+      "baseline_minus_prior": -25.857141652382552,
+      "baseline_minus_zero": -19.31909814328378
+    },
+    {
+      "group_id": 7,
+      "baseline_restart": 0,
+      "zero_restart": 1,
+      "baseline_mse": 145.4548462522957,
+      "prior_mse": 152.42439126598018,
+      "zero_mse": 141.87328553520805,
+      "baseline_minus_prior": -6.969545013684467,
+      "baseline_minus_zero": 3.5815607170876547
+    },
+    {
+      "group_id": 8,
+      "baseline_restart": 0,
+      "zero_restart": 0,
+      "baseline_mse": 2.4807559486757005,
+      "prior_mse": 2.9940279378391867,
+      "zero_mse": 4.695186928294892,
+      "baseline_minus_prior": -0.5132719891634863,
+      "baseline_minus_zero": -2.2144309796191917
+    },
+    {
+      "group_id": 9,
+      "baseline_restart": 2,
+      "zero_restart": 2,
+      "baseline_mse": 25.595278040510244,
+      "prior_mse": 26.542194845891245,
+      "zero_mse": 25.081292951882673,
+      "baseline_minus_prior": -0.9469168053810009,
+      "baseline_minus_zero": 0.513985088627571
+    }
+  ],
+  "elapsed_seconds": 82.04764175000001
+}

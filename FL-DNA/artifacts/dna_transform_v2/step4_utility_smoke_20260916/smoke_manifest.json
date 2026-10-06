@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-16T04:25:36.783723+00:00",
+  "scope": "DNA Transform v2 Step 4 development-scale utility smoke; not confirmatory; no attack",
+  "seeds": [
+    101,
+    202,
+    303
+  ],
+  "max_rows": 100000,
+  "num_rounds": 10,
+  "num_clients": 3,
+  "methods": [
+    {
+      "method": "baseline",
+      "script": "experiments/run_fraud_fl_baseline.py",
+      "output_var": "BASELINE_OUTPUT_PATH"
+    },
+    {
+      "method": "v2_ratio0p95_eta0p01",
+      "script": "experiments/run_fraud_fl_dna_transform_v2.py",
+      "output_var": "DNA_TRANSFORM_V2_OUTPUT_PATH",
+      "compression_ratio": 0.95,
+      "quantization_eta": 0.01
+    },
+    {
+      "method": "v2_ratio0p9_eta0p01",
+      "script": "experiments/run_fraud_fl_dna_transform_v2.py",
+      "output_var": "DNA_TRANSFORM_V2_OUTPUT_PATH",
+      "compression_ratio": 0.9,
+      "quantization_eta": 0.01
+    }
+  ],
+  "utility_collapse_rule": "if v2 F1/AUC is materially lower than paired baseline, stop before Step 5 security calibration",
+  "jobs": [
+    {
+      "seed": 101,
+      "method": "baseline",
+      "script": "experiments/run_fraud_fl_baseline.py",
+      "output_var": "BASELINE_OUTPUT_PATH"
+    },
+    {
+      "seed": 101,
+      "method": "v2_ratio0p95_eta0p01",
+      "script": "experiments/run_fraud_fl_dna_transform_v2.py",
+      "output_var": "DNA_TRANSFORM_V2_OUTPUT_PATH",
+      "compression_ratio": 0.95,
+      "quantization_eta": 0.01
+    },
+    {
+      "seed": 101,
+      "method": "v2_ratio0p9_eta0p01",
+      "script": "experiments/run_fraud_fl_dna_transform_v2.py",
+      "output_var": "DNA_TRANSFORM_V2_OUTPUT_PATH",
+      "compression_ratio": 0.9,
+      "quantization_eta": 0.01
+    },
+    {
+      "seed": 202,
+      "method": "baseline",
+      "script": "experiments/run_fraud_fl_baseline.py",
+      "output_var": "BASELINE_OUTPUT_PATH"
+    },
+    {
+      "seed": 202,
+      "method": "v2_ratio0p95_eta0p01",
+      "script": "experiments/run_fraud_fl_dna_transform_v2.py",
+      "output_var": "DNA_TRANSFORM_V2_OUTPUT_PATH",
+      "compression_ratio": 0.95,
+      "quantization_eta": 0.01
+    },
+    {
+      "seed": 202,
+      "method": "v2_ratio0p9_eta0p01",
+      "script": "experiments/run_fraud_fl_dna_transform_v2.py",
+      "output_var": "DNA_TRANSFORM_V2_OUTPUT_PATH",
+      "compression_ratio": 0.9,
+      "quantization_eta": 0.01
+    },
+    {
+      "seed": 303,
+      "method": "baseline",
+      "script": "experiments/run_fraud_fl_baseline.py",
+      "output_var": "BASELINE_OUTPUT_PATH"
+    },
+    {
+      "seed": 303,
+      "method": "v2_ratio0p95_eta0p01",
+      "script": "experiments/run_fraud_fl_dna_transform_v2.py",
+      "output_var": "DNA_TRANSFORM_V2_OUTPUT_PATH",
+      "compression_ratio": 0.95,
+      "quantization_eta": 0.01
+    },
+    {
+      "seed": 303,
+      "method": "v2_ratio0p9_eta0p01",
+      "script": "experiments/run_fraud_fl_dna_transform_v2.py",
+      "output_var": "DNA_TRANSFORM_V2_OUTPUT_PATH",
+      "compression_ratio": 0.9,
+      "quantization_eta": 0.01
+    }
+  ],
+  "code_hashes": {
+    "data/load_creditcard.py": "7de2d3a6d8875ebe24b1561b2e82556b973440f8375fbc3fa7513cdd23329d9a",
+    "experiments/fraud_fl_common.py": "cfe0f18785b96003eaab7fec7bdc62c240217d24f702cae3219a2649a51abe6e",
+    "experiments/run_fraud_fl_baseline.py": "bdfa36bdaee6a28e629a246557e84ec5c59220a9f590d56647a7a05df093d274",
+    "experiments/run_fraud_fl_dna_transform_v2.py": "14cac4d1e45174387f16f322bc929393394e1d998040313bd429a42554770184",
+    "dna_encoder/transform_defense_v2.py": "a73f060b049cbdcf13ffae108e0a6b963aea9f2efabff5fd8f0922bf2878b629"
+  }
+}

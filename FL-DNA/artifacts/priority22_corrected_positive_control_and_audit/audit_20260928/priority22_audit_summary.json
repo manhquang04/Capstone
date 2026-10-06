@@ -1,0 +1,130 @@
+{
+  "cifar": {
+    "attacker_knowledge": "Level 2 / seed-known for v2: candidate uses true v2 base seed plus observed sketch payload containing tensor_index and quantization_delta; sampled/sign pattern derives from fixed seed.",
+    "attacker_knowledge_code": [
+      "experiments/run_priority7_image_domain_gate.py:135-153",
+      "experiments/run_phase4_dna_v2_sketch_space_attack.py:107-147"
+    ],
+    "attacker_objective": "GEN_COSINE_TV minimizes global cosine in defended-update sketch space; selected restart is minimum objective",
+    "attacker_objective_code": [
+      "experiments/run_priority7_image_domain_gate.py:210-218",
+      "experiments/run_priority7_image_domain_gate.py:323-346",
+      "experiments/run_priority7_image_domain_gate.py:391-394"
+    ],
+    "controls": "Prior is sigmoid(random initial_logits) using the same init family as the attack restarts. Zero-update starts from the same initial logits per restart and optimizes against zero defended-signal. _evaluate averages prior MSE over baseline restarts, rather than using only the selected baseline restart's prior.",
+    "controls_code": [
+      "experiments/run_priority7_image_domain_gate.py:316-325",
+      "experiments/run_priority7_image_domain_gate.py:391-396"
+    ],
+    "gate": {
+      "overall": true,
+      "prior": {
+        "mean_difference": -0.016728334032770006,
+        "median_difference": -0.01743950903657228,
+        "non_ties": 39,
+        "one_sided_exact_sign_p": 1.8189894035458565e-12,
+        "pass": true,
+        "wins": 39
+      },
+      "zero": {
+        "mean_difference": -0.01637854046236111,
+        "median_difference": -0.01695496904062306,
+        "non_ties": 39,
+        "one_sided_exact_sign_p": 1.8189894035458565e-12,
+        "pass": true,
+        "wins": 39
+      }
+    },
+    "mechanical_floor_or_asymmetry": "No DP-style branch noise floor exists. Baseline and zero controls use the same candidate defended transform; the main asymmetry is that v2 is evaluated seed-known.",
+    "metric_space": "input-image space image_mse; _score computes MSE/PSNR/SSIM and _evaluate gates on baseline_mse-prior_mse and baseline_mse-zero_mse",
+    "report": "artifacts/priority7_image_domain/confirmatory_v2_cosine_gate_20260917/priority7_image_gate_report.json",
+    "report_sha256": "fd7befa0647ad0589e11d0b38c0214db02b1983b321d595504bd6366eacd634e",
+    "selected_summary": {
+      "baseline_mse": {
+        "max": 0.13785101331543648,
+        "mean": 0.09188906683849066,
+        "median": 0.08940962133499841,
+        "min": 0.06706405517421918,
+        "sd": 0.017033546206892656
+      },
+      "baseline_psnr": {
+        "max": 11.921776319136882,
+        "mean": 10.609906735166362,
+        "median": 10.571911472447233,
+        "min": 8.908478232754426,
+        "sd": 0.770395894716736
+      },
+      "prior_mse": {
+        "max": 0.15638658792956156,
+        "mean": 0.10861740087126066,
+        "median": 0.10649155890247139,
+        "min": 0.08629303699175542,
+        "sd": 0.01560705259798446
+      },
+      "zero_mse": {
+        "max": 0.1549106422810303,
+        "mean": 0.10826760730085179,
+        "median": 0.10604233547192769,
+        "min": 0.08574016811237063,
+        "sd": 0.01550076814940999
+      }
+    },
+    "win_formula_code": [
+      "experiments/run_priority7_image_domain_gate.py:370-379",
+      "experiments/run_priority7_image_domain_gate.py:387-430"
+    ]
+  },
+  "created_at": "2026-09-28T14:00:02.699105+00:00",
+  "tabular_gates": [
+    {
+      "attacker_init_lr": "same initial tensor as Prior; Adam lr=0.1; 601 evaluations",
+      "code": "experiments/run_priority6_sota_style_attackers.py:356-423 and :522-558",
+      "examples": "Priority 6 PaySim v1-medium; Priority 9 v1-stronger/v1-conservative development/confirmatory",
+      "family": "Priority 6/9 PaySim GEN_IDLG_STYLE/GEN_COSINE_TV attacker-vs-control gates",
+      "flag": "valid same-init gate design, but historical results may still be affected by other previously documented contamination unless rerun under corrected-vector pipeline",
+      "metric_space": "input-space PaySim fraud-class mean MSE (`classes['1']['mean_mse']`)",
+      "prior_init_mode": "standard hard-diff latent init",
+      "same_init_as_prior": true
+    },
+    {
+      "attacker_init_lr": "same numeric/categorical/label initial state as Prior; Adam lr=0.05; 301 evaluations",
+      "code": "experiments/run_priority6_sota_style_attackers.py:427-515 and :522-558",
+      "examples": "Priority 6 IEEE-CIS v2 ratio0.95/eta0.01 confirmatory",
+      "family": "Priority 6 IEEE-CIS GEN_COSINE_TV attacker-vs-control gates",
+      "flag": "valid same-init gate design, but historical result was later questioned by corrected-vector development gate; interpret with its own reports",
+      "metric_space": "input-space IEEE feature mean MSE",
+      "prior_init_mode": "IEEE numeric/categorical/label latent init from `init_ieee`",
+      "same_init_as_prior": true
+    },
+    {
+      "attacker_init_lr": "same initial tensor as Prior; branch-specific Adam lr/iterations from config",
+      "code": "experiments/run_phase4_harddiff_reparam_for_misselected.py:176-215; experiments/run_phase4_dna_level1_forward_attack.py:118-160; experiments/run_phase4_simple_defense_attack.py:339-378; experiments/analyze_rq1_variant_confirmatory.py:41-68",
+      "examples": "RQ1 primary, Group 2/3, Priority 2 clean confirmatory branch gates",
+      "family": "Legacy Phase-4/RQ1 variant confirmatory gates",
+      "flag": "same-init Prior design; many legacy gates are contaminated by the separate BN-buffer issue documented in Priority 11",
+      "metric_space": "PaySim fraud-class MSE / reconstruction metrics from selected artifacts",
+      "prior_init_mode": "standard hard-diff init in command wrappers; branch scripts compute Prior from the same initial tensor",
+      "same_init_as_prior": true
+    },
+    {
+      "attacker_init_lr": "standard init; Adam lr=0.1; 601 evaluations",
+      "code": "experiments/priority16_v1_medium_dna_vs_dp_probe.py:137-175; reports/priority21_head_to_head_metric_validity_report_20260928.md",
+      "examples": "v1 stronger/medium/v2 DP-vs-DNA",
+      "family": "Priority 14/16/20 DP-vs-transform head-to-head",
+      "flag": "not a valid Prior/Zero gate; P21 showed update-space D dominated by DP floor and input-space comparison does not support DP wins",
+      "metric_space": "not attacker-vs-Prior/Zero gate; original D was update-space defended residual",
+      "prior_init_mode": "not applicable for published D; P21 re-analysis compared saved branch reconstructions against their own initial tensors",
+      "same_init_as_prior": null
+    },
+    {
+      "attacker_init_lr": "plausible init + Adam lr=0.08",
+      "code": "experiments/priority21_metric_validity.py prior invalid version",
+      "examples": "none vs Prior/Zero from P21 Step 4",
+      "family": "Priority 21 positive control (invalidated)",
+      "flag": "invalid because it does not match P16 init/lr; superseded by Priority 22 corrected positive control",
+      "metric_space": "input-space mean MSE",
+      "prior_init_mode": "plausible init, not matching P16",
+      "same_init_as_prior": true
+    }
+  ]
+}

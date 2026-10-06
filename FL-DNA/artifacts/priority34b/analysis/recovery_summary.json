@@ -1,0 +1,712 @@
+{
+  "arm_medians": [
+    {
+      "arm": "unprotected",
+      "median": 23.978546536306176,
+      "metric": "psnr_db",
+      "n": 39,
+      "order_interval": [
+        22.968393698015035,
+        26.327320032879953
+      ]
+    },
+    {
+      "arm": "unprotected",
+      "median": 0.86907958984375,
+      "metric": "ssim",
+      "n": 39,
+      "order_interval": [
+        0.8405165076255798,
+        0.8828274607658386
+      ]
+    },
+    {
+      "arm": "unprotected",
+      "median": 0.004000786226242781,
+      "metric": "mse",
+      "n": 39,
+      "order_interval": [
+        0.002329528331756592,
+        0.0050484798848629
+      ]
+    },
+    {
+      "arm": "dna_v1_conservative",
+      "median": 23.814138621354346,
+      "metric": "psnr_db",
+      "n": 39,
+      "order_interval": [
+        22.744832841727643,
+        26.24625882863047
+      ]
+    },
+    {
+      "arm": "dna_v1_conservative",
+      "median": 0.8612689971923828,
+      "metric": "ssim",
+      "n": 39,
+      "order_interval": [
+        0.8394004702568054,
+        0.8784525990486145
+      ]
+    },
+    {
+      "arm": "dna_v1_conservative",
+      "median": 0.004155144561082125,
+      "metric": "mse",
+      "n": 39,
+      "order_interval": [
+        0.0023734173737466335,
+        0.005315164569765329
+      ]
+    },
+    {
+      "arm": "dna_v2_0p95",
+      "median": 24.066783319543198,
+      "metric": "psnr_db",
+      "n": 39,
+      "order_interval": [
+        23.0711105188564,
+        26.209577059216258
+      ]
+    },
+    {
+      "arm": "dna_v2_0p95",
+      "median": 0.8653297424316406,
+      "metric": "ssim",
+      "n": 39,
+      "order_interval": [
+        0.8422365188598633,
+        0.8821175694465637
+      ]
+    },
+    {
+      "arm": "dna_v2_0p95",
+      "median": 0.003920321352779865,
+      "metric": "mse",
+      "n": 39,
+      "order_interval": [
+        0.0023935488425195217,
+        0.004930477123707533
+      ]
+    },
+    {
+      "arm": "dp_global_eps10",
+      "median": 7.285372471212929,
+      "metric": "psnr_db",
+      "n": 39,
+      "order_interval": [
+        7.061061784927575,
+        7.4706424505520985
+      ]
+    },
+    {
+      "arm": "dp_global_eps10",
+      "median": 0.0032960076350718737,
+      "metric": "ssim",
+      "n": 39,
+      "order_interval": [
+        0.0001807257067412138,
+        0.007009059190750122
+      ]
+    },
+    {
+      "arm": "dp_global_eps10",
+      "median": 0.18683694303035736,
+      "metric": "mse",
+      "n": 39,
+      "order_interval": [
+        0.17903409898281097,
+        0.19674052298069
+      ]
+    },
+    {
+      "arm": "dp_per_tensor_eps10",
+      "median": 7.244022043809542,
+      "metric": "psnr_db",
+      "n": 39,
+      "order_interval": [
+        7.0754155492588975,
+        7.458344697441555
+      ]
+    },
+    {
+      "arm": "dp_per_tensor_eps10",
+      "median": 0.009615059942007065,
+      "metric": "ssim",
+      "n": 39,
+      "order_interval": [
+        0.0033124834299087524,
+        0.014147507958114147
+      ]
+    },
+    {
+      "arm": "dp_per_tensor_eps10",
+      "median": 0.18862436711788177,
+      "metric": "mse",
+      "n": 39,
+      "order_interval": [
+        0.17954178154468536,
+        0.19609135389328003
+      ]
+    }
+  ],
+  "family": 24,
+  "gates": {
+    "dna_v1_conservative/cifar_mean": {
+      "effective_n": 39,
+      "losses": 0,
+      "median_effect": 10.597429246302369,
+      "order_interval": [
+        9.738584157203231,
+        11.7707515638157
+      ],
+      "raw_p": 1.8189894035458565e-12,
+      "ties": 0,
+      "wins": 39
+    },
+    "dna_v1_conservative/gray": {
+      "effective_n": 39,
+      "losses": 0,
+      "median_effect": 11.225317355180753,
+      "order_interval": [
+        9.952944055077266,
+        12.238615223573849
+      ],
+      "raw_p": 1.8189894035458565e-12,
+      "ties": 0,
+      "wins": 39
+    },
+    "dna_v2_0p95/cifar_mean": {
+      "effective_n": 39,
+      "losses": 0,
+      "median_effect": 10.690720043421724,
+      "order_interval": [
+        9.803691199862776,
+        11.850889070483229
+      ],
+      "raw_p": 1.8189894035458565e-12,
+      "ties": 0,
+      "wins": 39
+    },
+    "dna_v2_0p95/gray": {
+      "effective_n": 39,
+      "losses": 0,
+      "median_effect": 11.204899985831915,
+      "order_interval": [
+        9.955711662364052,
+        12.27328306506024
+      ],
+      "raw_p": 1.8189894035458565e-12,
+      "ties": 0,
+      "wins": 39
+    },
+    "dp_global_eps10/cifar_mean": {
+      "effective_n": 39,
+      "losses": 39,
+      "median_effect": -5.963475666974995,
+      "order_interval": [
+        -7.08660125973811,
+        -5.239293235684519
+      ],
+      "raw_p": 1.0,
+      "ties": 0,
+      "wins": 0
+    },
+    "dp_global_eps10/gray": {
+      "effective_n": 39,
+      "losses": 39,
+      "median_effect": -5.768761277146795,
+      "order_interval": [
+        -6.63008051047804,
+        -5.303217365664109
+      ],
+      "raw_p": 1.0,
+      "ties": 0,
+      "wins": 0
+    },
+    "dp_per_tensor_eps10/cifar_mean": {
+      "effective_n": 39,
+      "losses": 39,
+      "median_effect": -6.081210524611677,
+      "order_interval": [
+        -7.035143057913155,
+        -5.368310876586475
+      ],
+      "raw_p": 1.0,
+      "ties": 0,
+      "wins": 0
+    },
+    "dp_per_tensor_eps10/gray": {
+      "effective_n": 39,
+      "losses": 39,
+      "median_effect": -5.894167785867634,
+      "order_interval": [
+        -6.705327577329112,
+        -5.284391548808843
+      ],
+      "raw_p": 1.0,
+      "ties": 0,
+      "wins": 0
+    },
+    "unprotected/cifar_mean": {
+      "effective_n": 39,
+      "losses": 0,
+      "median_effect": 10.85441697980264,
+      "order_interval": [
+        9.736020976271067,
+        11.994312420103093
+      ],
+      "raw_p": 1.8189894035458565e-12,
+      "ties": 0,
+      "wins": 39
+    },
+    "unprotected/gray": {
+      "effective_n": 39,
+      "losses": 0,
+      "median_effect": 11.321631504320457,
+      "order_interval": [
+        9.888041438772344,
+        12.437855401197048
+      ],
+      "raw_p": 1.8189894035458565e-12,
+      "ties": 0,
+      "wins": 39
+    }
+  },
+  "qualified": true,
+  "tests": [
+    {
+      "comparator": "dp_global_eps10",
+      "direction": 1,
+      "dna": "dna_v1_conservative",
+      "effective_n": 39,
+      "holm_p": 4.3655745685100555e-11,
+      "losses": 0,
+      "median_effect": 16.7493516298854,
+      "metric": "psnr_db",
+      "order_interval": [
+        16.105901087897543,
+        18.617365143888705
+      ],
+      "raw_p": 1.8189894035458565e-12,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 39
+    },
+    {
+      "comparator": "dp_global_eps10",
+      "direction": -1,
+      "dna": "dna_v1_conservative",
+      "effective_n": 39,
+      "holm_p": 1.0,
+      "losses": 39,
+      "median_effect": 16.7493516298854,
+      "metric": "psnr_db",
+      "order_interval": [
+        16.105901087897543,
+        18.617365143888705
+      ],
+      "raw_p": 1.0,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 0
+    },
+    {
+      "comparator": "dp_global_eps10",
+      "direction": 1,
+      "dna": "dna_v1_conservative",
+      "effective_n": 39,
+      "holm_p": 4.3655745685100555e-11,
+      "losses": 0,
+      "median_effect": 0.8618350513279438,
+      "metric": "ssim",
+      "order_interval": [
+        0.836812686175108,
+        0.8693758547306061
+      ],
+      "raw_p": 1.8189894035458565e-12,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 39
+    },
+    {
+      "comparator": "dp_global_eps10",
+      "direction": -1,
+      "dna": "dna_v1_conservative",
+      "effective_n": 39,
+      "holm_p": 1.0,
+      "losses": 39,
+      "median_effect": 0.8618350513279438,
+      "metric": "ssim",
+      "order_interval": [
+        0.836812686175108,
+        0.8693758547306061
+      ],
+      "raw_p": 1.0,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 0
+    },
+    {
+      "comparator": "dp_global_eps10",
+      "direction": 1,
+      "dna": "dna_v1_conservative",
+      "effective_n": 39,
+      "holm_p": 1.0,
+      "losses": 39,
+      "median_effect": -0.18261480052024126,
+      "metric": "mse",
+      "order_interval": [
+        -0.19018240342848003,
+        -0.17349684052169323
+      ],
+      "raw_p": 1.0,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 0
+    },
+    {
+      "comparator": "dp_global_eps10",
+      "direction": -1,
+      "dna": "dna_v1_conservative",
+      "effective_n": 39,
+      "holm_p": 4.3655745685100555e-11,
+      "losses": 0,
+      "median_effect": -0.18261480052024126,
+      "metric": "mse",
+      "order_interval": [
+        -0.19018240342848003,
+        -0.17349684052169323
+      ],
+      "raw_p": 1.8189894035458565e-12,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 39
+    },
+    {
+      "comparator": "dp_per_tensor_eps10",
+      "direction": 1,
+      "dna": "dna_v1_conservative",
+      "effective_n": 39,
+      "holm_p": 4.3655745685100555e-11,
+      "losses": 0,
+      "median_effect": 16.793815016310074,
+      "metric": "psnr_db",
+      "order_interval": [
+        16.018708651649476,
+        18.6632355328926
+      ],
+      "raw_p": 1.8189894035458565e-12,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 39
+    },
+    {
+      "comparator": "dp_per_tensor_eps10",
+      "direction": -1,
+      "dna": "dna_v1_conservative",
+      "effective_n": 39,
+      "holm_p": 1.0,
+      "losses": 39,
+      "median_effect": 16.793815016310074,
+      "metric": "psnr_db",
+      "order_interval": [
+        16.018708651649476,
+        18.6632355328926
+      ],
+      "raw_p": 1.0,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 0
+    },
+    {
+      "comparator": "dp_per_tensor_eps10",
+      "direction": 1,
+      "dna": "dna_v1_conservative",
+      "effective_n": 39,
+      "holm_p": 4.3655745685100555e-11,
+      "losses": 0,
+      "median_effect": 0.8533723130822182,
+      "metric": "ssim",
+      "order_interval": [
+        0.824445073842071,
+        0.8694383511319757
+      ],
+      "raw_p": 1.8189894035458565e-12,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 39
+    },
+    {
+      "comparator": "dp_per_tensor_eps10",
+      "direction": -1,
+      "dna": "dna_v1_conservative",
+      "effective_n": 39,
+      "holm_p": 1.0,
+      "losses": 39,
+      "median_effect": 0.8533723130822182,
+      "metric": "ssim",
+      "order_interval": [
+        0.824445073842071,
+        0.8694383511319757
+      ],
+      "raw_p": 1.0,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 0
+    },
+    {
+      "comparator": "dp_per_tensor_eps10",
+      "direction": 1,
+      "dna": "dna_v1_conservative",
+      "effective_n": 39,
+      "holm_p": 1.0,
+      "losses": 39,
+      "median_effect": -0.18393981317058206,
+      "metric": "mse",
+      "order_interval": [
+        -0.18935993034392595,
+        -0.1750829826341942
+      ],
+      "raw_p": 1.0,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 0
+    },
+    {
+      "comparator": "dp_per_tensor_eps10",
+      "direction": -1,
+      "dna": "dna_v1_conservative",
+      "effective_n": 39,
+      "holm_p": 4.3655745685100555e-11,
+      "losses": 0,
+      "median_effect": -0.18393981317058206,
+      "metric": "mse",
+      "order_interval": [
+        -0.18935993034392595,
+        -0.1750829826341942
+      ],
+      "raw_p": 1.8189894035458565e-12,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 39
+    },
+    {
+      "comparator": "dp_global_eps10",
+      "direction": 1,
+      "dna": "dna_v2_0p95",
+      "effective_n": 39,
+      "holm_p": 4.3655745685100555e-11,
+      "losses": 0,
+      "median_effect": 17.019105136047717,
+      "metric": "psnr_db",
+      "order_interval": [
+        16.156717260941235,
+        18.545504962188186
+      ],
+      "raw_p": 1.8189894035458565e-12,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 39
+    },
+    {
+      "comparator": "dp_global_eps10",
+      "direction": -1,
+      "dna": "dna_v2_0p95",
+      "effective_n": 39,
+      "holm_p": 1.0,
+      "losses": 39,
+      "median_effect": 17.019105136047717,
+      "metric": "psnr_db",
+      "order_interval": [
+        16.156717260941235,
+        18.545504962188186
+      ],
+      "raw_p": 1.0,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 0
+    },
+    {
+      "comparator": "dp_global_eps10",
+      "direction": 1,
+      "dna": "dna_v2_0p95",
+      "effective_n": 39,
+      "holm_p": 4.3655745685100555e-11,
+      "losses": 0,
+      "median_effect": 0.8632165663875639,
+      "metric": "ssim",
+      "order_interval": [
+        0.8386607957072556,
+        0.873315304517746
+      ],
+      "raw_p": 1.8189894035458565e-12,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 39
+    },
+    {
+      "comparator": "dp_global_eps10",
+      "direction": -1,
+      "dna": "dna_v2_0p95",
+      "effective_n": 39,
+      "holm_p": 1.0,
+      "losses": 39,
+      "median_effect": 0.8632165663875639,
+      "metric": "ssim",
+      "order_interval": [
+        0.8386607957072556,
+        0.873315304517746
+      ],
+      "raw_p": 1.0,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 0
+    },
+    {
+      "comparator": "dp_global_eps10",
+      "direction": 1,
+      "dna": "dna_v2_0p95",
+      "effective_n": 39,
+      "holm_p": 1.0,
+      "losses": 39,
+      "median_effect": -0.18145426060073078,
+      "metric": "mse",
+      "order_interval": [
+        -0.19029048550873995,
+        -0.1735564055852592
+      ],
+      "raw_p": 1.0,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 0
+    },
+    {
+      "comparator": "dp_global_eps10",
+      "direction": -1,
+      "dna": "dna_v2_0p95",
+      "effective_n": 39,
+      "holm_p": 4.3655745685100555e-11,
+      "losses": 0,
+      "median_effect": -0.18145426060073078,
+      "metric": "mse",
+      "order_interval": [
+        -0.19029048550873995,
+        -0.1735564055852592
+      ],
+      "raw_p": 1.8189894035458565e-12,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 39
+    },
+    {
+      "comparator": "dp_per_tensor_eps10",
+      "direction": 1,
+      "dna": "dna_v2_0p95",
+      "effective_n": 39,
+      "holm_p": 4.3655745685100555e-11,
+      "losses": 0,
+      "median_effect": 16.87614164742332,
+      "metric": "psnr_db",
+      "order_interval": [
+        16.15544711759692,
+        18.626553763478384
+      ],
+      "raw_p": 1.8189894035458565e-12,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 39
+    },
+    {
+      "comparator": "dp_per_tensor_eps10",
+      "direction": -1,
+      "dna": "dna_v2_0p95",
+      "effective_n": 39,
+      "holm_p": 1.0,
+      "losses": 39,
+      "median_effect": 16.87614164742332,
+      "metric": "psnr_db",
+      "order_interval": [
+        16.15544711759692,
+        18.626553763478384
+      ],
+      "raw_p": 1.0,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 0
+    },
+    {
+      "comparator": "dp_per_tensor_eps10",
+      "direction": 1,
+      "dna": "dna_v2_0p95",
+      "effective_n": 39,
+      "holm_p": 4.3655745685100555e-11,
+      "losses": 0,
+      "median_effect": 0.8591033592820168,
+      "metric": "ssim",
+      "order_interval": [
+        0.8285973081365228,
+        0.8742763912305236
+      ],
+      "raw_p": 1.8189894035458565e-12,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 39
+    },
+    {
+      "comparator": "dp_per_tensor_eps10",
+      "direction": -1,
+      "dna": "dna_v2_0p95",
+      "effective_n": 39,
+      "holm_p": 1.0,
+      "losses": 39,
+      "median_effect": 0.8591033592820168,
+      "metric": "ssim",
+      "order_interval": [
+        0.8285973081365228,
+        0.8742763912305236
+      ],
+      "raw_p": 1.0,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 0
+    },
+    {
+      "comparator": "dp_per_tensor_eps10",
+      "direction": 1,
+      "dna": "dna_v2_0p95",
+      "effective_n": 39,
+      "holm_p": 1.0,
+      "losses": 39,
+      "median_effect": -0.18317975429818034,
+      "metric": "mse",
+      "order_interval": [
+        -0.18966307258233428,
+        -0.17509699368383735
+      ],
+      "raw_p": 1.0,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 0
+    },
+    {
+      "comparator": "dp_per_tensor_eps10",
+      "direction": -1,
+      "dna": "dna_v2_0p95",
+      "effective_n": 39,
+      "holm_p": 4.3655745685100555e-11,
+      "losses": 0,
+      "median_effect": -0.18317975429818034,
+      "metric": "mse",
+      "order_interval": [
+        -0.18966307258233428,
+        -0.17509699368383735
+      ],
+      "raw_p": 1.8189894035458565e-12,
+      "status": "ASSESSABLE",
+      "ties": 0,
+      "wins": 39
+    }
+  ]
+}

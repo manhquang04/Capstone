@@ -1,83 +1,173 @@
-# FL-DNA: Evaluating a DNA-Inspired Update Transform for Federated Fraud Detection
+# Assessing the Privacy and Practicality of DNA-Inspired Update Encoding in Federated Fraud Detection
 
-This repository holds the code and result data for a capstone project that tests whether a DNA-inspired transform on federated learning (FL) updates can substitute for differential privacy (DP) in a fraud detection setting. Short answer, after several months of experiments: no. The transform keeps model utility intact but does not resist a properly matched reconstruction attack, and its transport cost does not clear a realistic deployment budget either. The rest of this document explains how we got there and how to check the numbers yourself.
+Code, protocols, analysis data and reports for a capstone project at FPT University
+(Department of Information Assurance). The project asks whether two keyed
+transforms applied to federated learning (FL) updates can replace differential
+privacy (DP) for fraud detection.
 
-## What this project actually asks
+**Short answer: no.** In the settings we tested, neither transform shows a
+consistent privacy advantage over DP, both break batch normalization when
+applied to every transmitted tensor, and neither fits our cost budget. DP at a
+meaningful privacy level has a real utility cost too, so the evaluation does not
+pick a free winner.
 
-Federated learning is often pitched as privacy-friendly because raw data never leaves the client. That claim only holds if the *update* a client sends is also safe, and gradient inversion attacks exist precisely because it often isn't. This project evaluates a proposed defense — a DNA-sequence-inspired transform applied to the update before it is sent — against three questions that were fixed before any confirmatory experiment ran:
+## Research questions
 
-1. Does the transform reduce gradient-inversion reconstruction quality more than a distortion- or utility-matched DP baseline?
-2. Does it preserve fraud-detection utility (F1, AUC-ROC), tested as non-inferiority against an unprotected FL run?
-3. Is its computational and bandwidth overhead acceptable for deployment?
+Quoted verbatim from the project proposal; "DNA encoding" refers to both transforms.
 
-We ended up testing two structurally different versions of the transform:
+1. **RQ1.** Does DNA encoding protect gradients against gradient inversion more
+   effectively than Differential Privacy, measured quantitatively (PSNR/SSIM of
+   the reconstructed data)?
+2. **RQ2.** How does applying DNA encoding affect the final accuracy of the
+   global model (measured by F1-score and AUC-ROC)?
+3. **RQ3.** Are the computational and bandwidth costs of DNA encoding within an
+   acceptable range for real-world deployment?
 
-- **v1** — a DNA-sequence-seeded permutation, selective attenuation, and residual mixing applied block-wise to the flattened update. Configs: conservative, medium, stronger.
-- **v2** — a subsampled randomized Hadamard sketch followed by scalar quantization (a Johnson–Lindenstrauss-style projection, lossy by construction). Configs: compression ratio 0.95 and 0.90, both at quantization step 0.01.
+## The two transforms
 
-Both are deterministic functions of a secret seed, not randomized mechanisms with independent noise. That distinction turned out to matter a lot — see the theory note below.
+| | v1 | v2 |
+|---|---|---|
+| Idea | Seeded permutation, attenuation and mixing of each 256-value block; the block seed comes from a nucleotide encoding of the block's bytes | Subsampled randomized Hadamard sketch with stochastic quantization |
+| Setting used | conservative `(m, rho, kappa) = (0.08, 0.88, 0.45)` (also medium and stronger) | `k/d = 0.95`, `eta = 0.01` |
+| Server decodes? | No, it averages transformed blocks | Yes, and it needs the seed to do so |
+| Code | `FL-DNA/dna_encoder/transform_defense.py` | `FL-DNA/dna_encoder/transform_defense_v2.py` |
 
-## How the evaluation is structured
+Both are deterministic once the seed is fixed, so neither is a DP mechanism
+(two short propositions in the paper make this precise).
 
-Every claim in `results/` traces back to a pre-registered protocol: a frozen statistical test, a frozen sample-size calculation, and a data firewall that keeps development, pilot, and confirmatory target sets from overlapping. We adopted this discipline the hard way. Early in RQ1-v2 development, an attacker variant looked strong at a 24-sample pilot (20/24 wins, p = 0.00077), which under a naive read would have counted as a finding. Running the pre-registered confirmatory sample at n = 176 instead gave 85/176 wins, p = 0.70 — not significant. That single episode is why nothing in this repo gets reported as a result until it clears an independently powered confirmatory sample, not just a promising pilot.
+## Main results
 
-The gate used throughout RQ1 is an exact one-sided sign test comparing reconstruction MSE under the transformed update against two controls (a plausible prior guess and an all-zero guess), with p1 = 0.70, alpha = 0.05, power = 0.80 fixed once and never re-fit from observed data.
+| Question | Finding | Scope |
+|---|---|---|
+| RQ1, images | Neither transform significantly outperforms utility-matched DP on any of four CIFAR-10 models; per-tensor DP is more private by 1 to 5 dB PSNR | Inverting Gradients, known labels, 39 targets per comparison, Holm over 211 tests |
+| RQ1, fraud data | A server recovers most record features through either transform; client-side DP at a whole-training epsilon of 10 lowers recovery significantly in 15 of 16 comparisons. Batch-normalization (BN) statistics leak batch means in closed form | PaySim, IEEE-CIS, BAF; one or two records per gradient, known labels |
+| RQ2 | Applied to every tensor, the transforms drive BN variances negative and break training. With BN kept on the clients, both pass F1 and AUC-ROC noninferiority on all three datasets | 21 paired replicates; margins -0.02 (F1) and -0.005 (AUC-ROC), fixed before any run |
+| RQ3 | Payload grows by only 1.0x (v1) and about 1.3x (v2), but round overhead and memory fail the budget on every dataset | Single-threaded prototype, fixed budget over 27 cells |
+| DP utility | Update-level client-side DP at a whole-training epsilon of 1 to 10 costs 0.16 to 0.31 in F1 | 11 paired replicates, descriptive |
 
-## Results, in order
+An audit of five published defenses (Soteria, PRECODE, gradient pruning, ATS,
+Count-Sketch) and both transforms under the same rules found that adaptive
+attacks erase much of the apparent protection: only 3 of 13 defense-dataset
+cells met our survival criterion, and one of those (image v1) later lost to
+per-tensor DP.
 
-**RQ1 — does the transform beat DP at resisting reconstruction?** No. Against a distortion-matched DP baseline, v1 shows no significant advantage (25/44 wins, p = 0.226). More importantly, once we stopped using a custom-built attacker and instead re-implemented published loss objectives — iDLG-style label fixing and Geiping-style cosine-similarity matching — both transform versions were broken outright, at confirmatory sample sizes:
-
-| Setting | Attacker | n | Result |
-|---|---|---|---|
-| PaySim, v1-medium | GEN_IDLG_STYLE | 39 | 29/39 vs prior (p=0.0017), 32/39 vs zero (p=3.5e-5) |
-| IEEE-CIS, v2 (ratio 0.95) | GEN_COSINE_TV | 39 | 36/39 both controls, p=1.8e-8 |
-| CIFAR-10, v2 (ratio 0.95) | GEN_COSINE_TV | 39 | 39/39 both controls, p=1.8e-12 |
-
-That last row is the one worth pausing on. The same attack objective breaks v2 on tabular gradients (PaySim, IEEE-CIS) and on CNN gradients trained on CIFAR-10 — different data, different model, different loss surface, same failure. We also checked whether the break holds across each transform's own parameter range: v1 stays broken from medium through stronger (only the weakest, conservative, config survives at n=8), while v2's break reverses at a more aggressive compression ratio (0.90 resists at n=8, though we're careful not to call that "private" — it's an untested boundary, not a confirmed safe zone).
-
-There's a structural reason this isn't a coincidence. Both transforms are deterministic given a seed, and a deterministic mechanism with distinct outputs for distinct inputs cannot satisfy (ε, δ)-DP for any finite ε once the seed is known — the probability mass either lands on one output or it doesn't, there's no distribution to bound. Whatever protection these transforms offer at the seed-unknown level is closer to obscurity than to a calibrated guarantee, which is exactly what the empirical breaks show once the attacker stops guessing and starts matching the mechanism's structure.
-
-**RQ2 — does it keep the model useful?** Yes, on both versions. v1-medium passes non-inferiority for F1 and AUC-ROC against the unprotected baseline. v2's confirmatory run (n=52, after a pre-registered amendment raised the seed cap to accommodate its higher variance) also clears both margins: F1 delta −0.0117 (margin −0.02), AUC-ROC delta −0.0020 (margin −0.005).
-
-**RQ3 — is it cheap enough to deploy?** No, for either version, and this isn't a code-quality problem. We profiled the reference implementation, found the actual bottlenecks (string-based DNA sequence handling for v1, a per-block Python loop in the Hadamard transform for v2), rewrote both paths with vectorized operations, and cut CPU time by 5–9x. The optimized implementation still fails the pre-registered cost budget — now on end-to-end round overhead and peak memory rather than raw compute — which points to a structural cost in the transport design, not a slow implementation.
-
-## What's in the repository
-
-Only code and curated result summaries are pushed here; raw per-restart artifacts (model checkpoints, per-target `.pt` files) and internal protocol/report drafts stay local since they add bulk without adding anything checkable.
+## Repository layout
 
 ```text
 FL-DNA/
-  dna_encoder/           transform_defense.py (v1), transform_defense_v2.py (v2)
-  attacks/               gradient inversion attackers, including the literature-
-                         matched generations (GEN_IDLG_STYLE, GEN_COSINE_TV) and
-                         the tabular/image reconstruction metric adapters
-  experiments/           runners and analyzers for every RQ1/RQ2/RQ3 evaluation,
-                         the strong-DP epsilon calibration, and the RQ3 benchmark
-  tests/                 unit tests for the v2 transform and metric adapters
-  results/
-    rq1/, rq1_v2/                        distortion-/utility-matched DP comparisons
-    rq2_v2/                              v2 utility non-inferiority confirmatory
-    rq3/                                 reference and optimized cost benchmarks
-    strong_update_dp/                    genuinely strong DP: utility ceiling result
-    dna_transform_v2/                    v2 development-stage utility smoke test
-    priority6_9_literature_attackers/    published-attacker confirmatory results
-                                         (PaySim, IEEE-CIS, CIFAR-10) and the
-                                         parameter-sensitivity boundary checks
+  dna_encoder/          v1 and v2 transforms (plus the server-blind v2 variant)
+  models/, data/        fraud MLP and data loaders
+  attacks/              gradient-inversion attacks and metric adapters
+  privacy/              seed derivation and DP helpers
+  experiments/          one runner and analyzer per study (priority*.py)
+  protocols/            research protocols and dated amendments, written before each run
+  reports/              one report per study, with commands, results and verification
+  artifacts/            analysis-level outputs (CSV/JSON summaries, receipts, manifests)
+  results/              earlier RQ1-RQ3 result summaries
+  tests/                unit tests
+  external_defenses/    adapters for the defense audit; UPSTREAM.md lists the
+                        original repositories and commits
+  ARTIFACT_MANIFEST.tsv path, size and SHA-256 of heavy artifacts kept out of git
+  requirements-lock.txt exact package versions used for the experiments
 ```
 
-## Running it yourself
+Large files (model checkpoints, tensors, prepared data; about 12.6 GB) are not in
+the repository. Each one is listed with its SHA-256 in
+`FL-DNA/ARTIFACT_MANIFEST.tsv`, so a regenerated file can be checked against the
+original.
 
-Everything runs single-threaded (`torch.set_num_threads(1)`) for reproducibility; this was kept fixed across every experiment in this repo and should not be changed when re-running anything here.
+## Setup
+
+The experiments ran on CPU with one thread per process, on macOS (ARM64).
 
 ```bash
-python -m venv .venv
-pip install -r requirements.txt
+cd FL-DNA
+python3.9 -m venv .venv-phase1
+.venv-phase1/bin/pip install -r requirements-lock.txt
 ```
 
-Each script under `experiments/` is self-contained and takes a config path — see the `run_*` and matching `analyze_*` pairs. `run_priority6_sota_style_attackers.py` and `run_priority7_image_domain_gate.py` are the ones behind the literature-attacker results above; `run_rq3_benchmark.py` is the one behind the cost tables.
+`requirements-lock.txt` pins the versions actually used (Python 3.9, PyTorch 2.2.2,
+NumPy 1.26.4, pandas 2.0.3, scikit-learn 1.3.2). The defense audit uses a
+separate Python 3.11 environment described in
+`FL-DNA/external_defenses/reference_environment.txt`, plus the upstream
+repositories listed in `FL-DNA/external_defenses/UPSTREAM.md`.
 
-The dataset is expected at `FL-DNA/datasets/creditcard.csv` (a PaySim-style mobile-money fraud dataset — `step, type, amount, oldbalanceOrg, newbalanceOrig, oldbalanceDest, newbalanceDest, isFraud`) and, for the generalization tests, the IEEE-CIS fraud detection dataset and CIFAR-10 (the latter downloads automatically via torchvision).
+## Data
 
-## Honest caveats
+Datasets are not redistributed. Download them and place them as follows.
 
-RQ1's non-significant cells (v1-conservative, v2 at ratio 0.90) were only tested at n=8. Given the IHT episode above, that's absence of evidence, not evidence of a safe configuration — a stronger or better-matched attacker might well break them too. The cross-domain CIFAR-10 test uses a deliberately minimized CNN chosen so second-order gradient inversion stays tractable single-threaded; nothing here says the result holds for larger vision models. And the theoretical argument about seed-keyed determinism applies to the seed-known case — it does not by itself derive a success rate for an attacker who doesn't know the seed, which is why that half of the story still had to be settled empirically.
+| Dataset | Source | Expected path |
+|---|---|---|
+| PaySim | [Kaggle: ealaxi/paysim1](https://www.kaggle.com/datasets/ealaxi/paysim1) | `FL-DNA/datasets/creditcard.csv` (the PaySim CSV, renamed) |
+| IEEE-CIS Fraud Detection | [Kaggle competition](https://www.kaggle.com/c/ieee-fraud-detection) | `FL-DNA/datasets/ieee-fraud-detection/train_transaction.csv`, `train_identity.csv` |
+| Bank Account Fraud (BAF) | [Kaggle: sgpjesus/bank-account-fraud-dataset-neurips-2022](https://www.kaggle.com/datasets/sgpjesus/bank-account-fraud-dataset-neurips-2022) | `FL-DNA/datasets/baf/Base.csv` |
+| CIFAR-10 | [CIFAR-10 python version](https://www.cs.toronto.edu/~kriz/cifar.html) | `FL-DNA/datasets/cifar10/` |
+| UCI Adult | [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/2/adult) | loaded by the TabLeak adapter |
+
+The SHA-256 of each raw file used is recorded in
+`FL-DNA/artifacts/priority32_multidataset/prepared/<dataset>/audit.json`.
+
+## Reproducing results
+
+Every study has a report in `FL-DNA/reports/` with the exact commands, the
+protocol amendment it followed, and the hashes of its inputs and outputs. The
+main entry points are:
+
+| Result | Report | Runner |
+|---|---|---|
+| RQ1 on CIFAR-10 | `priority31_image_utility_dp_report.md`, `priority33c_report.md`, `priority34d_report.md` | `experiments/priority31_image_utility_dp.py`, `priority33c_image_*.py`, `priority34d_*.py` |
+| RQ1, BN channel | `priority24_rq1_valid_instrument_report_20260929.md`, `priority25b_bracketed_utility_report_20260929.md`, `priority33a_report.md` | `experiments/priority33a_*.py` |
+| RQ1, fraud records | `priority34c_report.md`, `priority34c_verified_summary.md` | `experiments/priority34c_*.py` |
+| RQ2 and RQ3 | `priority32_repaired_trainable_rq2_rq3_report_20261002.md`, `priority34a_report.md`, `rq3_optimized_implementation_report_20260916.md` | `experiments/priority32_*.py`, `priority34a_local_bn.py`, `run_rq3_benchmark.py` |
+| Client-side DP | `priority34b_local_dp_extension_report.md` | `experiments/priority34b_*.py` |
+| Defense audit | `priority30_e3_validity_repair_report_20261001.md`, `priority30_native_audit_report_20260930.md` | `experiments/priority30_native_defenses/` |
+
+For example, preparing the fraud datasets and running the local-BN utility study:
+
+```bash
+cd FL-DNA
+PYTHONPATH=. .venv-phase1/bin/python -B experiments/priority32_multidataset.py --prepare-only
+PYTHONPATH=. .venv-phase1/bin/python -B -u experiments/priority34a_local_bn.py --freeze
+PYTHONPATH=. .venv-phase1/bin/python -B -u experiments/priority34a_local_bn.py --supervise
+```
+
+Run the unit tests with:
+
+```bash
+cd FL-DNA
+PYTHONPATH=. .venv-phase1/bin/python -B -m unittest discover -s tests
+```
+
+### Reproduction smoke test
+
+A fresh clone was checked against the recorded results
+(`FL-DNA/reports/reproduction_smoke_test_20261006.md`). The committed source files
+match the hashes recorded when the experiments ran, the prepared PaySim data was
+rebuilt byte for byte, and three utility training jobs were retrained with
+identical metrics, predicted probabilities and model weights. This is a sample,
+not a full replication.
+
+## How the evaluation was run
+
+- Every confirmatory run follows a protocol amendment written before its data
+  existed. Some amendments came after earlier results were known; they are dated
+  and kept, so the process is protocol-driven but not pre-registered.
+- An attack counts only after it beats data-free baselines on undefended updates.
+- Each transform is compared with DP matched both to its distortion and to its
+  utility, and the matching rule is stated for every comparison.
+- Errors found along the way, including an attacker that could not invert
+  undefended updates and a GPU backend that hid invalid BN states, are documented
+  in the reports and were not removed from the record.
+
+## Limitations
+
+The fraud reconstruction results use one or two records per gradient and known
+labels; recovery from multi-step Adam updates was not tested. The utility study
+uses three clients, the cost study is a single-threaded prototype measured against
+a budget we set, and the defense audit covers one port per defense.
+
+## Authors
+
+Ho Hai, Duong Viet Huy, Dao Manh Quang, Nguyen Thanh Nguyen,
+Le Tran Gia Huy. Department of Information Assurance, FPT University, Ho Chi Minh
+City, Vietnam.

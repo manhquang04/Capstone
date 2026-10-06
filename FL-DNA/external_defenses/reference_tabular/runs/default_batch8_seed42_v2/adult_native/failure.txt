@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/external_defenses/reference_tabular/run_reference.py", line 167, in main
+    rec, ensemble, losses = invert_grad(net=net, training_criterion=criterion, true_grad=true_grad, true_label=y, true_data=torch.empty_like(x), dataset=dataset, **config)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/external_defenses/tableak/attacks/gradient_inversion_attack.py", line 676, in invert_grad
+    current_candidate = naive_invert_grad(net=net,
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/external_defenses/tableak/attacks/gradient_inversion_attack.py", line 355, in naive_invert_grad
+    x_reconstruct = continuous_sigmoid_bound(x_reconstruct, dataset=dataset)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/external_defenses/tableak/utils/differentiable_bounds.py", line 30, in continuous_sigmoid_bound
+    x[:, feature_index] = sigmoid_bound(x[:, feature_index], bounds[feature_name][0], bounds[feature_name][1], T)
+    ~^^^^^^^^^^^^^^^^^^
+RuntimeError: a view of a leaf Variable that requires grad is being used in an in-place operation.

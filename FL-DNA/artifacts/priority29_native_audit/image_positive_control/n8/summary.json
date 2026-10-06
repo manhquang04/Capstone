@@ -1,0 +1,84 @@
+{
+  "priority": 29,
+  "stage": "n8",
+  "n": 8,
+  "target_indices": [
+    6120,
+    7938,
+    5062,
+    3028,
+    9119,
+    4236,
+    2828,
+    1794
+  ],
+  "source_disjoint_evidence": {
+    "split": "CIFAR-10 test",
+    "within_stage_unique": true,
+    "priority29_stage_offsets": {
+      "n8": 0,
+      "n24": 100,
+      "confirmatory": 500
+    },
+    "note": "Earlier project CIFAR attack artifacts used train split; Priority 29 native image gates use test split."
+  },
+  "model": "external_defenses/invertinggradients construct_model('LeNetZhu', seed=42)",
+  "attacker": {
+    "class": "inversefed.GradientReconstructor",
+    "config": {
+      "signed": true,
+      "boxed": true,
+      "cost_fn": "sim",
+      "indices": "def",
+      "weights": "equal",
+      "lr": 0.1,
+      "optim": "adam",
+      "restarts": 1,
+      "max_iterations": 4800,
+      "total_variation": 0.01,
+      "init": "randn",
+      "filter": "none",
+      "lr_decay": true,
+      "scoring_choice": "loss"
+    },
+    "known_labels": true
+  },
+  "baselines": [
+    "prior",
+    "decoy",
+    "gray",
+    "cifar_mean"
+  ],
+  "summary": {
+    "prior": {
+      "wins": 8,
+      "losses": 0,
+      "ties": 0,
+      "one_sided_exact_p": 0.00390625
+    },
+    "decoy": {
+      "wins": 8,
+      "losses": 0,
+      "ties": 0,
+      "one_sided_exact_p": 0.00390625
+    },
+    "gray": {
+      "wins": 8,
+      "losses": 0,
+      "ties": 0,
+      "one_sided_exact_p": 0.00390625
+    },
+    "cifar_mean": {
+      "wins": 8,
+      "losses": 0,
+      "ties": 0,
+      "one_sided_exact_p": 0.00390625
+    }
+  },
+  "elapsed_seconds": 72.09964400005993,
+  "threads": 1,
+  "outputs": {
+    "per_target_csv": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/artifacts/priority29_native_audit/image_positive_control/n8/per_target.csv",
+    "reconstruction_grid_png": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/artifacts/priority29_native_audit/image_positive_control/n8/reconstruction_grid.png"
+  }
+}

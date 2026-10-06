@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "protocol_id": "PRIORITY25B-BRACKETED-UTILITY-MATCHED-DP-GRID",
+  "status": "UTILITY_GRID_FROZEN",
+  "execution_authorized": true,
+  "frozen_at": "2026-09-29T00:00:00+07:00",
+  "amendment": "protocols/amendments/2026-09-29_priority25b_bracketed_utility.md",
+  "prior_priority25_run_dir": "artifacts/priority25_rq1_extension/utility_grid_20260929",
+  "training": {
+    "maximum_rows": 500000,
+    "num_clients": 3,
+    "num_rounds": 50,
+    "local_epochs": 1,
+    "batch_size": 1024,
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "loss": "focal",
+    "focal_alpha": 0.95,
+    "focal_gamma": 2.0,
+    "torch_num_threads": 1,
+    "maximum_concurrent_processes": 9
+  },
+  "old_seeds": [2501101, 2501102, 2501103, 2501104, 2501105, 2501106, 2501107, 2501108],
+  "new_seeds": [2501201, 2501202, 2501203, 2501204, 2501205, 2501206, 2501207, 2501208],
+  "all_seeds": [2501101, 2501102, 2501103, 2501104, 2501105, 2501106, 2501107, 2501108, 2501201, 2501202, 2501203, 2501204, 2501205, 2501206, 2501207, 2501208],
+  "seed_rule": "Priority 25 old utility seeds plus eight new manually frozen seeds disjoint from known RQ2/Priority 25 seeds.",
+  "dp": {
+    "mechanism": "full_floating_state_update_clip_then_gaussian_noise",
+    "implementation": "privacy/dp_engine.py::apply_dp_to_local_state",
+    "clip_norm": 259.0841131896973,
+    "old_noise_multiplier_grid": [0.000001, 0.000003, 0.00001, 0.00003],
+    "new_noise_multiplier_grid": [0.0001, 0.0003, 0.001, 0.003],
+    "extension_noise_multiplier_grid": [0.01, 0.03],
+    "full_initial_noise_multiplier_grid": [0.000001, 0.000003, 0.00001, 0.00003, 0.0001, 0.0003, 0.001, 0.003]
+  },
+  "matching_rule": {
+    "rule": "largest grid sigma whose development mean delta_f1 >= rq2_mean_delta_f1 - f1_slack",
+    "f1_slack": 0.005,
+    "bracketing_requirement": "selected sigma is not largest grid point and next-larger grid point mean_delta_f1 is below threshold",
+    "extension_rule": "if not bracketed on initial 8-point grid, run extension [0.01, 0.03] once, then report NOT_BRACKETED if still not bracketed"
+  },
+  "matching_targets": {
+    "v1_conservative": {
+      "rq2_mean_delta_f1": 0.0014,
+      "threshold_delta_f1": -0.0036
+    },
+    "v2_0p95_eta0p01": {
+      "rq2_mean_delta_f1": -0.0117,
+      "threshold_delta_f1": -0.0167
+    }
+  }
+}

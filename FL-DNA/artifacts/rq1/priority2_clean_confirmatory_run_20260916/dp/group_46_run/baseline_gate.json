@@ -1,0 +1,487 @@
+{
+  "status": "FRAUD_SCOPE_GATE_CLOSED",
+  "dna_evaluation_open": false,
+  "protocol": {
+    "run_seed": 1348605030,
+    "scope": "pre-Phase-4 bounded Adam baseline gate; no DNA evaluation",
+    "records_per_group": 4,
+    "fraud_per_group": 1,
+    "batch_size": 4,
+    "local_steps": 1,
+    "development_groups": 4,
+    "evaluation_groups": 12,
+    "restarts": 3,
+    "attack_lrs": [
+      0.05,
+      0.1
+    ],
+    "iterations": [
+      300,
+      600
+    ],
+    "objective": "balanced_tensor over full transmitted update; no class-decomposed oracle signal",
+    "attacker_knowledge": "known supervised labels/order/RNG inherited from Phase 3; no oracle class-separated gradients and no class-weighted objective",
+    "evaluation": "candidate selected by full-update objective; gate computed on fraud records only and non-fraud reported separately",
+    "gate": "fraud class must beat both prior and zero-update controls with negative mean/median and sign-test p<0.05",
+    "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b",
+    "checkpoint_sha256": "5bb8cb368c0c3883f6cac946d57427ad7b77d56cf4c423fd3c82243a3859c710"
+  },
+  "frozen_attack": {
+    "attack_lr": 0.1,
+    "iterations": 600,
+    "restarts": 3,
+    "protocol_sha256": "2cbc3f4c93a5d053809ddca2403b42e091929b4b3dc5ee46138951544340499f",
+    "selected_before_evaluation": true
+  },
+  "development": {
+    "chosen": {
+      "iterations": 600,
+      "attack_lr": 0.1,
+      "selection_score": -13.119875931832382,
+      "comparisons": {
+        "fraud": {
+          "prior": {
+            "n": 4,
+            "wins": 3,
+            "non_ties": 4,
+            "mean_difference": -17.588899412246565,
+            "median_difference": -3.53022125419613,
+            "one_sided_sign_p": 0.3125,
+            "gate": false
+          },
+          "zero": {
+            "n": 4,
+            "wins": 3,
+            "non_ties": 4,
+            "mean_difference": -13.119875931832382,
+            "median_difference": -8.701192649182873,
+            "one_sided_sign_p": 0.3125,
+            "gate": false
+          }
+        },
+        "non_fraud": {
+          "prior": {
+            "n": 4,
+            "wins": 2,
+            "non_ties": 4,
+            "mean_difference": -1.0787263204363224,
+            "median_difference": 0.2279738164977373,
+            "one_sided_sign_p": 0.6875,
+            "gate": false
+          },
+          "zero": {
+            "n": 4,
+            "wins": 3,
+            "non_ties": 4,
+            "mean_difference": -1.0370989811072684,
+            "median_difference": -0.3383495490301781,
+            "one_sided_sign_p": 0.3125,
+            "gate": false
+          }
+        },
+        "fraud_gate": false
+      },
+      "selected": [
+        {
+          "group_id": 0,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 26.54994320045046,
+          "prior_mse": 27.94751252743252,
+          "zero_mse": 31.811323214831628,
+          "baseline_minus_prior": -1.3975693269820582,
+          "baseline_minus_zero": -5.261380014381167
+        },
+        {
+          "group_id": 0,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 1.0686393108074077,
+          "prior_mse": 1.1208687767875283,
+          "zero_mse": 1.5408523980742548,
+          "baseline_minus_prior": -0.05222946598012057,
+          "baseline_minus_zero": -0.4722130872668471
+        },
+        {
+          "group_id": 1,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 26.150682559069683,
+          "prior_mse": 31.813555740479885,
+          "zero_mse": 38.29168784305426,
+          "baseline_minus_prior": -5.662873181410202,
+          "baseline_minus_zero": -12.14100528398458
+        },
+        {
+          "group_id": 1,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 35.001795447655475,
+          "prior_mse": 33.00658295441286,
+          "zero_mse": 31.72945383404085,
+          "baseline_minus_prior": 1.9952124932426116,
+          "baseline_minus_zero": 3.272341613614625
+        },
+        {
+          "group_id": 2,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 2174.334129260253,
+          "prior_mse": 2241.0861601261226,
+          "zero_mse": 2209.777819287995,
+          "baseline_minus_prior": -66.75203086586953,
+          "baseline_minus_zero": -35.44369002774192
+        },
+        {
+          "group_id": 2,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 259.776202498844,
+          "prior_mse": 266.54226790682736,
+          "zero_mse": 266.5202409388273,
+          "baseline_minus_prior": -6.766065407983376,
+          "baseline_minus_zero": -6.744038439983342
+        },
+        {
+          "group_id": 3,
+          "class": "fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 19.943237163998617,
+          "prior_mse": 16.486361438723094,
+          "zero_mse": 19.57666556522048,
+          "baseline_minus_prior": 3.4568757252755233,
+          "baseline_minus_zero": 0.36657159877813683
+        },
+        {
+          "group_id": 3,
+          "class": "non_fraud",
+          "baseline_restart": 0,
+          "zero_restart": 0,
+          "baseline_mse": 1.6364111781446997,
+          "prior_mse": 1.1282340791691046,
+          "zero_mse": 1.8408971889382089,
+          "baseline_minus_prior": 0.5081770989755952,
+          "baseline_minus_zero": -0.20448601079350914
+        }
+      ]
+    }
+  },
+  "evaluation": {
+    "fraud": {
+      "prior": {
+        "n": 12,
+        "wins": 8,
+        "non_ties": 12,
+        "mean_difference": -30.86607740641252,
+        "median_difference": -4.910979973526274,
+        "one_sided_sign_p": 0.19384765625,
+        "gate": false
+      },
+      "zero": {
+        "n": 12,
+        "wins": 9,
+        "non_ties": 12,
+        "mean_difference": -20.49379444740555,
+        "median_difference": -1.819599479675555,
+        "one_sided_sign_p": 0.072998046875,
+        "gate": false
+      }
+    },
+    "non_fraud": {
+      "prior": {
+        "n": 12,
+        "wins": 7,
+        "non_ties": 12,
+        "mean_difference": -7.379842895393883,
+        "median_difference": -1.5238825618279606,
+        "one_sided_sign_p": 0.38720703125,
+        "gate": false
+      },
+      "zero": {
+        "n": 12,
+        "wins": 9,
+        "non_ties": 12,
+        "mean_difference": -4.790121709487225,
+        "median_difference": -1.6388772933743265,
+        "one_sided_sign_p": 0.072998046875,
+        "gate": false
+      }
+    },
+    "fraud_gate": false
+  },
+  "selected_evaluation": [
+    {
+      "group_id": 0,
+      "class": "fraud",
+      "baseline_restart": 0,
+      "zero_restart": 1,
+      "baseline_mse": 20.154015026943476,
+      "prior_mse": 14.279533005760875,
+      "zero_mse": 16.796962317079316,
+      "baseline_minus_prior": 5.874482021182601,
+      "baseline_minus_zero": 3.35705270986416
+    },
+    {
+      "group_id": 0,
+      "class": "non_fraud",
+      "baseline_restart": 0,
+      "zero_restart": 1,
+      "baseline_mse": 2084.4962282418915,
+      "prior_mse": 2156.400365468206,
+      "zero_mse": 2152.179048218753,
+      "baseline_minus_prior": -71.90413722631456,
+      "baseline_minus_zero": -67.68281997686154
+    },
+    {
+      "group_id": 1,
+      "class": "fraud",
+      "baseline_restart": 2,
+      "zero_restart": 0,
+      "baseline_mse": 3217.018009660804,
+      "prior_mse": 3396.890868844017,
+      "zero_mse": 3338.2648379209163,
+      "baseline_minus_prior": -179.87285918321277,
+      "baseline_minus_zero": -121.24682826011212
+    },
+    {
+      "group_id": 1,
+      "class": "non_fraud",
+      "baseline_restart": 2,
+      "zero_restart": 0,
+      "baseline_mse": 422.43948250862996,
+      "prior_mse": 428.75931670777345,
+      "zero_mse": 419.2971124008969,
+      "baseline_minus_prior": -6.319834199143486,
+      "baseline_minus_zero": 3.142370107733086
+    },
+    {
+      "group_id": 2,
+      "class": "fraud",
+      "baseline_restart": 0,
+      "zero_restart": 1,
+      "baseline_mse": 28286.503513640084,
+      "prior_mse": 28073.24748851723,
+      "zero_mse": 28214.801201457194,
+      "baseline_minus_prior": 213.25602512285332,
+      "baseline_minus_zero": 71.70231218288973
+    },
+    {
+      "group_id": 2,
+      "class": "non_fraud",
+      "baseline_restart": 0,
+      "zero_restart": 1,
+      "baseline_mse": 28.077839069388123,
+      "prior_mse": 26.09534889618958,
+      "zero_mse": 29.94072450475811,
+      "baseline_minus_prior": 1.982490173198542,
+      "baseline_minus_zero": -1.8628854353699857
+    },
+    {
+      "group_id": 3,
+      "class": "fraud",
+      "baseline_restart": 0,
+      "zero_restart": 2,
+      "baseline_mse": 4784.589567530785,
+      "prior_mse": 4917.707367306106,
+      "zero_mse": 4827.628883639582,
+      "baseline_minus_prior": -133.11779977532115,
+      "baseline_minus_zero": -43.03931610879772
+    },
+    {
+      "group_id": 3,
+      "class": "non_fraud",
+      "baseline_restart": 0,
+      "zero_restart": 2,
+      "baseline_mse": 3.3732374297847336,
+      "prior_mse": 1.8122238473078667,
+      "zero_mse": 2.184881940785427,
+      "baseline_minus_prior": 1.561013582476867,
+      "baseline_minus_zero": 1.1883554889993064
+    },
+    {
+      "group_id": 4,
+      "class": "fraud",
+      "baseline_restart": 0,
+      "zero_restart": 0,
+      "baseline_mse": 2.217586662814779,
+      "prior_mse": 1.8793414081377235,
+      "zero_mse": 2.1851281856965876,
+      "baseline_minus_prior": 0.33824525467705535,
+      "baseline_minus_zero": 0.032458477118191276
+    },
+    {
+      "group_id": 4,
+      "class": "non_fraud",
+      "baseline_restart": 0,
+      "zero_restart": 0,
+      "baseline_mse": 9.976312449994538,
+      "prior_mse": 10.05442491746578,
+      "zero_mse": 11.391181601373205,
+      "baseline_minus_prior": -0.07811246747124301,
+      "baseline_minus_zero": -1.4148691513786673
+    },
+    {
+      "group_id": 5,
+      "class": "fraud",
+      "baseline_restart": 0,
+      "zero_restart": 0,
+      "baseline_mse": 6.948299039915844,
+      "prior_mse": 8.179146030332923,
+      "zero_mse": 8.07212326142025,
+      "baseline_minus_prior": -1.2308469904170787,
+      "baseline_minus_zero": -1.1238242215044059
+    },
+    {
+      "group_id": 5,
+      "class": "non_fraud",
+      "baseline_restart": 0,
+      "zero_restart": 0,
+      "baseline_mse": 1.6923863413617248,
+      "prior_mse": 1.6168531404608135,
+      "zero_mse": 1.769157753131103,
+      "baseline_minus_prior": 0.07553320090091131,
+      "baseline_minus_zero": -0.07677141176937807
+    },
+    {
+      "group_id": 6,
+      "class": "fraud",
+      "baseline_restart": 1,
+      "zero_restart": 1,
+      "baseline_mse": 5202.693119048977,
+      "prior_mse": 5299.680079312463,
+      "zero_mse": 5220.777359970562,
+      "baseline_minus_prior": -96.98696026348625,
+      "baseline_minus_zero": -18.08424092158566
+    },
+    {
+      "group_id": 6,
+      "class": "non_fraud",
+      "baseline_restart": 1,
+      "zero_restart": 1,
+      "baseline_mse": 41.21037256879429,
+      "prior_mse": 39.66977463872693,
+      "zero_mse": 43.78154239897134,
+      "baseline_minus_prior": 1.5405979300673636,
+      "baseline_minus_zero": -2.5711698301770483
+    },
+    {
+      "group_id": 7,
+      "class": "fraud",
+      "baseline_restart": 0,
+      "zero_restart": 2,
+      "baseline_mse": 1.5818364585936564,
+      "prior_mse": 1.6519758789326418,
+      "zero_mse": 4.097211196440361,
+      "baseline_minus_prior": -0.07013942033898535,
+      "baseline_minus_zero": -2.515374737846704
+    },
+    {
+      "group_id": 7,
+      "class": "non_fraud",
+      "baseline_restart": 0,
+      "zero_restart": 2,
+      "baseline_mse": 379.54932187992404,
+      "prior_mse": 382.5189745361087,
+      "zero_mse": 351.6793260644254,
+      "baseline_minus_prior": -2.969652656184678,
+      "baseline_minus_zero": 27.869995815498612
+    },
+    {
+      "group_id": 8,
+      "class": "fraud",
+      "baseline_restart": 0,
+      "zero_restart": 1,
+      "baseline_mse": 354.9432087166815,
+      "prior_mse": 387.6569957665784,
+      "zero_mse": 375.6911930473628,
+      "baseline_minus_prior": -32.713787049896894,
+      "baseline_minus_zero": -20.747984330681277
+    },
+    {
+      "group_id": 8,
+      "class": "non_fraud",
+      "baseline_restart": 0,
+      "zero_restart": 1,
+      "baseline_mse": 5.1621838882761,
+      "prior_mse": 3.8606960805578208,
+      "zero_mse": 5.956837397930929,
+      "baseline_minus_prior": 1.3014878077182797,
+      "baseline_minus_zero": -0.7946535096548288
+    },
+    {
+      "group_id": 9,
+      "class": "fraud",
+      "baseline_restart": 0,
+      "zero_restart": 1,
+      "baseline_mse": 3.4717426646477922,
+      "prior_mse": 1.5146832599770004,
+      "zero_mse": 4.583817019364952,
+      "baseline_minus_prior": 1.9570594046707919,
+      "baseline_minus_zero": -1.1120743547171599
+    },
+    {
+      "group_id": 9,
+      "class": "non_fraud",
+      "baseline_restart": 0,
+      "zero_restart": 1,
+      "baseline_mse": 11.771858770590462,
+      "prior_mse": 17.93214344408563,
+      "zero_mse": 17.258154905793138,
+      "baseline_minus_prior": -6.160284673495166,
+      "baseline_minus_zero": -5.486296135202675
+    },
+    {
+      "group_id": 10,
+      "class": "fraud",
+      "baseline_restart": 1,
+      "zero_restart": 2,
+      "baseline_mse": 1495.1753778391358,
+      "prior_mse": 1634.4106128801611,
+      "zero_mse": 1607.2254720898432,
+      "baseline_minus_prior": -139.23523504102536,
+      "baseline_minus_zero": -112.05009425070739
+    },
+    {
+      "group_id": 10,
+      "class": "non_fraud",
+      "baseline_restart": 1,
+      "zero_restart": 2,
+      "baseline_mse": 54.710884134345754,
+      "prior_mse": 58.490076838739576,
+      "zero_mse": 57.88783495336665,
+      "baseline_minus_prior": -3.7791927043938216,
+      "baseline_minus_zero": -3.1769508190208953
+    },
+    {
+      "group_id": 11,
+      "class": "fraud",
+      "baseline_restart": 0,
+      "zero_restart": 0,
+      "baseline_mse": 69.42332311814792,
+      "prior_mse": 78.01443607478339,
+      "zero_mse": 70.52094267093415,
+      "baseline_minus_prior": -8.59111295663547,
+      "baseline_minus_zero": -1.0976195527862274
+    },
+    {
+      "group_id": 11,
+      "class": "non_fraud",
+      "baseline_restart": 0,
+      "zero_restart": 0,
+      "baseline_mse": 331.0723714674512,
+      "prior_mse": 334.8803949795368,
+      "zero_mse": 337.6881371240939,
+      "baseline_minus_prior": -3.808023512085583,
+      "baseline_minus_zero": -6.6157656566426795
+    }
+  ],
+  "interpretation": "Pre-Phase-4 baseline gate only. DNA evaluation is not run here.",
+  "elapsed_seconds": 330.04010074999997
+}

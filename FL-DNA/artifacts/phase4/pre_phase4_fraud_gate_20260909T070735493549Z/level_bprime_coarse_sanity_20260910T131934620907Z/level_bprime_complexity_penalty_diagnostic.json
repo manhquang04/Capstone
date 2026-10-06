@@ -1,0 +1,69 @@
+{
+  "source_report": "level_bprime_coarse_sanity_report.json",
+  "question": "Did complexity adjustment cause the true width tuple to fall out of top 3?",
+  "answer": "NO",
+  "reference_parameter_count": 12310.0,
+  "true_width_tuple": "128,64,32",
+  "true_parameter_count": 12609,
+  "true_complexity_factor": 1.0011999452247364,
+  "true_raw_objective": 0.0006211049039848149,
+  "true_raw_rank": 23,
+  "true_complexity_adjusted_objective": 0.0006218501958484119,
+  "true_adjusted_rank": 23,
+  "raw_top3": [
+    {
+      "rank": 1,
+      "width_tuple": "102,51,26",
+      "raw_objective": 0.0004693025548476726,
+      "adjusted_rank": 1,
+      "parameter_count": 8418,
+      "complexity_factor": 1.0
+    },
+    {
+      "rank": 2,
+      "width_tuple": "154,64,38",
+      "raw_objective": 0.00047114898916333914,
+      "adjusted_rank": 4,
+      "parameter_count": 15097,
+      "complexity_factor": 1.0102042054194618
+    },
+    {
+      "rank": 3,
+      "width_tuple": "102,77,38",
+      "raw_objective": 0.00047409426770173013,
+      "adjusted_rank": 2,
+      "parameter_count": 12796,
+      "complexity_factor": 1.0019360340945456
+    }
+  ],
+  "adjusted_top3": [
+    {
+      "rank": 1,
+      "width_tuple": "102,51,26",
+      "complexity_adjusted_objective": 0.0004693025548476726,
+      "raw_rank": 1,
+      "raw_objective": 0.0004693025548476726,
+      "parameter_count": 8418,
+      "complexity_factor": 1.0
+    },
+    {
+      "rank": 2,
+      "width_tuple": "102,77,38",
+      "complexity_adjusted_objective": 0.0004750121303680293,
+      "raw_rank": 3,
+      "raw_objective": 0.00047409426770173013,
+      "parameter_count": 12796,
+      "complexity_factor": 1.0019360340945456
+    },
+    {
+      "rank": 3,
+      "width_tuple": "154,51,26",
+      "complexity_adjusted_objective": 0.00047525507397949696,
+      "raw_rank": 5,
+      "raw_objective": 0.00047525507397949696,
+      "parameter_count": 11902,
+      "complexity_factor": 1.0
+    }
+  ],
+  "interpretation": "The true tuple is poor before complexity adjustment. The factor is only ~0.12% above 1, so the Level-B prime failure reflects raw projected gradient matching rather than over-penalization."
+}

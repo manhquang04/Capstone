@@ -1,0 +1,154 @@
+{
+  "target_file": "development_gate_targets.pt",
+  "groups": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "defense": "dna_transform_v2_sketch_space",
+  "diagnostic": "development-only sketch-space STE attacker for DNA Transform v2",
+  "amendment": "protocols/amendments/2026-09-16_dna_transform_v2_structured_attacker_development.md",
+  "v2_config": {
+    "compression_ratio": 0.95,
+    "quantization_eta": 0.01,
+    "seed": 20260916
+  },
+  "restarts": 4,
+  "iterations": 600,
+  "attack_lr": 0.03,
+  "nonnegative_lambda": 0.001,
+  "l1_update_lambda": 1e-05,
+  "ste_quantization": true,
+  "selection_formula": "argmin_x L_balanced(STE_Q(R_s delta(x)), q_obs)",
+  "group_summary": [
+    {
+      "group_id": 0,
+      "n_baseline_restarts": 4,
+      "objective_best_restart": 0,
+      "objective_best_objective": 0.48210659623146057,
+      "objective_best_fraud_mse": 31.19306907004633,
+      "objective_best_non_fraud_mse": 3.2000674439770287,
+      "prior_fraud_mse_mean": 33.81465392205549,
+      "zero_objective_best_fraud_mse": 229.19687538516794,
+      "objective_minus_prior_fraud_mse": -2.6215848520091605,
+      "objective_minus_zero_fraud_mse": -198.0038063151216,
+      "max_balance_residual_raw": 0.17190096527338028
+    },
+    {
+      "group_id": 1,
+      "n_baseline_restarts": 4,
+      "objective_best_restart": 2,
+      "objective_best_objective": 0.5057581663131714,
+      "objective_best_fraud_mse": 6.082888023672546,
+      "objective_best_non_fraud_mse": 12.818470279088073,
+      "prior_fraud_mse_mean": 148.98973681850381,
+      "zero_objective_best_fraud_mse": 131.54733844702793,
+      "objective_minus_prior_fraud_mse": -142.90684879483126,
+      "objective_minus_zero_fraud_mse": -125.46445042335537,
+      "max_balance_residual_raw": 0.17014334132545628
+    },
+    {
+      "group_id": 2,
+      "n_baseline_restarts": 4,
+      "objective_best_restart": 1,
+      "objective_best_objective": 0.6070859432220459,
+      "objective_best_fraud_mse": 14085.378109172034,
+      "objective_best_non_fraud_mse": 77.15168148738742,
+      "prior_fraud_mse_mean": 16528.965802318373,
+      "zero_objective_best_fraud_mse": 19354.121683466747,
+      "objective_minus_prior_fraud_mse": -2443.587693146339,
+      "objective_minus_zero_fraud_mse": -5268.743574294713,
+      "max_balance_residual_raw": 0.22866929415613413
+    },
+    {
+      "group_id": 3,
+      "n_baseline_restarts": 4,
+      "objective_best_restart": 1,
+      "objective_best_objective": 0.7550081610679626,
+      "objective_best_fraud_mse": 35.70540045963207,
+      "objective_best_non_fraud_mse": 69.2343782809732,
+      "prior_fraud_mse_mean": 37.29036398272266,
+      "zero_objective_best_fraud_mse": 19.507728146547315,
+      "objective_minus_prior_fraud_mse": -1.5849635230905932,
+      "objective_minus_zero_fraud_mse": 16.19767231308475,
+      "max_balance_residual_raw": 0.11871515400707722
+    },
+    {
+      "group_id": 4,
+      "n_baseline_restarts": 4,
+      "objective_best_restart": 3,
+      "objective_best_objective": 0.7108185887336731,
+      "objective_best_fraud_mse": 24.807071503142133,
+      "objective_best_non_fraud_mse": 46.73059196258146,
+      "prior_fraud_mse_mean": 22.863110225038163,
+      "zero_objective_best_fraud_mse": 16.450192211109048,
+      "objective_minus_prior_fraud_mse": 1.94396127810397,
+      "objective_minus_zero_fraud_mse": 8.356879292033085,
+      "max_balance_residual_raw": 0.2547050495631993
+    },
+    {
+      "group_id": 5,
+      "n_baseline_restarts": 4,
+      "objective_best_restart": 1,
+      "objective_best_objective": 0.5839592218399048,
+      "objective_best_fraud_mse": 43.550072615526766,
+      "objective_best_non_fraud_mse": 20.92656730969996,
+      "prior_fraud_mse_mean": 52.132129529828845,
+      "zero_objective_best_fraud_mse": 40.17618952868942,
+      "objective_minus_prior_fraud_mse": -8.582056914302079,
+      "objective_minus_zero_fraud_mse": 3.3738830868373455,
+      "max_balance_residual_raw": 0.11181786423549056
+    },
+    {
+      "group_id": 6,
+      "n_baseline_restarts": 4,
+      "objective_best_restart": 0,
+      "objective_best_objective": 0.44001784920692444,
+      "objective_best_fraud_mse": 60467.11562294702,
+      "objective_best_non_fraud_mse": 48.728191973965245,
+      "prior_fraud_mse_mean": 75828.15399259118,
+      "zero_objective_best_fraud_mse": 67810.12426395014,
+      "objective_minus_prior_fraud_mse": -15361.038369644157,
+      "objective_minus_zero_fraud_mse": -7343.008641003122,
+      "max_balance_residual_raw": 0.18198030767962337
+    },
+    {
+      "group_id": 7,
+      "n_baseline_restarts": 4,
+      "objective_best_restart": 2,
+      "objective_best_objective": 0.8355341553688049,
+      "objective_best_fraud_mse": 80.5733476189846,
+      "objective_best_non_fraud_mse": 4336.862581973082,
+      "prior_fraud_mse_mean": 21.337879470116516,
+      "zero_objective_best_fraud_mse": 81.48501499230983,
+      "objective_minus_prior_fraud_mse": 59.23546814886808,
+      "objective_minus_zero_fraud_mse": -0.9116673733252298,
+      "max_balance_residual_raw": 0.37142204539850354
+    }
+  ],
+  "target_gate": {
+    "prior": {
+      "n": 8,
+      "wins": 6,
+      "mean_difference": -2237.3927609309694,
+      "median_difference": -5.60182088315562,
+      "one_sided_sign_p": 0.14453125,
+      "gate": false
+    },
+    "zero": {
+      "n": 8,
+      "wins": 5,
+      "mean_difference": -1613.5254630897102,
+      "median_difference": -63.1880588983403,
+      "one_sided_sign_p": 0.36328125,
+      "gate": false
+    },
+    "gate": false
+  },
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b"
+}
