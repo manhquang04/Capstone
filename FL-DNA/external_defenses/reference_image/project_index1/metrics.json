@@ -1,0 +1,49 @@
+{
+  "setting": "project",
+  "index": 1,
+  "split": "test",
+  "model_seed": 42,
+  "label": 8,
+  "parameter_count": 136886,
+  "config": {
+    "signed": true,
+    "boxed": true,
+    "cost_fn": "sim",
+    "indices": "def",
+    "weights": "equal",
+    "lr": 0.1,
+    "optim": "adam",
+    "restarts": 1,
+    "max_iterations": 4800,
+    "total_variation": 0.01,
+    "init": "randn",
+    "filter": "none",
+    "lr_decay": true,
+    "scoring_choice": "loss"
+  },
+  "local_sgd_lr": 0.01,
+  "metrics": {
+    "raw_mse": 0.04103283956646919,
+    "psnr_db": 13.868684278203851,
+    "ssim": 0.4309130609035492
+  },
+  "baselines": {
+    "gray": {
+      "raw_mse": 0.10661736875772476,
+      "psnr_db": 9.721720397636108,
+      "ssim": 0.0958688035607338
+    },
+    "cifar_train_mean": {
+      "raw_mse": 0.10270776599645615,
+      "psnr_db": 9.883967170464041,
+      "ssim": 0.12272737175226212
+    }
+  },
+  "elapsed_seconds": 13.02882862498518,
+  "stats": {
+    "opt": 0.0006230473518371582
+  },
+  "torch_version": "2.5.1",
+  "threads": 2,
+  "beats_both_baselines": true
+}

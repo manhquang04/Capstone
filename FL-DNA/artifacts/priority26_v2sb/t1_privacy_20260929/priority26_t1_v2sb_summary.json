@@ -1,0 +1,76 @@
+{
+  "created_at": "2026-09-28T22:24:17.420810+00:00",
+  "amendment": "protocols/amendments/2026-09-29_priority26_v2sb_server_blind.md",
+  "amendment_sha256": "f01726f51a7887380e8911fdf76aa893309abcdca98bcbdd3fb127b90df1ff06",
+  "dev_target": "artifacts/priority26_v2sb/t1_dev_targets_20260929/paysim_priority26_t1_dev_targets.pt",
+  "dev_target_sha256": "c2b50cd2769782c22200eb1472295d0349bba55b5113ab34b4f865f19d0c6979",
+  "confirm_target": "artifacts/priority26_v2sb/t1_confirm_targets_20260929/paysim_priority26_t1_confirm_targets.pt",
+  "confirm_target_sha256": "c1f6e055b75b57ee9aee583aaad4b24d0bdce56a405ca031c6c4a11747a87c36",
+  "feature_names": [
+    "step",
+    "amount",
+    "oldbalanceOrg",
+    "newbalanceOrig",
+    "oldbalanceDest",
+    "newbalanceDest",
+    "balance_diff_orig",
+    "balance_diff_dest",
+    "type=CASH_IN",
+    "type=CASH_OUT",
+    "type=DEBIT",
+    "type=PAYMENT",
+    "type=TRANSFER"
+  ],
+  "gates": {
+    "a1_seed_leak_mse": {
+      "wins_vs_prior": 1,
+      "p_vs_prior": 0.99609375,
+      "wins_vs_decoy": 4,
+      "p_vs_decoy": 0.63671875,
+      "qualified": false,
+      "median_mse": 0.354464533583931
+    },
+    "a2_identity_mse": {
+      "wins_vs_prior": 0,
+      "p_vs_prior": 1.0,
+      "wins_vs_decoy": 4,
+      "p_vs_decoy": 0.63671875,
+      "qualified": false,
+      "median_mse": 6.811941698961544
+    },
+    "a2_random_surrogate_mse": {
+      "wins_vs_prior": 0,
+      "p_vs_prior": 1.0,
+      "wins_vs_decoy": 4,
+      "p_vs_decoy": 0.63671875,
+      "qualified": false,
+      "median_mse": 19.848870418852606
+    },
+    "a3_invariant_ridge_mse": {
+      "wins_vs_prior": 4,
+      "p_vs_prior": 0.63671875,
+      "wins_vs_decoy": 2,
+      "p_vs_decoy": 0.96484375,
+      "qualified": false,
+      "median_mse": 0.2322470594812255
+    }
+  },
+  "selected_level1_attack": null,
+  "dp_distortion_calibration": {
+    "clip_norm": 3.9156647274021434,
+    "noise_multiplier": 0.009884030138035748,
+    "median_v2sb_lift_distortion": 0.444362810965774,
+    "median_bn_norm": 2.2369353101167393,
+    "bn_dim": 128
+  },
+  "dp_utility_config_from_priority25": {
+    "clip_norm": 259.0841131896973,
+    "noise_multiplier": 3e-05
+  },
+  "confirmatory": {
+    "executed": false,
+    "rows": [],
+    "tests": {},
+    "selected_level1_attack": null
+  }
+}

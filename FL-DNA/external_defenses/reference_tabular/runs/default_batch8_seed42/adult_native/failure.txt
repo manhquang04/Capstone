@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/external_defenses/reference_tabular/run_reference.py", line 163, in main
+    (directory/'adapter.json').write_text(json.dumps(spec, indent=2))
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rhys24z/.config/openscience/data-root/conda/envs/python/lib/python3.11/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/Users/rhys24z/.config/openscience/data-root/conda/envs/python/lib/python3.11/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/Users/rhys24z/.config/openscience/data-root/conda/envs/python/lib/python3.11/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/Users/rhys24z/.config/openscience/data-root/conda/envs/python/lib/python3.11/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/Users/rhys24z/.config/openscience/data-root/conda/envs/python/lib/python3.11/json/encoder.py", line 326, in _iterencode_list
+    yield from chunks
+  File "/Users/rhys24z/.config/openscience/data-root/conda/envs/python/lib/python3.11/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/Users/rhys24z/.config/openscience/data-root/conda/envs/python/lib/python3.11/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type float32 is not JSON serializable

@@ -1,0 +1,216 @@
+{
+  "implementation": "independent; no Priority 30 experiment import",
+  "config": {
+    "cost_fn": "sim",
+    "optim": "adam",
+    "lr": 0.1,
+    "lr_decay": true,
+    "restarts": 1,
+    "max_iterations": 4800,
+    "total_variation": 0.01,
+    "boxed": true,
+    "signed": true,
+    "init": "randn",
+    "filter": "none",
+    "weights": "equal",
+    "indices": "def",
+    "scoring_choice": "loss"
+  },
+  "targets": [
+    {
+      "target_id": 0,
+      "cifar10_index": 2310,
+      "label": 6,
+      "results": {
+        "undefended": {
+          "metrics": {
+            "mse": 0.004706770647317171,
+            "psnr_db": 23.27276963586613,
+            "ssim": 0.873441755771637
+          },
+          "objective": 0.0005194544792175293
+        },
+        "soteria_omit": {
+          "metrics": {
+            "mse": 0.003872874192893505,
+            "psnr_db": 24.119666104808807,
+            "ssim": 0.9006646275520325
+          },
+          "objective": 0.0004979372024536133
+        },
+        "pruning_mask": {
+          "metrics": {
+            "mse": 0.00840019341558218,
+            "psnr_db": 20.757107141341898,
+            "ssim": 0.7687404155731201
+          },
+          "objective": 0.00046056509017944336
+        },
+        "v2_sketch": {
+          "metrics": {
+            "mse": 0.007586607709527016,
+            "psnr_db": 21.199523719781634,
+            "ssim": 0.8337690830230713
+          },
+          "objective": 0.0005449686432257295
+        }
+      }
+    },
+    {
+      "target_id": 1,
+      "cifar10_index": 2290,
+      "label": 9,
+      "results": {
+        "undefended": {
+          "metrics": {
+            "mse": 0.024980826303362846,
+            "psnr_db": 16.02393200347163,
+            "ssim": 0.662844181060791
+          },
+          "objective": 0.002059459686279297
+        },
+        "soteria_omit": {
+          "metrics": {
+            "mse": 0.00778803089633584,
+            "psnr_db": 21.08572334234498,
+            "ssim": 0.879058837890625
+          },
+          "objective": 0.0008918642997741699
+        },
+        "pruning_mask": {
+          "metrics": {
+            "mse": 0.03906618431210518,
+            "psnr_db": 14.081990052871888,
+            "ssim": 0.4966423213481903
+          },
+          "objective": 0.0015687346458435059
+        },
+        "v2_sketch": {
+          "metrics": {
+            "mse": 0.07596386224031448,
+            "psnr_db": 11.193929624840617,
+            "ssim": 0.05345752835273743
+          },
+          "objective": 1.196055472973967e-05
+        }
+      }
+    },
+    {
+      "target_id": 2,
+      "cifar10_index": 241,
+      "label": 1,
+      "results": {
+        "undefended": {
+          "metrics": {
+            "mse": 0.004142375197261572,
+            "psnr_db": 23.827505672676146,
+            "ssim": 0.8714902400970459
+          },
+          "objective": 0.0006138086318969727
+        },
+        "soteria_omit": {
+          "metrics": {
+            "mse": 0.0024421780835837126,
+            "psnr_db": 26.122226704903117,
+            "ssim": 0.9299736618995667
+          },
+          "objective": 0.0005088448524475098
+        },
+        "pruning_mask": {
+          "metrics": {
+            "mse": 0.007292537484318018,
+            "psnr_db": 21.371213298866362,
+            "ssim": 0.7503531575202942
+          },
+          "objective": 0.0005028843879699707
+        },
+        "v2_sketch": {
+          "metrics": {
+            "mse": 0.006731546949595213,
+            "psnr_db": 21.718851208471065,
+            "ssim": 0.7954801917076111
+          },
+          "objective": 0.0006190916174091399
+        }
+      }
+    },
+    {
+      "target_id": 3,
+      "cifar10_index": 5402,
+      "label": 4,
+      "results": {
+        "undefended": {
+          "metrics": {
+            "mse": 0.0008231056854128838,
+            "psnr_db": 30.84544398512086,
+            "ssim": 0.8456485867500305
+          },
+          "objective": 0.0003014802932739258
+        },
+        "soteria_omit": {
+          "metrics": {
+            "mse": 0.0004886371316388249,
+            "psnr_db": 33.11013533979204,
+            "ssim": 0.9102457165718079
+          },
+          "objective": 0.00026351213455200195
+        },
+        "pruning_mask": {
+          "metrics": {
+            "mse": 0.0013953439192846417,
+            "psnr_db": 28.553187358750456,
+            "ssim": 0.7427329421043396
+          },
+          "objective": 0.00025653839111328125
+        },
+        "v2_sketch": {
+          "metrics": {
+            "mse": 0.0014822408556938171,
+            "psnr_db": 28.290812202435593,
+            "ssim": 0.7794995307922363
+          },
+          "objective": 0.00030718924244865775
+        }
+      }
+    },
+    {
+      "target_id": 4,
+      "cifar10_index": 8641,
+      "label": 7,
+      "results": {
+        "undefended": {
+          "metrics": {
+            "mse": 0.003277108073234558,
+            "psnr_db": 24.845092361167165,
+            "ssim": 0.8496103286743164
+          },
+          "objective": 0.0005110502243041992
+        },
+        "soteria_omit": {
+          "metrics": {
+            "mse": 0.0022384754847735167,
+            "psnr_db": 26.500476575395865,
+            "ssim": 0.8967525959014893
+          },
+          "objective": 0.0004585385322570801
+        },
+        "pruning_mask": {
+          "metrics": {
+            "mse": 0.00587090477347374,
+            "psnr_db": 22.312949638550542,
+            "ssim": 0.7420666813850403
+          },
+          "objective": 0.00040912628173828125
+        },
+        "v2_sketch": {
+          "metrics": {
+            "mse": 0.005154063459485769,
+            "psnr_db": 22.87850238494694,
+            "ssim": 0.7984695434570312
+          },
+          "objective": 0.0004933031741529703
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "status": "COMPLETED",
+  "config": {
+    "dataset": "ieee_cis",
+    "method": "baseline",
+    "seed": 321000,
+    "training": {
+      "alpha": 0.95,
+      "lr": 0.001,
+      "rounds": 50
+    },
+    "quality_validation_only": false,
+    "batch_size": 1024,
+    "local_epochs": 1,
+    "clients": 3,
+    "focal_gamma": 2.0,
+    "torch_threads": 1,
+    "device": "cpu",
+    "selected_checkpoint": "final_round",
+    "audit_sha256": "ad62e1a8d18354923a8b91314219b539f1582a7c69a2a5792fae17bf24ac62af",
+    "amendment_sha256": "085670106c6ecf9f16a9fd7b80db6cda53645475137da1b01f2d97a3c2bd99f0"
+  },
+  "config_sha256": "30bcdfaba95c31fe8a057e8c9b00b2e41dbe88783e02d28d244c522280912f0b",
+  "seed": 321000,
+  "dataset": "ieee_cis",
+  "method": "baseline",
+  "threshold": 0.5593806875944138,
+  "validation": {
+    "f1": 0.40715810211787884,
+    "auc_roc": 0.8497048366317792,
+    "pr_auc": 0.38933185252532276,
+    "rows": 75000,
+    "fraud_rate": 0.039213333278894424
+  },
+  "client_rows": [
+    87130,
+    155824,
+    82046
+  ],
+  "client_fraud_counts": [
+    3705,
+    3705,
+    3704
+  ],
+  "torch_threads": 1,
+  "elapsed_seconds": 116.24605202674866,
+  "completed_at": "2026-10-02T15:41:38.430311+00:00",
+  "test": {
+    "f1": 0.3345065832355625,
+    "auc_roc": 0.836618941231899,
+    "pr_auc": 0.3268488496409423,
+    "rows": 100000,
+    "fraud_rate": 0.03440999984741211
+  }
+}

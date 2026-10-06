@@ -1,0 +1,214 @@
+[
+  {
+    "method": "baseline",
+    "group_id": 10,
+    "restart": 13,
+    "objective": 7.3266623985546175e-06,
+    "best_step": 596,
+    "metrics": {
+      "mean_mse": 3.035812091181339,
+      "median_mse": 1.4608174710695994,
+      "mean_mae": 0.8913384648319782,
+      "classes": {
+        "0": {
+          "n": 3,
+          "mean_mse": 1.18723015869848,
+          "median_mse": 0.8488344133340691,
+          "mean_mae": 0.6879350873193918,
+          "type_accuracy": 0.0,
+          "onehot_valid": 0.0
+        },
+        "1": {
+          "n": 1,
+          "mean_mse": 8.581557888629915,
+          "median_mse": 8.581557888629915,
+          "mean_mae": 1.5015485973697371,
+          "type_accuracy": 0.0,
+          "onehot_valid": 0.0
+        }
+      },
+      "feature_mae_scaled": {
+        "step": 1.8506760373711586,
+        "amount": 0.1978277489542961,
+        "oldbalanceOrg": 0.3737635165452957,
+        "newbalanceOrig": 0.26579514145851135,
+        "oldbalanceDest": 0.6099498085677624,
+        "newbalanceDest": 0.30502745509147644,
+        "balance_diff_orig": 3.5414581652730703,
+        "balance_diff_dest": 2.591693088412285,
+        "type=CASH_IN": 0.3481837594881654,
+        "type=CASH_OUT": 0.30122921107977163,
+        "type=DEBIT": 0.02684625654364936,
+        "type=PAYMENT": 0.6771690311725251,
+        "type=TRANSFER": 0.4977808228577487
+      },
+      "feature_mae_raw": {
+        "step": 333.12168672680855,
+        "amount": 38563.19170133324,
+        "oldbalanceOrg": 40200.13502202928,
+        "newbalanceOrig": 38328.32189270742,
+        "oldbalanceDest": 575751.4095540263,
+        "newbalanceDest": 339202.2698058997,
+        "balance_diff_orig": 35767.47910525474,
+        "balance_diff_dest": 385737.8869094357
+      }
+    },
+    "prior": {
+      "mean_mse": 10.682710521573924,
+      "median_mse": 9.818827704820245,
+      "mean_mae": 1.326745203588731,
+      "classes": {
+        "0": {
+          "n": 3,
+          "mean_mse": 13.174040519544036,
+          "median_mse": 16.428934881976904,
+          "mean_mae": 1.4155329460612476,
+          "type_accuracy": 0.6666666666666666,
+          "onehot_valid": 0.0
+        },
+        "1": {
+          "n": 1,
+          "mean_mse": 3.2087205276635866,
+          "median_mse": 3.2087205276635866,
+          "mean_mae": 1.0603819761711817,
+          "type_accuracy": 0.0,
+          "onehot_valid": 0.0
+        }
+      },
+      "feature_mae_scaled": {
+        "step": 1.4285326935350895,
+        "amount": 1.0284274704754353,
+        "oldbalanceOrg": 0.697861734777689,
+        "newbalanceOrig": 0.9953061640262604,
+        "oldbalanceDest": 0.35475365072488785,
+        "newbalanceDest": 0.2051988374441862,
+        "balance_diff_orig": 9.638009872287512,
+        "balance_diff_dest": 1.4021704643964767,
+        "type=CASH_IN": 0.1547106895595789,
+        "type=CASH_OUT": 0.32567695155739784,
+        "type=DEBIT": 0.2898641750216484,
+        "type=PAYMENT": 0.5666753649711609,
+        "type=TRANSFER": 0.1604995778761804
+      },
+      "feature_mae_raw": {
+        "step": 257.1358848363161,
+        "amount": 200474.63464806403,
+        "oldbalanceOrg": 75058.51888401434,
+        "newbalanceOrig": 143525.62965320057,
+        "oldbalanceDest": 334863.478240767,
+        "newbalanceDest": 228189.00482819122,
+        "balance_diff_orig": 97340.50231162384,
+        "balance_diff_dest": 208693.79728695628
+      }
+    },
+    "max_balance_residual_raw": 0.10478326200973243,
+    "defense_relative_l2_delta": 0.09792257851584149,
+    "defense_keep_ratio": 0.006892854407597457
+  },
+  {
+    "method": "zero_update",
+    "group_id": 10,
+    "restart": 13,
+    "objective": 0.013600951991975307,
+    "best_step": 600,
+    "metrics": {
+      "mean_mse": 96.75170525436863,
+      "median_mse": 99.23320780147178,
+      "mean_mae": 5.417280624350007,
+      "classes": {
+        "0": {
+          "n": 3,
+          "mean_mse": 90.7151163002494,
+          "median_mse": 95.95408991069817,
+          "mean_mae": 5.278026274412742,
+          "type_accuracy": 0.3333333333333333,
+          "onehot_valid": 0.0
+        },
+        "1": {
+          "n": 1,
+          "mean_mse": 114.86147211672632,
+          "median_mse": 114.86147211672632,
+          "mean_mae": 5.8350436741618,
+          "type_accuracy": 0.0,
+          "onehot_valid": 0.0
+        }
+      },
+      "feature_mae_scaled": {
+        "step": 18.15522751957178,
+        "amount": 6.9980495143681765,
+        "oldbalanceOrg": 3.679396580904722,
+        "newbalanceOrig": 2.9211485385894775,
+        "oldbalanceDest": 4.2699864730238914,
+        "newbalanceDest": 3.360137138515711,
+        "balance_diff_orig": 15.539074745029211,
+        "balance_diff_dest": 14.002947226166725,
+        "type=CASH_IN": 0.24995172494845974,
+        "type=CASH_OUT": 0.2501102856385842,
+        "type=DEBIT": 0.24925508438582256,
+        "type=PAYMENT": 0.4993799535004655,
+        "type=TRANSFER": 0.24998333190706035
+      },
+      "feature_mae_raw": {
+        "step": 3267.9409535229206,
+        "amount": 1364152.0281381207,
+        "oldbalanceOrg": 395737.4992592074,
+        "newbalanceOrig": 421236.9002273351,
+        "oldbalanceDest": 4030578.73957347,
+        "newbalanceDest": 3736601.8213075893,
+        "balance_diff_orig": 156939.17740094732,
+        "balance_diff_dest": 2084146.1890979256
+      }
+    },
+    "prior": {
+      "mean_mse": 10.682710521573924,
+      "median_mse": 9.818827704820245,
+      "mean_mae": 1.326745203588731,
+      "classes": {
+        "0": {
+          "n": 3,
+          "mean_mse": 13.174040519544036,
+          "median_mse": 16.428934881976904,
+          "mean_mae": 1.4155329460612476,
+          "type_accuracy": 0.6666666666666666,
+          "onehot_valid": 0.0
+        },
+        "1": {
+          "n": 1,
+          "mean_mse": 3.2087205276635866,
+          "median_mse": 3.2087205276635866,
+          "mean_mae": 1.0603819761711817,
+          "type_accuracy": 0.0,
+          "onehot_valid": 0.0
+        }
+      },
+      "feature_mae_scaled": {
+        "step": 1.4285326935350895,
+        "amount": 1.0284274704754353,
+        "oldbalanceOrg": 0.697861734777689,
+        "newbalanceOrig": 0.9953061640262604,
+        "oldbalanceDest": 0.35475365072488785,
+        "newbalanceDest": 0.2051988374441862,
+        "balance_diff_orig": 9.638009872287512,
+        "balance_diff_dest": 1.4021704643964767,
+        "type=CASH_IN": 0.1547106895595789,
+        "type=CASH_OUT": 0.32567695155739784,
+        "type=DEBIT": 0.2898641750216484,
+        "type=PAYMENT": 0.5666753649711609,
+        "type=TRANSFER": 0.1604995778761804
+      },
+      "feature_mae_raw": {
+        "step": 257.1358848363161,
+        "amount": 200474.63464806403,
+        "oldbalanceOrg": 75058.51888401434,
+        "newbalanceOrig": 143525.62965320057,
+        "oldbalanceDest": 334863.478240767,
+        "newbalanceDest": 228189.00482819122,
+        "balance_diff_orig": 97340.50231162384,
+        "balance_diff_dest": 208693.79728695628
+      }
+    },
+    "max_balance_residual_raw": 0.5723743457347155,
+    "defense_relative_l2_delta": 0.09792257851584149,
+    "defense_keep_ratio": 0.006892854407597457
+  }
+]

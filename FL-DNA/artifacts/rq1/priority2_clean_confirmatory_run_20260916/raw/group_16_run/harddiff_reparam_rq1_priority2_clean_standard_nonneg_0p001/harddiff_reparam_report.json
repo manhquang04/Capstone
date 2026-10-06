@@ -1,0 +1,121 @@
+{
+  "run": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/artifacts/rq1/priority2_clean_confirmatory_run_20260916/raw/group_16_run",
+  "target_file": "rq1_priority2_clean_targets.pt",
+  "groups": [
+    16
+  ],
+  "restarts": 8,
+  "initialization": "standard",
+  "nonnegative_lambda": 0.001,
+  "parameterization": "balance_diff_orig = oldbalanceOrg - newbalanceOrig and balance_diff_dest = newbalanceDest - oldbalanceDest are enforced during optimization",
+  "frozen_attack": {
+    "attack_lr": 0.1,
+    "iterations": 600,
+    "restarts": 3,
+    "protocol_sha256": "2cbc3f4c93a5d053809ddca2403b42e091929b4b3dc5ee46138951544340499f",
+    "selected_before_evaluation": true
+  },
+  "group_summary": [
+    {
+      "group_id": 16,
+      "n_baseline_restarts": 8,
+      "objective_best_restart": 5,
+      "fraud_mse_best_restart": 6,
+      "objective_best_fraud_mse": 106.67701799205443,
+      "fraud_best_fraud_mse": 20.210828904761744,
+      "extra_fraud_mse_from_objective_selection": 86.46618908729269,
+      "objective_best_objective": 0.40649735927581787,
+      "fraud_best_objective": 0.5602813959121704,
+      "objective_margin_wrong_minus_fraud_best": -0.15378403663635254,
+      "prior_fraud_mse_mean": 17.51904025781446,
+      "zero_objective_best_fraud_mse": 181.52311951311447,
+      "objective_minus_prior_fraud_mse": 89.15797773423998,
+      "objective_minus_zero_fraud_mse": -74.84610152106004,
+      "fraud_best_minus_prior_fraud_mse": 2.691788646947284,
+      "fraud_best_minus_zero_fraud_mse": -161.31229060835273,
+      "max_balance_residual_raw": 0.3554648836143315
+    }
+  ],
+  "target_gate": {
+    "objective_selection": {
+      "prior": {
+        "n": 1,
+        "wins": 0,
+        "mean_difference": 89.15797773423998,
+        "median_difference": 89.15797773423998,
+        "one_sided_sign_p": 1.0,
+        "gate": false
+      },
+      "zero": {
+        "n": 1,
+        "wins": 1,
+        "mean_difference": -74.84610152106004,
+        "median_difference": -74.84610152106004,
+        "one_sided_sign_p": 0.5,
+        "gate": false
+      },
+      "gate": false
+    },
+    "fraud_mse_oracle_selection_diagnostic_only": {
+      "prior": {
+        "n": 1,
+        "wins": 0,
+        "mean_difference": 2.691788646947284,
+        "median_difference": 2.691788646947284,
+        "one_sided_sign_p": 1.0,
+        "gate": false
+      },
+      "zero": {
+        "n": 1,
+        "wins": 1,
+        "mean_difference": -161.31229060835273,
+        "median_difference": -161.31229060835273,
+        "one_sided_sign_p": 0.5,
+        "gate": false
+      },
+      "gate": false
+    }
+  },
+  "wrong_groups_only_gate": {
+    "objective_selection": {
+      "prior": {
+        "n": 1,
+        "wins": 0,
+        "mean_difference": 89.15797773423998,
+        "median_difference": 89.15797773423998,
+        "one_sided_sign_p": 1.0,
+        "gate": false
+      },
+      "zero": {
+        "n": 1,
+        "wins": 1,
+        "mean_difference": -74.84610152106004,
+        "median_difference": -74.84610152106004,
+        "one_sided_sign_p": 0.5,
+        "gate": false
+      },
+      "gate": false
+    },
+    "fraud_mse_oracle_selection_diagnostic_only": {
+      "prior": {
+        "n": 1,
+        "wins": 0,
+        "mean_difference": 2.691788646947284,
+        "median_difference": 2.691788646947284,
+        "one_sided_sign_p": 1.0,
+        "gate": false
+      },
+      "zero": {
+        "n": 1,
+        "wins": 1,
+        "mean_difference": -161.31229060835273,
+        "median_difference": -161.31229060835273,
+        "one_sided_sign_p": 0.5,
+        "gate": false
+      },
+      "gate": false
+    }
+  },
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b",
+  "interpretation": "Diagnostic/development target run; do not use as an independent final gate."
+}

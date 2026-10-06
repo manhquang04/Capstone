@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-16T08:28:39.930351+00:00",
+  "scope": "development-only frozen strong update-DP utility sweep; not confirmatory",
+  "amendment": "protocols/amendments/2026-09-16_strong_update_dp_exploratory_pareto.md",
+  "seeds": [
+    101,
+    202,
+    303
+  ],
+  "max_rows": 100000,
+  "rounds": 10,
+  "clients": 3,
+  "clip_norm": 100.0,
+  "multipliers": {
+    "epsilon_100": 0.09866372299196495,
+    "epsilon_50": 0.15890264833373352,
+    "epsilon_10": 0.5678974412358136,
+    "epsilon_1": 4.900556183310786
+  },
+  "jobs": [
+    {
+      "seed": 101,
+      "method": "baseline"
+    },
+    {
+      "seed": 202,
+      "method": "baseline"
+    },
+    {
+      "seed": 303,
+      "method": "baseline"
+    },
+    {
+      "seed": 101,
+      "method": "epsilon_100",
+      "noise_multiplier": 0.09866372299196495
+    },
+    {
+      "seed": 101,
+      "method": "epsilon_50",
+      "noise_multiplier": 0.15890264833373352
+    },
+    {
+      "seed": 101,
+      "method": "epsilon_10",
+      "noise_multiplier": 0.5678974412358136
+    },
+    {
+      "seed": 101,
+      "method": "epsilon_1",
+      "noise_multiplier": 4.900556183310786
+    },
+    {
+      "seed": 202,
+      "method": "epsilon_100",
+      "noise_multiplier": 0.09866372299196495
+    },
+    {
+      "seed": 202,
+      "method": "epsilon_50",
+      "noise_multiplier": 0.15890264833373352
+    },
+    {
+      "seed": 202,
+      "method": "epsilon_10",
+      "noise_multiplier": 0.5678974412358136
+    },
+    {
+      "seed": 202,
+      "method": "epsilon_1",
+      "noise_multiplier": 4.900556183310786
+    },
+    {
+      "seed": 303,
+      "method": "epsilon_100",
+      "noise_multiplier": 0.09866372299196495
+    },
+    {
+      "seed": 303,
+      "method": "epsilon_50",
+      "noise_multiplier": 0.15890264833373352
+    },
+    {
+      "seed": 303,
+      "method": "epsilon_10",
+      "noise_multiplier": 0.5678974412358136
+    },
+    {
+      "seed": 303,
+      "method": "epsilon_1",
+      "noise_multiplier": 4.900556183310786
+    }
+  ],
+  "code_hashes": {
+    "experiments/run_fraud_fl_dp.py": "5c31dcbbbb9d0756ba2b6c0bd7a6469340cdf739f123a47a95f55e723c660c99",
+    "experiments/run_fraud_fl_baseline.py": "bdfa36bdaee6a28e629a246557e84ec5c59220a9f590d56647a7a05df093d274",
+    "experiments/fraud_fl_common.py": "cfe0f18785b96003eaab7fec7bdc62c240217d24f702cae3219a2649a51abe6e",
+    "privacy/dp_engine.py": "23b0836743af6f8b53ab1ab7359a90693e797b6a2f11a2cd953742c6df262db0",
+    "data/load_creditcard.py": "7de2d3a6d8875ebe24b1561b2e82556b973440f8375fbc3fa7513cdd23329d9a"
+  }
+}

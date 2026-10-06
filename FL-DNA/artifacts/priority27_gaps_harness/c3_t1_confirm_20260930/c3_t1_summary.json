@@ -1,0 +1,103 @@
+{
+  "amendment": "protocols/amendments/2026-09-29_priority27_gaps_and_harness.md",
+  "amendment_sha256": "042b84b2339c3525bc7c14146349277f8c2eba4dd1e07a6c640a1531714366c5",
+  "branch_summary": {
+    "dp_full_state_single_clip_for_v1_conservative": {
+      "mean_mse": 1.2108329783074145,
+      "median_mse": 0.03798504787150379
+    },
+    "dp_full_state_single_clip_for_v2_0p95_eta0p01": {
+      "mean_mse": 1.2061293051961648,
+      "median_mse": 0.02652900856596707
+    },
+    "dp_per_tensor_clip_for_v1_conservative": {
+      "mean_mse": 0.796704905611934,
+      "median_mse": 0.03390148644842651
+    },
+    "dp_per_tensor_clip_for_v2_0p95_eta0p01": {
+      "mean_mse": 0.8000482340728267,
+      "median_mse": 0.023474361190714884
+    },
+    "none": {
+      "mean_mse": 6.871701715943643e-12,
+      "median_mse": 9.873048277030538e-13
+    },
+    "population_mean": {
+      "mean_mse": 1.65035998930179,
+      "median_mse": 0.3768340887419265
+    },
+    "v1_conservative": {
+      "mean_mse": 3.3125794734155467,
+      "median_mse": 0.1310844399559586
+    },
+    "v2_0p95_eta0p01": {
+      "mean_mse": 9.18174734340277,
+      "median_mse": 0.9027767841943677
+    }
+  },
+  "confirm_target": "artifacts/priority27_gaps_harness/c3_t1_confirm_targets_20260930/paysim_priority27_c3_t1_confirm_targets.pt",
+  "confirm_target_sha256": "71eb36f55fd29fe0d04c3e2cdd2f7c626453815c3975187c07dea2b9159e7b04",
+  "created_at": "2026-09-29T18:32:14.125936+00:00",
+  "dev_target": "artifacts/priority27_gaps_harness/c3_t1_dev_targets_20260930/paysim_priority27_c3_t1_dev_targets.pt",
+  "dev_target_sha256": "50c25dad67beae8687c0deafe003130b8e81c9499a6637eaa275af4055d034f7",
+  "feature_names": [
+    "step",
+    "amount",
+    "oldbalanceOrg",
+    "newbalanceOrig",
+    "oldbalanceDest",
+    "newbalanceDest",
+    "balance_diff_orig",
+    "balance_diff_dest",
+    "type=CASH_IN",
+    "type=CASH_OUT",
+    "type=DEBIT",
+    "type=PAYMENT",
+    "type=TRANSFER"
+  ],
+  "tests": {
+    "v1_conservative__full_state_single_clip": {
+      "dna_wins": 30,
+      "dp_wins": 9,
+      "non_tied_n": 39,
+      "p_dna_greater": 0.00053250981727615,
+      "p_dp_greater": 0.9998529615622829,
+      "ties": 0,
+      "transform": "v1_conservative",
+      "variant": "full_state_single_clip"
+    },
+    "v1_conservative__per_tensor_clip": {
+      "dna_wins": 33,
+      "dp_wins": 6,
+      "non_tied_n": 39,
+      "p_dna_greater": 7.14963061909657e-06,
+      "p_dp_greater": 0.9999987850460457,
+      "ties": 0,
+      "transform": "v1_conservative",
+      "variant": "per_tensor_clip"
+    },
+    "v2_0p95_eta0p01__full_state_single_clip": {
+      "dna_wins": 37,
+      "dp_wins": 2,
+      "non_tied_n": 39,
+      "p_dna_greater": 1.420630724169314e-09,
+      "p_dp_greater": 0.9999999999272404,
+      "ties": 0,
+      "transform": "v2_0p95_eta0p01",
+      "variant": "full_state_single_clip"
+    },
+    "v2_0p95_eta0p01__per_tensor_clip": {
+      "dna_wins": 37,
+      "dp_wins": 2,
+      "non_tied_n": 39,
+      "p_dna_greater": 1.420630724169314e-09,
+      "p_dp_greater": 0.9999999999272404,
+      "ties": 0,
+      "transform": "v2_0p95_eta0p01",
+      "variant": "per_tensor_clip"
+    }
+  },
+  "tie_band": 0.0,
+  "utility_summary": "results/priority27_gaps_harness/c2_utility_grid_with_extension_20260930/utility_grid_summary.json",
+  "utility_summary_sha256": "3b97e968c620f32bdd808c88b3dab19790a1b452b5b72202acb6c4d91ecf26be"
+}

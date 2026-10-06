@@ -1,0 +1,965 @@
+{
+  "created_at": "2026-09-28T13:35:56.508682+00:00",
+  "cells": [
+    {
+      "name": "priority14_v1_stronger_vs_dp_0p0004",
+      "report_path": "artifacts/priority14_fresh_probe/v1_stronger_confirmatory_20260921/priority14_probe_report.json",
+      "target_path": "artifacts/priority14_fresh_probe/v1_stronger_confirmatory_targets_20260921/paysim_priority14_v1_stronger_confirmatory_targets.pt",
+      "n": 39,
+      "update_D_summary": {
+        "mean": -0.0016166626669785634,
+        "median": -0.0016185609011009296,
+        "min": -0.0016648222065312667,
+        "max": -0.0015611634361454207,
+        "sd": 2.239451446454247e-05
+      },
+      "floor_dp_summary": {
+        "mean": 0.0016172246630511906,
+        "median": 0.0016190271042227705,
+        "min": 0.001561661802931571,
+        "max": 0.0016655497143510665,
+        "sd": 2.2401132166149072e-05
+      },
+      "floor_dna_summary": {
+        "mean": 2.0170548635090677e-08,
+        "median": 2.0038298908551084e-08,
+        "min": 1.853649111558719e-08,
+        "max": 2.15647685519027e-08,
+        "sd": 7.457862376106971e-10
+      },
+      "dp_mse_minus_floor_summary": {
+        "mean": 5.766360386165575e-07,
+        "median": 5.766214973598315e-07,
+        "min": -1.3351639369155698e-06,
+        "max": 2.4539128553981767e-06,
+        "sd": 7.555212979274496e-07
+      },
+      "dna_mse_minus_floor_summary": {
+        "mean": 1.1184615626082413e-06,
+        "median": 1.1141512839024885e-06,
+        "min": 9.854204171289904e-07,
+        "max": 1.2704616142079595e-06,
+        "sd": 8.050226295895878e-08
+      },
+      "floor_explained_fraction_summary": {
+        "mean": 1.000335268797593,
+        "median": 1.0003440155833914,
+        "min": 0.9991478191652636,
+        "max": 1.001505862474666,
+        "sd": 0.00047086446761294883
+      },
+      "floor_corrected_D_summary": {
+        "mean": 5.418255239916838e-07,
+        "median": 5.602097110877314e-07,
+        "min": -1.3980153932331933e-06,
+        "max": 2.4276904732342704e-06,
+        "sd": 7.619566078438816e-07
+      },
+      "floor_corrected_sign_test_dp_wins_positive": {
+        "wins": 8,
+        "losses": 31,
+        "ties": 0,
+        "non_tied": 39,
+        "one_sided_p": 0.9999648726079613
+      },
+      "input_D_summary": {
+        "mean": -384.1863595688447,
+        "median": -33.47614304565951,
+        "min": -4114.43220310962,
+        "max": 1711.622332922003,
+        "sd": 1104.134651507633
+      },
+      "input_sign_test_dp_wins_positive": {
+        "wins": 18,
+        "losses": 21,
+        "ties": 0,
+        "non_tied": 39,
+        "one_sided_p": 0.7388013097515795
+      },
+      "input_tie_banded_sign_test_dp_wins_positive": {
+        "wins": 18,
+        "losses": 21,
+        "ties": 0,
+        "non_tied": 39,
+        "one_sided_p": 0.7388013097515795
+      },
+      "input_oracle_D_summary": {
+        "mean": -265.24071181817635,
+        "median": -0.941804303368702,
+        "min": -3205.9598802483088,
+        "max": 629.0965089270267,
+        "sd": 761.4397989584572
+      },
+      "input_oracle_sign_test_dp_wins_positive": {
+        "wins": 18,
+        "losses": 21,
+        "ties": 0,
+        "non_tied": 39,
+        "one_sided_p": 0.7388013097515795
+      },
+      "input_oracle_tie_banded_sign_test_dp_wins_positive": {
+        "wins": 18,
+        "losses": 21,
+        "ties": 0,
+        "non_tied": 39,
+        "one_sided_p": 0.7388013097515795
+      },
+      "selected_dna_prior_input_mse_summary": {
+        "mean": 3381.7057327474586,
+        "median": 352.1188751062586,
+        "min": 13.574058966753135,
+        "max": 23755.186782904322,
+        "sd": 6543.643131852705
+      },
+      "selected_dp_prior_input_mse_summary": {
+        "mean": 3507.061522372258,
+        "median": 423.95877557204733,
+        "min": 9.062776019233636,
+        "max": 23801.13858415976,
+        "sd": 6727.910344153026
+      },
+      "csv": "artifacts/priority21_metric_validity/reanalysis_20260928/priority14_v1_stronger_vs_dp_0p0004_priority21_reanalysis.csv",
+      "csv_sha256": "84898b0f11669a764c5b3371f9e1bc805c88f4e06f6135b1bfff78c180f4e60c"
+    },
+    {
+      "name": "priority14_v2_ratio0p95_vs_dp_0p00105",
+      "report_path": "artifacts/priority14_fresh_probe/v2_ratio0p95_confirmatory_20260921/priority14_probe_report.json",
+      "target_path": "artifacts/priority14_fresh_probe/v2_ratio0p95_confirmatory_targets_20260921/paysim_priority14_v2_ratio0p95_confirmatory_targets.pt",
+      "n": 39,
+      "update_D_summary": {
+        "mean": -0.011142000339682493,
+        "median": -0.011153024556394064,
+        "min": -0.011472191521304603,
+        "max": -0.010762953239998747,
+        "sd": 0.00015395491425476958
+      },
+      "floor_dp_summary": {
+        "mean": 0.011143688496346152,
+        "median": 0.011156108448970352,
+        "min": 0.010760825691199809,
+        "max": 0.011476678259370867,
+        "sd": 0.00015435779189646012
+      },
+      "floor_dna_summary": {
+        "mean": 2.004751163932924e-11,
+        "median": 1.9727519276333638e-11,
+        "min": 1.724259791401724e-11,
+        "max": 2.7682400783346022e-11,
+        "sd": 1.708343773386589e-12
+      },
+      "dp_mse_minus_floor_summary": {
+        "mean": -2.76913723695395e-07,
+        "median": -6.091732582674814e-07,
+        "min": -3.88975653341575e-06,
+        "max": 6.925612924785218e-06,
+        "sd": 2.3416881405789527e-06
+      },
+      "dna_mse_minus_floor_summary": {
+        "mean": 1.4112228924550333e-06,
+        "median": 1.4196955599676166e-06,
+        "min": 1.0332303917020488e-06,
+        "max": 1.6253146904594845e-06,
+        "sd": 1.3013301569410419e-07
+      },
+      "floor_explained_fraction_summary": {
+        "mean": 1.00015108205272,
+        "median": 1.0001803667883251,
+        "min": 0.9994858601774028,
+        "max": 1.0004796939553313,
+        "sd": 0.0002123746067507362
+      },
+      "floor_corrected_D_summary": {
+        "mean": 1.6881366161504282e-06,
+        "median": 1.9849314194010366e-06,
+        "min": -5.740221095619882e-06,
+        "max": 5.396194759302173e-06,
+        "sd": 2.375763520945656e-06
+      },
+      "floor_corrected_sign_test_dp_wins_positive": {
+        "wins": 7,
+        "losses": 32,
+        "ties": 0,
+        "non_tied": 39,
+        "one_sided_p": 0.9999928503693809
+      },
+      "input_D_summary": {
+        "mean": -128.5896732567624,
+        "median": -40.08068658044864,
+        "min": -1612.4102383407278,
+        "max": 489.4073307712697,
+        "sd": 382.8087947764175
+      },
+      "input_sign_test_dp_wins_positive": {
+        "wins": 15,
+        "losses": 24,
+        "ties": 0,
+        "non_tied": 39,
+        "one_sided_p": 0.9459354892969714
+      },
+      "input_tie_banded_sign_test_dp_wins_positive": {
+        "wins": 15,
+        "losses": 24,
+        "ties": 0,
+        "non_tied": 39,
+        "one_sided_p": 0.9459354892969714
+      },
+      "input_oracle_D_summary": {
+        "mean": -72.34733133325436,
+        "median": -4.019231045422469,
+        "min": -497.8882251949515,
+        "max": 52.565821761185845,
+        "sd": 152.23216173475265
+      },
+      "input_oracle_sign_test_dp_wins_positive": {
+        "wins": 19,
+        "losses": 20,
+        "ties": 0,
+        "non_tied": 39,
+        "one_sided_p": 0.6253706876195793
+      },
+      "input_oracle_tie_banded_sign_test_dp_wins_positive": {
+        "wins": 19,
+        "losses": 20,
+        "ties": 0,
+        "non_tied": 39,
+        "one_sided_p": 0.6253706876195793
+      },
+      "selected_dna_prior_input_mse_summary": {
+        "mean": 691.9953428198206,
+        "median": 50.46205952003658,
+        "min": 10.671277622750994,
+        "max": 18957.050053608364,
+        "sd": 3023.2724785805735
+      },
+      "selected_dp_prior_input_mse_summary": {
+        "mean": 744.7215501871041,
+        "median": 74.15480898868296,
+        "min": 7.3115461792262675,
+        "max": 19706.697435716007,
+        "sd": 3141.5987726572876
+      },
+      "csv": "artifacts/priority21_metric_validity/reanalysis_20260928/priority14_v2_ratio0p95_vs_dp_0p00105_priority21_reanalysis.csv",
+      "csv_sha256": "5592b9d04d5068902bc8afc8f71b90987ec0625b384402a9b2c4e88eecb5a1cc"
+    },
+    {
+      "name": "priority16_v1_medium_vs_dp_0p000315",
+      "report_path": "artifacts/priority16_v1_medium_dp_head_to_head/confirmatory_run_20260927/priority14_probe_report.json",
+      "target_path": "artifacts/priority16_v1_medium_dp_head_to_head/confirmatory_targets_20260927/paysim_priority16_v1_medium_confirmatory_targets.pt",
+      "n": 39,
+      "update_D_summary": {
+        "mean": -0.0010026436558672064,
+        "median": -0.0010047588902870148,
+        "min": -0.001032592196022129,
+        "max": -0.0009677024415664272,
+        "sd": 1.4117016824531628e-05
+      },
+      "floor_dp_summary": {
+        "mean": 0.0010029320596921059,
+        "median": 0.0010040498550282651,
+        "min": 0.0009684744024338858,
+        "max": 0.001032901141359905,
+        "sd": 1.3892202912537274e-05
+      },
+      "floor_dna_summary": {
+        "mean": 1.4177729008923663e-08,
+        "median": 1.4035130146870005e-08,
+        "min": 1.3394814084259418e-08,
+        "max": 1.5522975739757807e-08,
+        "sd": 5.559678249841851e-10
+      },
+      "dp_mse_minus_floor_summary": {
+        "mean": 8.861675243272319e-07,
+        "median": 8.724661668521507e-07,
+        "min": -5.04566043635921e-07,
+        "max": 2.6835893353687693e-06,
+        "sd": 6.737840003316498e-07
+      },
+      "dna_mse_minus_floor_summary": {
+        "mean": 1.1603936202176232e-06,
+        "median": 1.1763864582255207e-06,
+        "min": 9.392809428199258e-07,
+        "max": 1.3161202010064172e-06,
+        "sd": 8.519637323331395e-08
+      },
+      "floor_explained_fraction_summary": {
+        "mean": 1.0002768808826767,
+        "median": 1.0003198022316475,
+        "min": 0.9985262103474876,
+        "max": 1.0016005157752852,
+        "sd": 0.0006881183476422349
+      },
+      "floor_corrected_D_summary": {
+        "mean": 2.742260958903914e-07,
+        "median": 3.214305047300089e-07,
+        "min": -1.4886391988632294e-06,
+        "max": 1.578347036975087e-06,
+        "sd": 6.865696998115981e-07
+      },
+      "floor_corrected_sign_test_dp_wins_positive": {
+        "wins": 13,
+        "losses": 26,
+        "ties": 0,
+        "non_tied": 39,
+        "one_sided_p": 0.9881486487647635
+      },
+      "input_D_summary": {
+        "mean": 10.448034241731783,
+        "median": -27.55476478490705,
+        "min": -471.25141572371183,
+        "max": 364.1856027170638,
+        "sd": 182.70654672316653
+      },
+      "input_sign_test_dp_wins_positive": {
+        "wins": 14,
+        "losses": 25,
+        "ties": 0,
+        "non_tied": 39,
+        "one_sided_p": 0.9733740429510362
+      },
+      "input_tie_banded_sign_test_dp_wins_positive": {
+        "wins": 14,
+        "losses": 25,
+        "ties": 0,
+        "non_tied": 39,
+        "one_sided_p": 0.9733740429510362
+      },
+      "input_oracle_D_summary": {
+        "mean": -3.9022845996355513,
+        "median": 3.9750246671717377,
+        "min": -193.01102576630353,
+        "max": 181.3505846603016,
+        "sd": 76.65191555953993
+      },
+      "input_oracle_sign_test_dp_wins_positive": {
+        "wins": 22,
+        "losses": 17,
+        "ties": 0,
+        "non_tied": 39,
+        "one_sided_p": 0.26119869024842046
+      },
+      "input_oracle_tie_banded_sign_test_dp_wins_positive": {
+        "wins": 22,
+        "losses": 17,
+        "ties": 0,
+        "non_tied": 39,
+        "one_sided_p": 0.26119869024842046
+      },
+      "selected_dna_prior_input_mse_summary": {
+        "mean": 452.2312252576294,
+        "median": 70.21292074894261,
+        "min": 9.301180128098142,
+        "max": 7099.161694056956,
+        "sd": 1190.4059467873758
+      },
+      "selected_dp_prior_input_mse_summary": {
+        "mean": 434.8455709252892,
+        "median": 56.07887383009468,
+        "min": 7.96691906887305,
+        "max": 6469.940700979674,
+        "sd": 1094.1271142820904
+      },
+      "csv": "artifacts/priority21_metric_validity/reanalysis_20260928/priority16_v1_medium_vs_dp_0p000315_priority21_reanalysis.csv",
+      "csv_sha256": "8589556c93448b954f878532e7305f379a4ef72a50ef83656ebd94cad619b9d4"
+    },
+    {
+      "name": "priority20_ckpt0_v1_medium_vs_dp_0p000315",
+      "report_path": "artifacts/priority20_multi_checkpoint/ckpt_0_run_20260927/priority20_probe_report.json",
+      "target_path": "artifacts/priority20_multi_checkpoint/ckpt_0_targets_20260927/paysim_priority20_ckpt_0_targets.pt",
+      "n": 8,
+      "update_D_summary": {
+        "mean": -0.0010120696780451157,
+        "median": -0.0010105526943022516,
+        "min": -0.0010208620263014963,
+        "max": -0.0010017318719533711,
+        "sd": 6.460139836418253e-06
+      },
+      "floor_dp_summary": {
+        "mean": 0.0010126970241835192,
+        "median": 0.0010112769561791593,
+        "min": 0.0010013662767418283,
+        "max": 0.0010216267651491759,
+        "sd": 6.589108607157986e-06
+      },
+      "floor_dna_summary": {
+        "mean": 1.3997665665718974e-08,
+        "median": 1.3918966396704168e-08,
+        "min": 1.2970031896113138e-08,
+        "max": 1.4817196723806671e-08,
+        "sd": 5.727775540879956e-10
+      },
+      "dp_mse_minus_floor_summary": {
+        "mean": 5.641292988514278e-07,
+        "median": 4.262444866015222e-07,
+        "min": -2.481545335985928e-07,
+        "max": 1.583163034114517e-06,
+        "sd": 6.325862167792516e-07
+      },
+      "dna_mse_minus_floor_summary": {
+        "mean": 1.1774777715892026e-06,
+        "median": 1.189876653725978e-06,
+        "min": 1.0990407239155442e-06,
+        "max": 1.23939209703701e-06,
+        "sd": 5.105040054288691e-08
+      },
+      "floor_explained_fraction_summary": {
+        "mean": 1.0006054861176428,
+        "median": 1.0007007228921032,
+        "min": 0.9996220892495905,
+        "max": 1.0014642992148073,
+        "sd": 0.0006093766365525724
+      },
+      "floor_corrected_D_summary": {
+        "mean": 6.133484727377748e-07,
+        "median": 7.139451425536706e-07,
+        "min": -3.785652434388919e-07,
+        "max": 1.4774764877284746e-06,
+        "sd": 6.146718645124105e-07
+      },
+      "floor_corrected_sign_test_dp_wins_positive": {
+        "wins": 1,
+        "losses": 7,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.99609375
+      },
+      "input_D_summary": {
+        "mean": -87.1416381435476,
+        "median": -14.450953398595004,
+        "min": -543.387184556602,
+        "max": 301.5410240832443,
+        "sd": 259.1857668711868
+      },
+      "input_sign_test_dp_wins_positive": {
+        "wins": 3,
+        "losses": 5,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.85546875
+      },
+      "input_tie_banded_sign_test_dp_wins_positive": {
+        "wins": 3,
+        "losses": 5,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.85546875
+      },
+      "input_oracle_D_summary": {
+        "mean": -20.74666080877352,
+        "median": -0.22220298825038753,
+        "min": -204.96017262137116,
+        "max": 109.88959482014593,
+        "sd": 98.5533408734014
+      },
+      "input_oracle_sign_test_dp_wins_positive": {
+        "wins": 4,
+        "losses": 4,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.63671875
+      },
+      "input_oracle_tie_banded_sign_test_dp_wins_positive": {
+        "wins": 4,
+        "losses": 4,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.63671875
+      },
+      "selected_dna_prior_input_mse_summary": {
+        "mean": 1064.1746820755916,
+        "median": 285.7989233626273,
+        "min": 14.083504249645285,
+        "max": 5426.541519924709,
+        "sd": 1836.3543825213721
+      },
+      "selected_dp_prior_input_mse_summary": {
+        "mean": 1023.1490871829935,
+        "median": 282.0436623934431,
+        "min": 23.9411586950737,
+        "max": 4771.065331634795,
+        "sd": 1617.3816760408642
+      },
+      "csv": "artifacts/priority21_metric_validity/reanalysis_20260928/priority20_ckpt0_v1_medium_vs_dp_0p000315_priority21_reanalysis.csv",
+      "csv_sha256": "692ebdcd9cec9c35ff39a665c71edcad34590526611405dc70f925baa446f202"
+    },
+    {
+      "name": "priority20_ckpt1_v1_medium_vs_dp_0p000315",
+      "report_path": "artifacts/priority20_multi_checkpoint/ckpt_1_run_20260927/priority20_probe_report.json",
+      "target_path": "artifacts/priority20_multi_checkpoint/ckpt_1_targets_20260927/paysim_priority20_ckpt_1_targets.pt",
+      "n": 8,
+      "update_D_summary": {
+        "mean": -0.0010123102164284034,
+        "median": -0.0010109707487387719,
+        "min": -0.0010212237011876524,
+        "max": -0.0010008384582485693,
+        "sd": 6.506696792026241e-06
+      },
+      "floor_dp_summary": {
+        "mean": 0.00101269702494906,
+        "median": 0.0010112769564059334,
+        "min": 0.0010013662771796998,
+        "max": 0.0010216267655158218,
+        "sd": 6.589108702225881e-06
+      },
+      "floor_dna_summary": {
+        "mean": 1.4069388160029872e-08,
+        "median": 1.426632057267106e-08,
+        "min": 1.2720626554980064e-08,
+        "max": 1.4552129912865855e-08,
+        "sd": 5.881418917914775e-10
+      },
+      "dp_mse_minus_floor_summary": {
+        "mean": 7.608175357337035e-07,
+        "median": 7.446805937417426e-07,
+        "min": 1.6156489086134249e-07,
+        "max": 1.282719491956701e-06,
+        "sd": 3.130615346455751e-07
+      },
+      "dna_mse_minus_floor_summary": {
+        "mean": 1.1335566682304696e-06,
+        "median": 1.1367823276054401e-06,
+        "min": 1.035171714391409e-06,
+        "max": 1.2174108944933028e-06,
+        "sd": 6.666680305621272e-08
+      },
+      "floor_explained_fraction_summary": {
+        "mean": 1.0003678026125558,
+        "median": 1.0003521406497973,
+        "min": 0.9998167578043973,
+        "max": 1.000857583396278,
+        "sd": 0.0002914702248120785
+      },
+      "floor_corrected_D_summary": {
+        "mean": 3.7273913249676605e-07,
+        "median": 3.580686262995455e-07,
+        "min": -1.848497679700881e-07,
+        "max": 8.736068235300665e-07,
+        "sd": 2.9574729434959513e-07
+      },
+      "floor_corrected_sign_test_dp_wins_positive": {
+        "wins": 1,
+        "losses": 7,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.99609375
+      },
+      "input_D_summary": {
+        "mean": -268.27496694961695,
+        "median": -139.5227280429197,
+        "min": -1101.7595177665498,
+        "max": 32.41746251385433,
+        "sd": 381.48938353682877
+      },
+      "input_sign_test_dp_wins_positive": {
+        "wins": 2,
+        "losses": 6,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.96484375
+      },
+      "input_tie_banded_sign_test_dp_wins_positive": {
+        "wins": 2,
+        "losses": 6,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.96484375
+      },
+      "input_oracle_D_summary": {
+        "mean": -137.3433864921372,
+        "median": -17.631180706803946,
+        "min": -589.0017680997125,
+        "max": 47.731779023047466,
+        "sd": 234.31180590216323
+      },
+      "input_oracle_sign_test_dp_wins_positive": {
+        "wins": 4,
+        "losses": 4,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.63671875
+      },
+      "input_oracle_tie_banded_sign_test_dp_wins_positive": {
+        "wins": 4,
+        "losses": 4,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.63671875
+      },
+      "selected_dna_prior_input_mse_summary": {
+        "mean": 352.3562679577625,
+        "median": 124.0539639784983,
+        "min": 7.11482907501033,
+        "max": 1648.4170475591511,
+        "sd": 546.8398293643125
+      },
+      "selected_dp_prior_input_mse_summary": {
+        "mean": 414.62754427007945,
+        "median": 104.84674049873209,
+        "min": 13.950141800228227,
+        "max": 1829.3072935890386,
+        "sd": 621.3426050175151
+      },
+      "csv": "artifacts/priority21_metric_validity/reanalysis_20260928/priority20_ckpt1_v1_medium_vs_dp_0p000315_priority21_reanalysis.csv",
+      "csv_sha256": "fa18ec03bb3b1b3322b7c5ebd2b964b4a8405ba33ebfcfbefbbb91cbff6dca58"
+    },
+    {
+      "name": "priority20_ckpt2_v1_medium_vs_dp_0p000315",
+      "report_path": "artifacts/priority20_multi_checkpoint/ckpt_2_run_20260927/priority20_probe_report.json",
+      "target_path": "artifacts/priority20_multi_checkpoint/ckpt_2_targets_20260927/paysim_priority20_ckpt_2_targets.pt",
+      "n": 8,
+      "update_D_summary": {
+        "mean": -0.0010119900820638487,
+        "median": -0.0010112557650195598,
+        "min": -0.0010206611171231967,
+        "max": -0.000999617304845529,
+        "sd": 6.799540297524608e-06
+      },
+      "floor_dp_summary": {
+        "mean": 0.0010126970247044983,
+        "median": 0.0010112769552240559,
+        "min": 0.001001366276529682,
+        "max": 0.0010216267659542047,
+        "sd": 6.589109071641096e-06
+      },
+      "floor_dna_summary": {
+        "mean": 1.4392283366178557e-08,
+        "median": 1.447330716104526e-08,
+        "min": 1.2977747595656985e-08,
+        "max": 1.536870837958612e-08,
+        "sd": 8.604229881718535e-10
+      },
+      "dp_mse_minus_floor_summary": {
+        "mean": 4.395342254348317e-07,
+        "median": 3.609729361073611e-07,
+        "min": -5.144916871873458e-07,
+        "max": 1.6706868438654768e-06,
+        "sd": 6.132824205158811e-07
+      },
+      "dna_mse_minus_floor_summary": {
+        "mean": 1.1320845827182055e-06,
+        "median": 1.1312417495835752e-06,
+        "min": 1.0586925134015874e-06,
+        "max": 1.219342054614371e-06,
+        "sd": 4.97449657743685e-08
+      },
+      "floor_explained_fraction_summary": {
+        "mean": 1.000685777111133,
+        "median": 1.0007849478172877,
+        "min": 0.9993947473663366,
+        "max": 1.0017344975256002,
+        "sd": 0.0006483767145155625
+      },
+      "floor_corrected_D_summary": {
+        "mean": 6.925503572833738e-07,
+        "median": 7.918366342020666e-07,
+        "min": -6.119943304638895e-07,
+        "max": 1.7338337418017168e-06,
+        "sd": 6.513626950430873e-07
+      },
+      "floor_corrected_sign_test_dp_wins_positive": {
+        "wins": 1,
+        "losses": 7,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.99609375
+      },
+      "input_D_summary": {
+        "mean": -1373.0514746291751,
+        "median": -241.5621106006401,
+        "min": -5305.07192393225,
+        "max": 52.6799852600998,
+        "sd": 1987.774360591586
+      },
+      "input_sign_test_dp_wins_positive": {
+        "wins": 1,
+        "losses": 7,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.99609375
+      },
+      "input_tie_banded_sign_test_dp_wins_positive": {
+        "wins": 1,
+        "losses": 7,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.99609375
+      },
+      "input_oracle_D_summary": {
+        "mean": -357.6002127135031,
+        "median": -122.10465327303797,
+        "min": -1256.7084703205655,
+        "max": 35.31324812164965,
+        "sd": 478.39642805609674
+      },
+      "input_oracle_sign_test_dp_wins_positive": {
+        "wins": 3,
+        "losses": 5,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.85546875
+      },
+      "input_oracle_tie_banded_sign_test_dp_wins_positive": {
+        "wins": 3,
+        "losses": 5,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.85546875
+      },
+      "selected_dna_prior_input_mse_summary": {
+        "mean": 5339.21651980118,
+        "median": 473.6905288153955,
+        "min": 21.594987272742937,
+        "max": 19198.41817255836,
+        "sd": 8447.156725998957
+      },
+      "selected_dp_prior_input_mse_summary": {
+        "mean": 5511.532965958006,
+        "median": 338.8295089383204,
+        "min": 29.813462291992874,
+        "max": 19285.118801824316,
+        "sd": 8631.221932844051
+      },
+      "csv": "artifacts/priority21_metric_validity/reanalysis_20260928/priority20_ckpt2_v1_medium_vs_dp_0p000315_priority21_reanalysis.csv",
+      "csv_sha256": "d613ab5e5fd8afbaadcc04254be073bd5ba8f1bca445947cb8dea759999e728b"
+    },
+    {
+      "name": "priority20_ckpt3_v1_medium_vs_dp_0p000315",
+      "report_path": "artifacts/priority20_multi_checkpoint/ckpt_3_run_20260927/priority20_probe_report.json",
+      "target_path": "artifacts/priority20_multi_checkpoint/ckpt_3_targets_20260927/paysim_priority20_ckpt_3_targets.pt",
+      "n": 8,
+      "update_D_summary": {
+        "mean": -0.0010126253056152476,
+        "median": -0.0010116989369094568,
+        "min": -0.0010212706094099749,
+        "max": -0.0010012986361292015,
+        "sd": 6.598636396146169e-06
+      },
+      "floor_dp_summary": {
+        "mean": 0.0010126970247570251,
+        "median": 0.0010112769565343905,
+        "min": 0.0010013662760433315,
+        "max": 0.0010216267639749192,
+        "sd": 6.589108678491374e-06
+      },
+      "floor_dna_summary": {
+        "mean": 1.4422463839553599e-08,
+        "median": 1.4539630149989948e-08,
+        "min": 1.3734481108629787e-08,
+        "max": 1.4893883803061373e-08,
+        "sd": 4.2126434632257124e-10
+      },
+      "dp_mse_minus_floor_summary": {
+        "mean": 1.0993296875022986e-06,
+        "median": 9.480990766541804e-07,
+        "min": 3.834143933816557e-07,
+        "max": 2.188876963243316e-06,
+        "sd": 6.245602535237347e-07
+      },
+      "dna_mse_minus_floor_summary": {
+        "mean": 1.1566263654402042e-06,
+        "median": 1.1379400943081503e-06,
+        "min": 1.0691376241149044e-06,
+        "max": 1.3133036454592902e-06,
+        "sd": 7.904220180636962e-08
+      },
+      "floor_explained_fraction_summary": {
+        "mean": 1.000056790873003,
+        "median": 1.0001937756346475,
+        "min": 0.9991400976964748,
+        "max": 1.0007810742118846,
+        "sd": 0.0005830582142881158
+      },
+      "floor_corrected_D_summary": {
+        "mean": 5.729667793790556e-08,
+        "median": 1.9736412650389048e-07,
+        "min": -8.755733177840258e-07,
+        "max": 7.886410572272862e-07,
+        "sd": 5.915532938715214e-07
+      },
+      "floor_corrected_sign_test_dp_wins_positive": {
+        "wins": 3,
+        "losses": 5,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.85546875
+      },
+      "input_D_summary": {
+        "mean": -192.7980101785022,
+        "median": -22.62638838062905,
+        "min": -698.3802851422652,
+        "max": 35.787233895417785,
+        "sd": 299.7722370016274
+      },
+      "input_sign_test_dp_wins_positive": {
+        "wins": 3,
+        "losses": 5,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.85546875
+      },
+      "input_tie_banded_sign_test_dp_wins_positive": {
+        "wins": 3,
+        "losses": 5,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.85546875
+      },
+      "input_oracle_D_summary": {
+        "mean": 52.792986119464054,
+        "median": 11.547285667747536,
+        "min": -306.4163545275243,
+        "max": 655.7594365267731,
+        "sd": 268.72567364367563
+      },
+      "input_oracle_sign_test_dp_wins_positive": {
+        "wins": 5,
+        "losses": 3,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.36328125
+      },
+      "input_oracle_tie_banded_sign_test_dp_wins_positive": {
+        "wins": 5,
+        "losses": 3,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.36328125
+      },
+      "selected_dna_prior_input_mse_summary": {
+        "mean": 486.41521697489054,
+        "median": 143.67263226271137,
+        "min": 19.07922108309452,
+        "max": 1731.1845864140653,
+        "sd": 681.6370168147923
+      },
+      "selected_dp_prior_input_mse_summary": {
+        "mean": 589.3422195454992,
+        "median": 155.61783148473026,
+        "min": 23.852622511100396,
+        "max": 1982.362716492936,
+        "sd": 809.8143570513762
+      },
+      "csv": "artifacts/priority21_metric_validity/reanalysis_20260928/priority20_ckpt3_v1_medium_vs_dp_0p000315_priority21_reanalysis.csv",
+      "csv_sha256": "2cbb5f806f0e63bfd1cd2f6c96e4128563ddef01b7df0a4b9761a5b36deee311"
+    },
+    {
+      "name": "priority20_ckpt4_v1_medium_vs_dp_0p000315",
+      "report_path": "artifacts/priority20_multi_checkpoint/ckpt_4_run_20260927/priority20_probe_report.json",
+      "target_path": "artifacts/priority20_multi_checkpoint/ckpt_4_targets_20260927/paysim_priority20_ckpt_4_targets.pt",
+      "n": 8,
+      "update_D_summary": {
+        "mean": -0.0010122728877414592,
+        "median": -0.0010113459329343872,
+        "min": -0.0010214033838399543,
+        "max": -0.0010010487878036962,
+        "sd": 6.375953661921601e-06
+      },
+      "floor_dp_summary": {
+        "mean": 0.0010126970249912028,
+        "median": 0.0010112769569812572,
+        "min": 0.001001366276142674,
+        "max": 0.0010216267649524524,
+        "sd": 6.589108834397378e-06
+      },
+      "floor_dna_summary": {
+        "mean": 1.4328917287358709e-08,
+        "median": 1.4282014080562819e-08,
+        "min": 1.3792470394069517e-08,
+        "max": 1.488571048417168e-08,
+        "sd": 3.57324250700062e-10
+      },
+      "dp_mse_minus_floor_summary": {
+        "mean": 7.470124113513772e-07,
+        "median": 9.030787690732017e-07,
+        "min": -4.179602468457489e-07,
+        "max": 1.2601775175589188e-06,
+        "sd": 5.474880786365709e-07
+      },
+      "dna_mse_minus_floor_summary": {
+        "mean": 1.1568207438074704e-06,
+        "median": 1.1582076332474037e-06,
+        "min": 1.1147596120104235e-06,
+        "max": 1.2036253330519315e-06,
+        "sd": 3.5349634878290294e-08
+      },
+      "floor_explained_fraction_summary": {
+        "mean": 1.0004038025397373,
+        "median": 1.000253814955125,
+        "min": 0.9998680830643935,
+        "max": 1.0015447602840142,
+        "sd": 0.0005352083242780856
+      },
+      "floor_corrected_D_summary": {
+        "mean": 4.098083324560932e-07,
+        "median": 2.5616381568856664e-07,
+        "min": -1.3351726756408194e-07,
+        "max": 1.5725425664335958e-06,
+        "sd": 5.447348949971683e-07
+      },
+      "floor_corrected_sign_test_dp_wins_positive": {
+        "wins": 2,
+        "losses": 6,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.96484375
+      },
+      "input_D_summary": {
+        "mean": -150.31210469688963,
+        "median": -139.81881929684712,
+        "min": -429.0871750030729,
+        "max": 105.27283283106935,
+        "sd": 187.23445674221557
+      },
+      "input_sign_test_dp_wins_positive": {
+        "wins": 2,
+        "losses": 6,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.96484375
+      },
+      "input_tie_banded_sign_test_dp_wins_positive": {
+        "wins": 2,
+        "losses": 6,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.96484375
+      },
+      "input_oracle_D_summary": {
+        "mean": -8.559931866229565,
+        "median": -3.6272333516382194,
+        "min": -137.5786621890247,
+        "max": 74.14653419726757,
+        "sd": 68.50605896118499
+      },
+      "input_oracle_sign_test_dp_wins_positive": {
+        "wins": 4,
+        "losses": 4,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.63671875
+      },
+      "input_oracle_tie_banded_sign_test_dp_wins_positive": {
+        "wins": 4,
+        "losses": 4,
+        "ties": 0,
+        "non_tied": 8,
+        "one_sided_p": 0.63671875
+      },
+      "selected_dna_prior_input_mse_summary": {
+        "mean": 103.69140066594555,
+        "median": 28.80239313772976,
+        "min": 15.484935004592348,
+        "max": 417.07043764563787,
+        "sd": 151.42372380040547
+      },
+      "selected_dp_prior_input_mse_summary": {
+        "mean": 157.06539356543146,
+        "median": 83.347187161074,
+        "min": 22.852578774782835,
+        "max": 641.5860660034226,
+        "sd": 206.0760643451593
+      },
+      "csv": "artifacts/priority21_metric_validity/reanalysis_20260928/priority20_ckpt4_v1_medium_vs_dp_0p000315_priority21_reanalysis.csv",
+      "csv_sha256": "1eb40709a128077ae96990ce91761bd4e4a02e61045f4aea6771dbfe0352fdb2"
+    }
+  ]
+}

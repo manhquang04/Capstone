@@ -1,0 +1,59 @@
+{
+  "target_file": "strong_dp_development_targets.pt",
+  "groups": [
+    6
+  ],
+  "defense": "clipping_noise_mc",
+  "diagnostic": "bounded simple-defense attack; attacker-visible masks/thresholds/factors for retention and clipping; unknown realization for Gaussian noise",
+  "target_relative_l2_delta": 0.1,
+  "clip_norm": 100.0,
+  "noise_multiplier": 0.15890264833373352,
+  "defense_seed": 314159265,
+  "restarts": 8,
+  "iterations": 600,
+  "attack_lr": 0.1,
+  "nonnegative_lambda": 0.001,
+  "clip_factor": 0.95,
+  "mc_noise_samples": 100,
+  "topk_temperature": null,
+  "selection_formula": "argmin_c L_balanced(T_visible_clipping_noise_mc(delta(c)), defended_update; reference=defended_update)",
+  "group_summary": [
+    {
+      "group_id": 6,
+      "n_baseline_restarts": 8,
+      "objective_best_restart": 1,
+      "objective_best_objective": 1.1147278547286987,
+      "objective_best_fraud_mse": 598.3775779602687,
+      "objective_best_non_fraud_mse": 799.2819788590213,
+      "prior_fraud_mse_mean": 1603.2617204893986,
+      "zero_objective_best_fraud_mse": 2336.783499530592,
+      "objective_minus_prior_fraud_mse": -1004.8841425291299,
+      "objective_minus_zero_fraud_mse": -1738.4059215703232,
+      "max_balance_residual_raw": 2.3091082461178303,
+      "mean_defense_relative_l2_delta": 9.689645350895647,
+      "mean_defense_keep_ratio": 1.0
+    }
+  ],
+  "target_gate": {
+    "prior": {
+      "n": 1,
+      "wins": 1,
+      "mean_difference": -1004.8841425291299,
+      "median_difference": -1004.8841425291299,
+      "one_sided_sign_p": 0.5,
+      "gate": false
+    },
+    "zero": {
+      "n": 1,
+      "wins": 1,
+      "mean_difference": -1738.4059215703232,
+      "median_difference": -1738.4059215703232,
+      "one_sided_sign_p": 0.5,
+      "gate": false
+    },
+    "gate": false
+  },
+  "mean_defense_relative_l2_delta": 9.689645350895647,
+  "mean_defense_keep_ratio": 1.0,
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b"
+}

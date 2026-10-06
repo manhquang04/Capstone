@@ -1,0 +1,242 @@
+{
+  "official_commit": "6b8c1c82ffe85bc6fdd96938ac42b6c9b5685300",
+  "compatibility": "Driver wraps official continuous_sigmoid_bound with x.clone() to permit leaf slice updates on torch 2.x; official source unchanged",
+  "config": {
+    "reconstruction_loss": "cosine_sim",
+    "initialization_mode": "uniform",
+    "learning_rates": 0.06,
+    "priors": null,
+    "max_iterations": 1500,
+    "optimization_mode": "naive",
+    "refill": "fuzzy",
+    "post_selection": 30,
+    "return_all": true,
+    "sign_trick": true,
+    "weight_trick": false,
+    "softmax_trick": true,
+    "gumbel_softmax_trick": false,
+    "temperature_mode": "constant",
+    "pooling": "median+softmax",
+    "perfect_pooling": false,
+    "device": "cpu",
+    "sigmoid_trick": true,
+    "return_all_reconstruction_losses": true
+  },
+  "torch": "2.5.1",
+  "numpy": "2.4.6",
+  "seed": 42,
+  "batch_size": 8,
+  "threads": 2,
+  "inter_op_threads": 1,
+  "processes": 1,
+  "source_hashes": {
+    "external_defenses/tableak/attacks/gradient_inversion_attack.py": "84c174264de0eae4b882e690d380fb9ab1e81d7a8dd75a39ac47fd59578a543e",
+    "data/load_creditcard.py": "7de2d3a6d8875ebe24b1561b2e82556b973440f8375fbc3fa7513cdd23329d9a",
+    "models/fraud_mlp.py": "aebdb70ab0e88aea6da0230e5ac8d5fcbdfd33a6e476f53f832236b63e6ae3ca"
+  },
+  "scenario": "adult_native",
+  "runtime_seconds": 87.27658549998887,
+  "metric": {
+    "accuracy_percent": 95.53571428571429,
+    "categorical_accuracy_percent": 98.4375,
+    "continuous_accuracy_percent": 91.66666666666666,
+    "per_feature_accuracy_percent": {
+      "age": 87.5,
+      "workclass": 100.0,
+      "fnlwgt": 87.5,
+      "education": 100.0,
+      "education-num": 75.0,
+      "marital-status": 100.0,
+      "occupation": 87.5,
+      "relationship": 100.0,
+      "race": 100.0,
+      "sex": 100.0,
+      "capital-gain": 100.0,
+      "capital-loss": 100.0,
+      "hours-per-week": 100.0,
+      "native-country": 100.0
+    }
+  },
+  "published_reference": {
+    "table": "Table 1, true labels, batch 8",
+    "mean_accuracy_percent": 95.2,
+    "std_accuracy_percent": 8.8,
+    "batches": 50,
+    "source": "https://arxiv.org/abs/2210.01785",
+    "single_batch_not_statistical_reproduction": true
+  },
+  "spec": {
+    "features": {
+      "age": null,
+      "workclass": [
+        "Private",
+        "Self-emp-not-inc",
+        "Self-emp-inc",
+        "Federal-gov",
+        "Local-gov",
+        "State-gov",
+        "Without-pay",
+        "Never-worked"
+      ],
+      "fnlwgt": null,
+      "education": [
+        "Bachelors",
+        "Some-college",
+        "11th",
+        "HS-grad",
+        "Prof-school",
+        "Assoc-acdm",
+        "Assoc-voc",
+        "9th",
+        "7th-8th",
+        "12th",
+        "Masters",
+        "1st-4th",
+        "10th",
+        "Doctorate",
+        "5th-6th",
+        "Preschool"
+      ],
+      "education-num": null,
+      "marital-status": [
+        "Married-civ-spouse",
+        "Divorced",
+        "Never-married",
+        "Separated",
+        "Widowed",
+        "Married-spouse-absent",
+        "Married-AF-spouse"
+      ],
+      "occupation": [
+        "Tech-support",
+        "Craft-repair",
+        "Other-service",
+        "Sales",
+        "Exec-managerial",
+        "Prof-specialty",
+        "Handlers-cleaners",
+        "Machine-op-inspct",
+        "Adm-clerical",
+        "Farming-fishing",
+        "Transport-moving",
+        "Priv-house-serv",
+        "Protective-serv",
+        "Armed-Forces"
+      ],
+      "relationship": [
+        "Wife",
+        "Own-child",
+        "Husband",
+        "Not-in-family",
+        "Other-relative",
+        "Unmarried"
+      ],
+      "race": [
+        "White",
+        "Asian-Pac-Islander",
+        "Amer-Indian-Eskimo",
+        "Other",
+        "Black"
+      ],
+      "sex": [
+        "Female",
+        "Male"
+      ],
+      "capital-gain": null,
+      "capital-loss": null,
+      "hours-per-week": null,
+      "native-country": [
+        "United-States",
+        "Cambodia",
+        "England",
+        "Puerto-Rico",
+        "Canada",
+        "Germany",
+        "Outlying-US(Guam-USVI-etc)",
+        "India",
+        "Japan",
+        "Greece",
+        "South",
+        "China",
+        "Cuba",
+        "Iran",
+        "Honduras",
+        "Philippines",
+        "Italy",
+        "Poland",
+        "Jamaica",
+        "Vietnam",
+        "Mexico",
+        "Portugal",
+        "Ireland",
+        "France",
+        "Dominican-Republic",
+        "Laos",
+        "Ecuador",
+        "Taiwan",
+        "Haiti",
+        "Columbia",
+        "Hungary",
+        "Guatemala",
+        "Nicaragua",
+        "Scotland",
+        "Thailand",
+        "Yugoslavia",
+        "El-Salvador",
+        "Trinadad&Tobago",
+        "Peru",
+        "Hong",
+        "Holand-Netherlands"
+      ]
+    },
+    "tolerance_map": [
+      4.216500759124756,
+      "cat",
+      33698.90234375,
+      "cat",
+      0.8143691420555115,
+      "cat",
+      "cat",
+      "cat",
+      "cat",
+      "cat",
+      2394.55126953125,
+      129.18099975585938,
+      3.830395221710205,
+      "cat"
+    ],
+    "standardized_continuous_bounds": {
+      "age": [
+        -1.6302130222320557,
+        3.892613410949707
+      ],
+      "fnlwgt": [
+        -1.6683460474014282,
+        12.312335968017578
+      ],
+      "education-num": [
+        -3.5718307495117188,
+        2.3038833141326904
+      ],
+      "capital-gain": [
+        -0.14673158526420593,
+        13.175046920776367
+      ],
+      "capital-loss": [
+        -0.2187778502702713,
+        10.537944793701172
+      ],
+      "hours-per-week": [
+        -3.326087236404419,
+        4.83547306060791
+      ]
+    },
+    "round_numeric": true,
+    "sample_positive_labels": 5,
+    "sample_client": null
+  },
+  "model": "FullyConnected(\n  (layers): Sequential(\n    (0): Flatten(start_dim=1, end_dim=-1)\n    (1): LinReLU(\n      (layers): Sequential(\n        (0): Linear(in_features=105, out_features=100, bias=True)\n        (1): ReLU()\n      )\n    )\n    (2): LinReLU(\n      (layers): Sequential(\n        (0): Linear(in_features=100, out_features=100, bias=True)\n        (1): ReLU()\n      )\n    )\n    (3): Linear(in_features=100, out_features=2, bias=True)\n  )\n)",
+  "known_labels": true,
+  "checkpoint": "initialization",
+  "defense": "none"
+}

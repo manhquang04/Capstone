@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "protocol_id": "PRIORITY25-RQ1-UTILITY-MATCHED-DP-GRID",
+  "status": "UTILITY_GRID_FROZEN",
+  "execution_authorized": true,
+  "frozen_at": "2026-09-29T01:45:30+07:00",
+  "amendment": "protocols/amendments/2026-09-29_priority25_rq1_extension.md",
+  "norm_probe": {
+    "artifact": "artifacts/priority25_rq1_extension/norm_probe_20260929/norm_probe_summary.json",
+    "csv": "artifacts/priority25_rq1_extension/norm_probe_20260929/full_update_norms.csv",
+    "seeds": [2501001, 2501002],
+    "n_norms": 300,
+    "p95_norm": 256.51892395019536,
+    "clip_norm_rule": "1.01 * empirical_p95_full_floating_update_norm",
+    "clip_norm": 259.0841131896973
+  },
+  "training": {
+    "maximum_rows": 500000,
+    "num_clients": 3,
+    "num_rounds": 50,
+    "local_epochs": 1,
+    "batch_size": 1024,
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "loss": "focal",
+    "focal_alpha": 0.95,
+    "focal_gamma": 2.0,
+    "torch_num_threads": 1,
+    "maximum_concurrent_processes": 9
+  },
+  "seeds": [2501101, 2501102, 2501103, 2501104, 2501105, 2501106, 2501107, 2501108],
+  "seed_rule": "Priority 25 utility development seeds, manually frozen, disjoint from known RQ2 pilot/confirmatory seeds.",
+  "dp": {
+    "mechanism": "full_floating_state_update_clip_then_gaussian_noise",
+    "implementation": "privacy/dp_engine.py::apply_dp_to_local_state",
+    "clip_norm": 259.0841131896973,
+    "noise_multiplier_grid": [0.000001, 0.000003, 0.00001, 0.00003]
+  },
+  "matching_rule": {
+    "rule": "largest grid sigma whose development mean delta_f1 >= rq2_mean_delta_f1 - f1_slack; if none, use smallest sigma",
+    "f1_slack": 0.005
+  },
+  "matching_targets": {
+    "v1_conservative": {
+      "rq2_mean_delta_f1": 0.0014,
+      "threshold_delta_f1": -0.0036
+    },
+    "v2_0p95_eta0p01": {
+      "rq2_mean_delta_f1": -0.0117,
+      "threshold_delta_f1": -0.0167
+    }
+  }
+}

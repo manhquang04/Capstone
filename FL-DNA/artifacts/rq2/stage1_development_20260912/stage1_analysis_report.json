@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-12T16:33:58.906157+00:00",
+  "scope": "RQ2 Stage-1 development only",
+  "seeds": [
+    101,
+    202,
+    303,
+    404,
+    505,
+    606,
+    707,
+    808
+  ],
+  "utility_matching": {
+    "f1_tolerance": 0.01,
+    "auc_tolerance": 0.0025,
+    "distance": "max normalized absolute F1/AUC deviation",
+    "selected_candidate": null,
+    "status": "NOT_FOUND"
+  },
+  "distortion_matched_context": {
+    "method": "dp_0.00025",
+    "selection_basis": "RQ1 relative-L2 calibration only; excluded from frozen utility candidate grid",
+    "mean_delta_f1": -0.07024908056459156,
+    "mean_delta_auc": -0.0021712433387604257
+  },
+  "power": {
+    "method": "one-sided paired noninferiority noncentral-t approximation",
+    "variance": "one-sided 95% chi-square upper confidence bound",
+    "alpha": 0.05,
+    "target_power": 0.8,
+    "required_confirmatory_seed_count": 21,
+    "maximum_feasible_seed_count": 30,
+    "within_resource_ceiling": true,
+    "rows": [
+      {
+        "method": "dna_lossless",
+        "endpoint": "f1",
+        "n_pilot": 8,
+        "mean_paired_difference": -0.0010229440526631772,
+        "mean_paired_difference_ci95_low": -0.014339985468103692,
+        "mean_paired_difference_ci95_high": 0.012294097362777338,
+        "sd_paired_difference": 0.015929076738271954,
+        "sample_variance": 0.0002537354857337567,
+        "upper_95pct_variance": 0.0008195023759276323,
+        "margin": 0.02,
+        "required_n": 15
+      },
+      {
+        "method": "dna_lossless",
+        "endpoint": "auc",
+        "n_pilot": 8,
+        "mean_paired_difference": -0.0006355567296682241,
+        "mean_paired_difference_ci95_low": -0.0023550707596729885,
+        "mean_paired_difference_ci95_high": 0.0010839573003365401,
+        "sd_paired_difference": 0.002056783491318376,
+        "sample_variance": 4.2303583301598084e-06,
+        "upper_95pct_variance": 1.3663002999229274e-05,
+        "margin": 0.005,
+        "required_n": 6
+      },
+      {
+        "method": "dna_transform",
+        "endpoint": "f1",
+        "n_pilot": 8,
+        "mean_paired_difference": -0.012429523837667988,
+        "mean_paired_difference_ci95_low": -0.028600743655875855,
+        "mean_paired_difference_ci95_high": 0.003741695980539878,
+        "sd_paired_difference": 0.019343080298378452,
+        "sample_variance": 0.0003741547554295166,
+        "upper_95pct_variance": 0.0012084266028159992,
+        "margin": 0.02,
+        "required_n": 21
+      },
+      {
+        "method": "dna_transform",
+        "endpoint": "auc",
+        "n_pilot": 8,
+        "mean_paired_difference": -0.00038672077778934,
+        "mean_paired_difference_ci95_low": -0.0012803001065321137,
+        "mean_paired_difference_ci95_high": 0.0005068585509534336,
+        "sd_paired_difference": 0.0010688480462915449,
+        "sample_variance": 1.1424361460612527e-06,
+        "upper_95pct_variance": 3.6897840021682436e-06,
+        "margin": 0.005,
+        "required_n": 3
+      }
+    ]
+  }
+}

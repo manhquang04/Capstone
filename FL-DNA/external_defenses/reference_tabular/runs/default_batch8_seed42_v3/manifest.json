@@ -1,0 +1,37 @@
+{
+  "official_commit": "6b8c1c82ffe85bc6fdd96938ac42b6c9b5685300",
+  "compatibility": "Driver wraps official continuous_sigmoid_bound with x.clone() to permit leaf slice updates on torch 2.x; official source unchanged",
+  "config": {
+    "reconstruction_loss": "cosine_sim",
+    "initialization_mode": "uniform",
+    "learning_rates": 0.06,
+    "priors": null,
+    "max_iterations": 1500,
+    "optimization_mode": "naive",
+    "refill": "fuzzy",
+    "post_selection": 30,
+    "return_all": true,
+    "sign_trick": true,
+    "weight_trick": false,
+    "softmax_trick": true,
+    "gumbel_softmax_trick": false,
+    "temperature_mode": "constant",
+    "pooling": "median+softmax",
+    "perfect_pooling": false,
+    "device": "cpu",
+    "sigmoid_trick": true,
+    "return_all_reconstruction_losses": true
+  },
+  "torch": "2.5.1",
+  "numpy": "2.4.6",
+  "seed": 42,
+  "batch_size": 8,
+  "threads": 2,
+  "inter_op_threads": 1,
+  "processes": 1,
+  "source_hashes": {
+    "external_defenses/tableak/attacks/gradient_inversion_attack.py": "84c174264de0eae4b882e690d380fb9ab1e81d7a8dd75a39ac47fd59578a543e",
+    "data/load_creditcard.py": "7de2d3a6d8875ebe24b1561b2e82556b973440f8375fbc3fa7513cdd23329d9a",
+    "models/fraud_mlp.py": "aebdb70ab0e88aea6da0230e5ac8d5fcbdfd33a6e476f53f832236b63e6ae3ca"
+  }
+}

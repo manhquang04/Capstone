@@ -1,0 +1,213 @@
+{
+  "official_commit": "6b8c1c82ffe85bc6fdd96938ac42b6c9b5685300",
+  "compatibility": "Driver wraps official continuous_sigmoid_bound with x.clone() to permit leaf slice updates on torch 2.x; official source unchanged",
+  "config": {
+    "reconstruction_loss": "cosine_sim",
+    "initialization_mode": "uniform",
+    "learning_rates": 0.06,
+    "priors": null,
+    "max_iterations": 1500,
+    "optimization_mode": "naive",
+    "refill": "fuzzy",
+    "post_selection": 30,
+    "return_all": true,
+    "sign_trick": true,
+    "weight_trick": false,
+    "softmax_trick": true,
+    "gumbel_softmax_trick": false,
+    "temperature_mode": "constant",
+    "pooling": "median+softmax",
+    "perfect_pooling": false,
+    "device": "cpu",
+    "sigmoid_trick": false,
+    "return_all_reconstruction_losses": true
+  },
+  "torch": "2.5.1",
+  "numpy": "2.4.6",
+  "seed": 42,
+  "batch_size": 8,
+  "threads": 2,
+  "inter_op_threads": 1,
+  "processes": 1,
+  "source_hashes": {
+    "external_defenses/tableak/attacks/gradient_inversion_attack.py": "84c174264de0eae4b882e690d380fb9ab1e81d7a8dd75a39ac47fd59578a543e",
+    "data/load_creditcard.py": "7de2d3a6d8875ebe24b1561b2e82556b973440f8375fbc3fa7513cdd23329d9a",
+    "models/fraud_mlp.py": "aebdb70ab0e88aea6da0230e5ac8d5fcbdfd33a6e476f53f832236b63e6ae3ca"
+  },
+  "scenario": "paysim_project_eval",
+  "runtime_seconds": 82.41771216702182,
+  "metric": {
+    "accuracy_percent": 76.38888888888889,
+    "categorical_accuracy_percent": 87.5,
+    "continuous_accuracy_percent": 75.0,
+    "per_feature_accuracy_percent": {
+      "step": 50.0,
+      "amount": 62.5,
+      "oldbalanceOrg": 87.5,
+      "newbalanceOrig": 87.5,
+      "oldbalanceDest": 87.5,
+      "newbalanceDest": 75.0,
+      "balance_diff_orig": 75.0,
+      "balance_diff_dest": 75.0,
+      "type": 87.5
+    }
+  },
+  "published_reference": null,
+  "spec": {
+    "features": {
+      "step": null,
+      "amount": null,
+      "oldbalanceOrg": null,
+      "newbalanceOrig": null,
+      "oldbalanceDest": null,
+      "newbalanceDest": null,
+      "balance_diff_orig": null,
+      "balance_diff_dest": null,
+      "type": [
+        "CASH_IN",
+        "CASH_OUT",
+        "DEBIT",
+        "PAYMENT",
+        "TRANSFER"
+      ]
+    },
+    "tolerance_map": [
+      45.392051696777344,
+      202203.4375,
+      914780.5,
+      926570.875,
+      1000522.875,
+      1100263.0,
+      43211.6953125,
+      277821.5625,
+      "cat"
+    ],
+    "standardized_continuous_bounds": {
+      "step": [
+        -1.3370786905288696,
+        2.8089888095855713
+      ],
+      "amount": [
+        -0.38351938128471375,
+        258.0218200683594
+      ],
+      "oldbalanceOrg": [
+        -0.1338203400373459,
+        315.5113220214844
+      ],
+      "newbalanceOrig": [
+        0.0,
+        236.36566162109375
+      ],
+      "oldbalanceDest": [
+        -0.1387965828180313,
+        137.49954223632812
+      ],
+      "newbalanceDest": [
+        -0.1959766149520874,
+        137.90541076660156
+      ],
+      "balance_diff_orig": [
+        -117.53813934326172,
+        972.1951904296875
+      ],
+      "balance_diff_dest": [
+        -11.319558143615723,
+        399.2952880859375
+      ]
+    },
+    "round_numeric": false,
+    "sample_positive_labels": 0,
+    "sample_client": 0
+  },
+  "model": "FraudMLP(\n  (network): Sequential(\n    (0): Linear(in_features=13, out_features=128, bias=True)\n    (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n    (2): ReLU()\n    (3): Dropout(p=0.3, inplace=False)\n    (4): Linear(in_features=128, out_features=64, bias=True)\n    (5): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n    (6): ReLU()\n    (7): Dropout(p=0.2, inplace=False)\n    (8): Linear(in_features=64, out_features=32, bias=True)\n    (9): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n    (10): ReLU()\n    (11): Dropout(p=0.1, inplace=False)\n    (12): Linear(in_features=32, out_features=1, bias=True)\n  )\n)",
+  "known_labels": true,
+  "checkpoint": "initialization",
+  "defense": "none",
+  "paysim_metadata": {
+    "feature_names": [
+      "step",
+      "amount",
+      "oldbalanceOrg",
+      "newbalanceOrig",
+      "oldbalanceDest",
+      "newbalanceDest",
+      "balance_diff_orig",
+      "balance_diff_dest",
+      "type=CASH_IN",
+      "type=CASH_OUT",
+      "type=DEBIT",
+      "type=PAYMENT",
+      "type=TRANSFER"
+    ],
+    "train_samples": 65000,
+    "validation_samples": 14999,
+    "test_samples": 20001,
+    "train_fraud_rate": 0.0012923077447339892,
+    "validation_fraud_rate": 0.0012667510891333222,
+    "test_fraud_rate": 0.0012999350437894464,
+    "client_sample_counts": [
+      26416,
+      23813,
+      14771
+    ],
+    "client_fraud_rates": [
+      0.0010599636007100344,
+      0.0011758282780647278,
+      0.0018956062849611044
+    ],
+    "client_type_distributions": [
+      {
+        "CASH_IN": 0.2976226529376136,
+        "CASH_OUT": 0.19541187159297396,
+        "DEBIT": 0.0034827377347062386,
+        "PAYMENT": 0.45733646274984857,
+        "TRANSFER": 0.04614627498485766
+      },
+      {
+        "CASH_IN": 0.13509427623566958,
+        "CASH_OUT": 0.529290723554361,
+        "DEBIT": 0.003905429807248142,
+        "PAYMENT": 0.2075756939486835,
+        "TRANSFER": 0.12413387645403771
+      },
+      {
+        "CASH_IN": 0.21779161871234176,
+        "CASH_OUT": 0.34953625346963646,
+        "DEBIT": 0.015435650937648095,
+        "PAYMENT": 0.3346422043192743,
+        "TRANSFER": 0.08259427256109945
+      }
+    ],
+    "numeric_center": [
+      239.0,
+      75283.13500000001,
+      14469.5,
+      0.0,
+      132227.18,
+      217843.72999999998,
+      0.0,
+      0.0
+    ],
+    "numeric_scale": [
+      178.0,
+      196293.4775,
+      108126.3125,
+      145198.8,
+      952668.845,
+      1111580.1975,
+      10286.0,
+      148779.15000000002
+    ],
+    "type_categories": [
+      "CASH_IN",
+      "CASH_OUT",
+      "DEBIT",
+      "PAYMENT",
+      "TRANSFER"
+    ]
+  },
+  "normalized_mse_unaligned_not_primary": 80.50225067138672,
+  "diagnostic": "Disable sigmoid reparameterization only; preserve original robust-scaled inputs, identical source checkpoint/batch/criterion",
+  "source_run": "external_defenses/reference_tabular/runs/default_batch8_seed42_v3/paysim_project_eval"
+}

@@ -1,0 +1,54 @@
+{
+  "amendment": "protocols/amendments/2026-09-30_priority28_defense_audit.md",
+  "amendment_sha256": "3d6c942d50a5d85b3dfc47d2a3e89c20f1bf9cf1ae55b19c94ce0ee7741500fb",
+  "created_at": "2026-09-29T19:44:14.048333+00:00",
+  "feature_names": [
+    "step",
+    "amount",
+    "oldbalanceOrg",
+    "newbalanceOrig",
+    "oldbalanceDest",
+    "newbalanceDest",
+    "balance_diff_orig",
+    "balance_diff_dest",
+    "type=CASH_IN",
+    "type=CASH_OUT",
+    "type=DEBIT",
+    "type=PAYMENT",
+    "type=TRANSFER"
+  ],
+  "instrument": "T1_BN_RUNNING_MEAN_BATCH_MEAN_RECOVERY",
+  "qualified": true,
+  "seed": 2026093002,
+  "stages": {
+    "n24": {
+      "rows_csv": "artifacts/priority28_defense_audit/t1_qualification_20260930/t1_n24_qualification.csv",
+      "rows_csv_sha256": "c3b666416fead3cdc97a72bb9e3cfd28015425c1462fdef1d9e99477b2677684",
+      "summary": {
+        "n": 24,
+        "p_vs_decoy": 5.960464477539063e-08,
+        "p_vs_prior": 5.960464477539063e-08,
+        "qualified": true,
+        "wins_vs_decoy": 24,
+        "wins_vs_prior": 24
+      },
+      "target": "artifacts/priority28_defense_audit/t1_targets_20260930/paysim_priority28_t1_n24_targets.pt",
+      "target_sha256": "2b364dd513ffa06a9bc46792a67a1b4cd91ed794bbcd51e3b85f07986d34a59b"
+    },
+    "n8": {
+      "rows_csv": "artifacts/priority28_defense_audit/t1_qualification_20260930/t1_n8_qualification.csv",
+      "rows_csv_sha256": "982531d382a40493758dea60aecec88f70951dbedc0433759b2501325cdf3c34",
+      "summary": {
+        "n": 8,
+        "p_vs_decoy": 0.00390625,
+        "p_vs_prior": 0.00390625,
+        "qualified": true,
+        "wins_vs_decoy": 8,
+        "wins_vs_prior": 8
+      },
+      "target": "artifacts/priority28_defense_audit/t1_targets_20260930/paysim_priority28_t1_n8_targets.pt",
+      "target_sha256": "7047a7b7ef5dc48f2ff40fd7178e3f75e1439143cbcf6c6707dbd0a2f22e48d5"
+    }
+  },
+  "torch_num_threads": 1
+}

@@ -1,0 +1,44 @@
+{
+  "setting": "project_local",
+  "index": 1,
+  "split": "test",
+  "model_seed": 42,
+  "label": 8,
+  "parameter_count": 136886,
+  "config": {
+    "optim": "adam",
+    "lr": 0.05,
+    "max_iterations": 3000,
+    "restarts": 1,
+    "total_variation": 0.0001,
+    "signed": false,
+    "lr_decay": false,
+    "parameterization": "sigmoid logits"
+  },
+  "local_sgd_lr": 0.01,
+  "metrics": {
+    "raw_mse": 0.1696709394454956,
+    "psnr_db": 7.703925355210028,
+    "ssim": 0.1598176211118698
+  },
+  "baselines": {
+    "gray": {
+      "raw_mse": 0.10661736875772476,
+      "psnr_db": 9.721720397636108,
+      "ssim": 0.0958688035607338
+    },
+    "cifar_train_mean": {
+      "raw_mse": 0.10270776599645615,
+      "psnr_db": 9.883967170464041,
+      "ssim": 0.12272737175226212
+    }
+  },
+  "elapsed_seconds": 7.510626959032379,
+  "stats": {
+    "opt": 0.00046103549539111555,
+    "best_step": 1960
+  },
+  "torch_version": "2.5.1",
+  "threads": 2,
+  "beats_both_baselines": false
+}

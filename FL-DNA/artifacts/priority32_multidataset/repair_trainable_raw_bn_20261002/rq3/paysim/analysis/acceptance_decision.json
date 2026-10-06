@@ -1,0 +1,992 @@
+{
+  "cell_decisions": [
+    {
+      "client_count": 3,
+      "criteria": [
+        {
+          "ci95": [
+            0.023639211447864673,
+            0.09353399350578293
+          ],
+          "criterion": "end_to_end_round_overhead_p95_fraction",
+          "pass": true,
+          "statistic": 0.06283228142763883,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.7841663000001553,
+            0.86381890000089
+          ],
+          "criterion": "client_encode_serialize_p95_ms",
+          "pass": true,
+          "statistic": 0.8298560999999259,
+          "threshold": 250.0
+        },
+        {
+          "ci95": [
+            1.0550187500004693,
+            1.5111099000004282
+          ],
+          "criterion": "server_decode_aggregate_p95_ms",
+          "pass": true,
+          "statistic": 1.1739062500002893,
+          "threshold": 500.0
+        },
+        {
+          "ci95": [
+            0.18261337280273438,
+            0.18294382095336914
+          ],
+          "criterion": "peak_client_memory_overhead_mb",
+          "pass": true,
+          "statistic": 0.18261337280273438,
+          "threshold": 512.0
+        },
+        {
+          "ci95": [
+            0.7204984836284551,
+            0.7218022621403791
+          ],
+          "criterion": "peak_client_memory_overhead_fraction",
+          "pass": false,
+          "statistic": 0.7204984836284551,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.00018310546875,
+            0.00018310546875
+          ],
+          "criterion": "peak_server_memory_overhead_mb",
+          "pass": true,
+          "statistic": 0.00018310546875,
+          "threshold": 1024.0
+        },
+        {
+          "ci95": [
+            0.0005539558797223297,
+            0.0005539558797223297
+          ],
+          "criterion": "peak_server_memory_overhead_fraction",
+          "pass": true,
+          "statistic": 0.0005539558797223297,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.0021981331500003634,
+            0.014045150250000561
+          ],
+          "criterion": "added_transfer_latency_p95_seconds",
+          "pass": true,
+          "statistic": 0.008398466450000084,
+          "threshold": 1.0
+        },
+        {
+          "ci95": null,
+          "criterion": "application_payload_expansion_ratio",
+          "pass": true,
+          "statistic": 1.0,
+          "threshold": 6.0
+        },
+        {
+          "ci95": null,
+          "criterion": "authentication_or_correctness_failures",
+          "pass": true,
+          "statistic": 0,
+          "threshold": 0
+        },
+        {
+          "ci95": null,
+          "criterion": "timeout_rate_fraction",
+          "pass": true,
+          "statistic": 0.0,
+          "threshold": 0.0
+        }
+      ],
+      "decision": "NOT_ACCEPTABLE",
+      "method": "DP_CLIP_NOISE",
+      "profile": "BROADBAND"
+    },
+    {
+      "client_count": 5,
+      "criteria": [
+        {
+          "ci95": [
+            -0.013264568169774898,
+            -0.004021264511882068
+          ],
+          "criterion": "end_to_end_round_overhead_p95_fraction",
+          "pass": true,
+          "statistic": -0.007071592827167307,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.8028515999991548,
+            0.9079347500013488
+          ],
+          "criterion": "client_encode_serialize_p95_ms",
+          "pass": true,
+          "statistic": 0.8286859000007141,
+          "threshold": 250.0
+        },
+        {
+          "ci95": [
+            1.6440168499995522,
+            1.8269649499998761
+          ],
+          "criterion": "server_decode_aggregate_p95_ms",
+          "pass": true,
+          "statistic": 1.762825149999614,
+          "threshold": 500.0
+        },
+        {
+          "ci95": [
+            0.2846107482910156,
+            0.28524107933044435
+          ],
+          "criterion": "peak_client_memory_overhead_mb",
+          "pass": true,
+          "statistic": 0.284685754776001,
+          "threshold": 512.0
+        },
+        {
+          "ci95": [
+            0.8058955054602016,
+            0.807680332472807
+          ],
+          "criterion": "peak_client_memory_overhead_fraction",
+          "pass": false,
+          "statistic": 0.8061078916384926,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.00018310546875,
+            0.00018310546875
+          ],
+          "criterion": "peak_server_memory_overhead_mb",
+          "pass": true,
+          "statistic": 0.00018310546875,
+          "threshold": 1024.0
+        },
+        {
+          "ci95": [
+            0.0003662989686394664,
+            0.0003662989686394664
+          ],
+          "criterion": "peak_server_memory_overhead_fraction",
+          "pass": true,
+          "statistic": 0.0003662989686394664,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            -0.009188986889999034,
+            -0.0036222694499978003
+          ],
+          "criterion": "added_transfer_latency_p95_seconds",
+          "pass": true,
+          "statistic": -0.007685993949999849,
+          "threshold": 1.0
+        },
+        {
+          "ci95": null,
+          "criterion": "application_payload_expansion_ratio",
+          "pass": true,
+          "statistic": 1.0,
+          "threshold": 6.0
+        },
+        {
+          "ci95": null,
+          "criterion": "authentication_or_correctness_failures",
+          "pass": true,
+          "statistic": 0,
+          "threshold": 0
+        },
+        {
+          "ci95": null,
+          "criterion": "timeout_rate_fraction",
+          "pass": true,
+          "statistic": 0.0,
+          "threshold": 0.0
+        }
+      ],
+      "decision": "NOT_ACCEPTABLE",
+      "method": "DP_CLIP_NOISE",
+      "profile": "BROADBAND"
+    },
+    {
+      "client_count": 10,
+      "criteria": [
+        {
+          "ci95": [
+            0.03232793120031339,
+            0.04659828050702028
+          ],
+          "criterion": "end_to_end_round_overhead_p95_fraction",
+          "pass": true,
+          "statistic": 0.036274798833800005,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.8289579999996022,
+            0.883912800002129
+          ],
+          "criterion": "client_encode_serialize_p95_ms",
+          "pass": true,
+          "statistic": 0.8715731000028981,
+          "threshold": 250.0
+        },
+        {
+          "ci95": [
+            2.613671500000691,
+            3.15002894999985
+          ],
+          "criterion": "server_decode_aggregate_p95_ms",
+          "pass": true,
+          "statistic": 2.975910200000875,
+          "threshold": 500.0
+        },
+        {
+          "ci95": [
+            0.5396575927734375,
+            0.5398459911346436
+          ],
+          "criterion": "peak_client_memory_overhead_mb",
+          "pass": true,
+          "statistic": 0.5396822452545166,
+          "threshold": 512.0
+        },
+        {
+          "ci95": [
+            0.8993015328136547,
+            0.8996154854704522
+          ],
+          "criterion": "peak_client_memory_overhead_fraction",
+          "pass": false,
+          "statistic": 0.8993426144445239,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.00018310546875,
+            0.00018310546875
+          ],
+          "criterion": "peak_server_memory_overhead_mb",
+          "pass": true,
+          "statistic": 0.00018310546875,
+          "threshold": 1024.0
+        },
+        {
+          "ci95": [
+            0.0001982668175697445,
+            0.0001982668175697445
+          ],
+          "criterion": "peak_server_memory_overhead_fraction",
+          "pass": true,
+          "statistic": 0.0001982668175697445,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.01412037500001162,
+            0.022911554050000033
+          ],
+          "criterion": "added_transfer_latency_p95_seconds",
+          "pass": true,
+          "statistic": 0.016171723350009867,
+          "threshold": 1.0
+        },
+        {
+          "ci95": null,
+          "criterion": "application_payload_expansion_ratio",
+          "pass": true,
+          "statistic": 1.0,
+          "threshold": 6.0
+        },
+        {
+          "ci95": null,
+          "criterion": "authentication_or_correctness_failures",
+          "pass": true,
+          "statistic": 0,
+          "threshold": 0
+        },
+        {
+          "ci95": null,
+          "criterion": "timeout_rate_fraction",
+          "pass": true,
+          "statistic": 0.0,
+          "threshold": 0.0
+        }
+      ],
+      "decision": "NOT_ACCEPTABLE",
+      "method": "DP_CLIP_NOISE",
+      "profile": "BROADBAND"
+    },
+    {
+      "client_count": 3,
+      "criteria": [
+        {
+          "ci95": [
+            0.023407283140433336,
+            0.03428316809063052
+          ],
+          "criterion": "end_to_end_round_overhead_p95_fraction",
+          "pass": true,
+          "statistic": 0.02736056814703818,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.8075857799982565,
+            1.0968437500000752
+          ],
+          "criterion": "client_encode_serialize_p95_ms",
+          "pass": true,
+          "statistic": 0.8713623499993162,
+          "threshold": 250.0
+        },
+        {
+          "ci95": [
+            1.0329248499999721,
+            1.2826126499996702
+          ],
+          "criterion": "server_decode_aggregate_p95_ms",
+          "pass": true,
+          "statistic": 1.0978812499997659,
+          "threshold": 500.0
+        },
+        {
+          "ci95": [
+            0.18261337280273438,
+            0.18294382095336914
+          ],
+          "criterion": "peak_client_memory_overhead_mb",
+          "pass": true,
+          "statistic": 0.18261337280273438,
+          "threshold": 512.0
+        },
+        {
+          "ci95": [
+            0.7204984836284551,
+            0.7218022621403791
+          ],
+          "criterion": "peak_client_memory_overhead_fraction",
+          "pass": false,
+          "statistic": 0.7204984836284551,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.00018310546875,
+            0.00018310546875
+          ],
+          "criterion": "peak_server_memory_overhead_mb",
+          "pass": true,
+          "statistic": 0.00018310546875,
+          "threshold": 1024.0
+        },
+        {
+          "ci95": [
+            0.0005539558797223297,
+            0.0005539558797223297
+          ],
+          "criterion": "peak_server_memory_overhead_fraction",
+          "pass": true,
+          "statistic": 0.0005539558797223297,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.0156290410000004,
+            0.019364417899998713
+          ],
+          "criterion": "added_transfer_latency_p95_seconds",
+          "pass": true,
+          "statistic": 0.017953662649996715,
+          "threshold": 3.0
+        },
+        {
+          "ci95": null,
+          "criterion": "application_payload_expansion_ratio",
+          "pass": true,
+          "statistic": 1.0,
+          "threshold": 6.0
+        },
+        {
+          "ci95": null,
+          "criterion": "authentication_or_correctness_failures",
+          "pass": true,
+          "statistic": 0,
+          "threshold": 0
+        },
+        {
+          "ci95": null,
+          "criterion": "timeout_rate_fraction",
+          "pass": true,
+          "statistic": 0.0,
+          "threshold": 0.0
+        }
+      ],
+      "decision": "NOT_ACCEPTABLE",
+      "method": "DP_CLIP_NOISE",
+      "profile": "CONSTRAINED"
+    },
+    {
+      "client_count": 5,
+      "criteria": [
+        {
+          "ci95": [
+            0.020472472920821744,
+            0.045428387471356066
+          ],
+          "criterion": "end_to_end_round_overhead_p95_fraction",
+          "pass": true,
+          "statistic": 0.02344999670051251,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.7992500000000291,
+            1.4297333000001777
+          ],
+          "criterion": "client_encode_serialize_p95_ms",
+          "pass": true,
+          "statistic": 0.9031186000003187,
+          "threshold": 250.0
+        },
+        {
+          "ci95": [
+            1.4473814000002247,
+            1.770377599999584
+          ],
+          "criterion": "server_decode_aggregate_p95_ms",
+          "pass": true,
+          "statistic": 1.6687703499979276,
+          "threshold": 500.0
+        },
+        {
+          "ci95": [
+            0.2846107482910156,
+            0.28524107933044435
+          ],
+          "criterion": "peak_client_memory_overhead_mb",
+          "pass": true,
+          "statistic": 0.284685754776001,
+          "threshold": 512.0
+        },
+        {
+          "ci95": [
+            0.8058955054602016,
+            0.807680332472807
+          ],
+          "criterion": "peak_client_memory_overhead_fraction",
+          "pass": false,
+          "statistic": 0.8061078916384926,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.00018310546875,
+            0.00018310546875
+          ],
+          "criterion": "peak_server_memory_overhead_mb",
+          "pass": true,
+          "statistic": 0.00018310546875,
+          "threshold": 1024.0
+        },
+        {
+          "ci95": [
+            0.0003662989686394664,
+            0.0003662989686394664
+          ],
+          "criterion": "peak_server_memory_overhead_fraction",
+          "pass": true,
+          "statistic": 0.0003662989686394664,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.022002245700002816,
+            0.028648948700005224
+          ],
+          "criterion": "added_transfer_latency_p95_seconds",
+          "pass": true,
+          "statistic": 0.02670473340000718,
+          "threshold": 3.0
+        },
+        {
+          "ci95": null,
+          "criterion": "application_payload_expansion_ratio",
+          "pass": true,
+          "statistic": 1.0,
+          "threshold": 6.0
+        },
+        {
+          "ci95": null,
+          "criterion": "authentication_or_correctness_failures",
+          "pass": true,
+          "statistic": 0,
+          "threshold": 0
+        },
+        {
+          "ci95": null,
+          "criterion": "timeout_rate_fraction",
+          "pass": true,
+          "statistic": 0.0,
+          "threshold": 0.0
+        }
+      ],
+      "decision": "NOT_ACCEPTABLE",
+      "method": "DP_CLIP_NOISE",
+      "profile": "CONSTRAINED"
+    },
+    {
+      "client_count": 10,
+      "criteria": [
+        {
+          "ci95": [
+            0.007140078375467317,
+            0.01625291573266403
+          ],
+          "criterion": "end_to_end_round_overhead_p95_fraction",
+          "pass": true,
+          "statistic": 0.009954648163884205,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.8368978500008949,
+            1.4335622000006147
+          ],
+          "criterion": "client_encode_serialize_p95_ms",
+          "pass": true,
+          "statistic": 0.8972187500074112,
+          "threshold": 250.0
+        },
+        {
+          "ci95": [
+            2.5104040500046665,
+            2.8723189000025684
+          ],
+          "criterion": "server_decode_aggregate_p95_ms",
+          "pass": true,
+          "statistic": 2.7557081499999465,
+          "threshold": 500.0
+        },
+        {
+          "ci95": [
+            0.5396575927734375,
+            0.5398459911346436
+          ],
+          "criterion": "peak_client_memory_overhead_mb",
+          "pass": true,
+          "statistic": 0.5396822452545166,
+          "threshold": 512.0
+        },
+        {
+          "ci95": [
+            0.8993015328136547,
+            0.8996154854704522
+          ],
+          "criterion": "peak_client_memory_overhead_fraction",
+          "pass": false,
+          "statistic": 0.8993426144445239,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.00018310546875,
+            0.00018310546875
+          ],
+          "criterion": "peak_server_memory_overhead_mb",
+          "pass": true,
+          "statistic": 0.00018310546875,
+          "threshold": 1024.0
+        },
+        {
+          "ci95": [
+            0.0001982668175697445,
+            0.0001982668175697445
+          ],
+          "criterion": "peak_server_memory_overhead_fraction",
+          "pass": true,
+          "statistic": 0.0001982668175697445,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.010210338649979877,
+            0.026313196199989952
+          ],
+          "criterion": "added_transfer_latency_p95_seconds",
+          "pass": true,
+          "statistic": 0.018953824199998148,
+          "threshold": 3.0
+        },
+        {
+          "ci95": null,
+          "criterion": "application_payload_expansion_ratio",
+          "pass": true,
+          "statistic": 1.0,
+          "threshold": 6.0
+        },
+        {
+          "ci95": null,
+          "criterion": "authentication_or_correctness_failures",
+          "pass": true,
+          "statistic": 0,
+          "threshold": 0
+        },
+        {
+          "ci95": null,
+          "criterion": "timeout_rate_fraction",
+          "pass": true,
+          "statistic": 0.0,
+          "threshold": 0.0
+        }
+      ],
+      "decision": "NOT_ACCEPTABLE",
+      "method": "DP_CLIP_NOISE",
+      "profile": "CONSTRAINED"
+    },
+    {
+      "client_count": 3,
+      "criteria": [
+        {
+          "ci95": [
+            0.07274265677295962,
+            0.10992987180191874
+          ],
+          "criterion": "end_to_end_round_overhead_p95_fraction",
+          "pass": true,
+          "statistic": 0.09785165090439031,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.7911165499998596,
+            0.8745874999999124
+          ],
+          "criterion": "client_encode_serialize_p95_ms",
+          "pass": true,
+          "statistic": 0.820587800000272,
+          "threshold": 250.0
+        },
+        {
+          "ci95": [
+            1.0312080000005608,
+            1.1477831499999258
+          ],
+          "criterion": "server_decode_aggregate_p95_ms",
+          "pass": true,
+          "statistic": 1.0718937499998082,
+          "threshold": 500.0
+        },
+        {
+          "ci95": [
+            0.18261337280273438,
+            0.18294382095336914
+          ],
+          "criterion": "peak_client_memory_overhead_mb",
+          "pass": true,
+          "statistic": 0.18261337280273438,
+          "threshold": 512.0
+        },
+        {
+          "ci95": [
+            0.7204984836284551,
+            0.7218022621403791
+          ],
+          "criterion": "peak_client_memory_overhead_fraction",
+          "pass": false,
+          "statistic": 0.7204984836284551,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.00018310546875,
+            0.00018310546875
+          ],
+          "criterion": "peak_server_memory_overhead_mb",
+          "pass": true,
+          "statistic": 0.00018310546875,
+          "threshold": 1024.0
+        },
+        {
+          "ci95": [
+            0.0005539558797223297,
+            0.0005539558797223297
+          ],
+          "criterion": "peak_server_memory_overhead_fraction",
+          "pass": true,
+          "statistic": 0.0005539558797223297,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.0017822489999996804,
+            0.0033715764499996108
+          ],
+          "criterion": "added_transfer_latency_p95_seconds",
+          "pass": true,
+          "statistic": 0.0024677819000001426,
+          "threshold": 0.25
+        },
+        {
+          "ci95": null,
+          "criterion": "application_payload_expansion_ratio",
+          "pass": true,
+          "statistic": 1.0,
+          "threshold": 6.0
+        },
+        {
+          "ci95": null,
+          "criterion": "authentication_or_correctness_failures",
+          "pass": true,
+          "statistic": 0,
+          "threshold": 0
+        },
+        {
+          "ci95": null,
+          "criterion": "timeout_rate_fraction",
+          "pass": true,
+          "statistic": 0.0,
+          "threshold": 0.0
+        }
+      ],
+      "decision": "NOT_ACCEPTABLE",
+      "method": "DP_CLIP_NOISE",
+      "profile": "LAN"
+    },
+    {
+      "client_count": 5,
+      "criteria": [
+        {
+          "ci95": [
+            -0.021033361163381666,
+            0.012401969346259761
+          ],
+          "criterion": "end_to_end_round_overhead_p95_fraction",
+          "pass": true,
+          "statistic": 0.0010784990913577652,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.7782394000002135,
+            0.8656081500001632
+          ],
+          "criterion": "client_encode_serialize_p95_ms",
+          "pass": true,
+          "statistic": 0.8334896500000076,
+          "threshold": 250.0
+        },
+        {
+          "ci95": [
+            1.3804999999997847,
+            1.4627203500001238
+          ],
+          "criterion": "server_decode_aggregate_p95_ms",
+          "pass": true,
+          "statistic": 1.4109900999991432,
+          "threshold": 500.0
+        },
+        {
+          "ci95": [
+            0.2846107482910156,
+            0.28524107933044435
+          ],
+          "criterion": "peak_client_memory_overhead_mb",
+          "pass": true,
+          "statistic": 0.284685754776001,
+          "threshold": 512.0
+        },
+        {
+          "ci95": [
+            0.8058955054602016,
+            0.807680332472807
+          ],
+          "criterion": "peak_client_memory_overhead_fraction",
+          "pass": false,
+          "statistic": 0.8061078916384926,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.00018310546875,
+            0.00018310546875
+          ],
+          "criterion": "peak_server_memory_overhead_mb",
+          "pass": true,
+          "statistic": 0.00018310546875,
+          "threshold": 1024.0
+        },
+        {
+          "ci95": [
+            0.0003662989686394664,
+            0.0003662989686394664
+          ],
+          "criterion": "peak_server_memory_overhead_fraction",
+          "pass": true,
+          "statistic": 0.0003662989686394664,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            -0.0036760010000005394,
+            -0.0006806795000007285
+          ],
+          "criterion": "added_transfer_latency_p95_seconds",
+          "pass": true,
+          "statistic": -0.0021513973999990567,
+          "threshold": 0.25
+        },
+        {
+          "ci95": null,
+          "criterion": "application_payload_expansion_ratio",
+          "pass": true,
+          "statistic": 1.0,
+          "threshold": 6.0
+        },
+        {
+          "ci95": null,
+          "criterion": "authentication_or_correctness_failures",
+          "pass": true,
+          "statistic": 0,
+          "threshold": 0
+        },
+        {
+          "ci95": null,
+          "criterion": "timeout_rate_fraction",
+          "pass": true,
+          "statistic": 0.0,
+          "threshold": 0.0
+        }
+      ],
+      "decision": "NOT_ACCEPTABLE",
+      "method": "DP_CLIP_NOISE",
+      "profile": "LAN"
+    },
+    {
+      "client_count": 10,
+      "criteria": [
+        {
+          "ci95": [
+            0.08730318550570156,
+            0.16953284240082522
+          ],
+          "criterion": "end_to_end_round_overhead_p95_fraction",
+          "pass": true,
+          "statistic": 0.14721930253482005,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.8335419999987437,
+            2.1272543500006904
+          ],
+          "criterion": "client_encode_serialize_p95_ms",
+          "pass": true,
+          "statistic": 0.8877625000007328,
+          "threshold": 250.0
+        },
+        {
+          "ci95": [
+            2.190150000000246,
+            2.3761336999999823
+          ],
+          "criterion": "server_decode_aggregate_p95_ms",
+          "pass": true,
+          "statistic": 2.270751750000377,
+          "threshold": 500.0
+        },
+        {
+          "ci95": [
+            0.5396575927734375,
+            0.5398459911346436
+          ],
+          "criterion": "peak_client_memory_overhead_mb",
+          "pass": true,
+          "statistic": 0.5396822452545166,
+          "threshold": 512.0
+        },
+        {
+          "ci95": [
+            0.8993015328136547,
+            0.8996154854704522
+          ],
+          "criterion": "peak_client_memory_overhead_fraction",
+          "pass": false,
+          "statistic": 0.8993426144445239,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.00018310546875,
+            0.00018310546875
+          ],
+          "criterion": "peak_server_memory_overhead_mb",
+          "pass": true,
+          "statistic": 0.00018310546875,
+          "threshold": 1024.0
+        },
+        {
+          "ci95": [
+            0.0001982668175697445,
+            0.0001982668175697445
+          ],
+          "criterion": "peak_server_memory_overhead_fraction",
+          "pass": true,
+          "statistic": 0.0001982668175697445,
+          "threshold": 0.25
+        },
+        {
+          "ci95": [
+            0.012150275799997102,
+            0.018829313050004518
+          ],
+          "criterion": "added_transfer_latency_p95_seconds",
+          "pass": true,
+          "statistic": 0.016874921649998462,
+          "threshold": 0.25
+        },
+        {
+          "ci95": null,
+          "criterion": "application_payload_expansion_ratio",
+          "pass": true,
+          "statistic": 1.0,
+          "threshold": 6.0
+        },
+        {
+          "ci95": null,
+          "criterion": "authentication_or_correctness_failures",
+          "pass": true,
+          "statistic": 0,
+          "threshold": 0
+        },
+        {
+          "ci95": null,
+          "criterion": "timeout_rate_fraction",
+          "pass": true,
+          "statistic": 0.0,
+          "threshold": 0.0
+        }
+      ],
+      "decision": "NOT_ACCEPTABLE",
+      "method": "DP_CLIP_NOISE",
+      "profile": "LAN"
+    }
+  ],
+  "missing_cells": 0,
+  "overall_decision": "NOT_ACCEPTABLE",
+  "profile_decisions": {
+    "BROADBAND": "NOT_ACCEPTABLE",
+    "CONSTRAINED": "NOT_ACCEPTABLE",
+    "LAN": "NOT_ACCEPTABLE"
+  }
+}

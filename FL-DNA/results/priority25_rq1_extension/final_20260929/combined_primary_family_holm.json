@@ -1,0 +1,57 @@
+{
+  "primary_family_tests": [
+    {
+      "test_id": "p24_t1_distortion_v1_conservative",
+      "family": "distortion",
+      "transform": "v1_conservative",
+      "dna_p": 0.9002045665401965,
+      "dp_p": 0.16839181759496574,
+      "dna_wins": 16,
+      "dp_wins": 23,
+      "ties": 0,
+      "holm_dna_p": 0.9002045665401965,
+      "holm_dp_p": 0.673567270379863
+    },
+    {
+      "test_id": "p24_t1_distortion_v2_0p95_eta0p01",
+      "family": "distortion",
+      "transform": "v2_0p95_eta0p01",
+      "dna_p": 0.09979543345980349,
+      "dp_p": 0.9459354892969714,
+      "dna_wins": 24,
+      "dp_wins": 15,
+      "ties": 0,
+      "holm_dna_p": 0.19959086691960698,
+      "holm_dp_p": 1.0
+    },
+    {
+      "test_id": "p25_t1_utility_v1_conservative",
+      "family": "utility",
+      "transform": "v1_conservative",
+      "dna_p": 1.8044374883174896e-08,
+      "dp_p": 0.9999999985793693,
+      "dna_wins": 36,
+      "dp_wins": 3,
+      "ties": 0,
+      "holm_dna_p": 5.413312464952469e-08,
+      "holm_dp_p": 1.0
+    },
+    {
+      "test_id": "p25_t1_utility_v2_0p95_eta0p01",
+      "family": "utility",
+      "transform": "v2_0p95_eta0p01",
+      "dna_p": 1.8189894035458565e-12,
+      "dp_p": 1.0,
+      "dna_wins": 39,
+      "dp_wins": 0,
+      "ties": 0,
+      "holm_dna_p": 7.275957614183426e-12,
+      "holm_dp_p": 1.0
+    }
+  ],
+  "any_dna_significant_after_holm": true,
+  "any_dp_significant_after_holm": false,
+  "combined_rq1_answer": "YES",
+  "reason": "DNA significantly beats DP on utility-matched T1 tests after Holm; no DP>DNA primary-family test is significant after Holm.",
+  "gradient_only_statement": "not answerable with the gradient-only attackers evaluated"
+}

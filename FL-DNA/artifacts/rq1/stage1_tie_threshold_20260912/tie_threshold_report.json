@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-12T14:56:24.958660+00:00",
+  "scope": "development-only numerical replay stability; no privacy-direction selection",
+  "artifact_dirs": [
+    "dna_level1_forward_attack_development_gate_c4_r8_i600_lr0p1_nonneg0p001",
+    "simple_defense_attack_clipping_noise_mc_development_gate_r8_i600_lr0p1_nonneg0p001_rel0p1_mc100"
+  ],
+  "artifacts_checked": 640,
+  "metric": "normalized_feature_mse_float32",
+  "observed_max_absolute_replay_discrepancy": 0.00390625,
+  "safety_factor": 10.0,
+  "absolute_floor": 1e-12,
+  "selected_tie_threshold_mse": 0.0390625,
+  "selection_rule": "max(floor, safety_factor * maximum replay discrepancy)"
+}

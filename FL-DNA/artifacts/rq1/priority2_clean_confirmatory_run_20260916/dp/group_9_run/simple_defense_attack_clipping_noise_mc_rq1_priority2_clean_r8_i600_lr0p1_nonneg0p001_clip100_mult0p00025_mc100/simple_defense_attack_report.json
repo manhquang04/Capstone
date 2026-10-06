@@ -1,0 +1,59 @@
+{
+  "target_file": "rq1_priority2_clean_targets.pt",
+  "groups": [
+    9
+  ],
+  "defense": "clipping_noise_mc",
+  "diagnostic": "bounded simple-defense attack; attacker-visible masks/thresholds/factors for retention and clipping; unknown realization for Gaussian noise",
+  "target_relative_l2_delta": 0.1,
+  "clip_norm": 100.0,
+  "noise_multiplier": 0.00025,
+  "defense_seed": 314159265,
+  "restarts": 8,
+  "iterations": 600,
+  "attack_lr": 0.1,
+  "nonnegative_lambda": 0.001,
+  "clip_factor": 0.95,
+  "mc_noise_samples": 100,
+  "topk_temperature": null,
+  "selection_formula": "argmin_c L_balanced(T_visible_clipping_noise_mc(delta(c)), defended_update; reference=defended_update)",
+  "group_summary": [
+    {
+      "group_id": 9,
+      "n_baseline_restarts": 8,
+      "objective_best_restart": 0,
+      "objective_best_objective": 0.7713058590888977,
+      "objective_best_fraud_mse": 24.285931013298573,
+      "objective_best_non_fraud_mse": 14.253467333124098,
+      "prior_fraud_mse_mean": 37.76934662341908,
+      "zero_objective_best_fraud_mse": 116.63917151446064,
+      "objective_minus_prior_fraud_mse": -13.48341561012051,
+      "objective_minus_zero_fraud_mse": -92.35324050116208,
+      "max_balance_residual_raw": 0.3083981005474925,
+      "mean_defense_relative_l2_delta": 0.053853972450817494,
+      "mean_defense_keep_ratio": 1.0
+    }
+  ],
+  "target_gate": {
+    "prior": {
+      "n": 1,
+      "wins": 1,
+      "mean_difference": -13.48341561012051,
+      "median_difference": -13.48341561012051,
+      "one_sided_sign_p": 0.5,
+      "gate": false
+    },
+    "zero": {
+      "n": 1,
+      "wins": 1,
+      "mean_difference": -92.35324050116208,
+      "median_difference": -92.35324050116208,
+      "one_sided_sign_p": 0.5,
+      "gate": false
+    },
+    "gate": false
+  },
+  "mean_defense_relative_l2_delta": 0.053853972450817494,
+  "mean_defense_keep_ratio": 1.0,
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b"
+}

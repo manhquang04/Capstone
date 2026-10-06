@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-13T04:46:05.373310+00:00",
+  "scope": "development-only variant distortion calibration",
+  "variant": "medium",
+  "target": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/artifacts/phase4/pre_phase4_fraud_gate_20260909T070735493549Z/development_gate_targets.pt",
+  "target_sha256": "7ad42895965b0cc0d349c9d61fd39642eaf8c1e8b866a22100e55330b32e183b",
+  "dna_config": {
+    "block_size": 256,
+    "mix_ratio": 0.1,
+    "keep_ratio": 0.85,
+    "shrink_factor": 0.4,
+    "seed": null
+  },
+  "dna_base_seed": 2036071981,
+  "dna_median_relative_l2": 0.09875763649729574,
+  "clip_norm": 100.0,
+  "noise_multiplier_grid": [
+    0.0001,
+    0.0002,
+    0.00025,
+    0.0003,
+    0.00035,
+    0.0004,
+    0.00045,
+    0.0005,
+    0.00075,
+    0.001,
+    0.005,
+    0.01
+  ],
+  "calibration_seed_list": [
+    11,
+    22,
+    33,
+    44,
+    55
+  ],
+  "matching_tolerance": 0.05,
+  "selection_rule": "minimum absolute distance; smallest multiplier tie-break",
+  "selected_candidate": {
+    "noise_multiplier": 0.0003,
+    "median_relative_l2": 0.09370101536353256,
+    "dna_median_relative_l2": 0.09875763649729574,
+    "absolute_distance": 0.005056621133763178,
+    "relative_distance": 0.05120233040309387,
+    "within_tolerance": false,
+    "observations": 40
+  },
+  "match_succeeded": false,
+  "amendment": "protocols/amendments/2026-09-13_rq1_variant_and_utility_extension.md"
+}

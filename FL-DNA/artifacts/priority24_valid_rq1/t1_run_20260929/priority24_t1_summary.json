@@ -1,0 +1,94 @@
+{
+  "amendment": "protocols/amendments/2026-09-29_priority24_rq1_valid_instrument.md",
+  "amendment_sha256": "d981496ad9e03dbe49dbfb087ea84ba37f21f76c1d1562fabc01d06df79b0973",
+  "calibration": {
+    "v1_conservative": {
+      "bn_dim": 128,
+      "clip_norm": 14.334709027708206,
+      "epsilon_50_releases_delta_1e_minus_5": 4118761.042101533,
+      "epsilon_single_release_delta_1e_minus_5": 84072.52899172972,
+      "max_bn_norm": 14.192781215552678,
+      "median_bn_norm": 3.673275648117977,
+      "median_dna_l2_distortion": 0.3941954292430625,
+      "noise_multiplier": 0.002467816163589537
+    },
+    "v2_0p95_eta0p01": {
+      "bn_dim": 128,
+      "clip_norm": 14.334709027708206,
+      "epsilon_50_releases_delta_1e_minus_5": 2309981.097289703,
+      "epsilon_single_release_delta_1e_minus_5": 47489.32416257324,
+      "max_bn_norm": 14.192781215552678,
+      "median_bn_norm": 3.673275648117977,
+      "median_dna_l2_distortion": 0.5416803490732032,
+      "noise_multiplier": 0.003297124505600532
+    }
+  },
+  "confirm_target": "artifacts/priority24_valid_rq1/t1_confirm_targets_20260929/paysim_priority24_t1_confirm_targets.pt",
+  "confirm_target_sha256": "df3f5e24ea53f2fb3510a8cfd37ef1fb98080d08336873a37df3f28bcd6b962b",
+  "confirmatory_tests": {
+    "v1_conservative": {
+      "dna_greater_p": 0.9002045665401965,
+      "dna_wins": 16,
+      "dp_greater_p": 0.16839181759496574,
+      "dp_wins": 23,
+      "holm_dna_greater_p": 0.9002045665401965,
+      "holm_dp_greater_p": 0.3367836351899315,
+      "mean_mse_ratio_dna_over_dp": 3.5425219035662767,
+      "median_mse_ratio_dna_over_dp": 0.34926089419925144,
+      "non_tied_n": 39,
+      "ties": 0
+    },
+    "v2_0p95_eta0p01": {
+      "dna_greater_p": 0.09979543345980349,
+      "dna_wins": 24,
+      "dp_greater_p": 0.9459354892969714,
+      "dp_wins": 15,
+      "holm_dna_greater_p": 0.19959086691960698,
+      "holm_dp_greater_p": 0.9459354892969714,
+      "mean_mse_ratio_dna_over_dp": 3.3790152288599935,
+      "median_mse_ratio_dna_over_dp": 1.278198187849433,
+      "non_tied_n": 39,
+      "ties": 0
+    }
+  },
+  "created_at": "2026-09-28T18:18:59.934240+00:00",
+  "dev_qualification": {
+    "n": 8,
+    "p_vs_decoy": 0.00390625,
+    "p_vs_prior": 0.00390625,
+    "qualified": true,
+    "wins_vs_decoy": 8,
+    "wins_vs_prior": 8
+  },
+  "dev_target": "artifacts/priority24_valid_rq1/t1_dev_targets_20260929/paysim_priority24_t1_dev_targets.pt",
+  "dev_target_sha256": "a3fc345d2243c8ff83b307c559417e48e9563b5a3d5987cd0faeeb96e1db94cb",
+  "feature_names": [
+    "step",
+    "amount",
+    "oldbalanceOrg",
+    "newbalanceOrig",
+    "oldbalanceDest",
+    "newbalanceDest",
+    "balance_diff_orig",
+    "balance_diff_dest",
+    "type=CASH_IN",
+    "type=CASH_OUT",
+    "type=DEBIT",
+    "type=PAYMENT",
+    "type=TRANSFER"
+  ],
+  "instrument": "T1_BN_RUNNING_MEAN_BATCH_MEAN_RECOVERY",
+  "pilot_qualification": {
+    "n": 24,
+    "p_vs_decoy": 5.960464477539063e-08,
+    "p_vs_prior": 5.960464477539063e-08,
+    "qualified": true,
+    "wins_vs_decoy": 24,
+    "wins_vs_prior": 24
+  },
+  "pilot_target": "artifacts/priority24_valid_rq1/t1_pilot_targets_20260929/paysim_priority24_t1_pilot_targets.pt",
+  "pilot_target_sha256": "26b3f2e5836ac5dda9c02aab03d55c7aa856aea0defdc86bc3828d211c206016",
+  "reduced_plan_note": "Only T1 fraud-domain distortion-matched tests were authorized in this reduced Priority 24 amendment.",
+  "rq1_answer_reduced_plan": "NO_NOT_SHOWN",
+  "tie_band_from_development_replay": 0.0
+}

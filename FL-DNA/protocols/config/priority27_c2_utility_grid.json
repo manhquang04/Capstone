@@ -1,0 +1,84 @@
+{
+  "status": "UTILITY_GRID_FROZEN",
+  "execution_authorized": true,
+  "amendment": "protocols/amendments/2026-09-29_priority27_gaps_and_harness.md",
+  "clip_probe": "artifacts/priority27_gaps_harness/c2_clip_probe_20260929/clip_probe_summary.json",
+  "seeds": [
+    270201,
+    270202,
+    270203,
+    270204,
+    270205,
+    270206,
+    270207,
+    270208,
+    270209,
+    270210,
+    270211,
+    270212,
+    270213,
+    270214,
+    270215,
+    270216
+  ],
+  "training": {
+    "maximum_rows": 500000,
+    "num_rounds": 50,
+    "num_clients": 3,
+    "local_epochs": 1,
+    "focal_alpha": 0.95,
+    "focal_gamma": 2.0
+  },
+  "initial_sigma_grid": [
+    1e-6,
+    1e-5,
+    3e-5,
+    1e-4,
+    3e-4
+  ],
+  "extension_sigma_grid": [
+    1e-3,
+    3e-3
+  ],
+  "matching_targets": {
+    "v1_conservative": {
+      "rq2_mean_delta_f1": 0.0014,
+      "threshold_delta_f1": -0.0036
+    },
+    "v2_0p95_eta0p01": {
+      "rq2_mean_delta_f1": -0.0117,
+      "threshold_delta_f1": -0.0167
+    }
+  },
+  "clip_specs": {
+    "full_state_single_clip": 283.364730834961,
+    "fedbn_trainable_only": 1.3000768184661866,
+    "per_tensor_clip": {
+      "network.0.bias": 0.00013312876617419534,
+      "network.0.weight": 0.576201093196869,
+      "network.1.bias": 0.1453717015683651,
+      "network.1.running_mean": 8.011973094940187,
+      "network.1.running_var": 283.20083770751955,
+      "network.1.weight": 0.12907234504818915,
+      "network.4.bias": 0.00022323206503642727,
+      "network.4.weight": 1.0231775403022767,
+      "network.5.bias": 0.09394125826656818,
+      "network.5.running_mean": 1.098138374090195,
+      "network.5.running_var": 6.807332587242128,
+      "network.5.weight": 0.09093889705836782,
+      "network.8.bias": 0.00022318994087981993,
+      "network.8.weight": 0.5600673586130143,
+      "network.9.bias": 0.1069940932095052,
+      "network.9.running_mean": 0.6870298087596894,
+      "network.9.running_var": 2.443845915794373,
+      "network.9.weight": 0.1398109056055546,
+      "network.12.bias": 0.020810700207948715,
+      "network.12.weight": 0.141635347902775
+    }
+  },
+  "effective_sensitivities": {
+    "full_state_single_clip": 283.364730834961,
+    "fedbn_trainable_only": 1.3000768184661866,
+    "per_tensor_clip": 283.3070558392558
+  }
+}

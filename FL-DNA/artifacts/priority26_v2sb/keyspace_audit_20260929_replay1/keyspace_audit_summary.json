@@ -1,0 +1,187 @@
+{
+  "created_at": "2026-09-28T20:22:10.683674+00:00",
+  "amendment": "protocols/amendments/2026-09-29_priority26_v2sb_server_blind.md",
+  "amendment_sha256": "f01726f51a7887380e8911fdf76aa893309abcdca98bcbdd3fb127b90df1ff06",
+  "target": "artifacts/priority26_v2sb/keyspace_targets_20260929/paysim_priority26_keyspace_targets.pt",
+  "target_sha256": "8ea59b3652e09464a37332ee41f189b42a09259aeeaab4b068e6ad712785437d",
+  "line_citations": {
+    "v2_derive_seed": {
+      "file": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/dna_encoder/transform_defense_v2.py",
+      "start_line": 229,
+      "end_line": 235
+    },
+    "v2_rng": {
+      "file": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/dna_encoder/transform_defense_v2.py",
+      "start_line": 238,
+      "end_line": 239
+    },
+    "v1_transform_update_array": {
+      "file": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/dna_encoder/transform_defense.py",
+      "start_line": 36,
+      "end_line": 92
+    },
+    "v1_dna_block_seed_from_float32_block": {
+      "file": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/dna_encoder/transform_defense.py",
+      "start_line": 110,
+      "end_line": 142
+    },
+    "derive_seed": {
+      "file": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/privacy/seed_manager.py",
+      "start_line": 16,
+      "end_line": 20
+    }
+  },
+  "effective_key_space": {
+    "v2_rng_seed_space": "2^32 because _rng uses int(seed) % (2**32)",
+    "v1_block_seed_space": "2^31 per block because _dna_block_seed_from_float32_block returns seed % (2**31) and transform_update_array passes that seed to np.random.default_rng",
+    "derive_seed_range": "[1, 2**31 - 1]"
+  },
+  "decode_timing_seconds": {
+    "median_per_candidate": 4.495800000015038e-05,
+    "mean_per_candidate": 4.5415431875009406e-05,
+    "n_timing_trials": 1600
+  },
+  "projected_enumeration": {
+    "v2_2pow32_single_process_seconds": 193093.13969421387,
+    "v2_2pow32_9_process_seconds": 21454.793299357098,
+    "v1_2pow31_single_process_seconds": 96546.56984710693,
+    "v1_2pow31_9_process_seconds": 10727.396649678549
+  },
+  "verification_criterion": "candidate seed score = standardized T1 batch-mean MSE after reconstructing BN running_mean; lower is better",
+  "wrong_seeds_per_target": 1000,
+  "rows": [
+    {
+      "group": 0,
+      "source_ids": [
+        5813761,
+        6008447,
+        4973414,
+        840058
+      ],
+      "true_seed": 1177993005,
+      "true_seed_mse": 0.25784420539883135,
+      "wrong_seed_count": 1000,
+      "wrong_seed_min_mse": 0.1999277747235576,
+      "wrong_seed_median_mse": 4.45133055429366,
+      "wrong_seed_better_or_equal_count": 3,
+      "criterion_true_seed_rank": 4
+    },
+    {
+      "group": 1,
+      "source_ids": [
+        5561580,
+        2724357,
+        6064983,
+        766988
+      ],
+      "true_seed": 1177993005,
+      "true_seed_mse": 0.48943606527470546,
+      "wrong_seed_count": 1000,
+      "wrong_seed_min_mse": 0.4788004985543072,
+      "wrong_seed_median_mse": 11.954526031440048,
+      "wrong_seed_better_or_equal_count": 1,
+      "criterion_true_seed_rank": 2
+    },
+    {
+      "group": 2,
+      "source_ids": [
+        4304312,
+        4318267,
+        3451402,
+        4785658
+      ],
+      "true_seed": 1177993005,
+      "true_seed_mse": 0.4404245013454631,
+      "wrong_seed_count": 1000,
+      "wrong_seed_min_mse": 0.2564548572718443,
+      "wrong_seed_median_mse": 8.060454457052607,
+      "wrong_seed_better_or_equal_count": 1,
+      "criterion_true_seed_rank": 2
+    },
+    {
+      "group": 3,
+      "source_ids": [
+        962619,
+        6168688,
+        3291442,
+        3072662
+      ],
+      "true_seed": 1177993005,
+      "true_seed_mse": 0.37417685342085966,
+      "wrong_seed_count": 1000,
+      "wrong_seed_min_mse": 0.21055984222641422,
+      "wrong_seed_median_mse": 5.822676399047481,
+      "wrong_seed_better_or_equal_count": 5,
+      "criterion_true_seed_rank": 6
+    },
+    {
+      "group": 4,
+      "source_ids": [
+        3273908,
+        4310055,
+        2306604,
+        1960423
+      ],
+      "true_seed": 1177993005,
+      "true_seed_mse": 15.092772457539734,
+      "wrong_seed_count": 1000,
+      "wrong_seed_min_mse": 10.156541298542386,
+      "wrong_seed_median_mse": 532.9053270431618,
+      "wrong_seed_better_or_equal_count": 1,
+      "criterion_true_seed_rank": 2
+    },
+    {
+      "group": 5,
+      "source_ids": [
+        6281792,
+        5407686,
+        3915700,
+        1261295
+      ],
+      "true_seed": 1177993005,
+      "true_seed_mse": 11.124566849111249,
+      "wrong_seed_count": 1000,
+      "wrong_seed_min_mse": 15.085470874278105,
+      "wrong_seed_median_mse": 395.24755849930057,
+      "wrong_seed_better_or_equal_count": 0,
+      "criterion_true_seed_rank": 1
+    },
+    {
+      "group": 6,
+      "source_ids": [
+        4317652,
+        3979123,
+        20056,
+        72931
+      ],
+      "true_seed": 1177993005,
+      "true_seed_mse": 0.4563532844383579,
+      "wrong_seed_count": 1000,
+      "wrong_seed_min_mse": 0.28430415999373904,
+      "wrong_seed_median_mse": 8.352609981354762,
+      "wrong_seed_better_or_equal_count": 2,
+      "criterion_true_seed_rank": 3
+    },
+    {
+      "group": 7,
+      "source_ids": [
+        5967457,
+        5859785,
+        5721939,
+        3738299
+      ],
+      "true_seed": 1177993005,
+      "true_seed_mse": 0.39946834452911734,
+      "wrong_seed_count": 1000,
+      "wrong_seed_min_mse": 0.5510955124835444,
+      "wrong_seed_median_mse": 9.927841072841916,
+      "wrong_seed_better_or_equal_count": 0,
+      "criterion_true_seed_rank": 1
+    }
+  ],
+  "true_seed_rank_summary": {
+    "all_true_seed_rank_1": false,
+    "max_true_seed_rank": 6,
+    "total_wrong_better_or_equal": 13
+  }
+}

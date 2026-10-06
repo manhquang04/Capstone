@@ -1,0 +1,58 @@
+{
+  "target_file": "rq1_v2_confirmatory_targets.pt",
+  "groups": [
+    150
+  ],
+  "defense": "dna_transform_v2_iht_compressed_sensing",
+  "diagnostic": "final development-only IHT compressed-sensing attacker for DNA Transform v2",
+  "amendment": "protocols/amendments/2026-09-16_rq1_v2_confirmatory_protocol.md",
+  "v2_config": {
+    "compression_ratio": 0.95,
+    "quantization_eta": 0.01,
+    "seed": 20260916
+  },
+  "sparsity_fraction": 0.2,
+  "iht_iterations": 80,
+  "iht_step_size": 1.0,
+  "restarts": 4,
+  "iterations": 600,
+  "attack_lr": 0.1,
+  "nonnegative_lambda": 0.001,
+  "selection_formula": "IHT sparse update reconstruction from q_obs, then argmin_x L_balanced(delta(x), u_iht)",
+  "group_summary": [
+    {
+      "group_id": 150,
+      "n_baseline_restarts": 4,
+      "objective_best_restart": 1,
+      "objective_best_objective": 0.8416315317153931,
+      "objective_best_fraud_mse": 313.2065442215098,
+      "objective_best_non_fraud_mse": 1395.1522686035976,
+      "prior_fraud_mse_mean": 1038.7150839076796,
+      "zero_objective_best_fraud_mse": 2279.403740093371,
+      "objective_minus_prior_fraud_mse": -725.5085396861698,
+      "objective_minus_zero_fraud_mse": -1966.1971958718614,
+      "max_balance_residual_raw": 0.4921433199197054,
+      "mean_iht_final_residual_l2": 16.965857035239672
+    }
+  ],
+  "target_gate": {
+    "prior": {
+      "n": 1,
+      "wins": 1,
+      "mean_difference": -725.5085396861698,
+      "median_difference": -725.5085396861698,
+      "one_sided_sign_p": 0.5,
+      "gate": false
+    },
+    "zero": {
+      "n": 1,
+      "wins": 1,
+      "mean_difference": -1966.1971958718614,
+      "median_difference": -1966.1971958718614,
+      "one_sided_sign_p": 0.5,
+      "gate": false
+    },
+    "gate": false
+  },
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b"
+}

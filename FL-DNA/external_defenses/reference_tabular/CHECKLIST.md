@@ -1,0 +1,14 @@
+# Tabular reference deliverables (pre-run contract)
+
+- `run_reference.py`: single-process CPU driver, at most two intra-op threads and one inter-op thread; official unchanged TabLeak `invert_grad`, experiment 46 parameters (30 restarts x 1500 Adam iterations), known labels, no defense, no target-based pooling.
+- `runs/<name>/result.json`: measured batch-eight reconstruction accuracy in percent, all/categorical/continuous; per-feature accuracy; tolerance and feature names; model, preprocessing, seeds, versions, source hashes and official commit; runtime; native published reference distinguished from a single measured batch.
+- `runs/<name>/arrays.npz`: ground truth, labels, pooled reconstruction, 30 ensemble reconstructions and objective losses; model checkpoint `model.pt` and adapter metadata for metric-only fresh-process verification.
+- `run.log`: stdout/stderr retained, failures explicit, no fabricated scores.
+- `verify_reference.py`: fresh-process official metric recomputation, finite/shape/ensemble-size checks and independent accuracy recomputation.
+- `tabular_reference_notes.md`: published setting and source, concrete project/official differences with source locations, actual model train-mode stochastic replay diagnosis, PaySim scope and exclusions, exact commands and outcomes.
+
+Coverage: one random Adult training batch at initialization, batch size 8, true labels, FedSGD raw gradient. Published comparison is Table 1 true-label batch-eight mean/std over 50 batches, not a pass threshold for one batch. PaySim uses genuine project-loader data, a seed-42 stratified 100,000-row sample, train-fitted RobustScaler and one-hot categories; eight sampled client-0 records at initialization. Two scenarios: official FC and actual project FraudMLP in deterministic evaluation mode. Neither is project train-mode Adam/FedAvg leakage, and neither validates trained or defended models. PaySim exact category match and 0.319 train SD continuous tolerance use the official Hungarian metric; continuous monetary values are not integer rounded.
+
+## Supplemental diagnostic (declared before its completion)
+
+Default PaySim metrics were poor (25% FC / 34.7222% real project eval); test whether the sigmoid maps robust-scaled inputs into problematic very-wide pooled-train ranges. `run_paysim_ablation.py` reloads the **same frozen batch, model checkpoint and criterion**, disabling only official `sigmoid_trick`, with 30 x 1500 iterations unchanged. Write separately to `runs/paysim_no_sigmoid/`, never replace native/default artifacts; retain whichever candidate is more useful on the same real data. Fresh verification writes `verification_ablation.json` separately. This is a diagnostic parameter change, not a published-default reproduction. No ground-truth selection inside the attack; outcomes reported even if worse.

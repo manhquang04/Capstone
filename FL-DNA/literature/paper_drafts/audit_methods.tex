@@ -1,0 +1,91 @@
+\section{Native Defense Audit Methods}
+\label{sec:native-audit-methods}
+
+We evaluate whether published gradient-leakage defenses retain their claimed
+protection when assessed in their native reconstruction settings and under an
+attacker whose knowledge matches the server threat model.  The audit is
+pre-registered in the Priority 29 and Priority 30 amendments.  It treats a
+defense as an empirical mechanism, rather than inferring privacy from a
+transformed gradient alone.  All emitted cells use fresh, source-disjoint
+targets, single-threaded execution, and per-target result records.
+
+\subsection{Native instruments and positive controls}
+For images, the native instrument is CIFAR-10 test data, an untrained official
+\texttt{LeNetZhu} model constructed with seed 42, FedSGD with one known-label
+example, and the official Geiping \texttt{GradientReconstructor}.  The attack
+uses cosine cost, signed Adam with learning rate 0.1, 4,800 iterations, one
+restart, total variation weight 0.01, boxed image projection, learning-rate
+decay, and attacker-observable loss for restart scoring.  We score raw-space
+MSE, PSNR, and SSIM against the target, and retain gray 0.5 and CIFAR training
+mean image baselines.
+
+For tabular data, the native instrument is the official TabLeak Adult FedSGD
+configuration: known labels; batch size 8; an initialized fully connected
+network with dimensions $105\rightarrow100\rightarrow100\rightarrow2$;
+cross-entropy; cosine discrepancy; signed Adam with learning rate 0.06; 1,500
+iterations; 30 restart/ensemble members; uniform initialization; categorical
+softmax; bounded continuous sigmoid parameterization; median-plus-softmax
+pooling; and no learning-rate schedule.  The primary tabular outcome is the
+official mixed-feature reconstruction accuracy, with mean/mode and empirical
+marginal baselines.
+
+Before defense comparisons, each native instrument must pass a positive-control
+gate at $n=8$ and then $n=24$ fresh targets.  The image attack must outperform
+the Prior, decoy, gray, and CIFAR-mean baselines; the Adult attack must
+outperform both data-free tabular baselines.  Each directional gate uses an
+exact one-sided sign test at $\alpha=0.05$.  A failed native gate stops the
+domain and produces \texttt{NOT\_ASSESSABLE}, rather than evidence for a
+defense.
+
+\subsection{Defense adapters and checks}
+For each defense we first require four checks: (i) defense-not-identity at the
+frozen published hyperparameters; (ii) lossless sanity for an adaptive path
+when such a setting exists; (iii) an explicit server-knowledge receipt for
+every key, hash, mask, stochastic sample, or metadata needed to decode the
+payload; and (iv) decoy correctness plus the native positive-control gate.
+PRECODE is the official variational bottleneck inserted immediately before the
+final classifier and evaluated through its stochastic forward pass.  Soteria
+uses client-side representation sensitivity and masks final-classifier gradient
+columns at 80\% for images and 40\% for Adult.  Gradient pruning applies
+per-tensor lowest-magnitude pruning at 70\%.  ATS is image-only and applies the
+official searched policy 3-1-7 before gradient computation, while scoring both
+against the raw image and, for the paper comparison, the transformed image.
+Count-Sketch uses five rows, 500,000 columns, seed 21, and registered
+trainable-gradient tensor order; known- and unknown-hash server conditions are
+distinct.  Unknown hashes make an adaptive decoder unavailable rather than
+permitting an invented sketch operator.
+
+\subsection{Evaluation matrix and adaptive attackers}
+Each qualified defense-domain cell has $n=39$ confirmatory targets.  E1 uses
+the non-adaptive official attacker and the original paper's metric, asking
+whether the published qualitative protection claim reproduces.  E2 uses an
+adaptive attacker matched to the declared server knowledge and tests whether
+reconstruction quality is reduced versus the undefended attack on the same
+targets.  The PRECODE attacker differentiates through the stochastic
+bottleneck; the Soteria attacker receives the representation mask; the pruning
+attacker uses the retained-coordinate observation; ATS uses the known input
+transformation; and known-hash Count-Sketch uses the actual linear sketch map.
+For DNA v2, the key-holder path uses least squares through the sketch map, not
+a naive lift.  For every unknown-key or unknown-hash condition, unavailable
+knowledge is recorded as unavailable rather than assumed.
+
+E3 provides three comparators: (i) paper-documented unclipped Gaussian noise
+at the paper's noise scale, (ii) properly clipped DP at the defense's matched
+$L_2$ distortion, and (iii), for tabular cells only, utility-matched DP by
+Adult FedSGD test accuracy using the pre-specified bracketed-grid rule.  E3(iii)
+is run only if an E2 tabular defense survives and the frozen wall-clock rule
+permits it.  The frozen reduction order may also omit ATS and the secondary
+PaySim reconstruction analysis; these omissions are reported as such, not
+treated as negative results.
+
+For every paired comparison we use exact one-sided sign tests, excluding ties,
+at $n=39$.  Holm correction is applied over the whole Priority 29 family of E2
+and E3 p-values.  \todo{Insert the emitted comparison family, raw p-values,
+and Holm-adjusted p-values.} A defense \texttt{SURVIVES} only if E2 shows a
+significant reconstruction-quality reduction versus no defense and is not
+significantly worse than properly clipped matched-distortion DP (and, for
+Adult, matched-utility DP).  It \texttt{DOES\_NOT\_SURVIVE} otherwise, with
+the failing check named; it is \texttt{NOT\_ASSESSABLE} if a native positive
+control fails or a required model-level adapter cannot be supplied without
+altering read-only reference code.  \todo{Insert per-defense RQ4 verdicts
+only after the paired comparator records and corrected tests are available.}

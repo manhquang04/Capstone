@@ -1,0 +1,563 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-12T14:56:25.973135+00:00",
+  "scope": "RQ2 Stage-1 shared development batch",
+  "seed_contract": "each seed controls sample/split, partition, model init, and loader order; all methods reuse it",
+  "dataset": "/Users/rhys24z/Documents/UNIVERSITY/Capstone/FL-DNA/datasets/creditcard.csv",
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b",
+  "max_rows": 500000,
+  "records": [
+    {
+      "seed": 101,
+      "max_rows": 500000,
+      "client_dataset_sha256": [
+        "8d5e035685795a326bc80aaebcedbff3b0693367a89a5c8b716c7742b5b0aeb8",
+        "f703954209eec2cf40fc1ac698d7d8ca8375241aa0713800137ebdff385ac967",
+        "c13f562ceab6cb975cbbb66e16096a6129e035d844b97a2bdf5daaaab9f57c84"
+      ],
+      "validation_dataset_sha256": "60ff6b4dc30c4ba9fff25e1cb863113075be6d13d64c639940479cb6694e7d7c",
+      "test_dataset_sha256": "5ba4ff97db80570f0a850fe272abbeda6691ccde774eaa52a49fc4c0fc1c5376",
+      "split_partition_sha256": "cacc08b5c90e767b3335e6a22ce6b6d5d1706d1c84c269ea33a87fb0d0f5ef8b",
+      "model_initial_state_sha256": "6f1abe4888c5ff9a4ad52a982960008b6af3f5e608e52e7c7d6b1cae1ea9da70",
+      "loader_order_seed_by_client": [
+        101,
+        102,
+        103
+      ],
+      "feature_order": [
+        "step",
+        "amount",
+        "oldbalanceOrg",
+        "newbalanceOrig",
+        "oldbalanceDest",
+        "newbalanceDest",
+        "balance_diff_orig",
+        "balance_diff_dest",
+        "type=CASH_IN",
+        "type=CASH_OUT",
+        "type=DEBIT",
+        "type=PAYMENT",
+        "type=TRANSFER"
+      ],
+      "numeric_center": [
+        239.0,
+        74558.735,
+        14448.0,
+        0.0,
+        131134.755,
+        212661.485,
+        0.0,
+        0.0
+      ],
+      "numeric_scale": [
+        180.0,
+        195017.9725,
+        107614.25,
+        144459.70750000002,
+        937621.1475,
+        1105905.98,
+        10154.0,
+        149544.85250000004
+      ],
+      "type_categories": [
+        "CASH_IN",
+        "CASH_OUT",
+        "DEBIT",
+        "PAYMENT",
+        "TRANSFER"
+      ],
+      "sample_counts": {
+        "clients": [
+          132116,
+          119007,
+          73877
+        ],
+        "validation": 74999,
+        "test": 100001
+      }
+    },
+    {
+      "seed": 202,
+      "max_rows": 500000,
+      "client_dataset_sha256": [
+        "4f2ea0f8b0ce01aca4dad07ce93fc3eb5642036b750d7de559cfe6c5e6fb6f75",
+        "21e240a30c3079b2429465f1752fbad08a1de19da83e9c7800e3c5e94b37ffb0",
+        "bb5214cd462730cf5c1fe67145d48375301232b29d2999a2c6adba654572de0e"
+      ],
+      "validation_dataset_sha256": "1e3a19ea6a88c39ab050a730dea55c029b248d844e2a597a32093e5e2528f30c",
+      "test_dataset_sha256": "06555b7b6c74ebbc75244579c371e2d0ab4328c10ec88b26de460391b67cc92f",
+      "split_partition_sha256": "ad390e5a25752357210125a8267045a0f865edf255f60cce3e56f0f057c0e51b",
+      "model_initial_state_sha256": "6abf140226984d4c0d9782db0102d8f96ab4854b2652113f621bff11bac93155",
+      "loader_order_seed_by_client": [
+        202,
+        203,
+        204
+      ],
+      "feature_order": [
+        "step",
+        "amount",
+        "oldbalanceOrg",
+        "newbalanceOrig",
+        "oldbalanceDest",
+        "newbalanceDest",
+        "balance_diff_orig",
+        "balance_diff_dest",
+        "type=CASH_IN",
+        "type=CASH_OUT",
+        "type=DEBIT",
+        "type=PAYMENT",
+        "type=TRANSFER"
+      ],
+      "numeric_center": [
+        249.0,
+        75245.815,
+        14561.0,
+        0.0,
+        135784.71000000002,
+        217379.755,
+        0.0,
+        0.0
+      ],
+      "numeric_scale": [
+        179.0,
+        195236.825,
+        107940.25,
+        145608.96500000003,
+        950572.17,
+        1117297.1125,
+        10250.0,
+        149391.80999999994
+      ],
+      "type_categories": [
+        "CASH_IN",
+        "CASH_OUT",
+        "DEBIT",
+        "PAYMENT",
+        "TRANSFER"
+      ],
+      "sample_counts": {
+        "clients": [
+          132044,
+          119089,
+          73867
+        ],
+        "validation": 74999,
+        "test": 100001
+      }
+    },
+    {
+      "seed": 303,
+      "max_rows": 500000,
+      "client_dataset_sha256": [
+        "b3fa25f54b8c504a144fe744954016c8ff465d03f0fdb8f9234abd6870303224",
+        "e657acaeb8b574a1de1f2c3791f58e8cd6b54e4caadb21217863846df126f14d",
+        "3d07b9233ecbe95c26b2f7c73ed22b1ac3e80a8d27ed5907f885bdd12489aeec"
+      ],
+      "validation_dataset_sha256": "8e80ef7ebee5284d1232d05ff5c9d93d89ae4f0ea4f60c4e55f7574779fdd23c",
+      "test_dataset_sha256": "a9976ce23bdc78d5e136573dbddb3e5eda14e3736a81f0630e58bbb06e4fb3e1",
+      "split_partition_sha256": "05c64e664b4b0293cd32a37d52370a32d62d05ff1814150134f28f77269d914b",
+      "model_initial_state_sha256": "56295107c733e55b8b531e3e99f270834140017fd5efd1054b2999a69908627e",
+      "loader_order_seed_by_client": [
+        303,
+        304,
+        305
+      ],
+      "feature_order": [
+        "step",
+        "amount",
+        "oldbalanceOrg",
+        "newbalanceOrig",
+        "oldbalanceDest",
+        "newbalanceDest",
+        "balance_diff_orig",
+        "balance_diff_dest",
+        "type=CASH_IN",
+        "type=CASH_OUT",
+        "type=DEBIT",
+        "type=PAYMENT",
+        "type=TRANSFER"
+      ],
+      "numeric_center": [
+        239.0,
+        74521.58499999999,
+        13917.5,
+        0.0,
+        132253.76,
+        213369.025,
+        0.0,
+        0.0
+      ],
+      "numeric_scale": [
+        179.0,
+        195060.36750000002,
+        106757.5525,
+        143179.74,
+        940519.3925,
+        1111773.5425,
+        10143.0125,
+        149264.8925
+      ],
+      "type_categories": [
+        "CASH_IN",
+        "CASH_OUT",
+        "DEBIT",
+        "PAYMENT",
+        "TRANSFER"
+      ],
+      "sample_counts": {
+        "clients": [
+          132187,
+          118943,
+          73870
+        ],
+        "validation": 74999,
+        "test": 100001
+      }
+    },
+    {
+      "seed": 404,
+      "max_rows": 500000,
+      "client_dataset_sha256": [
+        "1e90eacea34ef06fd838194b3b5a0508e92210b60fa640fa6035e4ddf1d786dc",
+        "853f2e942cd0b15d7232577119fe3817c1c70f1b787e8061e0f60736cfe63026",
+        "f6c41c115f4e3a39f130da667a5c35c543f1b5138e62160d64ae6821c559479f"
+      ],
+      "validation_dataset_sha256": "0b17565771c71ac272f1ad5681cd2980427647f02f884e8ef3ef4f25849fed64",
+      "test_dataset_sha256": "16dbb846173ce814181192c310cb384c36aec539738fc4406dccc265570775b3",
+      "split_partition_sha256": "6c03d531cd4341bb0d7ff54f75da86039e12cfb968aa8ea0eac22e0a331ef256",
+      "model_initial_state_sha256": "322d9c12cd48866e799c248896fad4f5e34ba98a8fb7b4baa254dfa852ce168a",
+      "loader_order_seed_by_client": [
+        404,
+        405,
+        406
+      ],
+      "feature_order": [
+        "step",
+        "amount",
+        "oldbalanceOrg",
+        "newbalanceOrig",
+        "oldbalanceDest",
+        "newbalanceDest",
+        "balance_diff_orig",
+        "balance_diff_dest",
+        "type=CASH_IN",
+        "type=CASH_OUT",
+        "type=DEBIT",
+        "type=PAYMENT",
+        "type=TRANSFER"
+      ],
+      "numeric_center": [
+        239.0,
+        75086.01000000001,
+        14016.0,
+        0.0,
+        132654.91,
+        214665.625,
+        0.0,
+        0.0
+      ],
+      "numeric_scale": [
+        178.0,
+        195751.84,
+        107183.25,
+        143149.8675,
+        942917.3775000001,
+        1114413.105,
+        10140.657500000005,
+        149754.55750000008
+      ],
+      "type_categories": [
+        "CASH_IN",
+        "CASH_OUT",
+        "DEBIT",
+        "PAYMENT",
+        "TRANSFER"
+      ],
+      "sample_counts": {
+        "clients": [
+          132110,
+          119056,
+          73834
+        ],
+        "validation": 74999,
+        "test": 100001
+      }
+    },
+    {
+      "seed": 505,
+      "max_rows": 500000,
+      "client_dataset_sha256": [
+        "7820a2b729ccec21c9bc80ab2fcef2c504fd9490b7c1fc9d6bbc03d44cf20698",
+        "2bc9fb2d31bb51551ca659f203ab36e1ba1bd64641b28b9fccbd025c8c5efed9",
+        "d326a0c8d1194eebf093178b2535beb0c96204ce76f39205eca46bc24009bb27"
+      ],
+      "validation_dataset_sha256": "18823b0adf701ccafb3e58ae4c06ea89d5d9a6ba59dd5376d07fc22d8583dd67",
+      "test_dataset_sha256": "2e6279ad819eedd1fe35b2b3b6d9dc1a34f0e6ae5e2c6f12ad18c1f252749839",
+      "split_partition_sha256": "23df3b0633c48d719a4fd508011c55f7cfd8d2bc90ea17d2fbdb11e9b30d8d47",
+      "model_initial_state_sha256": "11cb3d4c84ae72d4b73a4281b85fedb8eab597c650eebe579c66dcdab64311ce",
+      "loader_order_seed_by_client": [
+        505,
+        506,
+        507
+      ],
+      "feature_order": [
+        "step",
+        "amount",
+        "oldbalanceOrg",
+        "newbalanceOrig",
+        "oldbalanceDest",
+        "newbalanceDest",
+        "balance_diff_orig",
+        "balance_diff_dest",
+        "type=CASH_IN",
+        "type=CASH_OUT",
+        "type=DEBIT",
+        "type=PAYMENT",
+        "type=TRANSFER"
+      ],
+      "numeric_center": [
+        240.0,
+        74701.485,
+        14012.0,
+        0.0,
+        134701.93,
+        217026.72,
+        0.0,
+        0.0
+      ],
+      "numeric_scale": [
+        179.0,
+        195050.425,
+        106976.9075,
+        143218.185,
+        942198.2775,
+        1108616.825,
+        10153.0,
+        148666.1925
+      ],
+      "type_categories": [
+        "CASH_IN",
+        "CASH_OUT",
+        "DEBIT",
+        "PAYMENT",
+        "TRANSFER"
+      ],
+      "sample_counts": {
+        "clients": [
+          132066,
+          119067,
+          73867
+        ],
+        "validation": 74999,
+        "test": 100001
+      }
+    },
+    {
+      "seed": 606,
+      "max_rows": 500000,
+      "client_dataset_sha256": [
+        "27dfb42e53e4c73dc74fd5131e4e2aff6d8339bd59272c38aa64b01229787990",
+        "fca7557ed8ce79d8607acd39b8c0232c922dfed5a150d7d6ef53c9b321d079f2",
+        "7a3c16308766fd53bbc72e0be164e1f7b07e173966446b351eb42c0e59b6a1f5"
+      ],
+      "validation_dataset_sha256": "b4047aa32b85448e537317933319b0f1e369592646f97f4d127832b7e355336f",
+      "test_dataset_sha256": "693b5de491e6453b8228cff8e758d02e4d84a02e65018afd9679871301e632bb",
+      "split_partition_sha256": "312906c44607e118e4d119155db8f5016b7690caae9c3654af42cce542392a02",
+      "model_initial_state_sha256": "d04e273a709c9ac995e3d73b103bb6affd515b817ddae6e179672321ef38f03a",
+      "loader_order_seed_by_client": [
+        606,
+        607,
+        608
+      ],
+      "feature_order": [
+        "step",
+        "amount",
+        "oldbalanceOrg",
+        "newbalanceOrig",
+        "oldbalanceDest",
+        "newbalanceDest",
+        "balance_diff_orig",
+        "balance_diff_dest",
+        "type=CASH_IN",
+        "type=CASH_OUT",
+        "type=DEBIT",
+        "type=PAYMENT",
+        "type=TRANSFER"
+      ],
+      "numeric_center": [
+        239.0,
+        74181.245,
+        14254.0,
+        0.0,
+        131561.185,
+        212999.13,
+        0.0,
+        0.0
+      ],
+      "numeric_scale": [
+        180.0,
+        194101.115,
+        107493.25,
+        145807.565,
+        941572.64,
+        1111100.89,
+        10096.094999999998,
+        147246.34499999994
+      ],
+      "type_categories": [
+        "CASH_IN",
+        "CASH_OUT",
+        "DEBIT",
+        "PAYMENT",
+        "TRANSFER"
+      ],
+      "sample_counts": {
+        "clients": [
+          132357,
+          118758,
+          73885
+        ],
+        "validation": 74999,
+        "test": 100001
+      }
+    },
+    {
+      "seed": 707,
+      "max_rows": 500000,
+      "client_dataset_sha256": [
+        "eee0fe13e0eb11bb9bbe0375701e2da13cf8fd6593af13cb1a8c3165346459ef",
+        "f4230446dc2d0334e8992bfc79e08d6cd3adad5a567a97c7a9fabe7b495c578c",
+        "0ef19a9eb6ed95cd7680020301f84a20755e2e11011d816ce4737b1a3dabd759"
+      ],
+      "validation_dataset_sha256": "8038d5e2bdc130c4cb5b45708a0b45cdbd7b2e6b54c5ca2e46b7c8ca44f792f6",
+      "test_dataset_sha256": "64a77dfda03f0a001385c662eff0a7b3c185ee4e889ae159c8e12dfda7cbc62f",
+      "split_partition_sha256": "07dfef9d2e4713f1f9d16ea8e78ca009aeb14373628133201845ac9c60eb9ec7",
+      "model_initial_state_sha256": "e74bbd25d82f85d0487db437633f212528eff3625ec8a841cb8a154300d9da83",
+      "loader_order_seed_by_client": [
+        707,
+        708,
+        709
+      ],
+      "feature_order": [
+        "step",
+        "amount",
+        "oldbalanceOrg",
+        "newbalanceOrig",
+        "oldbalanceDest",
+        "newbalanceDest",
+        "balance_diff_orig",
+        "balance_diff_dest",
+        "type=CASH_IN",
+        "type=CASH_OUT",
+        "type=DEBIT",
+        "type=PAYMENT",
+        "type=TRANSFER"
+      ],
+      "numeric_center": [
+        239.0,
+        74117.85,
+        13880.0,
+        0.0,
+        133064.815,
+        214335.06,
+        0.0,
+        0.0
+      ],
+      "numeric_scale": [
+        180.0,
+        195123.88,
+        107189.0,
+        143747.41749999998,
+        940708.65,
+        1114208.7974999999,
+        10054.0,
+        148818.5725
+      ],
+      "type_categories": [
+        "CASH_IN",
+        "CASH_OUT",
+        "DEBIT",
+        "PAYMENT",
+        "TRANSFER"
+      ],
+      "sample_counts": {
+        "clients": [
+          132280,
+          118856,
+          73864
+        ],
+        "validation": 74999,
+        "test": 100001
+      }
+    },
+    {
+      "seed": 808,
+      "max_rows": 500000,
+      "client_dataset_sha256": [
+        "ea64ca20be1656a0001b6870d7cd2dfee6bde5a53dc5c553935f8adb44d03dd4",
+        "357f31c7c10bf243ecf4f13c22a60f57ce496e0ebf2e4fc813f5fd78d4dbfa3d",
+        "64a0cf49bdf11d0feb7f64a18eb40be2ccd8cd613c535be27330679602c47935"
+      ],
+      "validation_dataset_sha256": "8240cd1c5c0898cdcf4c26d90c229f3337ba61d5343a71fe3d0e8ad65578e05f",
+      "test_dataset_sha256": "2964100e054eeb61c82cb6346ca1f790367c441593b76c3869922a6c4308f15c",
+      "split_partition_sha256": "9ceb97270909c656821486f290b474d44433aa9de3bdd91565a0d98ed16299e7",
+      "model_initial_state_sha256": "5e6bb8020e26cc8a9b205ec33496be3a9cef99332c363a72950a15e54bc7ff1d",
+      "loader_order_seed_by_client": [
+        808,
+        809,
+        810
+      ],
+      "feature_order": [
+        "step",
+        "amount",
+        "oldbalanceOrg",
+        "newbalanceOrig",
+        "oldbalanceDest",
+        "newbalanceDest",
+        "balance_diff_orig",
+        "balance_diff_dest",
+        "type=CASH_IN",
+        "type=CASH_OUT",
+        "type=DEBIT",
+        "type=PAYMENT",
+        "type=TRANSFER"
+      ],
+      "numeric_center": [
+        239.0,
+        74843.33,
+        14074.51,
+        0.0,
+        132580.785,
+        214097.85,
+        0.0,
+        0.0
+      ],
+      "numeric_scale": [
+        178.0,
+        195257.2775,
+        107155.5,
+        143914.0675,
+        938019.2275,
+        1111698.46,
+        10120.637500000012,
+        149922.54000000004
+      ],
+      "type_categories": [
+        "CASH_IN",
+        "CASH_OUT",
+        "DEBIT",
+        "PAYMENT",
+        "TRANSFER"
+      ],
+      "sample_counts": {
+        "clients": [
+          132175,
+          118956,
+          73869
+        ],
+        "validation": 74999,
+        "test": 100001
+      }
+    }
+  ]
+}
