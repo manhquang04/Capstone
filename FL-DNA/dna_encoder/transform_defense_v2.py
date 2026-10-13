@@ -26,6 +26,7 @@ class DNATransformV2Config:
     compression_ratio: float = 0.95
     quantization_eta: float = 0.01
     seed: int | None = None
+    hardened: bool = False
 
 
 @dataclass(frozen=True)
@@ -63,6 +64,7 @@ def transform_update_array_v2(
     config: DNATransformV2Config,
     tensor_index: int = 0,
     quantization_seed: int | None = None,
+    *, key: bytes | None = None,
 ) -> tuple[np.ndarray, DNATransformV2Metadata]:
     """Project and quantize one array.
 
@@ -70,6 +72,11 @@ def transform_update_array_v2(
     reconstruction.  The returned sketch is one-dimensional float32.
     """
 
+    if config.hardened:
+        from .transform_defense_v2_hardened import transform
+        return transform(array, config, tensor_index, quantization_seed, key=key)
+    if key is not None:
+        raise ValueError("key requires hardened=True")
     if config.seed is None:
         raise ValueError("DNATransformV2Config.seed must be provided")
     _validate_config(config)
@@ -112,9 +119,15 @@ def transform_update_array_v2(
 def reconstruct_update_array_v2(
     sketch: np.ndarray,
     metadata: DNATransformV2Metadata,
+    *, key: bytes | None = None,
 ) -> tuple[np.ndarray, DNATransformV2Stats]:
     """Lift a v2 sketch back to the original array shape."""
 
+    from .transform_defense_v2_hardened import HardenedV2Metadata, reconstruct
+    if isinstance(metadata, HardenedV2Metadata):
+        return reconstruct(sketch, metadata, key=key)
+    if key is not None:
+        raise ValueError("key requires hardened metadata")
     q = np.asarray(sketch, dtype=np.float64).reshape(-1)
     if q.size != metadata.sketch_size:
         raise ValueError(
@@ -141,13 +154,14 @@ def transform_and_reconstruct_array_v2(
     config: DNATransformV2Config,
     tensor_index: int = 0,
     quantization_seed: int | None = None,
+    *, key: bytes | None = None,
 ) -> tuple[np.ndarray, np.ndarray, DNATransformV2Metadata, DNATransformV2Stats]:
     """Convenience wrapper returning sketch, reconstruction, metadata and stats."""
 
     sketch, metadata = transform_update_array_v2(
-        array, config, tensor_index=tensor_index, quantization_seed=quantization_seed
+        array, config, tensor_index=tensor_index, quantization_seed=quantization_seed, key=key
     )
-    reconstructed, stats = reconstruct_update_array_v2(sketch, metadata)
+    reconstructed, stats = reconstruct_update_array_v2(sketch, metadata, key=key)
     original = np.asarray(array, dtype=np.float32)
     original_norm = float(np.linalg.norm(original.reshape(-1).astype(np.float64)))
     diff_norm = float(
@@ -176,6 +190,8 @@ def materialize_projection_matrix_v2(
 ) -> tuple[np.ndarray, DNATransformV2Metadata]:
     """Materialize ``R_s`` for small mechanical audits and unit tests."""
 
+    if config.hardened:
+        raise ValueError("hardened projection audit must use the separate keyed API")
     if config.seed is None:
         raise ValueError("DNATransformV2Config.seed must be provided")
     _validate_config(config)

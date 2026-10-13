@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-12T06:07:16Z",
+  "status": "STOPPED_REQUIRES_DIRECTION_SEPARATE_SCIPY_BIT_EQUALITY",
+  "command": ".venv-phase1/bin/python -B -m experiments.priority35b_float64_verifier_adapter",
+  "approved_mse_rule": "Applied only through additive frozen runtime adapter; original verifier source unchanged",
+  "test_result": "4/4 PASS; compile PASS; scoped git diff --check PASS",
+  "original_failure_hashes_unchanged": true,
+  "measurement_files_hash_checked_unchanged": 49920,
+  "measurement_repeated": false,
+  "measurement_outputs_modified": false,
+  "no_live_scientific_processes": true,
+  "new_failed_records_preserved": ["verified_preparation_attempt_1791784764414713000/FAILURE.json", "publication_attempt_1791784775203590000/FAILURE.json"],
+  "failure": "ValueError: independent SciPy exact sign",
+  "control_flow_evidence": "Traceback reached prepare_publication.audit line132 tables.prepare after scientific.verify and verified_utility returned; no final scientific receipt was published because the subsequent table gate failed.",
+  "separate_pvalue_diagnosis": "scipy_exact_sign_readonly_diagnosis.json",
+  "pvalue_bit_differences": 5,
+  "pvalue_maximum_absolute_difference": 2.220446049250313e-16,
+  "raw_pvalue_threshold_changes_at_0p05": 0,
+  "separate_pvalue_gate_relaxed": false,
+  "report_or_figure_published": false,
+  "full_priority35b_complete": false
+}

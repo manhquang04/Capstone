@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-10T06:35:51.077587+00:00",
+  "budgets_and_knowledge": true,
+  "checkpoint_and_upload_bit_exact": true,
+  "cosine_method": "exact fresh float32 plus independent NumPy float64 absolute 1e-5, relative zero",
+  "cosine_precision_audit": {
+    "absolute_tolerance": 1e-05,
+    "exact_float32": true,
+    "maximum_absolute_float64_difference": 2.614711619775001e-06,
+    "ranges": {
+      "adam_vs_sign": {
+        "max": -0.7044296264648438,
+        "min": -0.9868494272232056
+      },
+      "descent_aligned_adam_vs_sign": {
+        "max": 0.9868494272232056,
+        "min": 0.7044296264648438
+      },
+      "gradient_vs_sign": {
+        "max": 0.45099937915802,
+        "min": 0.011188816279172897
+      }
+    },
+    "statistics_checked": 72
+  },
+  "diagnostic_batches": 24,
+  "diagnostic_new_reconstructions": 96,
+  "diagnostic_reused_reconstructions": 48,
+  "firewall": true,
+  "fixed_holm_family": 6048,
+  "metric_method": "separate vectorized TabLeak cost and SciPy Hungarian",
+  "no_confirmatory_measurements": true,
+  "original_uploads": 144,
+  "qualification_cells": 72,
+  "qualification_reconstructions": 576,
+  "qualified_cells": 0,
+  "sign_method": "SciPy binomtest; production integer-combinatorial tests checked exactly",
+  "status": "PASS"
+}

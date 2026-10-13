@@ -42,8 +42,10 @@ Both are deterministic once the seed is fixed, so neither is a DP mechanism
 | RQ1, images | Neither transform significantly outperforms utility-matched DP on any of four CIFAR-10 models; per-tensor DP is more private by 1 to 5 dB PSNR | Inverting Gradients, known labels, 39 targets per comparison, Holm over 211 tests |
 | RQ1, fraud data | A server recovers most record features through either transform; client-side DP at a whole-training epsilon of 10 lowers recovery significantly in 15 of 16 comparisons. Batch-normalization (BN) statistics leak batch means in closed form | PaySim, IEEE-CIS, BAF; one or two records per gradient, known labels |
 | RQ2 | Applied to every tensor, the transforms drive BN variances negative and break training. With BN kept on the clients, both pass F1 and AUC-ROC noninferiority on all three datasets | 21 paired replicates; margins -0.02 (F1) and -0.005 (AUC-ROC), fixed before any run |
-| RQ3 | Payload grows by only 1.0x (v1) and about 1.3x (v2), but round overhead and memory fail the budget on every dataset | Single-threaded prototype, fixed budget over 27 cells |
-| DP utility | Update-level client-side DP at a whole-training epsilon of 1 to 10 costs 0.16 to 0.31 in F1 | 11 paired replicates, descriptive |
+| RQ1, matched utility | Within the tested grid, only BAF has a DP setting that matches the transforms' F1 (epsilon 10^6); it leaks less than both transforms, but by an amount that depends on the estimator, and recovery stays substantial. On IEEE-CIS and PaySim only clipping without noise matches, which gives no DP guarantee | Utility from Config-C training, leakage from single gradients (different configurations) |
+| RQ1, Config-C uploads | After one Adam step on 4, 8 or 16 rows, none of our estimators qualified even without a defense; the metric and forward model checked out, but the optimizers drifted from the truth, so privacy of these uploads remains open | 72 cells, privileged positive controls and sanity checks |
+| RQ3 | Payload grows by only 1.0x (v1) and about 1.3x (v2), but computation and relative traced allocations fail the budget on every dataset; process memory (RSS) passes, with increases of at most 55 MiB | Single-threaded prototype, fixed budget over 27 cells |
+| DP utility | Update-level client-side DP at a whole-training epsilon of 10 or less costs 0.16 to 0.34 in F1. With a clip norm of 0.01 most of the loss comes from clipping; with clip norms set from the update norms, clipping costs almost nothing but the noise still costs this much | 11 paired replicates, descriptive |
 
 An audit of five published defenses (Soteria, PRECODE, gradient pruning, ATS,
 Count-Sketch) and both transforms under the same rules found that adaptive
@@ -55,7 +57,9 @@ per-tensor DP.
 
 ```text
 FL-DNA/
-  dna_encoder/          v1 and v2 transforms (plus the server-blind v2 variant)
+  dna_encoder/          v1 and v2 transforms, the server-blind v2 variant, and an
+                        opt-in hardened v2 mode (128-bit keys, no key material
+                        in metadata or payloads)
   models/, data/        fraud MLP and data loaders
   attacks/              gradient-inversion attacks and metric adapters
   privacy/              seed derivation and DP helpers
@@ -121,6 +125,10 @@ main entry points are:
 | RQ2 and RQ3 | `priority32_repaired_trainable_rq2_rq3_report_20261002.md`, `priority34a_report.md`, `rq3_optimized_implementation_report_20260916.md` | `experiments/priority32_*.py`, `priority34a_local_bn.py`, `run_rq3_benchmark.py` |
 | Client-side DP | `priority34b_local_dp_extension_report.md` | `experiments/priority34b_*.py` |
 | Defense audit | `priority30_e3_validity_repair_report_20261001.md`, `priority30_native_audit_report_20260930.md` | `experiments/priority30_native_defenses/` |
+| Config-C uploads | `priority35a_report.md` | `experiments/priority35a_*.py` |
+| Matched utility and DP clipping/noise decomposition | `priority35b_report.md` | `experiments/priority35b_*.py` |
+| Hardened v2 key handling | `priority36a_report.md` | `dna_encoder/transform_defense_v2_hardened.py`, `experiments/priority36a_wire.py` |
+| Process-memory (RSS) re-measurement | `priority36b_report.md` | `experiments/priority36b_*.py` |
 
 For example, preparing the fraud datasets and running the local-BN utility study:
 

@@ -42,6 +42,12 @@ torch.set_num_threads(1)
 
 METHODS = ("RAW_FLOAT32", "LOSSLESS_DNA_AES_GCM", "DNA_TRANSFORM_TRANSPORT")
 
+# Opt-in wire helpers; legacy benchmark method selection and wire path unchanged.
+from experiments.priority36a_wire import (
+    serialize_v2_hardened as _serialize_v2_hardened,
+    deserialize_v2_hardened as _deserialize_v2_hardened,
+)
+
 
 def _compact_json(value: object) -> bytes:
     return json.dumps(value, sort_keys=True, separators=(",", ":")).encode("utf-8")
